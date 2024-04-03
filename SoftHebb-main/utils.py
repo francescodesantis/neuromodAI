@@ -383,7 +383,8 @@ def load_presets(name=None):
     Load blocks config from name of the models
 
     """
-    presets = json.load(open('presets.json'))
+    f = open('presets.json', "r")
+    presets = json.load(f)
     if name is None:
         return list(presets['model'].keys())
     blocks = presets['model'][name]
@@ -424,7 +425,8 @@ def load_config_dataset(name=None, validation=True):
     Load dataset config from name of the dataset
 
     """
-    dataset = json.load(open('presets.json'))['dataset']
+    f = open('presets.json', "r")
+    dataset = json.load(f)['dataset']
     if name is None:
         lst_dataset = []
         for key, value in dataset.items():
