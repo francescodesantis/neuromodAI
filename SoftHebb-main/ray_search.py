@@ -79,6 +79,8 @@ parser.add_argument('--save-model', default=False, action='store_true',
 
 parser.add_argument('--debug', default=False, action='store_true', help='Debug mode (ray local)')
 
+ray.init(include_dashboard=False)
+
 
 def get_config(config_name):
     if config_name == 'regimes':
