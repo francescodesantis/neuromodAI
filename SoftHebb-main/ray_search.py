@@ -243,17 +243,17 @@ if __name__ == '__main__':
         main, params, dataset_sup_config, dataset_unsup_config, blocks
     )
     # TODO: use ray for model storing, as it is better aware of the different variants
-    analysis = tune.run(
-        trial_exp,
-        resources_per_trial={
-            "cpu": 4,
-            "gpu": max(1 / params.gpu_exp, torch.cuda.device_count() * 4 / 86)
-        },
-        metric=params.metric,
-        mode='min' if params.metric.endswith('loss') else 'max',
-        search_alg=algo_search,
-        config=config,
-        progress_reporter=reporter,
-        num_samples=params.num_samples,
-        local_dir=SEARCH,
-        name=params.folder_name)
+    # analysis = tune.run(
+    #     trial_exp,
+    #     resources_per_trial={
+    #         "cpu": 4,
+    #         "gpu": max(1 / params.gpu_exp, torch.cuda.device_count() * 4 / 86)
+    #     },
+    #     metric=params.metric,
+    #     mode='min' if params.metric.endswith('loss') else 'max',
+    #     search_alg=algo_search,
+    #     config=config,
+    #     progress_reporter=reporter,
+    #     num_samples=params.num_samples,
+    #     local_dir=SEARCH,
+    #     name=params.folder_name)
