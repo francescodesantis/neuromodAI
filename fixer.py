@@ -1,8 +1,8 @@
-f = open("requirements.txt", "r")
-dest = open("reqs.txt", "w")
+f = open("reqs.txt", "r")
+dest = open("reqs_latest.txt", "w")
 lines = f.readlines()
 for line in lines:
-    line = line.replace("=", ">", 1)
-    dest.write(line)
+    cut_index = line.find(">")
+    dest.write(line[:cut_index]+"\n")
 f.close()
 dest.close()
