@@ -84,6 +84,7 @@ parser.add_argument('--debug', default=False, action='store_true', help='Debug m
 
 
 def get_config(config_name):
+    
     if config_name == 'regimes':
         t_invert_search = [1.25 ** (x - 50) for x in range(100)]
         softness_search = ["soft", "softkrotov"]
@@ -220,7 +221,7 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
 
 if __name__ == '__main__':
     params = parser.parse_args()
-    #ray.init(include_dashboard=False)
+    ray.init()
     config = get_config(params.config)
 
     params.name_model = params.preset if params.model_name is None else params.model_name  # TODO change this for better model storage
@@ -229,13 +230,13 @@ if __name__ == '__main__':
     dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation_sup)
     dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation_unsup)
 
-    if params.debug is True:
+    #if params.debug is True:
         # local_mode=True for debugging . It seems there's no need to init ray for these usecase
-        ray.init(local_mode=True)
+        #ray.init(local_mode=True)
 
-    # reporter = CLIReporter(max_progress_rows=12)
-    # for metric in metric_names:
-    #     reporter.add_metric_column(metric)
+    reporter = CLIReporter(max_progress_rows=12)
+    for metric in metric_names:
+        reporter.add_metric_column(metric)
 
     algo_search = BasicVariantGenerator()
 
@@ -253,7 +254,7 @@ if __name__ == '__main__':
         mode='min' if params.metric.endswith('loss') else 'max',
         search_alg=algo_search,
         config=config,
-        progress_reporter=None,
+        progress_reporter=reporter,
         num_samples=params.num_samples,
         local_dir=SEARCH,
         name=params.folder_name)
