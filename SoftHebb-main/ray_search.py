@@ -220,7 +220,7 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
 
 if __name__ == '__main__':
     params = parser.parse_args()
-    ray.init(include_dashboard=False)
+    #ray.init(include_dashboard=False)
     config = get_config(params.config)
 
     params.name_model = params.preset if params.model_name is None else params.model_name  # TODO change this for better model storage
