@@ -247,7 +247,7 @@ if __name__ == '__main__':
     analysis = tune.run(
         trial_exp,
         resources_per_trial={
-            "cpu": 4,
+            "cpu": 1,
             "gpu": max(1 / params.gpu_exp, torch.cuda.device_count() * 4 / 86)
         },
         metric=params.metric,

@@ -1,3 +1,5 @@
+import ray 
+ray.init()
 f = open("reqs.txt", "r")
 dest = open("reqs_latest.txt", "w")
 lines = f.readlines()
