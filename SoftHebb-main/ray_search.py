@@ -221,7 +221,7 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
 
 if __name__ == '__main__':
     params = parser.parse_args()
-    ray.init(include_dashboard=False, local_mode=True)
+    #ray.init(include_dashboard=False, local_mode=True)
     config = get_config(params.config)
 
     params.name_model = params.preset if params.model_name is None else params.model_name  # TODO change this for better model storage
@@ -230,9 +230,9 @@ if __name__ == '__main__':
     dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation_sup)
     dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation_unsup)
 
-    #if params.debug is True:
-        # local_mode=True for debugging . It seems there's no need to init ray for these usecase
-        #ray.init(local_mode=True)
+    if params.debug is True:
+        #local_mode=True for debugging . It seems there's no need to init ray for these usecase
+        ray.init(local_mode=True)
 
     reporter = CLIReporter(max_progress_rows=12)
     for metric in metric_names:
