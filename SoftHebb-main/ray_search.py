@@ -233,9 +233,9 @@ if __name__ == '__main__':
         # local_mode=True for debugging . It seems there's no need to init ray for these usecase
         ray.init(local_mode=True)
 
-    reporter = CLIReporter(max_progress_rows=12)
-    for metric in metric_names:
-        reporter.add_metric_column(metric)
+    # reporter = CLIReporter(max_progress_rows=12)
+    # for metric in metric_names:
+    #     reporter.add_metric_column(metric)
 
     algo_search = BasicVariantGenerator()
 
@@ -253,7 +253,7 @@ if __name__ == '__main__':
         mode='min' if params.metric.endswith('loss') else 'max',
         search_alg=algo_search,
         config=config,
-        progress_reporter=reporter,
+        progress_reporter=None,
         num_samples=params.num_samples,
         local_dir=SEARCH,
         name=params.folder_name)
