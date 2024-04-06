@@ -244,11 +244,12 @@ if __name__ == '__main__':
         main, params, dataset_sup_config, dataset_unsup_config, blocks
     )
     # TODO: use ray for model storing, as it is better aware of the different variants
+    print(torch.cuda.device_count())
     analysis = tune.run(
         trial_exp,
         resources_per_trial={
             "cpu": 1,
-            "gpu": torch.cuda.device_count() 
+            "gpu": 1#torch.cuda.device_count() 
         },
         metric=params.metric,
         mode='min' if params.metric.endswith('loss') else 'max',
