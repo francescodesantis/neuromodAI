@@ -253,13 +253,13 @@ if __name__ == '__main__':
     print(params.num_samples)
     print(params.folder_name)
     
-    analysis = tune.Tuner(
+    tuner = tune.Tuner(
         
         tune.with_resources(
             tune.with_parameters(trial_exp),
             resources={"cpu": 2, "gpu": torch.cuda.device_count() }
         ),
-         tune_config=tune.TuneConfig(
+        tune_config=tune.TuneConfig(
             metric=params.metric,
             mode='min' if params.metric.endswith('loss') else 'max',
             #scheduler=scheduler,
@@ -272,7 +272,7 @@ if __name__ == '__main__':
         #run_config=tune.TuneConfig(progress_reporter=reporter),
         ),
 
-    results = analysis.fit()
+    results = tuner.fit()
         
         
     
