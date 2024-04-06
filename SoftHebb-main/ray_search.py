@@ -255,10 +255,10 @@ if __name__ == '__main__':
     
     tuner = Tuner(
         
-        tune.with_resources(
-            tune.with_parameters(trial_exp),
-            resources={"cpu": 2, "gpu": torch.cuda.device_count() }
-        ),
+        # tune.with_resources(
+        #     tune.with_parameters(trial_exp),
+        #     resources={"cpu": 2, "gpu": torch.cuda.device_count() }
+        # ),
         tune_config=tune.TuneConfig(
             metric=params.metric,
             mode='min' if params.metric.endswith('loss') else 'max',
