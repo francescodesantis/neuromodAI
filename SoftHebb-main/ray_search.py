@@ -265,7 +265,7 @@ if __name__ == '__main__':
             #scheduler=scheduler,
             num_samples=params.num_samples,
             search_alg=algo_search,        
-            local_dir=SEARCH,
+            #local_dir=SEARCH,
             name=params.folder_name),
         param_space=config,
         run_config=tune.RunConfig(progress_reporter=reporter),
