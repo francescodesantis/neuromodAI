@@ -248,7 +248,7 @@ if __name__ == '__main__':
         trial_exp,
         resources_per_trial={
             "cpu": 1,
-            "gpu": max(1 / params.gpu_exp, torch.cuda.device_count() * 4 / 86)
+            "gpu": torch.cuda.device_count() 
         },
         metric=params.metric,
         mode='min' if params.metric.endswith('loss') else 'max',
