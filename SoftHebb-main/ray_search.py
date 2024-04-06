@@ -265,7 +265,6 @@ if __name__ == '__main__':
             num_samples=params.num_samples,
             
             search_alg=algo_search,
-            config=config,
             progress_reporter=reporter,
         
             local_dir=SEARCH,
