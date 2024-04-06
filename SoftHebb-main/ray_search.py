@@ -15,7 +15,7 @@ from ray.tune import CLIReporter
 from functools import partial
 import warnings
 import numpy as np
-
+from ray.tune.tuner import Tuner
 warnings.filterwarnings("ignore")
 
 metric_names = ['train_loss', 'train_acc', 'test_loss', 'test_acc', 'convergence', 'R1']
@@ -253,7 +253,7 @@ if __name__ == '__main__':
     print(params.num_samples)
     print(params.folder_name)
     
-    tuner = tune.Tuner(
+    tuner = Tuner(
         
         tune.with_resources(
             tune.with_parameters(trial_exp),
