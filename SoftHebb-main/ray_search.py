@@ -271,6 +271,8 @@ if __name__ == '__main__':
         param_space=config,
         #run_config=tune.TuneConfig(progress_reporter=reporter),
         ),
+
+    results = analysis.fit()
         
         
     
