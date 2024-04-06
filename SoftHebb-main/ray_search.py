@@ -252,17 +252,17 @@ if __name__ == '__main__':
     print(reporter)
     print(params.num_samples)
     print(params.folder_name)
-    # analysis = tune.run(
-    #     trial_exp,
-    #     resources_per_trial={
-    #         "cpu": 1,
-    #         "gpu": 1#torch.cuda.device_count() 
-    #     },
-    #     metric=params.metric,
-    #     mode='min' if params.metric.endswith('loss') else 'max',
-    #     search_alg=algo_search,
-    #     config=config,
-    #     progress_reporter=reporter,
-    #     num_samples=params.num_samples,
-    #     local_dir=SEARCH,
-    #     name=params.folder_name)
+    analysis = tune.Tuner(
+        trial_exp,
+        resources_per_trial={
+            "cpu": 1,
+            "gpu": 1#torch.cuda.device_count() 
+        },
+        metric=params.metric,
+        mode='min' if params.metric.endswith('loss') else 'max',
+        search_alg=algo_search,
+        config=config,
+        progress_reporter=reporter,
+        num_samples=params.num_samples,
+        local_dir=SEARCH,
+        name=params.folder_name)
