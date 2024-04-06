@@ -8,7 +8,7 @@ import torch
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
 from log import Log
 import ray
-from ray import tune
+#from ray import tune
 #from ray.tune.suggest.basic_variant import BasicVariantGenerator
 from ray.tune.search.basic_variant import BasicVariantGenerator
 from ray.tune import CLIReporter
