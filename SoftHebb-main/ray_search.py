@@ -269,7 +269,7 @@ if __name__ == '__main__':
             #name=params.folder_name),
         ),
         param_space=config,
-        run_config=tune.RunConfig(progress_reporter=reporter),
+        run_config=tune.TuneConfig(progress_reporter=reporter),
         ),
         
         
