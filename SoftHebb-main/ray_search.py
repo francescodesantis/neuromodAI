@@ -263,13 +263,14 @@ if __name__ == '__main__':
             mode='min' if params.metric.endswith('loss') else 'max',
             #scheduler=scheduler,
             num_samples=params.num_samples,
-            param_space=config,
+            
             search_alg=algo_search,
             config=config,
             progress_reporter=reporter,
         
             local_dir=SEARCH,
-            name=params.folder_name)
+            name=params.folder_name),
+        param_space=config,
         ),
         
         
