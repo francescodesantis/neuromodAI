@@ -16,6 +16,7 @@ from functools import partial
 import warnings
 import numpy as np
 from ray.tune.tuner import Tuner
+from ray.tune.schedulers import ASHAScheduler
 warnings.filterwarnings("ignore")
 
 metric_names = ['train_loss', 'train_acc', 'test_loss', 'test_acc', 'convergence', 'R1']
@@ -243,6 +244,7 @@ if __name__ == '__main__':
     trial_exp = partial(
         main, params, dataset_sup_config, dataset_unsup_config, blocks
     )
+
     # TODO: use ray for model storing, as it is better aware of the different variants
     print(torch.cuda.device_count())
     print(trial_exp)
@@ -252,27 +254,47 @@ if __name__ == '__main__':
     print(reporter)
     print(params.num_samples)
     print(params.folder_name)
+
+    scheduler = ASHAScheduler(
+    grace_period=20, reduction_factor=3, max_t=100_000)
+
     
-    tuner = Tuner(
-        
-        # tune.with_resources(
-        #     tune.with_parameters(trial_exp),
+    tuner = tune.Tuner(
+        trial_exp,
+        # tune.with_resources(trial_exp,
         #     resources={"cpu": 2, "gpu": torch.cuda.device_count() }
         # ),
+        param_space=config,
         tune_config=tune.TuneConfig(
             metric=params.metric,
             mode='min' if params.metric.endswith('loss') else 'max',
-            #scheduler=scheduler,
+            scheduler=scheduler,
             num_samples=params.num_samples,
             search_alg=algo_search,        
             #local_dir=SEARCH,
             #name=params.folder_name),
         ),
-        param_space=config,
+        
         #run_config=tune.TuneConfig(progress_reporter=reporter),
-        ),
+        )
 
+    #t = Tuner(tuner)
     results = tuner.fit()
+
+    # analysis = tune.run(
+    #     trial_exp,
+    #     resources_per_trial={
+    #         "cpu": 4,
+    #         "gpu": torch.cuda.device_count()
+    #     },
+    #     metric=params.metric,
+    #     mode='min' if params.metric.endswith('loss') else 'max',
+    #     search_alg=algo_search,
+    #     config=config,
+    #     progress_reporter=reporter,
+    #     num_samples=params.num_samples,
+    #     local_dir=SEARCH,
+    #     name=params.folder_name)
         
         
     
