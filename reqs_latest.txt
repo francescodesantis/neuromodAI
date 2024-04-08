@@ -17,7 +17,7 @@ blessings
 blinker
 blis
 boto3
-botocore
+botocore==1.33.2
 brotlipy
 cachetools
 catalogue
