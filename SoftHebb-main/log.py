@@ -162,7 +162,7 @@ class LogUnsup(LogSup):
         return np.array(self.data, dtype=np.float32)
 
 
-class Log(configs):
+class Log:
     def __init__(self, configs):
         self.sup = {}
         self.unsup = {}
