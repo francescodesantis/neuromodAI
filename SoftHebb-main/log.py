@@ -163,7 +163,7 @@ class LogUnsup(LogSup):
 
 
 class Log:
-    def __init__(self, configs={}):
+    def __init__(self, configs):
         self.sup = {}
         self.unsup = {}
         for id, config in configs.items():
