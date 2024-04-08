@@ -36,7 +36,6 @@ debugpy
 decorator
 defusedxml
 eagerpy
-efficientnet-pytorch
 einops
 entrypoints
 fastcore
@@ -81,7 +80,6 @@ jupyterlab-pygments
 jupyterlab-widgets
 Keras-Preprocessing
 kiwisolver
-kmeans-pytorch
 kornia
 langcodes
 llvmlite
@@ -142,8 +140,6 @@ pyparsing
 pyrsistent
 PySocks
 python-dateutil
-pytorch-lightning
-pytorch-model-summary
 pytz
 pyu2f
 PyYAML
@@ -182,11 +178,6 @@ terminado
 testpath
 thinc
 toml
-torch
-torchaudio
-torchmetrics
-torchsummary
-torchvision
 tornado
 tqdm
 traitlets
