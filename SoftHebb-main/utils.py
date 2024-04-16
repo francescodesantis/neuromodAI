@@ -383,7 +383,7 @@ def load_presets(name=None):
     Load blocks config from name of the models
 
     """
-    f = open('/kaggle/working/softhebb/SoftHebb-main/presets.json', "r")
+    f = open('presets.json', "r")
     presets = json.load(f)
     if name is None:
         return list(presets['model'].keys())
@@ -425,7 +425,7 @@ def load_config_dataset(name=None, validation=True):
     Load dataset config from name of the dataset
 
     """
-    f = open('/kaggle/working/softhebb/SoftHebb-main/presets.json', "r")
+    f = open('presets.json', "r")
     dataset = json.load(f)['dataset']
     if name is None:
         lst_dataset = []
