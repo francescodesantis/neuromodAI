@@ -260,42 +260,42 @@ if __name__ == '__main__':
     grace_period=20, reduction_factor=3, max_t=100_000)
 
     
-    tuner = tune.Tuner(
-        trial_exp,
-        # tune.with_resources(trial_exp,
-        #     resources={"cpu": 2, "gpu": torch.cuda.device_count() }
-        # ),
-        param_space=config,
-        tune_config=tune.TuneConfig(
-            metric=params.metric,
-            mode='min' if params.metric.endswith('loss') else 'max',
-            scheduler=scheduler,
-            num_samples=params.num_samples,
-            search_alg=algo_search,        
-            #local_dir=SEARCH,
-            #name=params.folder_name),
-        ),
+    # tuner = tune.Tuner(
+    #     trial_exp,
+    #     # tune.with_resources(trial_exp,
+    #     #     resources={"cpu": 2, "gpu": torch.cuda.device_count() }
+    #     # ),
+    #     param_space=config,
+    #     tune_config=tune.TuneConfig(
+    #         metric=params.metric,
+    #         mode='min' if params.metric.endswith('loss') else 'max',
+    #         scheduler=scheduler,
+    #         num_samples=params.num_samples,
+    #         search_alg=algo_search,        
+    #         #local_dir=SEARCH,
+    #         #name=params.folder_name),
+    #     ),
         
-        #run_config=tune.TuneConfig(progress_reporter=reporter),
-        )
+    #     #run_config=tune.TuneConfig(progress_reporter=reporter),
+    #     )
 
     #t = Tuner(tuner)
-    results = tuner.fit()
+    # results = tuner.fit()
 
-    # analysis = tune.run(
-    #     trial_exp,
-    #     resources_per_trial={
-    #         "cpu": 4,
-    #         "gpu": torch.cuda.device_count()
-    #     },
-    #     metric=params.metric,
-    #     mode='min' if params.metric.endswith('loss') else 'max',
-    #     search_alg=algo_search,
-    #     config=config,
-    #     progress_reporter=reporter,
-    #     num_samples=params.num_samples,
-    #     local_dir=SEARCH,
-    #     name=params.folder_name)
+    analysis = tune.run(
+        trial_exp,
+        resources_per_trial={
+            "cpu": 4,
+            "gpu": torch.cuda.device_count()
+        },
+        metric=params.metric,
+        mode='min' if params.metric.endswith('loss') else 'max',
+        search_alg=algo_search,
+        config=config,
+        progress_reporter=reporter,
+        num_samples=params.num_samples,
+        local_dir=SEARCH,
+        name=params.folder_name)
         
         
     
