@@ -198,7 +198,7 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
                 device,
                 log.sup[id],
                 blocks=config['blocks'],
-                report=tune.track.log,
+                report=ray.train.report,
                 save=params.save_model,
                 model_dir=tune.session.get_trial_dir(),
             )
@@ -214,7 +214,7 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
                 device,
                 log.sup[id],
                 blocks=config['blocks'],
-                report=tune.track.log,
+                report=ray.train.report,
                 save=params.save_model,
                 model_dir=tune.session.get_trial_dir(),
             )
