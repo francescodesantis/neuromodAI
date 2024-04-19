@@ -283,8 +283,9 @@ def run_hybrid(
                 _, train_loss, train_acc, test_loss, test_acc = log.data[-1]
 
                 conv, R1 = model.convergence()
-                report(train_loss=train_loss, train_acc=train_acc, test_loss=test_loss, test_acc=test_acc,
-                       convergence=conv, R1=R1)
+                metrics = {"train_loss":train_loss, "train_acc":train_acc, "test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
+                report(metrics)
+            
 
             else:
                 log.verbose()
@@ -398,8 +399,9 @@ def run_sup(
             if report is not None:
                 _, train_loss, train_acc, test_loss, test_acc = log.data[-1]
                 conv, R1 = model.convergence()
-                report(train_loss=train_loss, train_acc=train_acc, test_loss=test_loss, test_acc=test_acc,
-                       convergence=conv, R1=R1)
+                metrics = {"train_loss":train_loss, "train_acc":train_acc, "test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
+                report(metrics)
+                
             else:
                 log.verbose()
 
