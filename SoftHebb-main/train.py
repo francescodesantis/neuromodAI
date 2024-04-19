@@ -330,8 +330,8 @@ def run_unsup(
             log.step(epoch, acc_train, acc_test, info, convergence, R1, lr)
 
             if report is not None:
-                report(train_loss=0., train_acc=acc_train, test_loss=0., test_acc=acc_test, convergence=convergence,
-                       R1=R1)
+                metrics = {"train_loss":0., "train_acc":acc_train, "test_loss":0., "test_acc": acc_test, "convergence":convergence, "R1":R1}
+                report(metrics)
             # else:
             log.verbose()
 
