@@ -249,13 +249,13 @@ if __name__ == '__main__':
 
     # TODO: use ray for model storing, as it is better aware of the different variants
     print(torch.cuda.device_count())
-    print(trial_exp)
-    print(params.metric)
-    print(algo_search)
-    print(config)
-    print(reporter)
-    print(params.num_samples)
-    print(params.folder_name)
+    #print(trial_exp)
+    #print(params.metric)
+    #print(algo_search)
+    #print(config)
+    #print(reporter)
+    #print(params.num_samples)
+    #print(params.folder_name)
 
     scheduler = ASHAScheduler(
     grace_period=20, reduction_factor=3, max_t=100_000)
