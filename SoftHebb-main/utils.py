@@ -126,8 +126,10 @@ def get_device(gpu_id=0):
         torch device either gpu or cpu.
 
     """
+
     use_cuda = torch.cuda.is_available() and gpu_id is not None
     device = torch.device('cuda:' + str(gpu_id) if use_cuda else 'cpu')
+    print("The device used will be: ")
     print(device)
     return device
 
