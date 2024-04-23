@@ -1,5 +1,5 @@
 import ray
-from ray import train, tune
+from ray import tune
 
 
 def objective(config):  # ①
