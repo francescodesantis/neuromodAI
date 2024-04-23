@@ -46,19 +46,30 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     Train only the hebbian blocks
     """
     t = time.time()
+    print("LOADER VARIABLE")
+    print(loader)
+    print("#############################################")
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
-    with torch.no_grad():
+    with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
+
             # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
             ## 1. forward propagation
             inputs = inputs.float().to(device)  # , non_blocking=True)
             output = model(inputs)
-
+            print("INPUT VARIABLE")
+            print(inputs)
+            print("#############################################")
+            print("OUTPUT VARIABLE")
+            print(output)
+            print("#############################################")
             # print(r"%s"%(time.time()-t))
 
             if loss_acc:
                 target = target.to(device, non_blocking=True)
-
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSIDE LOSS ACCURACY")
+                
+                print("#############################################")
                 ## 2. loss calculation
                 loss = criterion(output, target)
 

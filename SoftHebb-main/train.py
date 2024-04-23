@@ -315,7 +315,8 @@ def run_unsup(
 ):
     """
     Unsupervised training of hebbians blocks of one model
-
+    This function contains the loop for the epochs. At the end of every epoch evaluates the model.
+    The train loss and the test loss are set to 0 because we are doing unsupervised, thus there is no real label. 
     """
     print('\n', '********** Hebbian Unsupervised learning of blocks %s **********' % blocks)
 
