@@ -1,5 +1,5 @@
 import ray
-from ray import tune
+
 
 
 def objective(config):  # ①
@@ -8,11 +8,11 @@ def objective(config):  # ①
 
 
 search_space = {  # ②
-    "a": tune.grid_search([0.001, 0.01, 0.1, 1.0]),
-    "b": tune.choice([1, 2, 3]),
+    "a": ray.tune.grid_search([0.001, 0.01, 0.1, 1.0]),
+    "b": ray.tune.choice([1, 2, 3]),
 }
 
-tuner = tune.Tuner(objective, param_space=search_space)  # ③
+tuner = ray.tune.Tuner(objective, param_space=search_space)  # ③
 
 results = tuner.fit()
 print(results.get_best_result(metric="score", mode="min").config)
