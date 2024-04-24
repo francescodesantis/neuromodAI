@@ -11,7 +11,7 @@ from torch.optim.lr_scheduler import StepLR
 
 username = op.expanduser('~').split('/')[-1]
 #data_candidate = ('/scratch' if 'hrodriguez' == username else '/home') + f'/{username}/workspace'
-data_candidate = "$HOME"
+data_candidate = "Training"
 DATA = op.realpath(op.expanduser(data_candidate))
 RESULT = op.join(DATA, 'results', 'hebb', 'result')  # everything from multi_layer.py
 SEARCH = op.join(DATA, 'results', 'hebb', 'search')  # everything from ray_search
