@@ -50,6 +50,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     print(loader)
     print("#############################################")
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
+    t = False
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
 
@@ -57,12 +58,14 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             ## 1. forward propagation
             inputs = inputs.float().to(device)  # , non_blocking=True)
             output = model(inputs)
-            print("INPUT VARIABLE")
-            print(inputs)
-            print("#############################################")
-            print("OUTPUT VARIABLE")
-            print(output)
-            print("#############################################")
+            if t == False:
+                print("INPUT VARIABLE")
+                print(inputs)
+                print("#############################################")
+                print("OUTPUT VARIABLE")
+                print(output)
+                print("#############################################")
+                t = True
             # print(r"%s"%(time.time()-t))
 
             if loss_acc:
