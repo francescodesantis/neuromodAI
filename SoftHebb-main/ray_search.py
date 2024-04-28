@@ -82,6 +82,7 @@ parser.add_argument('--save-model', default=False, action='store_true',
 parser.add_argument('--debug', default=False, action='store_true', help='Debug mode (ray local)')
 
 default={}
+print(parser)
 
 
 def get_config(config_name):
@@ -140,7 +141,7 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
     for block_id, block in blocks.items():
         if block_id in config:
             blocks[block_id] = merge_parameter(block.copy(), config[block_id])
-    print("blocks", blocks)
+    #print("blocks", blocks)
 
     if "dataset_unsup" in config:
         dataset_unsup_config = merge_parameter(dataset_unsup_config, config['dataset_unsup'])
