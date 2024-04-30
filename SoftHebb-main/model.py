@@ -79,6 +79,7 @@ def save_layers(model, model_name, epoch, blocks, filename='checkpoint.pth.tar',
         storing_path = op.join(folder_path, 'models')
 
     print("SAVING THE MODEL")
+    print(storing_path)
     torch.save({
         'state_dict': model.state_dict(),
         'config': model.config,
