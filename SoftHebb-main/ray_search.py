@@ -185,7 +185,8 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
                 report=ray.train.report,
                 save=params.save_model,
                 reset=False,
-                model_dir=ray.train.get_context().get_trial_dir(),
+                #model_dir=ray.train.get_context().get_trial_dir(),
+                model_dir = "g100/home/userexternal/rcasciot"
             )
         elif config['mode'] == 'supervised':
             print('Running supervised')
@@ -202,7 +203,8 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
                 blocks=config['blocks'],
                 report=ray.train.report,
                 save=params.save_model,
-                model_dir=ray.train.get_context().get_trial_dir(),
+                #model_dir=ray.train.get_context().get_trial_dir(),
+                model_dir = "g100/home/userexternal/rcasciot"
             )
         else:
             run_hybrid(
