@@ -430,7 +430,7 @@ def load_results(exp_path, folder):
     try:
         result = pd.read_csv(op.join(exp_path, folder, 'progress.csv'))
 
-        with open(op.join(exp_path, folder, '/kaggle/working/softhebb/SoftHebb-main/params.json')) as f:
+        with open(op.join(exp_path, folder, 'params.json')) as f:
             data = json.load(f)
 
         for param, value in get_param(data).items():
