@@ -64,7 +64,9 @@ def save_layers(model, model_name, epoch, blocks, filename='checkpoint.pth.tar',
     """
     Save model and each of its training blocks
     """
+
     if storing_path is None:
+        print("STORING PATH IS NONEEEEEE")
         if not op.isdir(RESULT):
             os.makedirs(RESULT)
         if not op.isdir(op.join(RESULT, 'network')):
