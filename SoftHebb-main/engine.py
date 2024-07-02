@@ -168,6 +168,8 @@ def evaluate_unsup(model, train_loader, test_loader, device, blocks):
         sub_model = model.sub_model(blocks)
         return evaluate_hebb(sub_model, train_loader, test_loader, device)
     else:
+        print("INSIDE EVALUATE UNSUP RETURNED 0,0")
+
         return 0., 0.
 
 
