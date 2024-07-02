@@ -164,6 +164,7 @@ def evaluate_unsup(model, train_loader, test_loader, device, blocks):
 
     """
     print("INSIDE EVALUATE UNSUP")
+    print(blocks[-1])
     if model.get_block(blocks[-1]).arch == 'MLP':
         sub_model = model.sub_model(blocks)
         return evaluate_hebb(sub_model, train_loader, test_loader, device)
