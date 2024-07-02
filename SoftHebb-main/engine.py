@@ -163,6 +163,7 @@ def evaluate_unsup(model, train_loader, test_loader, device, blocks):
     Unsupervised evaluation, only support MLP architecture
 
     """
+    print("INSIDE EVALUATE UNSUP")
     if model.get_block(blocks[-1]).arch == 'MLP':
         sub_model = model.sub_model(blocks)
         return evaluate_hebb(sub_model, train_loader, test_loader, device)
@@ -174,6 +175,8 @@ def evaluate_hebb(model, train_loader, test_loader, device):
     if train_loader.dataset.split == 'unlabeled':
         print('Unalbeled dataset, cant perform unsupervised evaluation')
         return 0, 0
+    print("INSIDE EVALUATE HEBB")
+
     preactivations, winner_ids, neuron_labels, targets = infer_dataset(model, train_loader, device)
     acc_train = get_accuracy(model, winner_ids, targets, preactivations, neuron_labels, device)
 
@@ -199,6 +202,8 @@ def infer_dataset(model, loader, device):
     targets_lst = []
     winner_ids = []
     preactivations_lst = []
+    print("INSIDE INFER DATA")
+
     wta_lst = []
     with torch.no_grad():
         for inputs, targets in loader:
