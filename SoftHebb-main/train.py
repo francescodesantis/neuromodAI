@@ -298,7 +298,7 @@ def run_hybrid(
 
 
 def run_unsup(
-        final_epoch: int,
+        final_epoch: int, # number of epochs that the hebbian is trained for
         print_freq: int,
         batch_size: int,
         folder_name: str,

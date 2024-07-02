@@ -1,0 +1,54 @@
+
+
+--presets: 
+
+They are contained in a presets.json file. It is organized in 3 main objects:
+
+- model
+- layer
+- dataset 
+
+Let's look at them one at a time: 
+
+MODEL 
+
+An example of a model object can be the following: 
+
+
+"2SoftHebbCnnCIFAR": {
+      "b0": {
+        "arch": "CNN",
+        "preset": "softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 0,
+        "batch_norm": false,
+        "pool": "avg_4_2_1",
+        "activation": "triangle_0.7",
+        "resume": null
+      },
+      "b1": {
+        "arch": "MLP",
+        "preset": "BP-c10",
+        "operation": "flatten",
+        "num": 1,
+        "att_dropout": null,
+        "dropout": 0.5
+      }
+    },
+
+
+        "arch": CNN / MLP ( it is one of the types of layer specified in the layer object in preset)
+        "preset": "softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0",  // looks for a preset otherwise creates one with 
+                                                                        // base parameters. 
+        "operation": "batchnorm2d",
+        "num": 0,
+        "batch_norm": false,
+        "pool": "avg_4_2_1" // type-kernel_size-stride-padding
+        "activation": "triangle_0.7" // activationFunction_params
+        "resume": null
+
+
+
+LAYER: either CNN or MLP
+
+DATASET  

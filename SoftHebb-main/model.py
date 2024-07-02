@@ -100,6 +100,10 @@ def save_layers(model, model_name, epoch, blocks, filename='checkpoint.pth.tar',
         }, op.join(folder_path, filename))
 
 
+
+
+
+
 class MultiLayer(nn.Module):
     """
        MultiLayer Network created from list of preset blocks
@@ -120,9 +124,12 @@ class MultiLayer(nn.Module):
             self.blocks = nn.Sequential(*blocks)
 
     def foward_x_wta(self, x: torch.Tensor) -> torch.Tensor:
-        for id, block in self.generator_block():
+        for id, block in self.generator_block():  # simply associate an id to each block
             if id != len(self.blocks) - 1:
-                x = block(x)
+                x = block(x)   # block is an instance of a layer or a more complex sequence of layers (often called a block or a module). 
+                                # so we apply the transformation to the input x for all the components in block 
+                                # and then the resulting output will be passed forward to the 
+                                # to the next block until we have done them all. 
             else:
                 return block.foward_x_wta(x)
 

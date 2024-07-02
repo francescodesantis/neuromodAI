@@ -1,0 +1,9 @@
+
+ray_search.py : where the parameters are parsed and the main is executed.
+    
+    run_unspup(): performs unspervised learning and evaluates at the end of every epoch
+
+        evaluate_unsup(): 
+            evaluate_hebb(): does the unsupervised evaluation
+    run_sup ()
+    run hybrid ()

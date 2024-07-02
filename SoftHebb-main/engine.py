@@ -182,6 +182,18 @@ def evaluate_hebb(model, train_loader, test_loader, device):
     return float(acc_train.cpu()), float(acc_test.cpu())
 
 
+"""
+we take the model and call eval to turn off batch normalization layers, dropout and so on 
+because we need to put the model in inference mode. 
+We then take all the labels ( targets ).
+Then we load all the input to the gpu setting the non blocking flag to true: 
+the non_blocking flag is used in data transfer operations between CPU and GPU memory. 
+When this flag is set to True, it allows the transfer to be asynchronous, meaning it does not 
+block the execution of the program while waiting for the data transfer to complete.
+
+After that we take the preactivations and the wta from the forward_x_wta
+wta: are th
+"""
 def infer_dataset(model, loader, device):
     model.eval()
     targets_lst = []
@@ -196,6 +208,8 @@ def infer_dataset(model, loader, device):
             if targets.nelement() != 0:
                 inputs = inputs.float().to(device, non_blocking=True)
                 preactivations, wta = model.foward_x_wta(inputs)
+                print("WTA: ", wta)
+                print("PREACTIVATIONS: ", preactivations)
                 preactivations_lst.append(preactivations)
                 wta_lst.append(wta)
                 targets_lst += targets.tolist()

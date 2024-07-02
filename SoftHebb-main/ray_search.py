@@ -1,3 +1,10 @@
+
+"""
+The file contains the functions which allow for parameter parsing and configuration of the main attributes for the training. 
+Additionally  it contains the main function which starts the execution. 
+"""
+
+
 import argparse
 import copy
 import pdb
@@ -86,6 +93,7 @@ print(parser)
 
 #ok
 
+
 def get_config(config_name):
     
     if config_name == 'regimes':
@@ -138,7 +146,18 @@ def get_config(config_name):
     print("config", config)
     return config
 
+#
+#
+""" 
+ The input parmeters are: 
 
+  - params: the different kind of params are the ones specified above where the parsing happens. 
+  - dataset_sup_config: specified in the --dataset-sup
+  - dataset_unsup_config: specified in the --dataset-unsup
+  - blocks: specified in the --preset option
+  - config: --config contains the type of seed.
+
+ """
 def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
     for block_id, block in blocks.items():
         if block_id in config:
