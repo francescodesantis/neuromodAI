@@ -57,6 +57,8 @@ def training_config(blocks, dataset_sup_config, dataset_unsup_config):
 
 
     """
+
+    print("BLOCKS INSIDE TRAINING CONFIG:", blocks)
     for id in range(len(blocks)):
         blocks['b%s' % id]['layer']['lr_scheduler'] = {'decay':'cste', 'lr': 0.1}
     blocks_train = range(len(blocks))

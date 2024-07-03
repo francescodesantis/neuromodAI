@@ -76,7 +76,6 @@ parser.add_argument('--validation-sup', default=False, type=str2bool, metavar='N
 
 parser.add_argument('--validation-unsup', default=False, type=str2bool, metavar='N',
                     help='')
-
 parser.add_argument('--config', default='seed', type=str, metavar='N',
                     help='')
 
