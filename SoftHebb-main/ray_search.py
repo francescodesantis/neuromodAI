@@ -192,6 +192,7 @@ def main(params, dataset_sup_config, dataset_unsup_config, blocks, config):
     log = Log(train_config)
     for id, config in train_config.items():
         if config['mode'] == 'unsupervised':
+            print("BLOCKS: ", config['blocks'])
             run_unsup(
                 config['nb_epoch'],
                 config['print_freq'],
