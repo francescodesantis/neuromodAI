@@ -40,6 +40,16 @@ def train_BP(model, criterion, optimizer, loader, device, measures):
 
     return measures, optimizer.param_groups[0]['lr']
 
+"""
+The first thing we do is check if the model is hebbian or not (basically if it is we set the loss accuracy to False).
+Then we tell torch not to calculate any gradient because we don't need any for unsupervised hebbian. 
+We don't get inside the if loss_acc clause why???
+model.is_hebbian() returns true if the last block of the model is hebbian or not and checks if the criterion is not none.
+The criterion can be something like ... ??? criterion seems to be none always, just like measures. 
+So are they both to be defined??? 
+
+
+"""
 
 def train_hebb(model, loader, device, measures=None, criterion=None):
     """
@@ -56,8 +66,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
 
             # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
             ## 1. forward propagation
-            inputs = inputs.float().to(device)  # , non_blocking=True)
-            output = model(inputs)
+            inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
+            output = model(inputs) 
             if t == False:
                 print("INPUT VARIABLE")
                 print(inputs)
@@ -68,13 +78,13 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 t = True
             # print(r"%s"%(time.time()-t))
 
-            if loss_acc:
+            if loss_acc:  
                 target = target.to(device, non_blocking=True)
                 print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSIDE LOSS ACCURACY")
                 
                 print("#############################################")
                 ## 2. loss calculation
-                loss = criterion(output, target)
+                loss = criterion(output, target)   
 
                 ## 3. Accuracy assessment
                 predict = output.data.max(1)[1]
@@ -88,10 +98,31 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     convergence, R1 = model.convergence()
     return measures, model.get_lr(), info, convergence, R1
 
+""" 
+Again we set the gradient to zero.
+There is still the problem with the criterion which looks like to be always none and not defined anywhere.
+We then load the input to the device and calculate the output.
 
+The model.blocks.plasticity function allow to calculate the weight change vector which is done only the last layer. 
+why??
+Let's reason a little bit, we have to update the weights, now this could either be something which dpenedds on the type of
+ùoperations that we are performing or it could be something which derives from the nature of the input itself. Could it be that 
+since we are working with networks which have at most one hebbian layer??? I don't understand, this need to be investigated 
+a bit more. 
+
+Here we don't have the same issue we have for the unsupervised learning where we never get into the if loss_acc clause 
+because the criterion and the measures are never passed. In this case the criterion passed is  criterion = nn.CrossEntropyLoss()
+and the measures is   log_batch = log.new_log_batch() which is defined in run_sup() and needs to be investigated.
+
+
+
+
+
+"""
 def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     """
     Train only the hebbian blocks
+
     """
     t = time.time()
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
@@ -105,9 +136,11 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
                                               pre_x=model.blocks[-1].layer.forward_store['pre_x'],
                                               wta=torch.nn.functional.one_hot(target, num_classes=
                                               model.blocks[-1].layer.forward_store['pre_x'].shape[1]).type(
-                                                  model.blocks[-1].layer.forward_store['pre_x'].type()))
+                                              model.blocks[-1].layer.forward_store['pre_x'].type()))
 
             if loss_acc:
+
+                print("INSIDE LOSS_ACC OF train_sup_hebb")
                 target = target.to(device, non_blocking=True)
 
                 ## 2. loss calculation
@@ -126,7 +159,7 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     convergence, R1 = model.convergence()
     return measures, model.get_lr(), info, convergence, R1
 
-
+""""""
 def train_unsup(model, loader, device,
                 blocks=[]):  # fixed bug as optimizer is not used or pass in the only use it has in this repo currently
     """
@@ -136,7 +169,12 @@ def train_unsup(model, loader, device,
     _, lr, info, convergence, R1 = train_hebb(model, loader, device)
     return lr, info, convergence, R1
 
-
+"""
+This function performs the training of the supervised learning part of the model.
+The first thing we do is check if the number of blocks is = 1, but why??? 
+Then we check if the first block is hebbian, if so we use train_sup_hebb().
+otherwise it can be hybrid ( which implies tht there are more than just one block ) or simply the classical Back Prop.
+"""
 def train_sup(model, criterion, optimizer, loader, device, measures, learning_mode, blocks=[]):
     """
     train hybrid model.

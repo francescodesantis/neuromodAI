@@ -1,9 +1,26 @@
 
+understand the difference between hard and soft !!!!
+
+lebesgue_p
+
+
 ray_search.py : where the parameters are parsed and the main is executed.
     
     run_unsup(): performs unspervised learning and evaluates at the end of every epoch
+        train_unsup(): 
+            train_hebb(): The criterion can be something like ... ??? criterion seems to be none always, just like measures. 
+                            So are they both to be defined??? 
+
 
         evaluate_unsup(): 
-            evaluate_hebb(): does the unsupervised evaluation
-    run_sup ()
+            evaluate_hebb(): does the unsupervised evaluation ---------------- we can't get in here (return 0.0 error)
+                infer_dataset(): 
+
+    run_sup (): runs the supervised learning if the mode is supervised (??? there are instances where the MLP is unsup???)
+        train_sup():
+            train_sup_hebb(): hange vector which is done only the last layer ??????
+            train_BP():
+        evaluate_sup(): 
+
+
     run hybrid ()

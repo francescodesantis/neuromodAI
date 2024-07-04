@@ -51,4 +51,5 @@ An example of a model object can be the following:
 
 LAYER: either CNN or MLP
 
-DATASET  
+DATASET
+

@@ -28,7 +28,8 @@ class HebbHardLinear(nn.Module):
 
         super().__init__()
 
-        self.stat = torch.zeros(3, n_neurons)
+        self.stat = torch.zeros(3, n_neurons) # 3 rows n_neurons columns, it looks like a vector where 
+                                             # for each neuron we keep track of three statistics.
 
         self.learning_update = False
         self.was_update = True
@@ -116,6 +117,14 @@ class HebbHardLinear(nn.Module):
             return self.lr.mean().cpu()
         return self.lr
 
+# The following function returns the winner takes all: 
+#- we start off by gettng a one encoding of the max value in the preactivations and we do so for every neuron
+#- then it sums the elements of the wta tensor along dimension 0 
+# (summing across rows for each column). 
+# This results in a 1D tensor where each element represents the total number 
+# of times a neuron was the "winner" across the batch of samples.
+# We place this vector of sums into the second row of the statistics vector. 
+# - Then we simply return the vector containing the one hot encoding of the max preactivations. 
     def get_wta(self, pre_x: torch.Tensor) -> torch.Tensor:
         """
         Compute the hard winner take all
@@ -169,6 +178,25 @@ class HebbHardLinear(nn.Module):
         """
         self.learning_update = mode
 
+    """
+    We start off by multiplying the wta vector with the input (remember that wta is a one hot encoding vector): 
+    this is summing the inputs x for each "winning" neuron as indicated by wta.  If wta is of shape [batch_size, num_neurons] and 
+    x is of shape [batch_size, num_features], then wta.t() is of shape [num_neurons, batch_size], 
+    and the result yx will be of shape [num_neurons, num_features].
+    Then we multiply the wta with the preactivations to scale the pre-activation values (pre_x) by the winner-take-all mask (wta). 
+    This means only the winning neuron's pre-activations are considered.
+    Both wta and pre_x are of shape [batch_size, num_neurons], so the result yu will also be of shape [batch_size, num_neurons].
+
+    Finally we sum all the components to ggregate the scaled pre-activations across the batch, effectively summing up the contributions for each neuron.
+    The result yu is of shape [num_neurons, 1].
+
+    delta-weight calulation: 
+    yu.view(-1, 1): Reshapes yu to [num_neurons, 1] so that it can be broadcasted for 
+    element-wise multiplication with self.weight.
+
+    
+
+    """
     def delta_weight(
             self,
             x: torch.Tensor,
@@ -190,7 +218,7 @@ class HebbHardLinear(nn.Module):
         """
         # ---Compute change of weights---#
 
-        yx = torch.matmul(wta.t(), x)  # Overlap between winner take all and inputs
+        yx = torch.matmul(wta.t(), x)  # Overlap between winner take all and inputs ( t is the transpose )
         yu = torch.multiply(wta, pre_x)
         yu = torch.sum(yu.t(), dim=1).unsqueeze(1)
         # Overlap between preactivation and winner take all
@@ -198,11 +226,19 @@ class HebbHardLinear(nn.Module):
         delta_weight = yx - yu.view(-1, 1) * self.weight
 
         # ---Normalize---#
-        nc = torch.abs(delta_weight).amax()  # .amax(1, keepdim=True)
-        delta_weight.div_(nc + 1e-30)
+        nc = torch.abs(delta_weight).amax()  # finds the maximum absolute value 
+        delta_weight.div_(nc + 1e-30) # divides by nc plus a small constant to avoid dividing by zero. 
 
         return delta_weight
 
+    """
+    This function is used to update the weights of the given self block/layer. In particular 
+    we calculate the pre activations through different steps: 
+    - conv_forward(): it is the pytorch implementation of a 2d conv with only the padding set to 0.
+    - get_pre_x(): seems to be not defined anywhere, so the program works if we assume we never pass a None object as preactivations. 
+    - get_wta(): gets the vector of winner takes all neurons. 
+
+    """
     def plasticity(
             self,
             x: torch.Tensor,

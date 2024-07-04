@@ -118,7 +118,7 @@ class MultiLayer(nn.Module):
         if blocks_params is not None:
             blocks = []
             for _, params in blocks_params.items():
-                blocks.append(generate_block(params))
+                blocks.append(generate_block(params))# simply associate an id to each block
             self.blocks = nn.Sequential(*blocks)
         else:
             self.blocks = nn.Sequential(*blocks)
