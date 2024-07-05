@@ -113,6 +113,42 @@ a bit more.
 Here we don't have the same issue we have for the unsupervised learning where we never get into the if loss_acc clause 
 because the criterion and the measures are never passed. In this case the criterion passed is  criterion = nn.CrossEntropyLoss()
 and the measures is   log_batch = log.new_log_batch() which is defined in run_sup() and needs to be investigated.
+There is the possibility of entering the clause but I don't understand how we manage to do it: 
+the model is supposed to be not hebbian to calculate the loss... right, but if all the models we 
+consider are hebbian then what? this is train sup hebbian function... wth it doesn't make sense. 
+Let's try and analyze it: 
+to enter the if clause we need to not be hebbian, which is set through the flag is_hebbian, which is set to true
+if  when we read the preset flag in the object contained in the preset.json we read anyhing but MLP. Then we need
+to have a criterion which is not none and we aldready saw that when we call it the object passed is the 
+cross entropy loss criteria. So we just need to understand when the flag for hebbian is set to false. Like what is 
+the role of this function because from my initial understanding it was to train the hebbian learning in a 
+supervised manner, which kindd of doesn't make sense because if we are working with an hebbian network where
+should we utilize the feedback given from the supervised approach? This is used only in the case the model is not hebbian, 
+So now the question becomes when is the model not hebbian??
+The is_hebbian function returns true by checking only the last block. If the last block has the hebbian flag set to true
+then is_hebbian return  true, then when is the last layer set to hebbian? We check if the preset is field is either soft or BP. 
+If it is BP we set the hebbian flag to false otherwise we set it to true. 
+
+"2SoftMlpMNIST": {
+      "b0": {
+        "arch": "MLP",
+        "preset": "soft-c2000-t12-lr0.045-r35-v1",
+        "operation": "flatten",
+        "activation": "softmax_5",
+        "num": 0,
+        "batch_norm": false
+      },
+      "b1": {
+        "arch": "MLP",
+        "operation": "",
+        "preset": "BP-c10",      ------------------------------------> we check this field here 
+        "dropout": 0,
+        "num": 1
+      }
+
+      Ok so we got how the whole thing works, but then why are we just using 1 block?? 
+      By this I mean that if the check is done on the last block only and this block is hebbian because we dont get in the
+      if then we must be using only one block not considerign the second one which is always using back prop for classification.
 
 
 
@@ -183,6 +219,7 @@ def train_sup(model, criterion, optimizer, loader, device, measures, learning_mo
     """
     if len(blocks) == 1:
         model.train(blocks=blocks)
+        print("JUST ONE BLOCK")
         if model.get_block(blocks[0]).is_hebbian():
             measures, lr, info, convergence, R1 = train_sup_hebb(model, loader, device, measures, criterion)
         else:

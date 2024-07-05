@@ -18,7 +18,7 @@ ray_search.py : where the parameters are parsed and the main is executed.
 
     run_sup (): runs the supervised learning if the mode is supervised (??? there are instances where the MLP is unsup???)
         train_sup():
-            train_sup_hebb(): hange vector which is done only the last layer ??????
+            train_sup_hebb(): weigth change vector which is done only the last layer ?????? +  if loss_acc problem
             train_BP():
         evaluate_sup(): 
 
