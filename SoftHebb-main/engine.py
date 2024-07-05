@@ -150,7 +150,10 @@ If it is BP we set the hebbian flag to false otherwise we set it to true.
       By this I mean that if the check is done on the last block only and this block is hebbian because we dont get in the
       if then we must be using only one block not considerign the second one which is always using back prop for classification.
 
-
+    UPDATE: when we call this train_sup_hebb the is_hebbian is set to false... almost looks like it splits the model down in
+    two parts when we have to train the hebbian part we call the run_unsup and when train the classificator we call run_sup, 
+    which is why the length of blocks is just one... the classificator block is always one! Ok so the division is done in ray search when we
+    check in the config if the mode is unsupervised or supervised. 
 
 
 
@@ -162,6 +165,7 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     """
     t = time.time()
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
+    print("LOSS_ACC: ", loss_acc )
     with torch.no_grad():
         for inputs, target in loader:
             # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
