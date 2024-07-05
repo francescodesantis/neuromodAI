@@ -228,6 +228,7 @@ def train_sup(model, criterion, optimizer, loader, device, measures, learning_mo
         if model.get_block(blocks[0]).is_hebbian():
             measures, lr, info, convergence, R1 = train_sup_hebb(model, loader, device, measures, criterion)
         else:
+            print("TRAIN_BP")
             measures, lr = train_BP(model, criterion, optimizer, loader, device, measures)
     else:
         model.train(blocks=blocks)
