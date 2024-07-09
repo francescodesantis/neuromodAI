@@ -1,4 +1,6 @@
 
+library to visualize the pytorch model !!!!!
+
 understand the difference between hard and soft !!!!
 
 lebesgue_p
@@ -24,3 +26,31 @@ ray_search.py : where the parameters are parsed and the main is executed.
 
 
     run hybrid ()
+
+
+
+
+
+# Alright so how to organize the slides:
+- I would first give a general explanation of what the code does ( so the different types of training, how 
+they differ from each other and what they aim to do ), then I would get into the code with the high level 
+explanation of the functions implementing the corresponding learning. 
+- I would do a very high level discussion of the flow of the functions and the general 
+execution of the program. Just include the name of the functions and what they generally do.
+Like Input types and output. 
+
+Then do a main discussion on the methods which are used for training and how the update happens. 
+So when trainign a model the main thign to consider is what kind of input is used, 
+the update rule used ( in our case it would either be hebbian learning without any loss feedback and classical BP)
+
+Ok so the training is mainly done in multi_layer.py while in ray_search we have the search for the optimal hyperparameters. 
+
+-- FIRST READ
+We have seen that the soft hebb network is compared with the classical BP fully supervised method. 
+From my understanding the hebbian network is trained first in a fully unsupervised manner in order to obtain  a way of clusterizing the points, 
+After which we take it and use a classifier to assign the clusters to the classes. 
+
+
+HebbHardKrotovLinear get_wta needs to be finished commenting.
+In the soft implementation we use the activation function, which creates a vector of activations effectively assigning a probability 
+distribution to the activations since their value is between 0 and 1. 
