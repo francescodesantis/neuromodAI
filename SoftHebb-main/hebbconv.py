@@ -12,7 +12,7 @@ import einops
 from tabulate import tabulate
 
 from activation import Triangle
-xyz = 1
+
 
 class HebbHardConv2d(nn.Module):
     def __init__(
@@ -830,9 +830,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
 
-        if xyz == 1: 
-            print("WTA shape in SoftKrotov: ", wta.shape)
-            xyz = 2
+        print("WTA shape in SoftKrotov: ", wta.shape)
         return wta
 
     def radius(self) -> float:
