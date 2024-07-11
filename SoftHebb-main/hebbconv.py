@@ -198,11 +198,12 @@ class HebbHardConv2d(nn.Module):
         wta = nn.functional.one_hot(pre_x_flat.argmax(dim=0), num_classes=pre_x_flat.shape[0]).to(
             torch.float)
         self.stat[2, group_id * self.out_channels_groups: (group_id + 1) * self.out_channels_groups] += wta.sum(0).cpu()
-        # print(torch.histc(wta.sum(1), bins=out_channels))
+        #print(torch.histc(wta.sum(1), bins=out_channels))
         wta = wta.transpose(0, 1).view(
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
-        # print(torch.histc(wta.sum(), bins=96))
+        #print(torch.histc(wta.sum(), bins=96))
+        print(wta[0])
         return wta
 
     def stat_wta(self):
@@ -830,7 +831,6 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
 
-        print("WTA shape in SoftKrotov: ", wta.shape)
         return wta
 
     def radius(self) -> float:

@@ -1,9 +1,13 @@
 
 library to visualize the pytorch model !!!!!
 
-understand the difference between hard and soft !!!!
-
 lebesgue_p
+
+So we have a network model: 
+what is the input type
+What are the layer types
+How is the learning implemented
+what is the output
 
 
 ray_search.py : where the parameters are parsed and the main is executed.
@@ -54,3 +58,8 @@ After which we take it and use a classifier to assign the clusters to the classe
 HebbHardKrotovLinear get_wta needs to be finished commenting.
 In the soft implementation we use the activation function, which creates a vector of activations effectively assigning a probability 
 distribution to the activations since their value is between 0 and 1. 
+
+
+What is the concept of activation?? 
+So we have a set of neurons on one layer linked to the neurons in the next layer. Let's say we go from neuron i to neuron k, what is the activation of the 
+neuron i? It is the pre synaptic value passed in the activation function? Or is the post synaptic?? 
