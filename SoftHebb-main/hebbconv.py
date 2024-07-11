@@ -597,6 +597,7 @@ class HebbHardKrotovConv2d(HebbHardConv2d):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
 
+        print("WTA[0]", wta[0])
 
         return wta
 
@@ -680,7 +681,6 @@ class HebbSoftConv2d(HebbHardConv2d):
         wta = activation(pre_x, t_invert=self.t_invert, activation_fn=self.activation_fn, normalize=True, dim=1)
         self.stat[2, group_id * self.out_channels_groups: (group_id + 1) * self.out_channels_groups] += wta.sum(
             (0, 2, 3)).cpu()
-        print("WTA[0]", wta[0])
 
         return wta
 
