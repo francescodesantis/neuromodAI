@@ -203,7 +203,7 @@ class HebbHardConv2d(nn.Module):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
         #print(torch.histc(wta.sum(), bins=96))
-        print(wta[0])
+        print("WTA[0]", wta[0])
         return wta
 
     def stat_wta(self):
