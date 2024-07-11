@@ -188,7 +188,7 @@ class HebbHardConv2d(nn.Module):
         wta : torch.Tensor
             preactivation or the current of the hebbian layer
 
-        We take the wta vector (in one hot encoding form) of the pre activations. Then we find the maximum activation neuron.
+        We take the wta vector (in one hot encoding form) of the pre activations to find maximum activation neuron.
 
         """
         # wta = nn.functional.one_hot(pre_x.argmax(dim=0), num_classes=pre_x.shape[0]).to(
@@ -203,7 +203,7 @@ class HebbHardConv2d(nn.Module):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
         #print(torch.histc(wta.sum(), bins=96))
-        print("WTA[0]", wta[0])
+        #print("WTA[0]", wta[0])
         return wta
 
     def stat_wta(self):
@@ -597,7 +597,7 @@ class HebbHardKrotovConv2d(HebbHardConv2d):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
 
-        
+
         return wta
 
 
@@ -680,6 +680,7 @@ class HebbSoftConv2d(HebbHardConv2d):
         wta = activation(pre_x, t_invert=self.t_invert, activation_fn=self.activation_fn, normalize=True, dim=1)
         self.stat[2, group_id * self.out_channels_groups: (group_id + 1) * self.out_channels_groups] += wta.sum(
             (0, 2, 3)).cpu()
+        print("WTA[0]", wta[0])
 
         return wta
 
