@@ -597,7 +597,6 @@ class HebbHardKrotovConv2d(HebbHardConv2d):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
 
-        print("WTA[0]", wta[0])
 
         return wta
 
@@ -831,6 +830,8 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         wta = wta.view(
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
+        
+        print("WTA[0]", wta[0])
 
         return wta
 
