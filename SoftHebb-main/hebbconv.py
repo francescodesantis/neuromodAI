@@ -795,11 +795,15 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
 
-        f1 = open('pre_x.txt', "w")
-        f1.write(np.array2string(pre_x.cpu()))
+        #f1 = open('pre_x.txt', "w")
+        #f1.write(np.array2string(pre_x.cpu()))
+
+        print("PRE_X:", pre_x.shape)
+
 
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
-        np.savetxt('pre_x_flat.txt', pre_x_flat.cpu().numpy())
+        #np.savetxt('pre_x_flat.txt', pre_x_flat.cpu().numpy())
+        print("PRE_X_FLAT:", pre_x_flat.shape)
 
         wta = activation(pre_x_flat, t_invert=self.t_invert, activation_fn=self.activation_fn, normalize=True, dim=0)
 
@@ -810,8 +814,8 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             wta = -wta
             #if xyz != 11: 
             print(wta.shape)
-            print("WTA[0:20][0:10] :", wta[0:20][0:10])
-            np.savetxt('wta.txt', wta.numpy())
+            #print("WTA[0:20][0:10] :", wta[0:20][0:10])
+            #np.savetxt('wta.txt', wta.numpy())
 
                #xyz = 11
             # _, ranking_indices = pre_x_flat.topk(1, dim=0)
