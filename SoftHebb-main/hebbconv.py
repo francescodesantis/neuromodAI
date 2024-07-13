@@ -12,8 +12,7 @@ import einops
 from tabulate import tabulate
 
 from activation import Triangle
-
-global xyz
+xyz = 1
 
 
 class HebbHardConv2d(nn.Module):
