@@ -790,7 +790,16 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             preactivation or the current of the hebbian layer
 
         pre_x shape [batch_size, out_channels, height_out, width_out]
+        The number of output channels corresponds to the number of feature maps, which corresponds to the 
+        number of kernels in the filter.
+
+        In the given tensor shape [10, 96, 32, 32]:
+
+        - Batch Size (10): This means that the tensor contains 10 samples (or images) that are being processed together.
+        -Channels (96): Each sample has 96 channels, often corresponding to feature maps in the context of convolutional neural networks.
+        -Height and Width (32, 32): Each channel has spatial dimensions of 32x32.
         wta shape: 
+
 
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
@@ -802,6 +811,16 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
 
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
+
+        """
+        
+        pre_x: Original shape: torch.Size([10, 96, 32, 32])
+        Transposed shape: torch.Size([96, 10, 32, 32])
+        pre_x_flat: Reshaped shape: torch.Size([96, 10240])
+        pre_x_flat : [out_channels, height*width*batch_size]
+        The question now becomes, why are we putting it to wta shape? Like why is wta of shape [96, 10240]?? 
+        So wta is of shape [out_channels, height*width*batch_size].
+        """
         #np.savetxt('pre_x_flat.txt', pre_x_flat.cpu().numpy())
         print("PRE_X_FLAT:", pre_x_flat.shape)
 
@@ -809,7 +828,10 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
         self.stat[2, group_id * self.out_channels_groups: (group_id + 1) * self.out_channels_groups] += wta.sum(1).cpu()
 
+        # torch.arange creates a tensor containing indices from 0 (if no other starting argument is provided)
+        # and ends the list of indices at pre_x_flat.size(1), which in this case would correspond to 10240.
         batch_indices = torch.arange(pre_x_flat.size(1))
+
         if self.mode == 0:
             wta = -wta
             #if xyz != 11: 
@@ -817,10 +839,13 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             #print("WTA[0:20][0:10] :", wta[0:20][0:10])
             #np.savetxt('wta.txt', wta.numpy())
 
-               #xyz = 11
+            #xyz = 11
             # _, ranking_indices = pre_x_flat.topk(1, dim=0)
             # ranking_indices = ranking_indices[0, batch_indices]
+
+
             ranking_indices = torch.argmax(pre_x_flat, dim=0)
+            print("RANKING:", ranking_indices)
             wta[ranking_indices, batch_indices] = -wta[ranking_indices, batch_indices]
             self.m_winner.append(wta[ranking_indices, batch_indices].mean().cpu())
             self.m_anti_winner.append(1 - self.m_winner[-1])
