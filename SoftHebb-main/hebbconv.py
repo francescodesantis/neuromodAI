@@ -13,6 +13,7 @@ from tabulate import tabulate
 
 from activation import Triangle
 global xyz
+import numpy as np
 
 class HebbHardConv2d(nn.Module):
     def __init__(
@@ -795,7 +796,11 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
 
+        np.savetxt('pre_x.txt', torch.Tensor(pre_x).numpy())
+
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
+        np.savetxt('pre_x_flat.txt', torch.Tensor(pre_x_flat).numpy())
+
         wta = activation(pre_x_flat, t_invert=self.t_invert, activation_fn=self.activation_fn, normalize=True, dim=0)
 
         self.stat[2, group_id * self.out_channels_groups: (group_id + 1) * self.out_channels_groups] += wta.sum(1).cpu()
@@ -806,6 +811,8 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             #if xyz != 11: 
             print(wta.shape)
             print("WTA[0:20][0:10] :", wta[0:20][0:10])
+            np.savetxt('wta.txt', torch.Tensor(wta).numpy())
+
             #    xyz = 11
             # _, ranking_indices = pre_x_flat.topk(1, dim=0)
             # ranking_indices = ranking_indices[0, batch_indices]
