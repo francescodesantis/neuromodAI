@@ -190,11 +190,17 @@ class HebbHardConv2d(nn.Module):
 
         We take the wta vector (in one hot encoding form) of the pre activations to find maximum activation neuron.
 
+        where pre_x is of shape [batch_size, out_channels, height_out, width_out], where out_channels
+
         """
         # wta = nn.functional.one_hot(pre_x.argmax(dim=0), num_classes=pre_x.shape[0]).to(
         #    torch.float).permute(3,0,1,2)
         batch_size, out_channels, height_out, width_out = pre_x.shape
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
+        print(pre_x.shape())
+
+        # num of classes corresponds to how many elements are in each vector, in this case we take the shape[0] of pre_x_flat,
+        # which corresponds to 
         wta = nn.functional.one_hot(pre_x_flat.argmax(dim=0), num_classes=pre_x_flat.shape[0]).to(
             torch.float)
         self.stat[2, group_id * self.out_channels_groups: (group_id + 1) * self.out_channels_groups] += wta.sum(0).cpu()
@@ -582,6 +588,8 @@ class HebbHardKrotovConv2d(HebbHardConv2d):
             preactivation or the current of the hebbian layer
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
+        print(pre_x.shape)
+        #print(pre_x)
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
         _, ranks = pre_x_flat.sort(descending=True, dim=0)
         wta = nn.functional.one_hot(pre_x_flat.argmax(dim=0), num_classes=pre_x_flat.shape[0]).to(
@@ -831,7 +839,6 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
         
-        print("WTA[0]", wta[0])
 
         return wta
 
