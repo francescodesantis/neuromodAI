@@ -795,7 +795,8 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
 
-        np.savetxt('pre_x.txt', pre_x.cpu().numpy())
+        f1 = open('pre_x.txt', "w")
+        f1.write(np.array2string(pre_x.cpu()))
 
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
         np.savetxt('pre_x_flat.txt', pre_x_flat.cpu().numpy())
