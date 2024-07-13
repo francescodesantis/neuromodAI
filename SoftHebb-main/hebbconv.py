@@ -197,7 +197,7 @@ class HebbHardConv2d(nn.Module):
         #    torch.float).permute(3,0,1,2)
         batch_size, out_channels, height_out, width_out = pre_x.shape
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
-        print(pre_x.shape())
+        print(pre_x.shape)
 
         # num of classes corresponds to how many elements are in each vector, in this case we take the shape[0] of pre_x_flat,
         # which corresponds to 
@@ -798,6 +798,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         batch_indices = torch.arange(pre_x_flat.size(1))
         if self.mode == 0:
             wta = -wta
+            print("WTA[0]: ", wta[0])
             # _, ranking_indices = pre_x_flat.topk(1, dim=0)
             # ranking_indices = ranking_indices[0, batch_indices]
             ranking_indices = torch.argmax(pre_x_flat, dim=0)
