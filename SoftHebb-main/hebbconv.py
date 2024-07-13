@@ -803,7 +803,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         if self.mode == 0:
             wta = -wta
             print(wta.shape)
-            print("WTA[0:20]: ", wta[0:20])
+            print("WTA[0:20]: ", wta[0:20][0:10])
             # _, ranking_indices = pre_x_flat.topk(1, dim=0)
             # ranking_indices = ranking_indices[0, batch_indices]
             ranking_indices = torch.argmax(pre_x_flat, dim=0)
