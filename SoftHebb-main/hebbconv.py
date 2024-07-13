@@ -795,10 +795,10 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
 
-        np.savetxt('pre_x.txt', pre_x.numpy())
+        np.savetxt('pre_x.txt', pre_x.cpu().numpy())
 
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
-        np.savetxt('pre_x_flat.txt', pre_x_flat.numpy())
+        np.savetxt('pre_x_flat.txt', pre_x_flat.cpu().numpy())
 
         wta = activation(pre_x_flat, t_invert=self.t_invert, activation_fn=self.activation_fn, normalize=True, dim=0)
 
