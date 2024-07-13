@@ -787,6 +787,10 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         -------
         wta : torch.Tensor
             preactivation or the current of the hebbian layer
+
+        pre_x shape [batch_size, out_channels, height_out, width_out]
+        wta shape: 
+
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
 
@@ -798,6 +802,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         batch_indices = torch.arange(pre_x_flat.size(1))
         if self.mode == 0:
             wta = -wta
+            print(wta.shape)
             print("WTA[0:20]: ", wta[0:20])
             # _, ranking_indices = pre_x_flat.topk(1, dim=0)
             # ranking_indices = ranking_indices[0, batch_indices]
