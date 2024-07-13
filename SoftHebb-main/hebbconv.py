@@ -12,7 +12,6 @@ import einops
 from tabulate import tabulate
 
 from activation import Triangle
-xyz = 1
 
 
 class HebbHardConv2d(nn.Module):
@@ -716,6 +715,7 @@ class HebbSoftConv2d(HebbHardConv2d):
 
 
 class HebbSoftKrotovConv2d(HebbSoftConv2d):
+    xyz = 1
     def __init__(
             self,
             in_channels: int,
