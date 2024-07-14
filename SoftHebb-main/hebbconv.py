@@ -843,9 +843,38 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             # _, ranking_indices = pre_x_flat.topk(1, dim=0)
             # ranking_indices = ranking_indices[0, batch_indices]
 
-
+            # Basically with this operation we extract the indexes of the max values per every 10240 values, 
+            # so for all the values at pos 0 we find in which among the 96 columns the maximum is, then we do it 
+            # for the value at position 1, and so on. So we will have as a result a vector which has 10240 values with range [0, 95]
+            # Each element in ranking_indices corresponds to the index of the channel (out of 96) that 
+            # has the highest value for a specific flattened spatial position.
             ranking_indices = torch.argmax(pre_x_flat, dim=0)
-            print("RANKING:", ranking_indices)
+            print("RANKING: ", ranking_indices)
+
+
+            """
+            [
+            [ 10,  20,  30,  40],
+            [ 50,  60,  70,  80],
+            [ 90, 100, 110, 120]
+            ]
+
+            row_indices = [0, 1, 2]
+            col_indices = [1, 2, 3]
+
+            Selecting Elements:
+            tensor[row_indices, col_indices] selects elements at positions:
+            (0, 1) -> 20
+            (1, 2) -> 70
+            (2, 3) -> 120
+
+            So in our case we do wta[ranking_indices, batch_indices] because we want to consider all the rows that allow us to extract 
+            the maximum value, so the ranking_indices contains the columns while the batch indices says we have to do it for all the samples
+
+            """
+            print("BATCH_INDICES:", batch_indices.shape)
+            print("ranking_indices:", ranking_indices.shape)
+
             wta[ranking_indices, batch_indices] = -wta[ranking_indices, batch_indices]
             self.m_winner.append(wta[ranking_indices, batch_indices].mean().cpu())
             self.m_anti_winner.append(1 - self.m_winner[-1])
