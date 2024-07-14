@@ -869,13 +869,21 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             (2, 3) -> 120
 
             So in our case we do wta[ranking_indices, batch_indices] because we want to consider all the rows that allow us to extract 
-            the maximum value, so the ranking_indices contains the columns while the batch indices says we have to do it for all the samples
+            the maximum value, so the ranking_indices contains the columns while the batch indices says we have to do it for all the samples.
+            wta is of shape [96, 10240], so we have 96 rows and 10240 columns, so if we need to select 10240 values, we need to have a set of 10240 row
+            values and 10240 column values. That's why we do wta[ranking_indices, batch_indices] [10240 values, 10240 values]
 
             """
             print("BATCH_INDICES:", batch_indices.shape)
             print("ranking_indices:", ranking_indices.shape)
+            print("wta[ranking_indices, batch_indices]: ", wta[ranking_indices, batch_indices].shape)
+            print("wta[ranking_indices, batch_indices].mean(): ", wta[ranking_indices, batch_indices].mean())
 
+
+            #here we inverse the values of the wta vector
             wta[ranking_indices, batch_indices] = -wta[ranking_indices, batch_indices]
+
+
             self.m_winner.append(wta[ranking_indices, batch_indices].mean().cpu())
             self.m_anti_winner.append(1 - self.m_winner[-1])
             # self.t_invert += 0.1 * (0.7 - np.mean(self.m_winner[-10:]))**2 * (0.7-self.m_winner[-1])
