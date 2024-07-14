@@ -147,6 +147,7 @@ def training_config(blocks, dataset_sup_config, dataset_unsup_config, mode, bloc
                 }
             train_id += 1
     elif mode == 'consecutive':
+        print("INSIDE TRAIN CONS")
         train_layer_order = {}
         layer = {'sup': [], 'unsup': []}
         lr = {'sup': [], 'unsup': []}

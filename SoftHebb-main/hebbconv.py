@@ -754,7 +754,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
         self.m_winner = []
         self.m_anti_winner = []
-        self.mode = 1
+        self.mode = 0
         # self.stat = torch.zeros(5, out_channels)
 
     def extra_repr(self):
