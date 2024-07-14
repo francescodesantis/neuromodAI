@@ -754,7 +754,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
         self.m_winner = []
         self.m_anti_winner = []
-        self.mode = 0
+        self.mode = 1
         # self.stat = torch.zeros(5, out_channels)
 
     def extra_repr(self):
@@ -883,13 +883,19 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             #here we inverse the values of the wta vector
             wta[ranking_indices, batch_indices] = -wta[ranking_indices, batch_indices]
 
-
+            #here we calculate the the mean of the vector containing the winning values
+            #m_winner contains the mean of the winners for every batch, so it's a list
             self.m_winner.append(wta[ranking_indices, batch_indices].mean().cpu())
+
+            #m_anti winner is the anti-hebbian value of the given batch (so it is calculated per batch)
             self.m_anti_winner.append(1 - self.m_winner[-1])
+
             # self.t_invert += 0.1 * (0.7 - np.mean(self.m_winner[-10:]))**2 * (0.7-self.m_winner[-1])
             # print(self.t_invert, np.mean(self.m_winner[-5:]), self.m_winner[-1])
 
         if self.mode == 1:
+
+            print("INSIDE CONSECUTIVE")
             # _, ranking_indices = pre_x_flat.topk(self.ranking_param, dim=0)
             _, ranks = pre_x_flat.sort(descending=True, dim=0)
             # print(torch.tensor(ranking_indices[0, batch_indices]).shape, torch.histc(torch.tensor(ranking_indices[0, batch_indices]), bins=96))
