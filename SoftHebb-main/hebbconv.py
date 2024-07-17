@@ -198,7 +198,7 @@ class HebbHardConv2d(nn.Module):
         #    torch.float).permute(3,0,1,2)
         batch_size, out_channels, height_out, width_out = pre_x.shape
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
-        print(pre_x.shape)
+        #print(pre_x.shape)
 
         # num of classes corresponds to how many elements are in each vector, in this case we take the shape[0] of pre_x_flat,
         # which corresponds to 
@@ -589,7 +589,7 @@ class HebbHardKrotovConv2d(HebbHardConv2d):
             preactivation or the current of the hebbian layer
         """
         batch_size, out_channels, height_out, width_out = pre_x.shape
-        print(pre_x.shape)
+        #print(pre_x.shape)
         #print(pre_x)
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
         _, ranks = pre_x_flat.sort(descending=True, dim=0)
@@ -807,7 +807,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         #f1 = open('pre_x.txt', "w")
         #f1.write(np.array2string(pre_x.cpu()))
 
-        print("PRE_X:", pre_x.shape)
+        #print("PRE_X:", pre_x.shape)
 
 
         pre_x_flat = pre_x.transpose(0, 1).reshape(out_channels, -1)
@@ -822,7 +822,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         So wta is of shape [out_channels, height*width*batch_size].
         """
         #np.savetxt('pre_x_flat.txt', pre_x_flat.cpu().numpy())
-        print("PRE_X_FLAT:", pre_x_flat.shape)
+        #print("PRE_X_FLAT:", pre_x_flat.shape)
 
         wta = activation(pre_x_flat, t_invert=self.t_invert, activation_fn=self.activation_fn, normalize=True, dim=0)
 
@@ -835,7 +835,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         if self.mode == 0:
             wta = -wta
             #if xyz != 11: 
-            print(wta.shape)
+            #print(wta.shape)
             #print("WTA[0:20][0:10] :", wta[0:20][0:10])
             #np.savetxt('wta.txt', wta.numpy())
 
@@ -849,7 +849,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             # Each element in ranking_indices corresponds to the index of the channel (out of 96) that 
             # has the highest value for a specific flattened spatial position.
             ranking_indices = torch.argmax(pre_x_flat, dim=0)
-            print("RANKING: ", ranking_indices)
+            #print("RANKING: ", ranking_indices)
 
 
             """
@@ -874,10 +874,10 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             values and 10240 column values. That's why we do wta[ranking_indices, batch_indices] [10240 values, 10240 values]
 
             """
-            print("BATCH_INDICES:", batch_indices.shape)
-            print("ranking_indices:", ranking_indices.shape)
-            print("wta[ranking_indices, batch_indices]: ", wta[ranking_indices, batch_indices].shape)
-            print("wta[ranking_indices, batch_indices].mean(): ", wta[ranking_indices, batch_indices].mean())
+            # print("BATCH_INDICES:", batch_indices.shape)
+            # print("ranking_indices:", ranking_indices.shape)
+            # print("wta[ranking_indices, batch_indices]: ", wta[ranking_indices, batch_indices].shape)
+            # print("wta[ranking_indices, batch_indices].mean(): ", wta[ranking_indices, batch_indices].mean())
 
 
             #here we inverse the values of the wta vector
