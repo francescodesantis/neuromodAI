@@ -895,10 +895,24 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
         if self.mode == 1:
 
-            print("INSIDE CONSECUTIVE")
             # _, ranking_indices = pre_x_flat.topk(self.ranking_param, dim=0)
+
+            """
+            Here we use the flattened pre_x tensor, which is flattened with respect to dimension 96, while the batches, the height an dthe width are
+            all multiplies together and placed in tensors of size 10240. In particular we sort the pre_x_flat tensor wrt the dim 0, so like we create tensors
+            which have the 96 tensors created by considering the sorted values, so pre_x_flat[0][0] has taken the highest value among all the other 95 tensors considering
+            only elemnts at position 0. Descending so from high to low. tensor.sort returns both the tensor with the ordered values and a new tensor which contains
+            the indexes of the elements in the original tensor ( in this case the indexes are associated with ranks and the new ordered tensor with _ ).
+            """
             _, ranks = pre_x_flat.sort(descending=True, dim=0)
             # print(torch.tensor(ranking_indices[0, batch_indices]).shape, torch.histc(torch.tensor(ranking_indices[0, batch_indices]), bins=96))
+
+            """
+            A this point we have ranks which is a tensor of shape [96, 10240]. From ranks we consider the last ranking_param and extract it from wta considering all the batch_indices, 
+            from this tensor we calculate the mean.  Then we get the winner for the current batch from wta and calculate its mean.
+            But where are m_winner and m_anti_winner used?? Ok so they are used for the calculation of the radius which is among the "info" when calling the trian unsup/sup function.
+
+            """
             self.m_anti_winner.append(
                 wta[ranks[self.ranking_param - 1], batch_indices].mean().cpu())
             self.m_winner.append(wta[ranks[0], batch_indices].mean().cpu())
@@ -908,6 +922,11 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
                 max=self.out_channels - 1).cpu()
 
             # print(wta[ranking_indices[self.ranking_param - 1, batch_indices], batch_indices].mean())
+            """
+            Finally we take the last tensor among the ones to be considered and update its value by multiplying it with a delta.
+            Where is this delta defined?? Ok so delta is preset to 4, so we multiply the values of the last ranking element by -4, 
+            pretty big decrease but ok. 
+            """
             wta[ranks[
                     self.ranking_param - 1], batch_indices] *= -self.delta  # / torch.mean(torch.tensor(self.m_anti_winner[-100:]))
             # -self.delta#-(
@@ -915,12 +934,30 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             # print(wta[ranking_indices[self.ranking_param - 1, batch_indices], batch_indices].mean())
 
         if self.mode == 2:
+
+            """
+            Here we consider the pre_x_flat tensor with shape [96, 10240] and take the first topk elements, where k is given by ranking_param and the topk 
+            is done with respect to the dim 0, so like the previous case we consider the highest value  among the 96 available for each index of the 10240 elements. 
+            Again, we store the topk tensor in _ and the indexes of the original tensor in ranking_indices.
+            """
             _, ranking_indices = pre_x_flat.topk(self.ranking_param, dim=0)
+
+            """
+            At this point we take the wta vector and consider only the ranking indices, so we extract only the topk values and extract the last one considering all the 
+            batch_indices values, with these we calculate the mean and store it in m_anti_winner.
+            """
             self.m_anti_winner.append(
                 wta[ranking_indices[self.ranking_param - 1, batch_indices], batch_indices].mean().cpu())
+            """
+            Again, take the first tensor among the topk and calculate the mean along the batch_indices values to store it in m_winner.
+            """
             self.m_winner.append(wta[ranking_indices[0, batch_indices], batch_indices].mean().cpu())
 
             # print(wta[ranking_indices[self.ranking_param - 1, batch_indices], batch_indices].mean())
+            """
+            Finally, take the last tensor among the topk in wta and subtract to it the delta, which is initialized to 4, effectively reducing the 
+            strength of the activation by a constant of 4.
+            """
             wta[ranking_indices[self.ranking_param - 1, batch_indices], batch_indices] = -self.delta
 
         wta = wta.view(
