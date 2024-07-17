@@ -323,6 +323,7 @@ def run_unsup(
     print('\n', '********** Hebbian Unsupervised learning of blocks %s **********' % blocks)
 
     train_loader, test_loader = make_data_loaders(dataset_config, batch_size, device)
+    print("SAVING FOLDER FOR UNSUP: ", folder_name)
 
     for epoch in range(1, final_epoch + 1):
         lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
@@ -374,6 +375,7 @@ def run_sup(
     """
 
     print('\n', '********** Supervised learning of blocks %s **********' % blocks)
+    print("SAVING FOLDER FOR SUP: ", folder_name)
 
     train_loader, test_loader = make_data_loaders(dataset_config, batch_size, device)
 
