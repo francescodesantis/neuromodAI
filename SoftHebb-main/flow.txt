@@ -1,6 +1,8 @@
 
 library to visualize the pytorch model !!!!!
 
+I am confused on what the accuracy of the unsupervised model is calculated on...
+
 lebesgue_p
 
 So we have a network model: 
