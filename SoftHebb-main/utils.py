@@ -423,7 +423,7 @@ def load_presets(name=None):
             blocks[id]['activation'] = {'function': activation, 'param': param}
         else:
             blocks[id]['activation'] = None
-
+    print("BLOCKS: ",  blocks)
     return blocks
 
 
