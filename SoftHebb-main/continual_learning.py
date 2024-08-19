@@ -32,7 +32,7 @@ warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='Multi layer Hebbian Training Continual Learning  implementation')
 
-parser.add_argument('--continual_learning', choices=['True', 'False'], default="False",
+parser.add_argument('--continual_learning', choices=['True', 'False'], default='False',
                     type=str, help='Preset of hyper-parameters ' +
                                    ' | '.join(load_presets()) +
                                    ' (default: None)')
