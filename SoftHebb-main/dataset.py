@@ -275,6 +275,19 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         device=device,
         train_class=dataset_config['training_class']
     )
+
+    if dataset_config.cl == "True":
+        #we need to load the model specified in model_name, see what is the image size accepted and 
+        # then resize the whole new dataset
+        old_dataset_size = 32
+        origin_dataset.dataset.transform = transforms.Compose([
+                            transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
+        # Add more transforms here
+                            transforms.ToTensor(),  # convert to tensor at the end
+                            ]),
+        
+        print("IMAGE SIZE: ", origin_dataset[0])
+
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                batch_size=batch_size,
                                                num_workers=dataset_config['num_workers'],

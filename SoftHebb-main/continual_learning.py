@@ -99,12 +99,11 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     model = load_layers(blocks, name_model, resume)
     
     model = model.to(device)
-    print("FIRST LAYER INFO: ", model)
     log = Log(train_config)
 
     for id, config in train_config.items():
         if evaluate:
-            evaluate_sup_CL(
+            evaluate_sup(
                 config['nb_epoch'],
                 config['print_freq'],
                 config['batch_size'],
@@ -164,13 +163,11 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 if __name__ == '__main__':
     params = parser.parse_args()
     name_model = params.preset if params.model_name is None else params.model_name
-    if params.continual_learning == "True":
-        #we need to load the model specified in model_name, see what is the image size accepted and 
-        # then resize the whole new dataset
-        print("")
+    
     blocks = load_presets(params.preset)
-    dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation)
+    dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
     dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation)
+
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
         dataset_unsup_config['seed'] = params.seed
@@ -187,7 +184,7 @@ if __name__ == '__main__':
          params.gpu_id, params.evaluate)
 
 
-def evaluate_sup_CL(
+def evaluate_sup(
         final_epoch: int,
         print_freq: int,
         batch_size: int,
