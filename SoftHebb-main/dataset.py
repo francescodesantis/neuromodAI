@@ -276,7 +276,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train_class=dataset_config['training_class']
     )
 
-    if dataset_config.cl == "True":
+    if dataset_config[cl] == "True":
         #we need to load the model specified in model_name, see what is the image size accepted and 
         # then resize the whole new dataset
         old_dataset_size = 32
