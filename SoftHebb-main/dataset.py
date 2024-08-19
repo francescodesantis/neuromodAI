@@ -270,43 +270,47 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     
         
-    
-    origin_dataset = dataset_train_class(
-    dataset_path,
-    split=split,
-    train=True,
-    download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-    transform=transform, 
-    zca=dataset_config['zca_whitened'],
-    device=device,
-    train_class=dataset_config['training_class']
-    )
-        
-   
-
     if dataset_config["cl"] == "True":
-        #we need to load the model specified in model_name, see what is the image size accepted and 
-        # then resize the whole new dataset
         old_dataset_size = 32
-        
-        train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
-                                                batch_size=batch_size,
-                                                num_workers=dataset_config['num_workers'],
-                                                sampler=train_sampler, 
-                                                transform=transforms.Compose([transform,
+        origin_dataset = dataset_train_class(
+        dataset_path,
+        split=split,
+        train=True,
+        download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
+        transform=transforms.Compose([transform,
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
                                                     transforms.ToTensor(),  # convert to tensor at the end
-                                                    ]),
+                                                    ]), 
+        zca=dataset_config['zca_whitened'],
+        device=device,
+        train_class=dataset_config['training_class']
+        )
+    else: 
+        origin_dataset = dataset_train_class(
+        dataset_path,
+        split=split,
+        train=True,
+        download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
+        transform=transform, 
+        zca=dataset_config['zca_whitened'],
+        device=device,
+        train_class=dataset_config['training_class']
+        
         )
 
-    else: 
-        train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
+    
+        #we need to load the model specified in model_name, see what is the image size accepted and 
+        # then resize the whole new dataset
+    
+
+    
+    train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                 batch_size=batch_size,
                                                 num_workers=dataset_config['num_workers'],
                                                 sampler=train_sampler, 
                                                
-        )
+    )
 
     print("IMAGE SIZE: ", train_loader.dataset[0].size)
     if val_indices is not None:
