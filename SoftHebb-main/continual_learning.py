@@ -166,7 +166,7 @@ if __name__ == '__main__':
     
     blocks = load_presets(params.preset)
     dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
-    dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation)
+    dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
