@@ -312,7 +312,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                
     )
 
-    print("IMAGE SIZE: ", (train_loader.dataset)[0].size)
+    print("IMAGE SIZE: ", (train_loader.dataset)[0])
     if val_indices is not None:
         val_sampler = SubsetRandomSampler(val_indices)
         test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
