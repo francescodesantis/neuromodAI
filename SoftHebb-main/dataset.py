@@ -265,7 +265,14 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         dataset_config, device, dataset_path)
 
     train_sampler = SubsetRandomSampler(train_indices, generator=g)
-    origin_dataset = dataset_train_class(
+    
+    
+
+    if dataset_config["cl"] == "True":
+        #we need to load the model specified in model_name, see what is the image size accepted and 
+        # then resize the whole new dataset
+        old_dataset_size = 32
+        origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
         train=True,
@@ -277,27 +284,22 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                             ]),
         zca=dataset_config['zca_whitened'],
         device=device,
-        train_class=dataset_config['training_class']
+        train_class=dataset_config['training_class'], 
+        
     )
-
-    if dataset_config["cl"] == "True":
-        #we need to load the model specified in model_name, see what is the image size accepted and 
-        # then resize the whole new dataset
-        old_dataset_size = 32
+    else: 
         origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-        transform=transform,
+        transform=transform, 
         zca=dataset_config['zca_whitened'],
         device=device,
-        train_class=dataset_config['training_class'], 
-        
+        train_class=dataset_config['training_class']
     )
-         
         
-        print("IMAGE SIZE: ", origin_dataset[0])
+    print("IMAGE SIZE: ", origin_dataset[0])
 
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                batch_size=batch_size,
