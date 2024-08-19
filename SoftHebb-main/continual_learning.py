@@ -99,7 +99,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     model = load_layers(blocks, name_model, resume)
     
     model = model.to(device)
-    print("FIRST LAYER INFO: ", blocks[0])
+    print("FIRST LAYER INFO: ", model)
     log = Log(train_config)
 
     for id, config in train_config.items():
