@@ -30,7 +30,13 @@ import numpy as np
 
 warnings.filterwarnings("ignore")
 
-parser = argparse.ArgumentParser(description='Multi layer Hebbian Training')
+parser = argparse.ArgumentParser(description='Multi layer Hebbian Training Continual Learning  implementation')
+
+parser.add_argument('--continual_learning', choices=["True", "False"], default=False,
+                    type=str, help='Preset of hyper-parameters ' +
+                                   ' | '.join(load_presets()) +
+                                   ' (default: None)')
+
 
 parser.add_argument('--preset', choices=load_presets(), default=None,
                     type=str, help='Preset of hyper-parameters ' +
@@ -93,9 +99,9 @@ parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate):
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
-
+    
     model = model.to(device)
-
+    print("FIRST LAYER INFO: ", model[0])
     log = Log(train_config)
 
     for id, config in train_config.items():
@@ -160,6 +166,10 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 if __name__ == '__main__':
     params = parser.parse_args()
     name_model = params.preset if params.model_name is None else params.model_name
+    if params.continual_learning == "True":
+        #we need to load the model specified in model_name, see what is the image size accepted and 
+        # then resize the whole new dataset
+        print("")
     blocks = load_presets(params.preset)
     dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation)
     dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation)
