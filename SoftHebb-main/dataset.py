@@ -299,7 +299,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train_class=dataset_config['training_class']
     )
         
-    print("IMAGE SIZE: ", origin_dataset[0])
+    print("IMAGE SIZE: ", origin_dataset[0].size)
 
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                batch_size=batch_size,
