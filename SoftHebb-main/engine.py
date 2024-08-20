@@ -56,11 +56,11 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     Train only the hebbian blocks
     """
     t = time.time()
-    print("LOADER VARIABLE")
-    print(loader)
-    print("#############################################")
+    #print("LOADER VARIABLE")
+    #print(loader)
+    #print("#############################################")
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
-    t = False
+    t = True
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
 
