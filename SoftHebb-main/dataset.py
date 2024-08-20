@@ -266,12 +266,12 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     train_sampler = SubsetRandomSampler(train_indices, generator=g)
     
-    
+    old_dataset_size = 32
 
     
         
     if dataset_config["cl"] == "True":
-        old_dataset_size = 32
+        
         origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
@@ -319,6 +319,28 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                   batch_size=batch_size,
                                                   num_workers=dataset_config['num_workers'],
                                                   sampler=val_sampler)
+    elif dataset_config["cl"] == "True":
+        test_loader = torch.utils.data.DataLoader(
+            dataset_class(
+                dataset_path,
+                split="val" if dataset_config['name'] in ['ImageNet', 'ImageNette',
+                                                          'ImageNetV2MatchedFrequency'] else "test",
+                train=False,
+                zca=dataset_config['zca_whitened'],
+                transform=transforms.Compose([test_transform,
+                                                    transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
+                                                    # Add more transforms here
+                                                    #transforms.ToTensor(),  # convert to tensor at the end
+                                                    ]), ,
+                device=device
+
+            ),
+            batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
+                                                                'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
+                                                                'ImageNetV2Threshold07'] else 1000,
+            num_workers=dataset_config['num_workers'],
+            shuffle=dataset_config['shuffle'],
+        )
     else:
         test_loader = torch.utils.data.DataLoader(
             dataset_class(
@@ -329,12 +351,14 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 zca=dataset_config['zca_whitened'],
                 transform=test_transform,
                 device=device
+
             ),
             batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
                                                                 'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
                                                                 'ImageNetV2Threshold07'] else 1000,
             num_workers=dataset_config['num_workers'],
             shuffle=dataset_config['shuffle'],
+
         )
     return train_loader, test_loader
 
