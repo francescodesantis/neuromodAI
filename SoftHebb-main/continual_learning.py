@@ -104,18 +104,9 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     accuracy = 0
     for id, config in train_config.items():
         if evaluate:
-            loss, accuracy = evaluate_sup(
-                config['nb_epoch'],
-                config['print_freq'],
-                config['batch_size'],
-                config['lr'],
-                name_model,
-                dataset_sup_config,
-                model,
-                device,
-                log.sup[id],
-                blocks=config['blocks'],
-                save=save )
+            train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
+            criterion = nn.CrossEntropyLoss()
+            loss, accuracy = evaluate_sup(model, criterion, test_loader, device)
             print(f'Accuracy of the network on the 1st dataset: {accuracy} %')
             print(f'Test loss: {loss:.3f}')
         elif config['mode'] == 'unsupervised':
