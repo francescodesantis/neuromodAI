@@ -523,16 +523,16 @@ def extract_data(data, features=None, wts='test_acc'):
 #     return conv_acc
 
 
-def load_data(exps, t='t1'):
+def load_data(exp, t='t1'):
     datas = []
-    for exp in exps:
-        data=[]
-        _, log = load_logs(exp)
-        for b in log.sup[t].batch[:-1]:
-            d = b.get_numpy()
-            d[:, 2] *= 100/ d[:, 0]
-            data.extend(d)
-        datas.append(np.array(data))
+    #for exp in exps:
+    data=[]
+    _, log = load_logs(exp)
+    for b in log.sup[t].batch[:-1]:
+        d = b.get_numpy()
+        d[:, 2] *= 100/ d[:, 0]
+        data.extend(d)
+    datas.append(np.array(data))
     return datas
 
 def moving_avg(x, rolling_window=None):
