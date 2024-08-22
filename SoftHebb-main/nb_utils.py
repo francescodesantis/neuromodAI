@@ -523,11 +523,11 @@ def extract_data(data, features=None, wts='test_acc'):
 #     return conv_acc
 
 
-def load_data(exp, t='t1'):
+def load_data(exp, config, t='t1'):
     datas = []
     #for exp in exps:
     data=[]
-    _, log = load_logs(exp)
+    _, log = load_logs(exp, config)
     for b in log.sup[t].batch[:-1]:
         d = b.get_numpy()
         d[:, 2] *= 100/ d[:, 0]

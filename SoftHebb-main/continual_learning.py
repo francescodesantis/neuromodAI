@@ -154,7 +154,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
     save_logs(log, name_model)
     print("Name Model: ", name_model)
-    datas = load_data(name_model)
+    datas = load_data(name_model, config)
     print(datas)
 
 def procedure(params, blocks, dataset_sup_config, dataset_unsup_config):
