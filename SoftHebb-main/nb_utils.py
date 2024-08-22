@@ -523,7 +523,7 @@ def extract_data(data, features=None, wts='test_acc'):
 #     return conv_acc
 
 
-def load_data(exp, configs, t='t1'):
+def load_data(exp, configs, t='t2'):
     datas = []
     #for exp in exps:
     data=[]
