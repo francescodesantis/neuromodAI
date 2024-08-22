@@ -33,8 +33,8 @@ warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='Multi layer Hebbian Training Continual Learning  implementation')
 
-parser.add_argument('--continual_learning', choices=['True', 'False'], default='False',
-                    type=str)
+parser.add_argument('--continual_learning', choices=[True, False], default=False,
+                    type=str2bool)
 
 
 parser.add_argument('--preset', choices=load_presets(), default=None,
@@ -198,15 +198,15 @@ if __name__ == '__main__':
 
     resume = params.resume
 
-    params.continual_learning = "False"
+    params.continual_learning = False
     params.resume = None
     procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False)
 
-    params.continual_learning = "True"
+    params.continual_learning = True
     params.resume = resume
     procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate=False)
 
-    params.continual_learning = "False"
+    params.continual_learning = False
     procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True)
  
     # resume all problem
