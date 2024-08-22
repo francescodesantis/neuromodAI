@@ -93,6 +93,10 @@ parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
                     help='')
 
 
+# we need first to pass both the datasets, the evaluation parameter is not needed, or it could be if we decide to validate just one model on one dataset. 
+# after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
+# during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
+
 
 
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate):
@@ -184,14 +188,26 @@ if __name__ == '__main__':
     name_model = params.preset if params.model_name is None else params.model_name
     blocks = load_presets(params.preset)
 
+    params.continual_learning = False
     dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
     dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
+
+    params.continual_learning = True
     dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
     dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
 
-    #procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False)
-    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, False)
-    #procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True)
+    resume = params.resume
+
+    params.continual_learning = False
+    params.resume = None
+    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False)
+
+    params.continual_learning = True
+    params.resume = resume
+    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate=False)
+
+    params.continual_learning = False
+    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True)
  
     # resume all problem
     
