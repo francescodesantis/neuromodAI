@@ -319,7 +319,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                   batch_size=batch_size,
                                                   num_workers=dataset_config['num_workers'],
                                                   sampler=val_sampler)
-    elif dataset_config["cl"] == "True":
+    elif dataset_config["cl"] == True:
         test_loader = torch.utils.data.DataLoader(
             dataset_class(
                 dataset_path,
