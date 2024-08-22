@@ -527,7 +527,8 @@ def load_data(exp, configs, t='t1'):
     datas = []
     #for exp in exps:
     data=[]
-    _, log = load_logs(exp, configs)
+    v1, log = load_logs(exp, configs)
+    print(v1, log)
     for b in log.sup[t].batch[:-1]:
         d = b.get_numpy()
         d[:, 2] *= 100/ d[:, 0]
