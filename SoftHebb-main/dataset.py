@@ -270,7 +270,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     
         
-    if dataset_config["cl"] == "True":
+    if dataset_config["cl"] == True:
         
         origin_dataset = dataset_train_class(
         dataset_path,
