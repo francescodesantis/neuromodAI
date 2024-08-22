@@ -46,7 +46,7 @@ parser.add_argument('--dataset-unsup', choices=load_config_dataset(), default='M
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
 
-parser.add_argument('--dataset-supc', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup', choices=load_config_dataset(), default='MNIST',
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
