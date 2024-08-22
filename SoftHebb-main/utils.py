@@ -427,7 +427,7 @@ def load_presets(name=None):
     return blocks
 
 
-def load_config_dataset(name=None, validation=True, cl='False'):
+def load_config_dataset(name=None, validation=True, cl=False):
     """
     Load dataset config from name of the dataset
 
