@@ -159,7 +159,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
         print("Datas: ", d)
 
-def procedure(params, blocks, dataset_sup_config, dataset_unsup_config):
+def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -174,7 +174,7 @@ def procedure(params, blocks, dataset_sup_config, dataset_unsup_config):
                                    params.training_blocks)
 
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
-         params.gpu_id, params.evaluate)
+         params.gpu_id, evaluate)
 
 
 
@@ -188,7 +188,12 @@ if __name__ == '__main__':
     dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
     dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
     dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
-    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1)
+
+    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False)
+    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, False)
+    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True)
+
+
 
     
 
