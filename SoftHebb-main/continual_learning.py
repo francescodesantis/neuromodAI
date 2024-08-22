@@ -26,6 +26,7 @@ import torch
 import torch.optim as optim
 import torch.nn as nn
 import numpy as np
+from nb_utils import load_data
 
 
 warnings.filterwarnings("ignore")
@@ -41,12 +42,12 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
                                    ' | '.join(load_presets()) +
                                    ' (default: None)')
 
-parser.add_argument('--dataset-unsup', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default='MNIST',
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
 
-parser.add_argument('--dataset-sup', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default='MNIST',
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
@@ -152,16 +153,10 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
             )
 
     save_logs(log, name_model)
+    datas = load_data(name_model)
+    print(datas)
 
-
-if __name__ == '__main__':
-    params = parser.parse_args()
-    name_model = params.preset if params.model_name is None else params.model_name
-    
-    blocks = load_presets(params.preset)
-    dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
-    print("DATASET SUP: ", dataset_sup_config)
-    dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
+def procedure(params, blocks, dataset_sup_config, dataset_unsup_config):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -177,6 +172,23 @@ if __name__ == '__main__':
 
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
          params.gpu_id, params.evaluate)
+
+
+
+if __name__ == '__main__':
+
+    params = parser.parse_args()
+    name_model = params.preset if params.model_name is None else params.model_name
+    blocks = load_presets(params.preset)
+
+    dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+    dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
+    dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
+    dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
+    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1)
+
+    
+
 
 
 # def evaluate_sup(
