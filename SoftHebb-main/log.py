@@ -198,6 +198,7 @@ def save_logs(log, model_name, filename='final.pth.tar'):
 
 def load_logs(model_name, filename='final.pth.tar'):
     folder_path = op.join(RESULT, 'network', model_name, 'measures')
+    print("Log Folder Path: ", folder_path)
     if not op.isdir(folder_path):
         os.mkdir(folder_path)
     dict = torch.load(op.join(folder_path, filename))['log']
