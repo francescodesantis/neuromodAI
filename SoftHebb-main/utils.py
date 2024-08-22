@@ -461,6 +461,7 @@ def load_config_dataset(name=None, validation=True, cl=False):
             np.floor(dataset_config['training_sample'] * dataset_config['validation_split']))
         dataset_config['training_sample'] = dataset_config['training_sample'] - dataset_config['val_sample']
     dataset_config["cl"] = cl
+    print("CL: ", cl)
     print(dataset_config)
     return dataset_config
 
