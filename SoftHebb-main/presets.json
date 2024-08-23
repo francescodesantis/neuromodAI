@@ -2126,7 +2126,7 @@
         "height": 160,
         "training_sample": 9469,
         "out_channels": 10,
-        "nb_epoch": 100,
+        "nb_epoch": 50,       
         "print_freq": 10,
         "batch_size": 100,
         "augmentation": false,
