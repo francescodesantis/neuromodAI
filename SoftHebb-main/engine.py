@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
 import time
-
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def train_BP(model, criterion, optimizer, loader, device, measures):
     """
