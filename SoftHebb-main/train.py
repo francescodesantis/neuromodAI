@@ -417,3 +417,6 @@ def run_sup(
             if plot_fc is not None:
                 for block in blocks:
                     plot_fc(model, block)
+
+    metrics["dataset"] = dataset_config["name"]
+    return metrics

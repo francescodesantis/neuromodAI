@@ -99,7 +99,7 @@ parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
 
 
 
-def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate):
+def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
     
@@ -114,6 +114,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
             loss, accuracy = evaluate_sup(model, criterion, test_loader, device)
             print(f'Accuracy of the network on the 1st dataset: {accuracy:.3f} %')
             print(f'Test loss on the 1st dataset: {loss:.3f}')
+            results.append({"dataset_name": dataset_sup_config["name"], "test_accuracy": accuracy, "test_loss": loss })
         elif config['mode'] == 'unsupervised':
             run_unsup(
                 config['nb_epoch'],
@@ -128,7 +129,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 save=save
             )
         elif config['mode'] == 'supervised':
-            run_sup(
+            result = run_sup(
                 config['nb_epoch'],
                 config['print_freq'],
                 config['batch_size'],
@@ -141,6 +142,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
+            results.append(result)
         else:
             run_hybrid(
                 config['nb_epoch'],
@@ -158,12 +160,13 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
     save_logs(log, name_model)
     print("Name Model: ", name_model)
+    
     datas = load_data(name_model, train_config)
     for d in datas: 
 
         print("Datas: ", d)
 
-def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate):
+def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -178,7 +181,7 @@ def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate
                                    params.training_blocks)
 
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
-         params.gpu_id, evaluate)
+         params.gpu_id, evaluate, results)
 
 
 
@@ -196,19 +199,22 @@ if __name__ == '__main__':
     dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
     dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
 
+    results = []
+
     resume = params.resume
 
-    # params.continual_learning = False
-    # params.resume = None
-    # procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False)
+    params.continual_learning = False
+    params.resume = None
+    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
 
-    # params.continual_learning = True
-    # params.resume = resume
-    # procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate=False)
+    params.continual_learning = True
+    params.resume = resume
+    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, False, results)
 
     params.continual_learning = False
-    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, True)
- 
+    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True, results)
+    
+    print("RESULTS: ", results)
     # resume all problem
     
 
