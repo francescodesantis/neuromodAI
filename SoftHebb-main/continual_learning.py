@@ -198,16 +198,16 @@ if __name__ == '__main__':
 
     resume = params.resume
 
-    params.continual_learning = False
-    params.resume = None
-    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False)
+    # params.continual_learning = False
+    # params.resume = None
+    # procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False)
 
-    params.continual_learning = True
-    params.resume = resume
-    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate=False)
+    # params.continual_learning = True
+    # params.resume = resume
+    # procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate=False)
 
     params.continual_learning = False
-    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True)
+    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, True)
  
     # resume all problem
     
