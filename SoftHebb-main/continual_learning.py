@@ -118,7 +118,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
             conv, R1 = model.convergence()
             if type(test_loss) ==  torch.Tensor:
-                metrics = {"test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv.item(), "R1":R1}
+                metrics = {"test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv, "R1":R1}
             else: 
                 metrics = {"test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
             metrics["dataset_sup"] = dataset_sup_config
