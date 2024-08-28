@@ -123,7 +123,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 metrics = {"test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
             metrics["dataset_sup"] = dataset_sup_config
             metrics["dataset_unsup"] = dataset_unsup_config
-            results.append(metrics)
+            results["eval"] = metrics
         elif config['mode'] == 'unsupervised':
             run_unsup(
                 config['nb_epoch'],
@@ -153,7 +153,10 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
             )
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
-            results.append(result)
+            if results["R1"] == None: 
+                results["R1"] = result
+            else: 
+                results["R2"] = result
         else:
             run_hybrid(
                 config['nb_epoch'],
@@ -210,7 +213,7 @@ if __name__ == '__main__':
     dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
     dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
 
-    results = []
+    results = {}
     dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
     dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
 
@@ -230,13 +233,38 @@ if __name__ == '__main__':
     print("RESULTS: ", results)
     data_candidate = "Continual_learning"
     DATA = op.realpath(op.expanduser(data_candidate))
-    with open("CL_RES.txt", 'a') as file:
-        file.write("#######################################################\n\n")
-        for obj in results: 
-            o = json.dumps(obj, indent=4)
-            file.write(o + '\n')  
+    # with open("CL_RES.txt", 'a') as file:
+    #     file.write("#######################################################\n\n")
+    #     for obj in results: 
+    #         o = json.dumps(obj, indent=4)
+    #         file.write(o + '\n')  
 
+    with open('CL_RES.json', 'a+') as f:
+        try:
+            f.seek(0)
+            old = json.load(f)
+        except json.JSONDecodeError:
+        # If the file is empty or not valid JSON, start with an empty dictionary
+            old = {}
+    with open('CL_RES.json', 'r+') as f:
+        try:
+        # Load the existing data
+            old = json.load(f)
+        except json.JSONDecodeError:
+            old = {}
+        
+        if old.get("T1") is None:
+            old["T1"] = new_data
+        else: 
+            last_key = list(old.keys())[-1]
+            new_key = "T" + str(int(last_key[1:]) + 1)
+            old[new_key] = new_data
+        #old.update(new_data)
 
+        f.seek(0)
+        f.truncate() 
+
+        json.dump(old, f, indent=4)
 
 
     
