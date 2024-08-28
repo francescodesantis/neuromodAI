@@ -11,6 +11,7 @@
 # so we need to either upscale it or downscale it. 
 
 import argparse
+import os.path as op
 
 from utils import load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
 from model import load_layers
@@ -215,8 +216,11 @@ if __name__ == '__main__':
     procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True, results)
     
     print("RESULTS: ", results)
-    # resume all problem
-    
+    data_candidate = "Continual_learning"
+    DATA = op.realpath(op.expanduser(data_candidate))
+    with open(f"{DATA}CL_RES.txt", 'a') as file:
+        file.write(str(results) + '\n')  
+
 
 
 
