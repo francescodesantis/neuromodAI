@@ -201,6 +201,8 @@ if __name__ == '__main__':
     dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
 
     results = []
+    dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
+    dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
 
     resume = params.resume
 

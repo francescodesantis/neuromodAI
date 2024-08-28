@@ -266,12 +266,13 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     train_sampler = SubsetRandomSampler(train_indices, generator=g)
     
-    old_dataset_size = 32
+    
 
     
         
     if dataset_config["cl"] == True:
         
+        old_dataset_size = dataset_config["old_dataset_size"]
         origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
