@@ -226,7 +226,7 @@ if __name__ == '__main__':
         file.write("#######################################################\n\n")
         for obj in results: 
             o = json.dumps(str(obj), indent=4)
-            file.write(str(o) + '\n')  
+            file.write(o + '\n')  
 
 
 
