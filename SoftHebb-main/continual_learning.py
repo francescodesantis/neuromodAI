@@ -12,7 +12,7 @@
 
 import argparse
 import os.path as op
-
+import json
 from utils import load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
 from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
@@ -143,6 +143,8 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
+            result["dataset_unsup"] = dataset_unsup_config
+            result["train_config"] = train_config
             results.append(result)
         else:
             run_hybrid(
@@ -222,7 +224,9 @@ if __name__ == '__main__':
     DATA = op.realpath(op.expanduser(data_candidate))
     with open("CL_RES.txt", 'a') as file:
         file.write("#######################################################\n\n")
-        file.write(str(results) + '\n')  
+        for obj in results: 
+            o = json.dumps(obj, indent=4)
+            file.write(str(o) + '\n')  
 
 
 
