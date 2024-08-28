@@ -65,3 +65,29 @@ distribution to the activations since their value is between 0 and 1.
 What is the concept of activation?? 
 So we have a set of neurons on one layer linked to the neurons in the next layer. Let's say we go from neuron i to neuron k, what is the activation of the 
 neuron i? It is the pre synaptic value passed in the activation function? Or is the post synaptic?? 
+
+The datasets: 
+
+ImageNette: Imagenette is a subset of 10 easily classified classes from Imagenet (tench, English springer, cassette player, chain saw, church, French horn, garbage truck, gas pump, golf ball, parachute).
+
+STL10: 10 classes: (some similar to cifar10)
+- airplane, bird, car, cat, deer, dog, horse, monkey, ship, truck.
+- Images are 96x96 pixels, color.
+- 500 training images (10 pre-defined folds), 800 test images per class.
+- 100000 unlabeled images for unsupervised learning. These examples are extracted from a similar but broader distribution of images. For instance, it contains other types of animals (bears, rabbits, etc.) and vehicles (trains, buses, etc.) in addition to the ones in the labeled set.
+- Images were acquired from labeled examples on ImageNet.
+
+CIFAR100: 32x32 color images classified into 100 classes
+
+CIFAR10: 
+
+airplane										
+automobile										
+bird										
+cat										
+deer										
+dog										
+frog										
+horse										
+ship										
+truck
