@@ -96,7 +96,7 @@ class LogSup:
                       total_time=time.strftime("%H:%M:%S", time.gmtime(time.time() - self.initial_start)),
                       train_acc=train_acc, train_loss=train_loss,
                       test_loss=test_loss, test_acc=test_acc))
-
+        
     def get_numpy(self):
         return np.array(self.data, dtype=np.float32)
 

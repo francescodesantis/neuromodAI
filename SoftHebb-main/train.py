@@ -422,5 +422,5 @@ def run_sup(
                 for block in blocks:
                     plot_fc(model, block)
 
-    metrics["dataset"] = dataset_config["name"]
+    metrics["dataset_sup"] = dataset_config
     return metrics
