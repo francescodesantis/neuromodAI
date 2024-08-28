@@ -88,6 +88,7 @@ cat
 deer										
 dog										
 frog										
-horse										
+horse								
+		
 ship										
 truck
