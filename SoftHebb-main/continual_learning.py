@@ -153,7 +153,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
             )
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
-            if results["R1"] == None: 
+            if results.get("R1") == None: 
                 results["R1"] = result
             else: 
                 results["R2"] = result
@@ -254,11 +254,11 @@ if __name__ == '__main__':
             old = {}
         
         if old.get("T1") is None:
-            old["T1"] = new_data
+            old["T1"] = results
         else: 
             last_key = list(old.keys())[-1]
             new_key = "T" + str(int(last_key[1:]) + 1)
-            old[new_key] = new_data
+            old[new_key] = results
         #old.update(new_data)
 
         f.seek(0)
