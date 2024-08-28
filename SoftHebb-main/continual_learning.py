@@ -225,7 +225,7 @@ if __name__ == '__main__':
     with open("CL_RES.txt", 'a') as file:
         file.write("#######################################################\n\n")
         for obj in results: 
-            o = json.dumps(obj, indent=4)
+            o = json.dumps(str(obj), indent=4)
             file.write(str(o) + '\n')  
 
 
