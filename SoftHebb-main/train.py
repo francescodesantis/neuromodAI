@@ -404,7 +404,7 @@ def run_sup(
 
             _, train_loss, train_acc, test_loss, test_acc = log.data[-1]
             conv, R1 = model.convergence()
-            metrics = {"train_loss":str(train_loss), "train_acc":str(train_acc), "test_loss":str(test_loss), "test_acc": str(test_acc), "convergence":str(conv), "R1":str(R1)}
+            metrics = {"train_loss":train_loss.item(), "train_acc":train_acc.item(), "test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv.item(), "R1":R1}
 
             if report is not None:
                 _, train_loss, train_acc, test_loss, test_acc = log.data[-1]
