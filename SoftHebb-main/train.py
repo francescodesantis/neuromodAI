@@ -404,7 +404,10 @@ def run_sup(
 
             _, train_loss, train_acc, test_loss, test_acc = log.data[-1]
             conv, R1 = model.convergence()
-            metrics = {"train_loss":train_loss.item(), "train_acc":train_acc.item(), "test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv.item(), "R1":R1}
+            if type(train_loss) ==  torch.Tensor:
+                metrics = {"train_loss":train_loss.item(), "train_acc":train_acc.item(), "test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv.item(), "R1":R1}
+            else: 
+                metrics = {"train_loss":train_loss, "train_acc":train_acc, "test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
 
             if report is not None:
                 _, train_loss, train_acc, test_loss, test_acc = log.data[-1]
