@@ -112,10 +112,18 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
         if evaluate:
             train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
             criterion = nn.CrossEntropyLoss()
-            loss, accuracy = evaluate_sup(model, criterion, test_loader, device)
+            test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
             print(f'Accuracy of the network on the 1st dataset: {accuracy:.3f} %')
             print(f'Test loss on the 1st dataset: {loss:.3f}')
-            results.append({"dataset_name": dataset_sup_config["name"], "test_accuracy": accuracy, "test_loss": loss })
+
+            conv, R1 = model.convergence()
+            if type(test_loss) ==  torch.Tensor:
+                metrics = {"test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv.item(), "R1":R1}
+            else: 
+                metrics = {"test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
+            metrics["dataset_sup"] = dataset_sup_config
+            metrics["dataset_unsup"] = dataset_unsup_config
+            results.append(metrics)
         elif config['mode'] == 'unsupervised':
             run_unsup(
                 config['nb_epoch'],
