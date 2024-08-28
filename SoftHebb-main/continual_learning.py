@@ -219,6 +219,7 @@ if __name__ == '__main__':
     data_candidate = "Continual_learning"
     DATA = op.realpath(op.expanduser(data_candidate))
     with open(f"{DATA}/CL_RES.txt", 'a') as file:
+        file.write("#######################################################\n\n")
         file.write(str(results) + '\n')  
 
 
