@@ -175,10 +175,10 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     save_logs(log, name_model)
     print("Name Model: ", name_model)
     
-    datas = load_data(name_model, train_config)
-    for d in datas: 
+    #datas = load_data(name_model, train_config)
+    #for d in datas: 
 
-        print("Datas: ", d)
+    #    print("Datas: ", d)
 
 def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
 
