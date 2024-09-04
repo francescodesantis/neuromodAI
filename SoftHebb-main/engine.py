@@ -70,12 +70,12 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
             output = model(inputs) 
             if t == False:
-                print("INPUT VARIABLE")
-                print(inputs)
-                print("#############################################")
-                print("OUTPUT VARIABLE")
-                print(output)
-                print("#############################################")
+                # print("INPUT VARIABLE")
+                # print(inputs)
+                # print("#############################################")
+                # print("OUTPUT VARIABLE")
+                # print(output)
+                # print("#############################################")
                 t = True
             # print(r"%s"%(time.time()-t))
 
