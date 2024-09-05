@@ -1,5 +1,6 @@
 import copy
 import random
+import torch.nn.functional as F
 
 try:
     from utils import seed_init_fn, DATASET
@@ -281,7 +282,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
         transform=transforms.Compose([transform,
-                                                    transforms.Resize(old_dataset_size),  # image size int or tuple
+                                                    Resize(old_dataset_size),  # image size int or tuple
                                                     # Add more transforms here
                                                     #transforms.ToTensor(),  # convert to tensor at the end
                                                     ]), 
@@ -317,6 +318,10 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                 sampler=train_sampler, 
                                                
     )
+
+    # for b in range(len(train_loader.dataset)):
+    #     for i in range(len(train_loader.dataset[i])):
+    #         train_loader.dataset[b][i] = F.interpolate(img.T.unsqueeze(0).unsqueeze(0), size=(160, 160, 3))
 
 
 
