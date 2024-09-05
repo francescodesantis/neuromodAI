@@ -278,15 +278,18 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-        transform=transforms.Compose([#transform,
-                                                    transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
+        transform=transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
-                                                    transforms.ToTensor(),  # convert to tensor at the end
-                                                    ]), 
+                                                    
         zca=dataset_config['zca_whitened'],
         device=device,
         train_class=dataset_config['training_class']
         )
+        # for img in in len(train_loader.dataset): 
+        #     for i in len(train_loader.dataset[b]):
+        #         img = train_loader.dataset[b][i]
+        #         train_loader.dataset[b][i] = F.interpolate(img.T.unsqueeze(0).unsqueeze(0), size=(old_dataset_size, old_dataset_size, 3))
+
     else: 
         origin_dataset = dataset_train_class(
         dataset_path,
@@ -312,6 +315,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                 sampler=train_sampler, 
                                                
     )
+
+
+
 
     print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
     if val_indices is not None:
