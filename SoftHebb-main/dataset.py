@@ -318,8 +318,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     )
 
     for b in range(len(train_loader.dataset)):
-        for i in range(len(train_loader.dataset[b])):
-            train_loader.dataset[b][i] = F.interpolate(train_loader.dataset[b][i].T.unsqueeze(0).unsqueeze(0), size=(160, 160, 3))
+        
+        train_loader.dataset[b][0]= F.interpolate(train_loader.dataset[b][0].T.unsqueeze(0).unsqueeze(0), size=(160, 160, 3))
 
 
 
