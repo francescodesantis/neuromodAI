@@ -272,8 +272,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         
     if dataset_config["cl"] == True:
         print("INSIDE CL ###############################")
-        #old_dataset_size = dataset_config["old_dataset_size"]
-        old_dataset_size = 160
+        old_dataset_size = dataset_config["old_dataset_size"]
+        print( type(old_dataset_size))
+        #old_dataset_size = 160
         origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
