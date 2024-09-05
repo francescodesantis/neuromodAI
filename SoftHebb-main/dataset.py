@@ -279,7 +279,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-        transform=transforms.Compose([
+        transform=transforms.Compose([transform,
                                                     transforms.Resize((old_dataset_size,old_dataset_size), interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
                                                     #transforms.ToTensor(),  # convert to tensor at the end
@@ -322,6 +322,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                   num_workers=dataset_config['num_workers'],
                                                   sampler=val_sampler)
     elif dataset_config["cl"] == True:
+        print("INSIDE SECOND IF")
         test_loader = torch.utils.data.DataLoader(
             dataset_class(
                 dataset_path,
