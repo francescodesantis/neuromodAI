@@ -268,7 +268,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     
     
 
-    
+    old_dataset_size = dataset_config["old_dataset_size"]
+
         
     if dataset_config["cl"] == True:
         print("INSIDE CL ###############################")
