@@ -271,14 +271,14 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     
         
     if dataset_config["cl"] == True:
-        
+        print("INSIDE CL ###############################")
         old_dataset_size = dataset_config["old_dataset_size"]
         origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-        transform=transforms.Compose([transform,
+        transform=transforms.Compose([#transform,
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
                                                     transforms.ToTensor(),  # convert to tensor at the end
