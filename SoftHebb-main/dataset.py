@@ -287,6 +287,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         device=device,
         train_class=dataset_config['training_class']
         )
+
+        print(origin_dataset[0][0])
         
     else: 
         origin_dataset = dataset_train_class(
