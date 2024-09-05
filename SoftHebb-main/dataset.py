@@ -280,7 +280,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
         transform=transforms.Compose([transform,
-                                                    transforms.Resize((old_dataset_size,old_dataset_size)),  # image size int or tuple
+                                                    transforms.Resize((160,160)),  # image size int or tuple
                                                     # Add more transforms here
                                                     #transforms.ToTensor(),  # convert to tensor at the end
                                                     ]), 
