@@ -272,6 +272,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     
         
     if dataset_config["cl"] == True:
+        torch.cuda.empty_cache()
+
         print("INSIDE CL ###############################")
         old_dataset_size = dataset_config["old_dataset_size"]
         #print( type(old_dataset_size))
@@ -317,9 +319,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                
     )
 
-    for b in range(len(train_loader.dataset)):
+    # for b in range(len(train_loader.dataset)):
         
-        train_loader.dataset[b][0]= F.interpolate(train_loader.dataset[b][0].T.unsqueeze(0).unsqueeze(0), size=(160, 160, 3))
+    #     train_loader.dataset[b][0]= F.interpolate(train_loader.dataset[b][0].T.unsqueeze(0).unsqueeze(0), size=(160, 160, 3))
 
 
 
