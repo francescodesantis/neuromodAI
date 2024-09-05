@@ -284,7 +284,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         transform=transforms.Resize(old_dataset_size),  # image size int or tuple
                                                     # Add more transforms here
                                                     #transforms.ToTensor(),  # convert to tensor at the end
-                                                    
         zca=dataset_config['zca_whitened'],
         device=device,
         train_class=dataset_config['training_class']
@@ -318,9 +317,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                
     )
 
-    # for b in range(len(train_loader.dataset)):
-    #     for i in range(len(train_loader.dataset[i])):
-    #         train_loader.dataset[b][i] = F.interpolate(img.T.unsqueeze(0).unsqueeze(0), size=(160, 160, 3))
+    for b in range(len(train_loader.dataset)):
+        for i in range(len(train_loader.dataset[i])):
+            train_loader.dataset[b][i] = F.interpolate(train_loader.dataset[b][i].T.unsqueeze(0).unsqueeze(0), size=(160, 160, 3))
 
 
 
