@@ -314,13 +314,13 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         # then resize the whole new dataset
     
     old_dataset_size = 50
-    origin_dataset = dataset_train_class(
+    origin_dataset = STL10(
     dataset_path,
     split=split,
     train=True,
     download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
     transform=transforms.Compose([   #transform,              
-                                    transforms.ToPILImage(),
+                                    #transforms.ToPILImage(),
                                                     
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
@@ -328,7 +328,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     transforms.ToTensor(),
                                                       # convert to tensor at the end
                                                     ]), 
-        zca=dataset_config['zca_whitened'],
+        #zca=dataset_config['zca_whitened'],
         device=device,
         train_class=dataset_config['training_class']
     )
