@@ -276,7 +276,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         #old_dataset_size = dataset_config["old_dataset_size"]
         #print( type(old_dataset_size))
         old_dataset_size = 256
-        origin_dataset = FastCIFAR10(
+        origin_dataset = FastSTL10(
         dataset_path,
         split=split,
         train=True,
