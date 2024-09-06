@@ -320,8 +320,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     transform=transforms.Compose([#transforms.ToPILImage(),
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
-                                                    transform,
+                                                    #transform,
                                                       # convert to tensor at the end
+                                                    transforms.ToTensor()
                                                     ]), 
         zca=dataset_config['zca_whitened'],
         device=device,
