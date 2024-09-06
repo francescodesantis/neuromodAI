@@ -68,7 +68,7 @@ def crop_flip(width, height):
                 (width, height), padding=4, padding_mode="reflect"
             ),
             transforms.RandomHorizontalFlip(p=0.5),
-            
+
         ]
     )
 
@@ -88,8 +88,7 @@ def select_dataset(dataset_config, device, dataset_path):
             transform = crop_flip(dataset_config['width'], dataset_config['height'])
         else:
             dataset_train_class = FastCIFAR10
-            transform = transforms.Resize((160, 160), interpolation=transforms.InterpolationMode.NEAREST),
-            
+            transform = None
 
     elif dataset_config['name'] == 'CIFAR100':
         dataset_class = FastCIFAR100
@@ -277,17 +276,17 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         #old_dataset_size = dataset_config["old_dataset_size"]
         #print( type(old_dataset_size))
         old_dataset_size = 256
-        origin_dataset = dataset_train_class(
+        origin_dataset = FastCIFAR10(
         dataset_path,
         split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
         transform=transforms.Compose([#transforms.ToPILImage(),
-                                                     transform,
-                                                      # image size int or tuple
+                                                    #transform,
+                                                    transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
-                                                   
-                                                    #transforms.ToTensor(),
+                                                    
+                                                    transforms.ToTensor(),
                                                       # convert to tensor at the end
                                                     ]), 
         zca=dataset_config['zca_whitened'],
