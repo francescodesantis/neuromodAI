@@ -68,9 +68,9 @@ neuron i? It is the pre synaptic value passed in the activation function? Or is 
 
 The datasets: 
 
-ImageNette: Imagenette is a subset of 10 easily classified classes from Imagenet (tench, English springer, cassette player, chain saw, church, French horn, garbage truck, gas pump, golf ball, parachute).
+ImageNette: width: 160, Imagenette is a subset of 10 easily classified classes from Imagenet (tench, English springer, cassette player, chain saw, church, French horn, garbage truck, gas pump, golf ball, parachute).
 
-STL10: 10 classes: (some similar to cifar10)
+STL10: 10 classes: (some similar to cifar10)  "width": 96,
 - airplane, bird, car, cat, deer, dog, horse, monkey, ship, truck.
 - Images are 96x96 pixels, color.
 - 500 training images (10 pre-defined folds), 800 test images per class.
