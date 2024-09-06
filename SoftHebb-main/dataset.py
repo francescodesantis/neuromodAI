@@ -314,7 +314,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         # then resize the whole new dataset
     
     old_dataset_size = 50
-    origin_dataset = STL10(
+    origin_dataset = dataset_train_class(
     dataset_path,
     split=split,
     train=True,
