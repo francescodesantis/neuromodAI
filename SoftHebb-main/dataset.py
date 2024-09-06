@@ -282,10 +282,11 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
         transform=transforms.Compose([#transforms.ToPILImage(),
+                                                    transforms.ToTensor(),
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
                                                     transform,
-                                                    transforms.ToTensor(),  # convert to tensor at the end
+                                                      # convert to tensor at the end
                                                     ]), 
         zca=dataset_config['zca_whitened'],
         device=device,
