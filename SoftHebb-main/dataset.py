@@ -314,7 +314,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     dataset_path,
     split=split,
     train=True,
-    download=False,  # TODO: make this depend on whether dataset exists or not
+    download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
     transform=transforms.Compose([   #transform,              
                                     #transforms.ToPILImage(),
                                                     
