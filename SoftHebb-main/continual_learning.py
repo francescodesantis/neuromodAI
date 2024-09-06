@@ -205,7 +205,7 @@ if __name__ == '__main__':
     name_model = params.preset if params.model_name is None else params.model_name
     blocks = load_presets(params.preset)
 
-    params.continual_learning = True ########################################ààà Set to FALSE
+    params.continual_learning = False
     dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
     dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
 

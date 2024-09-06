@@ -324,9 +324,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                       # convert to tensor at the end
                                                     transforms.ToTensor()
                                                     ]), 
-        zca=dataset_config['zca_whitened'],
-        device=device,
-        train_class=dataset_config['training_class']
+        #zca=dataset_config['zca_whitened'],
+        #device=device,
+        #train_class=dataset_config['training_class']
         )
 
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
