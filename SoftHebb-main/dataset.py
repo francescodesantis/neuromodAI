@@ -68,7 +68,6 @@ def crop_flip(width, height):
                 (width, height), padding=4, padding_mode="reflect"
             ),
             transforms.RandomHorizontalFlip(p=0.5),
-            transforms.Resize((160, 160), interpolation=transforms.InterpolationMode.NEAREST),
             
         ]
     )
@@ -89,7 +88,8 @@ def select_dataset(dataset_config, device, dataset_path):
             transform = crop_flip(dataset_config['width'], dataset_config['height'])
         else:
             dataset_train_class = FastCIFAR10
-            transform = None
+            transform = transforms.Resize((160, 160), interpolation=transforms.InterpolationMode.NEAREST),
+            
 
     elif dataset_config['name'] == 'CIFAR100':
         dataset_class = FastCIFAR100
