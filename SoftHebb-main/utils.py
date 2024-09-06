@@ -15,7 +15,7 @@ data_candidate = "Training"
 DATA = op.realpath(op.expanduser(data_candidate))
 RESULT = op.join(DATA, 'results', 'hebb', 'result')  # everything from multi_layer.py
 SEARCH = op.join(DATA, 'results', 'hebb', 'search')  # everything from ray_search
-DATASET = op.join(DATA, 'dataMine')
+DATASET = op.join(DATA, 'data')
 
 
 def get_folder_name(params):
