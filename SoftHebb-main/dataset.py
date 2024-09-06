@@ -68,7 +68,8 @@ def crop_flip(width, height):
                 (width, height), padding=4, padding_mode="reflect"
             ),
             transforms.RandomHorizontalFlip(p=0.5),
-
+            transforms.Resize((160, 160), interpolation=transforms.InterpolationMode.NEAREST),
+            
         ]
     )
 
@@ -283,10 +284,10 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
         transform=transforms.Compose([#transforms.ToPILImage(),
                                                      transform,
-                                                    transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
+                                                      # image size int or tuple
                                                     # Add more transforms here
                                                    
-                                                    transforms.ToTensor(),
+                                                    #transforms.ToTensor(),
                                                       # convert to tensor at the end
                                                     ]), 
         zca=dataset_config['zca_whitened'],
