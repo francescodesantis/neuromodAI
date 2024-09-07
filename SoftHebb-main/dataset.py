@@ -314,9 +314,25 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         #we need to load the model specified in model_name, see what is the image size accepted and 
         # then resize the whole new dataset
     
-    origin_dataset = dataset_class(
+    # origin_dataset = dataset_class(
+    #     dataset_path,
+    #     split=split,
+    #     train=True,
+    #     download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
+    #     transform=transforms.Compose([transform, #transforms.ToPILImage(),
+    #                                                 transforms.Resize((old_dataset_size, old_dataset_size), interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
+    #                                                 # Add more transforms here
+    #                                                 transforms.ToTensor()
+    #                                                 # convert to tensor at the end
+                                                      
+    #                                                 ]), 
+    #     zca=dataset_config['zca_whitened'],
+    #     device=device,
+    #     train_class=dataset_config['training_class']
+    #     )
+
+    origin_dataset = datasets.CIFAR10(
         dataset_path,
-        split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
         transform=transforms.Compose([transform, #transforms.ToPILImage(),
@@ -326,9 +342,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     # convert to tensor at the end
                                                       
                                                     ]), 
-        zca=dataset_config['zca_whitened'],
-        device=device,
-        train_class=dataset_config['training_class']
+       
+        
         )
 
     print("AFTER RESIZING")
