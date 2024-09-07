@@ -602,7 +602,7 @@ class FastCIFAR10(CIFAR10):
         std = (0.247, 0.2434, 0.2616)
 
         norm = transforms.Normalize(mean, std)
-
+        print("TYPE SELF.DATA: ", type(self.data))
         self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
         if self.train:
@@ -627,24 +627,24 @@ class FastCIFAR10(CIFAR10):
         # self.data = self.data.to(device)  # Rescale to [0, 1]
 
         # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
-        self.data = transforms.ToPILImage(self.data)
+        #self.data = transforms.ToPILImage(self.data)
         #self.targets = torch.tensor(self.targets, device=device)
 
-    # def __getitem__(self, index: int):
-    #     """
-    #     Parameters
-    #     ----------
-    #     index : int
-    #         Index of the element to be returned
+    def __getitem__(self, index: int):
+        """
+        Parameters
+        ----------
+        index : int
+            Index of the element to be returned
 
-    #     Returns
-    #     -------
-    #         tuple: (image, target) where target is the index of the target class
-    #     """
-    #     img = self.data[index]
-    #     target = self.targets[index]
+        Returns
+        -------
+            tuple: (image, target) where target is the index of the target class
+        """
+        img = self.data[index]
+        target = self.targets[index]
 
-    #     return img, target
+        return img, target
 
 
 class AugFastCIFAR10(FastCIFAR10):
