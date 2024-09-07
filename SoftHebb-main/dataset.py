@@ -603,32 +603,32 @@ class FastCIFAR10(CIFAR10):
 
         norm = transforms.Normalize(mean, std)
         print("TYPE SELF.DATA: ", type(self.data))
-    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
-    #     if self.train:
-    #         if not isinstance(train_class, str):
-    #             index_class = np.isin(self.targets, train_class)
-    #             self.data = self.data[index_class]
-    #             self.targets = np.array(self.targets)[index_class]
-    #             self.len = self.data.shape[0]
+        if self.train:
+            if not isinstance(train_class, str):
+                index_class = np.isin(self.targets, train_class)
+                self.data = self.data[index_class]
+                self.targets = np.array(self.targets)[index_class]
+                self.len = self.data.shape[0]
 
-    #     if zca:
-    #         self.data = (self.data - mean) / std
-    #         self.zca = whitening_zca(self.data)
-    #         zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-    #     self.data = torch.tensor(self.data, dtype=torch.float)
+        if zca:
+            self.data = (self.data - mean) / std
+            self.zca = whitening_zca(self.data)
+            zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
+        self.data = torch.tensor(self.data, dtype=torch.float)
 
-    #     self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
-    #     # self.data = norm(self.data)
-    #     if zca:
-    #         self.data = zca_whitening(self.data)
-    #         print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
+        self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+        # self.data = norm(self.data)
+        if zca:
+            self.data = zca_whitening(self.data)
+            print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
 
-    #     # self.data = self.data.to(device)  # Rescale to [0, 1]
+        # self.data = self.data.to(device)  # Rescale to [0, 1]
 
-    #     # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
-    #     #self.data = transforms.ToPILImage(self.data)
-    #     #self.targets = torch.tensor(self.targets, device=device)
+        # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+        self.data = self.data.numpy()
+        #self.targets = torch.tensor(self.targets, device=device)
 
     # def __getitem__(self, index: int):
     #     """
