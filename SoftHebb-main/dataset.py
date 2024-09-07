@@ -314,7 +314,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         #we need to load the model specified in model_name, see what is the image size accepted and 
         # then resize the whole new dataset
     
-    origin_dataset = dataset_train_class(
+    origin_dataset = dataset_class(
         dataset_path,
         split=split,
         train=True,
