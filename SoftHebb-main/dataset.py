@@ -271,12 +271,48 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     old_dataset_size = 160
 
         
-    if dataset_config["cl"] == True:
-        print("INSIDE CL ###############################")
-        #old_dataset_size = dataset_config["old_dataset_size"]
-        #print( type(old_dataset_size))
-        old_dataset_size = 256
-        origin_dataset = dataset_train_class(
+    # if dataset_config["cl"] == True:
+    #     print("INSIDE CL ###############################")
+    #     #old_dataset_size = dataset_config["old_dataset_size"]
+    #     #print( type(old_dataset_size))
+    #     old_dataset_size = 256
+    #     origin_dataset = dataset_train_class(
+    #     dataset_path,
+    #     split=split,
+    #     train=True,
+    #     download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
+    #     transform=transforms.Compose([transform, #transforms.ToPILImage(),
+    #                                                 transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
+    #                                                 # Add more transforms here
+                                                    
+    #                                                   # convert to tensor at the end
+                                                      
+    #                                                 ]), 
+    #     zca=dataset_config['zca_whitened'],
+    #     device=device,
+    #     train_class=dataset_config['training_class']
+    #     )
+
+    #     print(origin_dataset[0][0])
+        
+    # else: 
+    #     origin_dataset = dataset_train_class(
+    #     dataset_path,
+    #     split=split,
+    #     train=True,
+    #     download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
+    #     transform=transform, 
+    #     zca=dataset_config['zca_whitened'],
+    #     device=device,
+    #     train_class=dataset_config['training_class']
+        
+    #     )
+
+    
+        #we need to load the model specified in model_name, see what is the image size accepted and 
+        # then resize the whole new dataset
+    
+    origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
         train=True,
@@ -285,7 +321,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
                                                     
-                                                      # convert to tensor at the end
+                                                    # convert to tensor at the end
                                                       
                                                     ]), 
         zca=dataset_config['zca_whitened'],
@@ -293,25 +329,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train_class=dataset_config['training_class']
         )
 
-        print(origin_dataset[0][0])
-        
-    else: 
-        origin_dataset = dataset_train_class(
-        dataset_path,
-        split=split,
-        train=True,
-        download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-        transform=transform, 
-        zca=dataset_config['zca_whitened'],
-        device=device,
-        train_class=dataset_config['training_class']
-        
-        )
-
-    
-        #we need to load the model specified in model_name, see what is the image size accepted and 
-        # then resize the whole new dataset
-    
     
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                 batch_size=batch_size,
