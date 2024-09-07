@@ -322,7 +322,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         transform=transforms.Compose([transform, #transforms.ToPILImage(),
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
-                                                    
+                                                    transforms.ToTensor()
                                                     # convert to tensor at the end
                                                       
                                                     ]), 
