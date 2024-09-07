@@ -314,37 +314,23 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         #we need to load the model specified in model_name, see what is the image size accepted and 
         # then resize the whole new dataset
     
-    # origin_dataset = dataset_class(
-    #     dataset_path,
-    #     split=split,
-    #     train=True,
-    #     download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-    #     transform=transforms.Compose([transform, #transforms.ToPILImage(),
-    #                                                 transforms.Resize((old_dataset_size, old_dataset_size), interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
-    #                                                 # Add more transforms here
-    #                                                 transforms.ToTensor()
-    #                                                 # convert to tensor at the end
-                                                      
-    #                                                 ]), 
-    #     zca=dataset_config['zca_whitened'],
-    #     device=device,
-    #     train_class=dataset_config['training_class']
-    #     )
-
-    origin_dataset = datasets.CIFAR10(
+    origin_dataset = dataset_class(
         dataset_path,
+        split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
         transform=transforms.Compose([transform, #transforms.ToPILImage(),
                                                     transforms.Resize((old_dataset_size, old_dataset_size), interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
-                                                    #transforms.ToTensor()
+                                                    
                                                     # convert to tensor at the end
                                                       
                                                     ]), 
-       
-        
+        zca=dataset_config['zca_whitened'],
+        device=device,
+        train_class=dataset_config['training_class']
         )
+
 
     print("AFTER RESIZING")
 
@@ -518,7 +504,7 @@ class FastSTL10(STL10):
 
         # norm = transforms.Normalize(mean,  std)
 
-        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        #self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
         if train:
             if not isinstance(train_class, str):
@@ -531,7 +517,7 @@ class FastSTL10(STL10):
             self.data = (self.data - mean) / std
             self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
             zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-        self.data = torch.tensor(self.data, dtype=torch.float)
+        #self.data = torch.tensor(self.data, dtype=torch.float)
 
         # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
         # self.data = norm(self.data)
@@ -543,7 +529,7 @@ class FastSTL10(STL10):
 
         # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
 
-        self.labels = torch.tensor(self.labels, device=device)
+        #self.labels = torch.tensor(self.labels, device=device)
 
     def __getitem__(self, index: int):
         """
