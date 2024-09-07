@@ -272,7 +272,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     old_dataset_size = 160
 
-        
+    print("BEFORE RESIZING")
     # if dataset_config["cl"] == True:
     #     print("INSIDE CL ###############################")
     #     #old_dataset_size = dataset_config["old_dataset_size"]
@@ -331,7 +331,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train_class=dataset_config['training_class']
         )
 
-    
+    print("AFTER RESIZING")
+
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                 batch_size=batch_size,
                                                 num_workers=dataset_config['num_workers'],
