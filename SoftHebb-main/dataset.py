@@ -627,7 +627,7 @@ class FastCIFAR10(CIFAR10):
         # self.data = self.data.to(device)  # Rescale to [0, 1]
 
         # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
-        self.data = self.data.numpy()
+        self.data = self.data.cpu().numpy()
         #self.targets = torch.tensor(self.targets, device=device)
 
     # def __getitem__(self, index: int):
