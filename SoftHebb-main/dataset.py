@@ -504,7 +504,7 @@ class FastSTL10(STL10):
 
         # norm = transforms.Normalize(mean,  std)
 
-        #self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
         if train:
             if not isinstance(train_class, str):
@@ -517,7 +517,7 @@ class FastSTL10(STL10):
             self.data = (self.data - mean) / std
             self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
             zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-        #self.data = torch.tensor(self.data, dtype=torch.float)
+        self.data = torch.tensor(self.data, dtype=torch.float)
 
         # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
         # self.data = norm(self.data)
@@ -529,7 +529,7 @@ class FastSTL10(STL10):
 
         # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
 
-        #self.labels = torch.tensor(self.labels, device=device)
+        self.labels = torch.tensor(self.labels, device=device)
 
     def __getitem__(self, index: int):
         """
@@ -603,7 +603,7 @@ class FastCIFAR10(CIFAR10):
 
         norm = transforms.Normalize(mean, std)
 
-        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        #self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
         if self.train:
             if not isinstance(train_class, str):
@@ -616,7 +616,7 @@ class FastCIFAR10(CIFAR10):
             self.data = (self.data - mean) / std
             self.zca = whitening_zca(self.data)
             zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-        self.data = torch.tensor(self.data, dtype=torch.float)
+        #self.data = torch.tensor(self.data, dtype=torch.float)
 
         self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
         # self.data = norm(self.data)
@@ -628,7 +628,7 @@ class FastCIFAR10(CIFAR10):
 
         # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
 
-        self.targets = torch.tensor(self.targets, device=device)
+        #self.targets = torch.tensor(self.targets, device=device)
 
     def __getitem__(self, index: int):
         """
