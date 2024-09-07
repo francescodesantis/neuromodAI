@@ -314,7 +314,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         #we need to load the model specified in model_name, see what is the image size accepted and 
         # then resize the whole new dataset
     
-    origin_dataset = dataset_class(
+    origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
         train=True,
@@ -618,7 +618,7 @@ class FastCIFAR10(CIFAR10):
             zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
         #self.data = torch.tensor(self.data, dtype=torch.float)
 
-        self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+        #self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
         # self.data = norm(self.data)
         if zca:
             self.data = zca_whitening(self.data)
