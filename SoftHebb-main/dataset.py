@@ -286,7 +286,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     transforms.Resize(old_dataset_size, interpolation=transforms.InterpolationMode.NEAREST),  # image size int or tuple
                                                     # Add more transforms here
                                                     
-                                                      # convert to tensor at the end
+                                                    # convert to tensor at the end
                                                       
                                                     ]), 
         zca=dataset_config['zca_whitened'],
@@ -613,21 +613,21 @@ class FastCIFAR10(CIFAR10):
         # #self.data = self.data.cpu().numpy()
         # self.targets = torch.tensor(self.targets, device=device)
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        img = self.data[index]
-        target = self.targets[index]
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     img = self.data[index]
+    #     target = self.targets[index]
 
-        return img, target
+    #     return img, target
 
 
 class AugFastCIFAR10(FastCIFAR10):
