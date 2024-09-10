@@ -91,6 +91,7 @@ def select_dataset(dataset_config, device, dataset_path):
             dataset_train_class = FastCIFAR10
             #transform = None
             transform=transforms.ToTensor()
+            test_transform=transforms.ToTensor()
 
     elif dataset_config['name'] == 'CIFAR100':
         dataset_class = FastCIFAR100
