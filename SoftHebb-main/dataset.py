@@ -90,7 +90,7 @@ def select_dataset(dataset_config, device, dataset_path):
         else:
             dataset_train_class = FastCIFAR10
             #transform = None
-            transform=imagenet_test(dataset_config['width'], dataset_config['height'])
+            transform=transforms.ToTensor()
 
     elif dataset_config['name'] == 'CIFAR100':
         dataset_class = FastCIFAR100
