@@ -320,7 +320,7 @@ if __name__ == '__main__':
         config=config,
         progress_reporter=reporter,
         num_samples=params.num_samples,
-        local_dir=SEARCH,
+        storage_path=SEARCH,
         name=params.folder_name)
         
         
