@@ -19,7 +19,7 @@
 import argparse
 import os.path as op
 import json
-from utils import SEARCH, load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
+from utils import SEARCH, merge_parameter, load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
 from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
 from log import Log, save_logs
@@ -178,11 +178,20 @@ def get_config(config_name):
     return config
 
 
-def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
+def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results, config):
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
     ##################################################
     model.reset()
+    if "dataset_unsup" in config:
+        dataset_unsup_config = merge_parameter(dataset_unsup_config, config['dataset_unsup'])
+
+    if "dataset_sup" in config:
+        dataset_sup_config = merge_parameter(dataset_sup_config, config['dataset_sup'])
+
+    if dataset_unsup_config['seed'] is not None:
+        seed_init_fn(dataset_unsup_config['seed'])
+
     #################################################
     model = model.to(device)
     log = Log(train_config)
@@ -260,7 +269,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
         print("Datas: ", d)
 
-def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
+def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -275,7 +284,7 @@ def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate
                                    params.training_blocks)
 
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
-         params.gpu_id, evaluate, results)
+         params.gpu_id, evaluate, results, config)
 
 
 
