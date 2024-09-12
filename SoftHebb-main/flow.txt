@@ -92,3 +92,14 @@ horse
 		
 ship										
 truck
+
+Ok so when doing continual learning with the best models we need to set the skip-1 flag to true.
+
+Question
+But we trained the best models through the use of ray search which optimizes the training given a certain dataset,
+should we do the same in the continual learning setting?? Like we do a ray search on the the best model but using another dataset, 
+makes sense. So how to do it? We add it to the continual learning? Or better we do another file which is ray search for continual learning.
+
+
+We need to train on less classes now. so we start with 2, and then same dataset but two other classes and then we
+do an evaluation on the first two. And so on increasing the number of classes per task.

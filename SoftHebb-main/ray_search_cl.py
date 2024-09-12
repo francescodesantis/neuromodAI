@@ -19,7 +19,7 @@
 import argparse
 import os.path as op
 import json
-from utils import load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
+from utils import SEARCH, load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
 from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
 from log import Log, save_logs
@@ -34,6 +34,15 @@ import torch.optim as optim
 import torch.nn as nn
 import numpy as np
 from nb_utils import load_data
+import ray
+from ray import tune
+from ray.tune.search.basic_variant import BasicVariantGenerator
+from ray.tune import CLIReporter
+from ray.tune.tuner import Tuner
+from ray.tune.schedulers import ASHAScheduler
+from functools import partial
+
+metric_names = ['train_loss', 'train_acc', 'test_loss', 'test_acc', 'convergence', 'R1']
 
 
 warnings.filterwarnings("ignore")
@@ -43,6 +52,12 @@ parser = argparse.ArgumentParser(description='Multi layer Hebbian Training Conti
 parser.add_argument('--continual_learning', choices=[True, False], default=False,
                     type=str2bool)
 
+parser.add_argument('--metric', choices=metric_names, default='test_acc',
+                    type=str, help='Primary Metric' +
+                                   ' | '.join(metric_names) +
+                                   ' (default: test_acc)')
+parser.add_argument('--config', default='seed', type=str, metavar='N',
+                    help='')
 
 parser.add_argument('--preset', choices=load_presets(), default=None,
                     type=str, help='Preset of hyper-parameters ' +
@@ -86,16 +101,20 @@ parser.add_argument('--training-blocks', default=None, nargs='+', type=int,
 
 parser.add_argument('--seed', default=None, type=int,
                     help='Selection of the blocks that will be trained')
+parser.add_argument('--num-samples', default=1, type=int,
+                    help='number of search into the hparams space')
 
 parser.add_argument('--gpu-id', default=0, type=int, metavar='N',
                     help='Id of gpu selected for training (default: 0)')
-
+parser.add_argument('--gpu-exp', default=1, type=int, metavar='N',
+                    help='')
 parser.add_argument('--save', default=True, type=str2bool, metavar='N',
                     help='')
 
 parser.add_argument('--validation', default=False, type=str2bool, metavar='N',
                     help='')
-
+parser.add_argument('--validation-sup', default=False, type=str2bool, metavar='N',
+                    help='')
 parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
                     help='')
 parser.add_argument('--skip-1', default=False, type=str2bool, metavar='N',
@@ -106,11 +125,65 @@ parser.add_argument('--skip-1', default=False, type=str2bool, metavar='N',
 # during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
 
 
+def get_config(config_name):
+    
+    if config_name == 'regimes':
+        t_invert_search = [1.25 ** (x - 50) for x in range(100)]
+        softness_search = ["soft", "softkrotov"]
+        seeds = [0, 1, 2]
+        configs = []
+        for i_softness in softness_search:
+            for i_t_invert in t_invert_search:
+                for i_seed in seeds:
+                    i_config = {
+                        f'b{i_layer}': {
+                            "layer": {
+                                't_invert': i_t_invert,
+                                "softness": i_softness,
+                            }
+                        } for i_layer in range(3)}
+                    i_config['dataset_unsup'] = {
+                        'seed': i_seed,
+                    }
+                    configs.append(i_config)
+
+        config = tune.grid_search(configs)
+
+    elif config_name == 'radius':
+        config = {
+            'b0': {
+                "layer": {
+                    'radius': tune.grid_search([1.25 ** (x - 10) for x in range(27)]),
+                }
+            },
+            'dataset_unsup': {
+                'seed': tune.grid_search([0, 1, 2]),
+            }
+        }
+    elif config_name == 'one_seed':
+        config = {
+            'dataset_unsup': {
+                'seed': 0
+            }
+        }
+    else:
+        config = {
+            'dataset_unsup': {
+                'seed': tune.grid_search([0, 1, 2, 3])
+                #'seed': tune.grid_search([0 ]) ###############################################
+            }
+        }
+    print("config_name", config_name)
+    print("config", config)
+    return config
+
 
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
-    
+    ##################################################
+    model.reset()
+    #################################################
     model = model.to(device)
     log = Log(train_config)
     loss = 0
@@ -226,25 +299,76 @@ if __name__ == '__main__':
 
     resume = params.resume
 
+    config = get_config(params.config)
+    reporter = CLIReporter(max_progress_rows=12)
+    for metric in metric_names:
+        reporter.add_metric_column(metric)
+
+    algo_search = BasicVariantGenerator()
+
+    scheduler = ASHAScheduler(
+    grace_period=20, reduction_factor=3, max_t=100_000)
+
+    # DATASET 1
+
     params.continual_learning = False
     params.resume = None
-    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
+    #procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
+    trial_exp_1 = partial(
+        procedure, params, blocks, dataset_sup_config_1, dataset_unsup_config_1, False, results
+    )
+
+    analysis = tune.run(
+        trial_exp_1,
+        resources_per_trial={
+            "cpu": 4,
+            "gpu": torch.cuda.device_count()
+        },
+        metric=params.metric,
+        mode='min' if params.metric.endswith('loss') else 'max',
+        search_alg=algo_search,
+        config=config,
+        progress_reporter=reporter,
+        num_samples=params.num_samples,
+        local_dir=SEARCH,
+        name=params.folder_name)
+    
+
+    # DATASET 2
+
 
     params.continual_learning = True
     params.resume = resume
-    procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, False, results)
+    #procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, False, results)
+    trial_exp_2 = partial(
+        procedure, params, dataset_sup_config_2, dataset_unsup_config_2, False, blocks
+    )
 
+    analysis = tune.run(
+        trial_exp_2,
+        resources_per_trial={
+            "cpu": 4,
+            "gpu": torch.cuda.device_count()
+        },
+        metric=params.metric,
+        mode='min' if params.metric.endswith('loss') else 'max',
+        search_alg=algo_search,
+        config=config,
+        progress_reporter=reporter,
+        num_samples=params.num_samples,
+        local_dir=SEARCH,
+        name=params.folder_name)
+
+    # EVALUATION PHASE
     params.continual_learning = False
     procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True, results)
     
+
+    
+
     print("RESULTS: ", results)
     data_candidate = "Continual_learning"
     DATA = op.realpath(op.expanduser(data_candidate))
-    # with open("CL_RES.txt", 'a') as file:
-    #     file.write("#######################################################\n\n")
-    #     for obj in results: 
-    #         o = json.dumps(obj, indent=4)
-    #         file.write(o + '\n')  
 
     with open('CL_RES.json', 'a+') as f:
         try:
