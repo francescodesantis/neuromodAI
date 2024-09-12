@@ -331,7 +331,7 @@ if __name__ == '__main__':
         progress_reporter=reporter,
         num_samples=params.num_samples,
         local_dir=SEARCH,
-        name=params.folder_name)
+        name=params.model_name)
     
 
     # DATASET 2
