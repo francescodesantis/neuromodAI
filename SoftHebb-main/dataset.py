@@ -68,6 +68,7 @@ def crop_flip(width, height):
                 (width, height), padding=4, padding_mode="reflect"
             ),
             transforms.RandomHorizontalFlip(p=0.5),
+            #transforms.ToTensor(),
 
         ]
     )
@@ -88,7 +89,9 @@ def select_dataset(dataset_config, device, dataset_path):
             transform = crop_flip(dataset_config['width'], dataset_config['height'])
         else:
             dataset_train_class = FastCIFAR10
-            transform = None
+            #transform = None
+            transform=transforms.ToTensor()
+            test_transform=transforms.ToTensor()
 
     elif dataset_config['name'] == 'CIFAR100':
         dataset_class = FastCIFAR100
@@ -268,10 +271,13 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     
     
 
-    
-        
+    #old_dataset_size = 160
+
+    print("BEFORE RESIZING")
     if dataset_config["cl"] == True:
+        print("INSIDE CL ###############################")
         old_dataset_size = dataset_config["old_dataset_size"]
+        #print( type(old_dataset_size))
         print("I AM IN CL #################################################################################", old_dataset_size)
 
         origin_dataset = dataset_train_class(
@@ -279,16 +285,20 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         split=split,
         train=True,
         download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
-        transform=transforms.Compose([
+        transform=transforms.Compose([transform,
                                                     transforms.Resize((16,16)),  # image size int or tuple
                                                     # Add more transforms here
-                                                    transform,
-                                                    #transforms.ToTensor(),  # convert to tensor at the end
+                                                    
+                                                    # convert to tensor at the end
+                                                      
                                                     ]), 
         zca=dataset_config['zca_whitened'],
         device=device,
         train_class=dataset_config['training_class']
         )
+
+        print(origin_dataset[0][0])
+        
     else: 
         origin_dataset = dataset_train_class(
         dataset_path,
@@ -306,14 +316,24 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         #we need to load the model specified in model_name, see what is the image size accepted and 
         # then resize the whole new dataset
     
-
     
+
+    print("AFTER RESIZING")
+
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                 batch_size=batch_size,
                                                 num_workers=dataset_config['num_workers'],
                                                 sampler=train_sampler, 
                                                
     )
+
+
+    # for b in range(len(train_loader.dataset)):
+    #     for i in range(len(train_loader.dataset[i])):
+    #         train_loader.dataset[b][i] = F.interpolate(img.T.unsqueeze(0).unsqueeze(0), size=(160, 128, 3))
+
+
+
 
     print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
     if val_indices is not None:
@@ -569,49 +589,49 @@ class FastCIFAR10(CIFAR10):
         std = (0.247, 0.2434, 0.2616)
 
         norm = transforms.Normalize(mean, std)
+        print("TYPE SELF.DATA: ", type(self.data))
+        # self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
-        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        # if self.train:
+        #     if not isinstance(train_class, str):
+        #         index_class = np.isin(self.targets, train_class)
+        #         self.data = self.data[index_class]
+        #         self.targets = np.array(self.targets)[index_class]
+        #         self.len = self.data.shape[0]
 
-        if self.train:
-            if not isinstance(train_class, str):
-                index_class = np.isin(self.targets, train_class)
-                self.data = self.data[index_class]
-                self.targets = np.array(self.targets)[index_class]
-                self.len = self.data.shape[0]
+        # if zca:
+        #     self.data = (self.data - mean) / std
+        #     self.zca = whitening_zca(self.data)
+        #     zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
+        # self.data = torch.tensor(self.data, dtype=torch.float)
 
-        if zca:
-            self.data = (self.data - mean) / std
-            self.zca = whitening_zca(self.data)
-            zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-        self.data = torch.tensor(self.data, dtype=torch.float)
+        # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+        # # self.data = norm(self.data)
+        # if zca:
+        #     self.data = zca_whitening(self.data)
+        #     print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
 
-        self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
-        # self.data = norm(self.data)
-        if zca:
-            self.data = zca_whitening(self.data)
-            print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
+        # # self.data = self.data.to(device)  # Rescale to [0, 1]
 
-        # self.data = self.data.to(device)  # Rescale to [0, 1]
+        # # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+        # #self.data = self.data.cpu().numpy()
+        # self.targets = torch.tensor(self.targets, device=device)
 
-        # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        self.targets = torch.tensor(self.targets, device=device)
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     img = self.data[index]
+    #     target = self.targets[index]
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
-
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        img = self.data[index]
-        target = self.targets[index]
-
-        return img, target
+    #     return img, target
 
 
 class AugFastCIFAR10(FastCIFAR10):
