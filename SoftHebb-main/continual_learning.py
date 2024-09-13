@@ -225,10 +225,11 @@ if __name__ == '__main__':
     dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
 
     resume = params.resume
-
-    params.continual_learning = False
-    params.resume = None
-    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
+    skip = params.skip_1
+    if not skip: 
+        params.continual_learning = False
+        params.resume = None
+        procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
 
     params.continual_learning = True
     params.resume = resume
