@@ -357,7 +357,7 @@ if __name__ == '__main__':
     # for metric in metric_names:
     #     reporter.add_metric_column(metric)
 
-    # algo_search = BasicVariantGenerator()
+    algo_search2 = BasicVariantGenerator()
 
     # scheduler = ASHAScheduler(
     # grace_period=20, reduction_factor=3, max_t=100_000)
@@ -370,7 +370,7 @@ if __name__ == '__main__':
         },
         metric=params.metric,
         mode='min' if params.metric.endswith('loss') else 'max',
-        search_alg=algo_search,
+        search_alg=algo_search2,
         config=config,
         progress_reporter=reporter,
         num_samples=params.num_samples,
