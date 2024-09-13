@@ -27,7 +27,7 @@ class AddGaussianNoise(object):
 
 def imagenet_tf(width, height):
     return transforms.Compose([
-        transforms.RandomSizedCrop((width, height)),
+        transforms.RandomResizedCrop((width, height)),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
