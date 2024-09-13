@@ -353,6 +353,16 @@ if __name__ == '__main__':
         procedure, params, dataset_sup_config_2, dataset_unsup_config_2, False, blocks, results
     )
 
+    config = get_config(params.config)
+    reporter = CLIReporter(max_progress_rows=12)
+    for metric in metric_names:
+        reporter.add_metric_column(metric)
+
+    algo_search = BasicVariantGenerator()
+
+    scheduler = ASHAScheduler(
+    grace_period=20, reduction_factor=3, max_t=100_000)
+
     analysis = tune.run(
         trial_exp_2,
         resources_per_trial={
