@@ -7,6 +7,7 @@ Additionally  it contains the main function which starts the execution.
 
 import argparse
 import copy
+import os
 import pdb
 
 from utils import SEARCH, load_presets, get_device, load_config_dataset, merge_parameter, seed_init_fn, str2bool
@@ -311,7 +312,7 @@ if __name__ == '__main__':
     analysis = tune.run(
         trial_exp,
         resources_per_trial={
-            "cpu": 4,
+            "cpu": os.cpu_count(),
             "gpu": torch.cuda.device_count()
         },
         metric=params.metric,
