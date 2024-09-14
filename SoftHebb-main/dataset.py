@@ -274,7 +274,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     #old_dataset_size = 160
 
     print("BEFORE RESIZING")
-    if dataset_config["cl"] == True:
+    if dataset_config["continual_learning"] == True:
         print("INSIDE CL ###############################")
         old_dataset_size = dataset_config["old_dataset_size"]
         #print( type(old_dataset_size))
@@ -340,7 +340,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                   batch_size=batch_size,
                                                   num_workers=dataset_config['num_workers'],
                                                   sampler=val_sampler)
-    elif dataset_config["cl"] == True:
+    elif dataset_config["continual_learning"] == True:
         test_loader = torch.utils.data.DataLoader(
             dataset_class(
                 dataset_path,
