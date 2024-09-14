@@ -185,10 +185,13 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     print("DATASET UNSUP CONFIG 1: ", dataset_unsup_config)
 
     if "dataset_unsup" in config:
-        dataset_unsup_config = merge_parameter(dataset_unsup_config, config['dataset_unsup'])
+        print("config['dataset_unsup']: ", config['dataset_unsup'])
+        dataset_unsup_config   = merge_parameter(dataset_unsup_config, config['dataset_unsup'])
+    print("DATASET SUP CONFIG 1: ", dataset_sup_config)
 
     if "dataset_sup" in config:
         dataset_sup_config = merge_parameter(dataset_sup_config, config['dataset_sup'])
+        print("DATASET SUP CONFIG 2: ", dataset_sup_config)
 
     if dataset_unsup_config['seed'] is not None:
         print("DATASET UNSUP CONFIG 2: ", dataset_unsup_config)
