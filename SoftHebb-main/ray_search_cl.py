@@ -349,7 +349,7 @@ if __name__ == '__main__':
     params.resume = resume
     #procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, False, results)
     trial_exp_2 = partial(
-        procedure, params, dataset_sup_config_2, dataset_unsup_config_2, False, blocks, results
+        procedure, params, blocks, dataset_sup_config_2, dataset_unsup_config_2, False, results
     )
 
     # config = get_config(params.config)
