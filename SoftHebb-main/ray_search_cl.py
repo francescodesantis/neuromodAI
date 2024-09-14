@@ -365,6 +365,7 @@ if __name__ == '__main__':
 
     algo_search2 = BasicVariantGenerator()
 
+
     scheduler = ASHAScheduler(
     grace_period=20, reduction_factor=3, max_t=100_000)
 
