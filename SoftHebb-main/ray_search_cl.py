@@ -101,6 +101,10 @@ parser.add_argument('--training-blocks', default=None, nargs='+', type=int,
 
 parser.add_argument('--seed', default=None, type=int,
                     help='Selection of the blocks that will be trained')
+
+parser.add_argument('--classes', default=None, type=int,
+                    help='Number of classes belonging to each task.')
+
 parser.add_argument('--num-samples', default=1, type=int,
                     help='number of search into the hparams space')
 
@@ -181,7 +185,8 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
     ##################################################
-    model.reset() ###################### ??? I think it messes with the retrieved saved model
+    if not evaluate and not (dataset_sup_config["continual_learning"] or dataset_unsup_config["continual_learning"]): 
+        model.reset() ###################### ??? I think it messes with the retrieved saved model
     print("DATASET UNSUP CONFIG 1: ", dataset_unsup_config)
 
     if "dataset_unsup" in config:

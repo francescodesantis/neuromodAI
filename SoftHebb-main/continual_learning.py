@@ -208,6 +208,7 @@ def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate
 
 if __name__ == '__main__':
 
+
     params = parser.parse_args()
     name_model = params.preset if params.model_name is None else params.model_name
     blocks = load_presets(params.preset)

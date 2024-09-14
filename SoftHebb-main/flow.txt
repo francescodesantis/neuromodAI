@@ -107,3 +107,8 @@ do an evaluation on the first two. And so on increasing the number of classes pe
 Important: in ray search continual learning and continual learning we use the BLOCKS gatheres from the datasets, maybe you should 
 load the preset for the second dataset... but then watch out for the number of layers and stuff...
 See if you should use the reset parameter or not in the ray search CL on the model... 
+
+To implement the training on two different classes of hte same dataset we need to consider: 
+    - we implemented a method which allows to train on two different datasets. 
+    - we need to implement a method which allows us to train on one dataset and everytime we change the classes. 
+    - 
