@@ -216,15 +216,15 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     #################################################
     model = model.to(device)
     log = Log(train_config)
-    loss = 0
-    accuracy = 0
+    test_loss = 0
+    test_acc = 0
     for id, config in train_config.items():
         if evaluate:
             train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
             criterion = nn.CrossEntropyLoss()
             test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
-            print(f'Accuracy of the network on the 1st dataset: {accuracy:.3f} %')
-            print(f'Test loss on the 1st dataset: {loss:.3f}')
+            print(f'Accuracy of the network on the 1st dataset: {test_acc:.3f} %')
+            print(f'Test loss on the 1st dataset: {test_loss:.3f}')
 
             conv, R1 = model.convergence()
             if type(test_loss) ==  torch.Tensor:
