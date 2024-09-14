@@ -182,6 +182,8 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     model = load_layers(blocks, name_model, resume)
     ##################################################
     model.reset() ###################### ??? I think it messes with the retrieved saved model
+    print("DATASET UNSUP CONFIG 1: ", dataset_unsup_config)
+
     if "dataset_unsup" in config:
         dataset_unsup_config = merge_parameter(dataset_unsup_config, config['dataset_unsup'])
 
@@ -189,7 +191,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
         dataset_sup_config = merge_parameter(dataset_sup_config, config['dataset_sup'])
 
     if dataset_unsup_config['seed'] is not None:
-        print("DATASET UNSUP CONFIG: ", dataset_unsup_config)
+        print("DATASET UNSUP CONFIG 2: ", dataset_unsup_config)
         seed_init_fn(dataset_unsup_config['seed'])
 
     #################################################
@@ -327,20 +329,20 @@ if __name__ == '__main__':
         procedure, params, blocks, dataset_sup_config_1, dataset_unsup_config_1, False, results
     )
 
-    analysis = tune.run(
-        trial_exp_1,
-        resources_per_trial={
-            "cpu": 4,
-            "gpu": torch.cuda.device_count()
-        },
-        metric=params.metric,
-        mode='min' if params.metric.endswith('loss') else 'max',
-        search_alg=algo_search,
-        config=config,
-        progress_reporter=reporter,
-        num_samples=params.num_samples,
-        local_dir=SEARCH,
-        name=params.model_name)
+    # analysis = tune.run(
+    #     trial_exp_1,
+    #     resources_per_trial={
+    #         "cpu": 4,
+    #         "gpu": torch.cuda.device_count()
+    #     },
+    #     metric=params.metric,
+    #     mode='min' if params.metric.endswith('loss') else 'max',
+    #     search_alg=algo_search,
+    #     config=config,
+    #     progress_reporter=reporter,
+    #     num_samples=params.num_samples,
+    #     local_dir=SEARCH,
+    #     name=params.model_name)
     
 
     # DATASET 2
@@ -363,20 +365,20 @@ if __name__ == '__main__':
     # scheduler = ASHAScheduler(
     # grace_period=20, reduction_factor=3, max_t=100_000)
 
-    analysis = tune.run(
-        trial_exp_2,
-        resources_per_trial={
-            "cpu": 4,
-            "gpu": torch.cuda.device_count()
-        },
-        metric=params.metric,
-        mode='min' if params.metric.endswith('loss') else 'max',
-        search_alg=algo_search2,
-        config=config,
-        progress_reporter=reporter,
-        num_samples=params.num_samples,
-        local_dir=SEARCH,
-        name=params.model_name)
+    # analysis = tune.run(
+    #     trial_exp_2,
+    #     resources_per_trial={
+    #         "cpu": 4,
+    #         "gpu": torch.cuda.device_count()
+    #     },
+    #     metric=params.metric,
+    #     mode='min' if params.metric.endswith('loss') else 'max',
+    #     search_alg=algo_search2,
+    #     config=config,
+    #     progress_reporter=reporter,
+    #     num_samples=params.num_samples,
+    #     local_dir=SEARCH,
+    #     name=params.model_name)
 
     # EVALUATION PHASE
     params.continual_learning = False
