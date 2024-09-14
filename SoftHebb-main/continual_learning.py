@@ -144,6 +144,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
+            
         elif config['mode'] == 'supervised':
             result = run_sup(
                 config['nb_epoch'],
