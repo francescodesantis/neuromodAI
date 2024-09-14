@@ -324,29 +324,29 @@ if __name__ == '__main__':
     grace_period=20, reduction_factor=3, max_t=100_000)
 
     # DATASET 1
+    if not params.skip_1:
+        params.continual_learning = False
+        params.resume = None
+        #procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
+        trial_exp_1 = partial(
+            procedure, params, blocks, dataset_sup_config_1, dataset_unsup_config_1, False, results
+        )
 
-    params.continual_learning = False
-    params.resume = None
-    #procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
-    trial_exp_1 = partial(
-        procedure, params, blocks, dataset_sup_config_1, dataset_unsup_config_1, False, results
-    )
-
-    # analysis = tune.run(
-    #     trial_exp_1,
-    #     resources_per_trial={
-    #         "cpu": 4,
-    #         "gpu": torch.cuda.device_count()
-    #     },
-    #     metric=params.metric,
-    #     mode='min' if params.metric.endswith('loss') else 'max',
-    #     search_alg=algo_search,
-    #     config=config,
-    #     progress_reporter=reporter,
-    #     num_samples=params.num_samples,
-    #     local_dir=SEARCH,
-    #     name=params.model_name)
-    
+        analysis = tune.run(
+            trial_exp_1,
+            resources_per_trial={
+                "cpu": 4,
+                "gpu": torch.cuda.device_count()
+            },
+            metric=params.metric,
+            mode='min' if params.metric.endswith('loss') else 'max',
+            search_alg=algo_search,
+            config=config,
+            progress_reporter=reporter,
+            num_samples=params.num_samples,
+            local_dir=SEARCH,
+            name=params.model_name)
+        
 
     # DATASET 2
 
@@ -365,23 +365,23 @@ if __name__ == '__main__':
 
     algo_search2 = BasicVariantGenerator()
 
-    # scheduler = ASHAScheduler(
-    # grace_period=20, reduction_factor=3, max_t=100_000)
+    scheduler = ASHAScheduler(
+    grace_period=20, reduction_factor=3, max_t=100_000)
 
-    # analysis = tune.run(
-    #     trial_exp_2,
-    #     resources_per_trial={
-    #         "cpu": 4,
-    #         "gpu": torch.cuda.device_count()
-    #     },
-    #     metric=params.metric,
-    #     mode='min' if params.metric.endswith('loss') else 'max',
-    #     search_alg=algo_search2,
-    #     config=config,
-    #     progress_reporter=reporter,
-    #     num_samples=params.num_samples,
-    #     local_dir=SEARCH,
-    #     name=params.model_name)
+    analysis = tune.run(
+        trial_exp_2,
+        resources_per_trial={
+            "cpu": 4,
+            "gpu": torch.cuda.device_count()
+        },
+        metric=params.metric,
+        mode='min' if params.metric.endswith('loss') else 'max',
+        search_alg=algo_search2,
+        config=config,
+        progress_reporter=reporter,
+        num_samples=params.num_samples,
+        local_dir=SEARCH,
+        name=params.model_name)
 
     # EVALUATION PHASE
     config['dataset_unsup'] = None
