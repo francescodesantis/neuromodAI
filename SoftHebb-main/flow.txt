@@ -103,3 +103,7 @@ makes sense. So how to do it? We add it to the continual learning? Or better we 
 
 We need to train on less classes now. so we start with 2, and then same dataset but two other classes and then we
 do an evaluation on the first two. And so on increasing the number of classes per task.
+
+Important: in ray search continual learning and continual learning we use the BLOCKS gatheres from the datasets, maybe you should 
+load the preset for the second dataset... but then watch out for the number of layers and stuff...
+See if you should use the reset parameter or not in the ray search CL on the model... 

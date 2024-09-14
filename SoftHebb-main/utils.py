@@ -152,6 +152,7 @@ def seed_init_fn(seed):
     None.
 
     """
+    print("SEED: ", seed)
     seed = seed % 2 ** 32
     np.random.seed(seed)
     random.seed(seed)

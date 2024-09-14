@@ -181,7 +181,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
     ##################################################
-    model.reset()
+    model.reset() ###################### ??? I think it messes with the retrieved saved model
     if "dataset_unsup" in config:
         dataset_unsup_config = merge_parameter(dataset_unsup_config, config['dataset_unsup'])
 
@@ -189,6 +189,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
         dataset_sup_config = merge_parameter(dataset_sup_config, config['dataset_sup'])
 
     if dataset_unsup_config['seed'] is not None:
+        print("DATASET UNSUP CONFIG: ", dataset_unsup_config)
         seed_init_fn(dataset_unsup_config['seed'])
 
     #################################################
@@ -379,7 +380,7 @@ if __name__ == '__main__':
 
     # EVALUATION PHASE
     params.continual_learning = False
-    procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, True, results, config)
+    procedure(params, blocks, dataset_sup_config_1, dataset_unsup_config_1, True, results, config)
     
 
     
