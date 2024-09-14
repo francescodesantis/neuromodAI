@@ -123,12 +123,15 @@ parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
 parser.add_argument('--skip-1', default=False, type=str2bool, metavar='N',
                     help='Set to True if you want to skip the training on the first dataset and directly retrieve a model to train it again on the second dataset (you don \'t have to specify a preset if set True) ')
 
+parser.add_argument('--test', default=False, type=str2bool, metavar='N',
+                    help='Set to True if you want to reduce the number of seed for ray search to just one to speed up training ')
+
 # we need first to pass both the datasets, the evaluation parameter is not needed, or it could be if we decide to validate just one model on one dataset. 
 # after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
 # during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
 
 
-def get_config(config_name):
+def get_config(config_name, params):
     
     if config_name == 'regimes':
         t_invert_search = [1.25 ** (x - 50) for x in range(100)]
@@ -170,12 +173,20 @@ def get_config(config_name):
             }
         }
     else:
-        config = {
-            'dataset_unsup': {
-                'seed': tune.grid_search([0, 1, 2, 3])
-                #'seed': tune.grid_search([0]) ###############################################
+        if params.test: 
+            config = {
+                'dataset_unsup': {
+                    #'seed': tune.grid_search([0, 1, 2, 3])
+                    'seed': tune.grid_search([0]) ###############################################
+                }
             }
-        }
+        else: 
+            config = {
+                'dataset_unsup': {
+                    'seed': tune.grid_search([0, 1, 2, 3])
+                    #'seed': tune.grid_search([0]) ###############################################
+                }
+            }
     print("config_name", config_name)
     print("config", config)
     return config
@@ -318,7 +329,7 @@ if __name__ == '__main__':
 
     resume = params.resume
 
-    config = get_config(params.config)
+    config = get_config(params.config, params)
     reporter = CLIReporter(max_progress_rows=12)
     for metric in metric_names:
         reporter.add_metric_column(metric)
