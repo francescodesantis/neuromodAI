@@ -384,6 +384,7 @@ if __name__ == '__main__':
     #     name=params.model_name)
 
     # EVALUATION PHASE
+    params.seed = None
     params.continual_learning = False
     procedure(params, blocks, dataset_sup_config_1, dataset_unsup_config_1, True, results, config)
     

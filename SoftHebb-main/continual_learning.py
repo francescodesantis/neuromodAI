@@ -85,7 +85,7 @@ parser.add_argument('--training-blocks', default=None, nargs='+', type=int,
                     help='Selection of the blocks that will be trained')
 
 parser.add_argument('--seed', default=None, type=int,
-                    help='Selection of the blocks that will be trained')
+                    help='')
 
 parser.add_argument('--gpu-id', default=0, type=int, metavar='N',
                     help='Id of gpu selected for training (default: 0)')
