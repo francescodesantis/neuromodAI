@@ -138,7 +138,7 @@ def get_config(config_name):
     else:
         config = {
             'dataset_unsup': {
-                'seed': tune.grid_search([0, 1, 2])
+                'seed': tune.grid_search([0, 1, 2, 3])
                 #'seed': tune.grid_search([0 ]) ###############################################
             }
         }
