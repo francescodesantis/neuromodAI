@@ -375,7 +375,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
         )
 
-    if classes != None:
+    if dataset_config["n_classes"]  != None:
         selected_classes = dataset_config["selected_classes"]
         test_loader = classes_subset(test_loader, selected_classes) 
         train_loader = classes_subset(train_loader, selected_classes)
