@@ -277,7 +277,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     if dataset_config["continual_learning"] == True:
         print("INSIDE CL ###############################")
         old_dataset_size = dataset_config["old_dataset_size"]
-        #print( type(old_dataset_size))
         origin_dataset = dataset_train_class(
         dataset_path,
         split=split,
@@ -318,24 +317,17 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     print("AFTER RESIZING")
 
-    train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
-                                                batch_size=batch_size,
-                                                num_workers=dataset_config['num_workers'],
-                                                sampler=train_sampler, 
-                                               
-    )
-
 
     print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
-    if val_indices is not None:
+    if val_indices is not None and dataset_config["continual_learning"] == False:
         val_sampler = SubsetRandomSampler(val_indices)
         test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                   batch_size=batch_size,
                                                   num_workers=dataset_config['num_workers'],
                                                   sampler=val_sampler)
     elif dataset_config["continual_learning"] == True:
-        test_loader = torch.utils.data.DataLoader(
-            dataset_class(
+
+        test_dataset = dataset_class(
                 dataset_path,
                 split="val" if dataset_config['name'] in ['ImageNet', 'ImageNette',
                                                           'ImageNetV2MatchedFrequency'] else "test",
@@ -348,16 +340,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     ]),
                 device=device
 
-            ),
-            batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
-                                                                'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
-                                                                'ImageNetV2Threshold07'] else 1000,
-            num_workers=dataset_config['num_workers'],
-            shuffle=dataset_config['shuffle'],
-        )
+            )
     else:
-        test_loader = torch.utils.data.DataLoader(
-            dataset_class(
+        test_dataset = dataset_class(
                 dataset_path,
                 split="val" if dataset_config['name'] in ['ImageNet', 'ImageNette',
                                                           'ImageNetV2MatchedFrequency'] else "test",
@@ -366,7 +351,24 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 transform=test_transform,
                 device=device
 
-            ),
+            )
+
+    if dataset_config["n_classes"]  != None:
+        selected_classes = dataset_config["selected_classes"]
+        test_dataset = classes_subset(test_dataset, selected_classes) 
+        origin_dataset = classes_subset(origin_dataset, selected_classes)
+        
+
+
+    train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
+                                                batch_size=batch_size,
+                                                num_workers=dataset_config['num_workers'],
+                                                sampler=train_sampler, 
+                                               
+    )
+
+    test_loader = torch.utils.data.DataLoader(
+            dataset=test_dataset,
             batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
                                                                 'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
                                                                 'ImageNetV2Threshold07'] else 1000,
@@ -374,12 +376,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
             shuffle=dataset_config['shuffle'],
 
         )
-
-    if dataset_config["n_classes"]  != None:
-        selected_classes = dataset_config["selected_classes"]
-        test_loader = classes_subset(test_loader, selected_classes) 
-        train_loader = classes_subset(train_loader, selected_classes)
-        
+   
 
     return train_loader, test_loader
 
