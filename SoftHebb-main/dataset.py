@@ -80,7 +80,7 @@ def select_dataset(dataset_config, device, dataset_path):
     split = dataset_config["split"] if "split" in dataset_config else "train"
     if dataset_config['name'] == 'CIFAR10':
         dataset_class = FastCIFAR10
-        indices = list(range(50000))
+        indices = list(range(500))
 
         if dataset_config['augmentation']:
             dataset_train_class = AugFastCIFAR10
@@ -267,11 +267,10 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     dataset_train_class, dataset_class, test_transform, transform, device, train_indices, val_indices, split, dataset_path = select_dataset(
         dataset_config, device, dataset_path)
 
-    train_sampler = SubsetRandomSampler(train_indices, generator=g)
+   
     
     
 
-    #old_dataset_size = 160
 
     print("BEFORE RESIZING")
     if dataset_config["continual_learning"] == True:
@@ -319,6 +318,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
 
     if val_indices is not None and dataset_config["continual_learning"] == False:
+        
         val_sampler = SubsetRandomSampler(val_indices)
         test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                   batch_size=batch_size,
@@ -356,14 +356,13 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         selected_classes = dataset_config["selected_classes"]
         test_dataset = classes_subset(test_dataset, selected_classes) 
         origin_dataset = classes_subset(origin_dataset, selected_classes)
-        print(origin_dataset.l)
 
+    train_sampler = SubsetRandomSampler(train_indices, generator=g)
 
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
                                                 batch_size=batch_size,
                                                 num_workers=dataset_config['num_workers'],
                                                 sampler=train_sampler, 
-                                               
     )
 
     test_loader = torch.utils.data.DataLoader(
@@ -381,17 +380,17 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     return train_loader, test_loader
 
 def classes_subset(dataset,selected_classes):
-    # T = np.array(dataset.targets)
+    T = np.array(dataset.targets)
     classes = torch.tensor(selected_classes)
     indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
     indices = indices.tolist()
-    # T = list(T[indices])
-    # dataset.targets = T
-    # D = np.array(dataset.data)
-    # D = list(D[indices])
-    # dataset.data = D
+    T = list(T[indices])
+    dataset.targets = T
+    D = np.array(dataset.data)
+    D = list(D[indices])
+    dataset.data = D
 
-    dataset = Subset(indices, dataset)
+    #dataset = Subset(indices, dataset)
 
 
     return dataset
