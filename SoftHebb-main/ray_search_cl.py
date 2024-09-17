@@ -422,7 +422,7 @@ if __name__ == '__main__':
             params.continual_learning = False
             params.resume = None
             evaluate = False
-            ray_search(params, dataset_sup_config, dataset_uout_channelsnsup_config, evaluate, results)
+            ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
             selected_classes = random_n_classes(all_classes, n_classes)
