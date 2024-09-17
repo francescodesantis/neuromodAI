@@ -356,7 +356,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         selected_classes = dataset_config["selected_classes"]
         test_dataset = classes_subset(test_dataset, selected_classes) 
         origin_dataset = classes_subset(origin_dataset, selected_classes)
-        
+        print(origin_dataset.l)
 
 
     train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
@@ -381,15 +381,18 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     return train_loader, test_loader
 
 def classes_subset(dataset,selected_classes):
-    T = np.array(dataset.targets)
+    # T = np.array(dataset.targets)
     classes = torch.tensor(selected_classes)
     indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
     indices = indices.tolist()
-    T = list(T[indices])
-    dataset.targets = T
-    D = np.array(dataset.data)
-    D = list(D[indices])
-    dataset.data = D
+    # T = list(T[indices])
+    # dataset.targets = T
+    # D = np.array(dataset.data)
+    # D = list(D[indices])
+    # dataset.data = D
+
+    dataset = Subset(indices, dataset)
+
 
     return dataset
 
