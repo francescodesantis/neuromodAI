@@ -326,13 +326,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     )
 
 
-    # for b in range(len(train_loader.dataset)):
-    #     for i in range(len(train_loader.dataset[i])):
-    #         train_loader.dataset[b][i] = F.interpolate(img.T.unsqueeze(0).unsqueeze(0), size=(160, 128, 3))
-
-
-
-
     print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
     if val_indices is not None:
         val_sampler = SubsetRandomSampler(val_indices)
@@ -381,8 +374,27 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
             shuffle=dataset_config['shuffle'],
 
         )
+
+    if classes != None:
+        selected_classes = dataset_config["selected_classes"]
+        test_loader = classes_subset(test_loader, selected_classes) 
+        train_loader = classes_subset(train_loader, selected_classes)
+        
+
     return train_loader, test_loader
 
+def classes_subset(dataset,selected_classes):
+    T = np.array(dataset.targets)
+    classes = torch.tensor(selected_classes)
+    indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
+    indices = indices.tolist()
+    T = list(T[indices])
+    dataset.targets = T
+    D = np.array(dataset.data)
+    D = list(D[indices])
+    dataset.data = D
+
+    return dataset
 
 def whitening_zca(x: torch.Tensor, transpose=True, dataset: str = "CIFAR10"):
     path = op.join(DATASET, dataset + "_zca.pt")
