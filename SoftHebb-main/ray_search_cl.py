@@ -319,7 +319,7 @@ def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
          params.gpu_id, evaluate, results, config)
 
-def ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate):
+def ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results):
     config = get_config(params.config, params)
     reporter = CLIReporter(max_progress_rows=12)
     for metric in metric_names:
@@ -422,7 +422,7 @@ if __name__ == '__main__':
             params.continual_learning = False
             params.resume = None
             evaluate = False
-            ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            ray_search(params, dataset_sup_config, dataset_uout_channelsnsup_config, evaluate, results)
 
             # TASK 2
             selected_classes = random_n_classes(all_classes, n_classes)
