@@ -403,9 +403,11 @@ if __name__ == '__main__':
 
 
     if n_classes != None: 
+        
         dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
         dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
         out_channels = dataset_sup_config["out_channels"]
+        dataset_sup_config["old_dataset_size"] = dataset_sup_config["width"]
 
         dataset_sup_config["out_channels"] = n_classes
         dataset_unsup_config["out_channels"] = n_classes
