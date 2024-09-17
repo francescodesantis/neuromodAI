@@ -124,3 +124,6 @@ implement a task are:
     at 0, so we could have classes like [1, 2], problem is torch wants the indexes of the classes to start from 0. So a solution 
     would be to decrease all the indexes of all the classes in the dataset. This has to be done after the dataset has been resized and modified.
     Important is also to extract the labels ( in readable language that is ) associated to the selected classes.
+
+
+!!!!!!! Problem detected: the ray search CL done per tasks seems only to save the eval run and not also R1 and R2.

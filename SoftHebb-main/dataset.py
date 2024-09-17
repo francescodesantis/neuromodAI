@@ -379,7 +379,16 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     return train_loader, test_loader
 
+def class_cleaner(dataset):
+# Cleans the classes so that it guarantees that there is first class with index 0 in the dataset, 
+# since it is required by torch. 
+    if 0 not in dataset.targets: 
+        min_value = min(dataset.targets)
+        dataset.targets = list(filter(lambda x: x-min_value, dataset.targets)) # filter doesn't work in this case
+    return dataset
+
 def classes_subset(dataset,selected_classes):
+# Creates a dataset made up of a subsets of classes indicated in the selected classes variable.
     T = np.array(dataset.targets)
     classes = torch.tensor(selected_classes)
     indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
@@ -389,7 +398,7 @@ def classes_subset(dataset,selected_classes):
     D = np.array(dataset.data)
     D = list(D[indices])
     dataset.data = D
-
+    dataset = class_cleaner(dataset)
     #dataset = Subset(indices, dataset)
 
 
