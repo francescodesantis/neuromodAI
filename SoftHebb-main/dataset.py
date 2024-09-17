@@ -318,7 +318,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     print("AFTER RESIZING")
 
 
-    print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
     if val_indices is not None and dataset_config["continual_learning"] == False:
         val_sampler = SubsetRandomSampler(val_indices)
         test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
@@ -377,6 +376,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
         )
    
+    print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
 
     return train_loader, test_loader
 
