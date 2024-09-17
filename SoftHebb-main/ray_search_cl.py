@@ -64,32 +64,32 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
                                    ' | '.join(load_presets()) +
                                    ' (default: None)')
 
-parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
 
-parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
 
-parser.add_argument('--dataset-unsup', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
 
-parser.add_argument('--dataset-sup', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
 
-parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
 
-parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup-2', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: MNIST)')
@@ -405,17 +405,17 @@ if __name__ == '__main__':
     if n_classes != None: 
         dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
         dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
+        out_channels = dataset_sup_config["out_channels"]
 
         dataset_sup_config["out_channels"] = n_classes
         dataset_unsup_config["out_channels"] = n_classes
 
-        out_channels = dataset_sup_config["out_channels"]
         all_classes = np.arange(0, out_channels)
 
         if out_channels >=  2*n_classes:
 
             # TASK 1
-            selected_classes = random_n_classes(all_classes, out_channels, n_classes)
+            selected_classes = random_n_classes(all_classes, n_classes)
             dataset_sup_config["selected_classes"] = selected_classes
             dataset_unsup_config["selected_classes"] = selected_classes
 
@@ -425,7 +425,7 @@ if __name__ == '__main__':
             ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
-            selected_classes = random_n_classes(all_classes, out_channels, n_classes)
+            selected_classes = random_n_classes(all_classes, n_classes)
             dataset_sup_config["selected_classes"] = selected_classes
             dataset_unsup_config["selected_classes"] = selected_classes
 
