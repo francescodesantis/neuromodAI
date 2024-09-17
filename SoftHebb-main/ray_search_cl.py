@@ -410,6 +410,9 @@ if __name__ == '__main__':
         dataset_sup_config["old_dataset_size"] = dataset_sup_config["width"]
         dataset_unsup_config["old_dataset_size"] = dataset_unsup_config["width"]
 
+        dataset_sup_config["n_classes"] = n_classes
+        dataset_unsup_config["n_classes"] = n_classes
+
         dataset_sup_config["out_channels"] = n_classes
         dataset_unsup_config["out_channels"] = n_classes
 
