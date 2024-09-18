@@ -121,6 +121,7 @@ parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=Non
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
     device = get_device(gpu_id)
     model_og = load_layers(blocks, name_model, resume)
+        
     model = copy.deepcopy(model_og)
     
     model = model.to(device)
@@ -200,7 +201,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
         print("Datas: ", d)
 
-def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
+def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, new_model):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -259,7 +260,7 @@ if __name__ == '__main__':
     blocks = load_presets(params.preset)
     n_classes = params.classes
     resume = params.resume
-
+    new_model = False
     results = {}
 
 
@@ -299,7 +300,7 @@ if __name__ == '__main__':
                 params.continual_learning = False
                 params.resume = None
                 evaluate = False
-                procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
             selected_classes = random_n_classes(all_classes, n_classes)
@@ -311,12 +312,15 @@ if __name__ == '__main__':
             params.continual_learning = True
             params.resume = resume
             evaluate = False
-            procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            new_model = True
+            name_model = name_model + "_CLM"
+            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # EVALUATION PHASE
             params.continual_learning = False
             evaluate = True
-            procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            new_model = True
+            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             file = "TASKS_CL.json"
             save_results(results, file)
@@ -336,7 +340,7 @@ if __name__ == '__main__':
         if not skip: 
             params.continual_learning = False
             params.resume = None
-            procedure(params, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
+            procedure(params, name_model, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
 
         # DATASET 2
 
@@ -348,13 +352,14 @@ if __name__ == '__main__':
         params.continual_learning = True
         params.resume = resume
         evaluate = False
-        procedure(params, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
+        name_model = name_model + "_CLM"
+        procedure(params, name_model, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
 
         # EVALUATION PHASE
        
         params.continual_learning = False
         evaluate = True
-        procedure(params, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
+        procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
         
         file = "MULTD_CL.json"
         save_results(results, file)

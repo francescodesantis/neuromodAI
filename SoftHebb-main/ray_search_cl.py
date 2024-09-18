@@ -318,7 +318,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     #print("RESULTS: ", results)
 
 
-def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config):
+def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -337,7 +337,7 @@ def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
          params.gpu_id, evaluate, results, config)
 
-def ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results):
+def ray_search(params, name_model, dataset_sup_config, dataset_unsup_config, evaluate, results):
     config = get_config(params.config, params)
     reporter = CLIReporter(max_progress_rows=12)
     for metric in metric_names:
@@ -352,7 +352,7 @@ def ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, resul
 
     
     trial_exp = partial(
-            procedure, params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results
+            procedure, params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results
     )
 
     analysis = tune.run(
@@ -447,7 +447,7 @@ if __name__ == '__main__':
             params.continual_learning = False
             params.resume = None
             evaluate = False
-            ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            ray_search(params, name_model, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
             #selected_classes = random_n_classes(all_classes, n_classes)
@@ -459,13 +459,15 @@ if __name__ == '__main__':
             # params.continual_learning = True
             # params.resume = resume
             # evaluate = False
-            # ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            # name_model = name_model + "_CLM"
+
+            # ray_search(params, name_model, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # # EVALUATION PHASE
             # config['dataset_unsup'] = None
             # params.continual_learning = False
             # evaluate = True
-            # procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config)
+            # procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config)
 
             # file = "RAY_TASKS_CL.json"
             # save_results(results, file)
@@ -485,7 +487,7 @@ if __name__ == '__main__':
             params.resume = None
             
             evaluate = False
-            ray_search(params, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
+            ray_search(params, name_model, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
             
         # DATASET 2
 
@@ -497,13 +499,15 @@ if __name__ == '__main__':
         # params.continual_learning = True
         # params.resume = resume
         # evaluate = False
-        # ray_search(params, dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
+        # name_model = name_model + "_CLM"
+
+        # ray_search(params, name_model, dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
 
         # # EVALUATION PHASE
         # config['dataset_unsup'] = None
         # params.continual_learning = False
         # evaluate = True
-        # procedure(params, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results, config)
+        # procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results, config)
         
         # file = "RAY_MULTD_CL.json"
         # save_results(results, file)
