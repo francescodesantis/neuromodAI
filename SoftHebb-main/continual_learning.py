@@ -18,6 +18,7 @@ from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
 from log import Log, save_logs
 import warnings
+import copy
 
 from utils import CustomStepLR, double_factorial
 from model import save_layers, HebbianOptimizer, AggregateOptim
@@ -102,7 +103,8 @@ parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
 
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
     device = get_device(gpu_id)
-    model = load_layers(blocks, name_model, resume)
+    model_og = load_layers(blocks, name_model, resume)
+    model = copy.deepcopy(model_og)
     
     model = model.to(device)
     log = Log(train_config)
