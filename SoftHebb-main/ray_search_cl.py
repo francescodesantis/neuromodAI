@@ -301,7 +301,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 save=save
             )
 
-    save_logs(log, name_model)
+    #save_logs(log, name_model)
     print("Name Model: ", name_model)
     
     datas = load_data(name_model, train_config)
@@ -330,9 +330,9 @@ def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
          params.gpu_id, evaluate, results, config)
 
-def ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results, reporter):
+def ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results):
     config = get_config(params.config, params)
-    #reporter = CLIReporter(max_progress_rows=12)
+    reporter = CLIReporter(max_progress_rows=12)
     for metric in metric_names:
         reporter.add_metric_column(metric)
 
@@ -404,7 +404,6 @@ if __name__ == '__main__':
     n_classes = params.classes
     resume = params.resume
     config = get_config(params.config, params)
-    reporter = CLIReporter(max_progress_rows=12)
 
     results = {}
 
@@ -441,7 +440,7 @@ if __name__ == '__main__':
             params.continual_learning = False
             params.resume = None
             evaluate = False
-            ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results, reporter)
+            ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
             #selected_classes = random_n_classes(all_classes, n_classes)
@@ -479,7 +478,7 @@ if __name__ == '__main__':
             params.resume = None
             
             evaluate = False
-            ray_search(params, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results, reporter)
+            ray_search(params, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
             
         # DATASET 2
 
