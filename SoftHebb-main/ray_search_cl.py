@@ -16,6 +16,14 @@
 # Ok so when doing continual learning with the best models we need to set the skip-1 flag to true. 
 # 
 
+############################################################
+
+"""
+RAY_SEARCH_CL.py can be used only to train a model either on all the classes of a dataset or on a subset of classes of the dataset.
+The reason being no results can be gathered of the best model if continual learning is implemented and it is easier to do it separately.
+So first you find the best model with ray search and then load it with continual_learning.py
+"""
+
 import argparse
 import os.path as op
 import json
