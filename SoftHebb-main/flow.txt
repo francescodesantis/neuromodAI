@@ -114,16 +114,18 @@ To implement the training on two different classes of hte same dataset we need t
 
 The problems which I have found during the development of the continual learning approach which uses only subclasses to 
 implement a task are: 
-    - the number of samples specified in the preset corresponds to the total set of samples and not to 
-    the dataset which has been deprived of some classes. A possible solution to this is that when we load the preset we count the number 
-    of samples present... this solution unfortunately is very hard to implement because of the way the code flow is organized. Unfortunaly the preset is loaded 
-    way earlier than the actual dataset, so modifying this information can be only done after the dataset is loaded and eventually modified so that we know the amount of samples present. 
-    - the same assumption is done in the select_dataset() function where the indices variable is intialized by manually inserting 
-    the number of indices to create in the list, and not by actually counting the number of samples present.
-    - finally the other problem is caused by the fact that when we select the classes to include in the task they might not start 
-    at 0, so we could have classes like [1, 2], problem is torch wants the indexes of the classes to start from 0. So a solution 
-    would be to decrease all the indexes of all the classes in the dataset. This has to be done after the dataset has been resized and modified.
-    Important is also to extract the labels ( in readable language that is ) associated to the selected classes.
+        - the number of samples specified in the preset corresponds to the total set of samples and not to 
+        the dataset which has been deprived of some classes. A possible solution to this is that when we load the preset we count the number 
+        of samples present... this solution unfortunately is very hard to implement because of the way the code flow is organized. Unfortunaly the preset is loaded 
+        way earlier than the actual dataset, so modifying this information can be only done after the dataset is loaded and eventually modified so that we know the amount of samples present. 
+        - the same assumption is done in the select_dataset() function where the indices variable is intialized by manually inserting 
+        the number of indices to create in the list, and not by actually counting the number of samples present.
+[fixed] - finally the other problem is caused by the fact that when we select the classes to include in the task they might not start 
+        at 0, so we could have classes like [1, 2], problem is torch wants the indexes of the classes to start from 0. So a solution 
+        would be to decrease all the indexes of all the classes in the dataset. This has to be done after the dataset has been resized and modified.
+        Important is also to extract the labels ( in readable language that is ) associated to the selected classes.
 
 
 !!!!!!! Problem detected: the ray search CL done per tasks seems only to save the eval run and not also R1 and R2.
+!!!!!!! Problem detected: continual_learning loads the best model (trained with ray search) but overwrites it, instead we should use
+                        a copy so to keep the best model untouched. So we need to figure out. 
