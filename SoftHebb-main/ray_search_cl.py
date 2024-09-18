@@ -257,6 +257,8 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
+            print("RESULTS IN UNSUP: ", results)
+
         elif config['mode'] == 'supervised':
             result = run_sup(
                 config['nb_epoch'],
@@ -277,6 +279,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 results["R1"] = result
             else: 
                 results["R2"] = result
+            print("RESULTS: ", results)
         else:
             run_hybrid(
                 config['nb_epoch'],
