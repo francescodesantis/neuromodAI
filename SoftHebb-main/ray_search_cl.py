@@ -51,7 +51,7 @@ from ray.tune.schedulers import ASHAScheduler
 from functools import partial
 
 metric_names = ['train_loss', 'train_acc', 'test_loss', 'test_acc', 'convergence', 'R1']
-res = {}
+
 
 warnings.filterwarnings("ignore")
 
@@ -287,10 +287,10 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
             )
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
-            if res.get("R1") == None: 
-                res["R1"] = result
+            if results.get("R1") == None: 
+                results["R1"] = result
             else: 
-                res["R2"] = result
+                results["R2"] = result
         else:
             run_hybrid(
                 config['nb_epoch'],
@@ -508,7 +508,7 @@ if __name__ == '__main__':
         # file = "RAY_MULTD_CL.json"
         # save_results(results, file)
 
-    print("RESULTS: ", res)
+    print("RESULTS: ", results)
     data_candidate = "Continual_learning"
     DATA = op.realpath(op.expanduser(data_candidate))
 
