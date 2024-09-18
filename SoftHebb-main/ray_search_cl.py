@@ -439,38 +439,8 @@ if __name__ == '__main__':
             params.continual_learning = False
             params.resume = None
             evaluate = False
-            #ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
-            config = get_config(params.config, params)
-            reporter = CLIReporter(max_progress_rows=12)
-            for metric in metric_names:
-                reporter.add_metric_column(metric)
+            ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
-            algo_search = BasicVariantGenerator()
-
-            scheduler = ASHAScheduler(
-            grace_period=20, reduction_factor=3, max_t=100_000)
-            params.continual_learning = False
-            blocks = load_presets(params.preset)
-
-            
-            trial_exp = partial(
-                    procedure, params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results
-            )
-
-            analysis = tune.run(
-                trial_exp,
-                resources_per_trial={
-                        "cpu": 4,
-                        "gpu": torch.cuda.device_count()
-                    },
-                metric=params.metric,
-                mode='min' if params.metric.endswith('loss') else 'max',
-                search_alg=algo_search,
-                config=config,
-                progress_reporter=reporter,
-                num_samples=params.num_samples,
-                local_dir=SEARCH,
-                name=params.model_name)
             # TASK 2
             #selected_classes = random_n_classes(all_classes, n_classes)
             # selected_classes = [2, 1]
