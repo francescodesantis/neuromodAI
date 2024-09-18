@@ -384,7 +384,7 @@ def class_cleaner(dataset):
 # since it is required by torch. 
     if 0 not in dataset.targets: 
         min_value = min(dataset.targets)
-        dataset.targets = list(filter(lambda x: x-min_value, dataset.targets)) # filter doesn't work in this case
+        dataset.targets = dataset.targets - min_value # filter doesn't work in this case
     return dataset
 
 def classes_subset(dataset,selected_classes):
