@@ -257,7 +257,6 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
-            print("RESULTS IN UNSUP: ", results)
 
         elif config['mode'] == 'supervised':
             result = run_sup(
@@ -279,7 +278,6 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 results["R1"] = result
             else: 
                 results["R2"] = result
-            print("RESULTS: ", results)
         else:
             run_hybrid(
                 config['nb_epoch'],
@@ -433,6 +431,7 @@ if __name__ == '__main__':
             params.resume = None
             evaluate = False
             ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            print("RESULTS R1: ", results)
 
             # TASK 2
             #selected_classes = random_n_classes(all_classes, n_classes)
@@ -445,6 +444,7 @@ if __name__ == '__main__':
             params.resume = resume
             evaluate = False
             ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            print("RESULTS R2: ", results)
 
             # EVALUATION PHASE
             config['dataset_unsup'] = None
