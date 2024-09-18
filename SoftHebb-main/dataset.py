@@ -491,50 +491,50 @@ class FastSTL10(STL10):
 
         # norm = transforms.Normalize(mean,  std)
 
-        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
-        if train:
-            if not isinstance(train_class, str):
-                index_class = np.isin(self.labels, train_class)
-                self.data = self.data[index_class]
-                self.labels = np.array(self.labels)[index_class]
-                self.len = self.data.shape[0]
+    #     if train:
+    #         if not isinstance(train_class, str):
+    #             index_class = np.isin(self.labels, train_class)
+    #             self.data = self.data[index_class]
+    #             self.labels = np.array(self.labels)[index_class]
+    #             self.len = self.data.shape[0]
 
-        if zca:
-            self.data = (self.data - mean) / std
-            self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
-            zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-        self.data = torch.tensor(self.data, dtype=torch.float)
+    #     if zca:
+    #         self.data = (self.data - mean) / std
+    #         self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
+    #         zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
+    #     self.data = torch.tensor(self.data, dtype=torch.float)
 
-        # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
-        # self.data = norm(self.data)
-        if zca:
-            self.data = zca_whitening(self.data)
-            print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
+    #     # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+    #     # self.data = norm(self.data)
+    #     if zca:
+    #         self.data = zca_whitening(self.data)
+    #         print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
 
-        # self.data = self.data.to(device)  # Rescale to [0, 1]
+    #     # self.data = self.data.to(device)  # Rescale to [0, 1]
 
-        # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+    #     # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
 
-        self.labels = torch.tensor(self.labels, device=device)
+    #     self.labels = torch.tensor(self.labels, device=device)
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        if self.labels is not None:
-            img, target = self.data[index], int(self.labels[index])
-        else:
-            img, target = self.data[index], None
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     if self.labels is not None:
+    #         img, target = self.data[index], int(self.labels[index])
+    #     else:
+    #         img, target = self.data[index], None
 
-        return img, target
+    #     return img, target
 
 
 class AugFastSTL10(FastSTL10):
@@ -544,27 +544,27 @@ class AugFastSTL10(FastSTL10):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
 
-        if self.labels is not None:
-            img, target = self.data[index], int(self.labels[index])
-        else:
-            img, target = self.data[index], None
+    #     if self.labels is not None:
+    #         img, target = self.data[index], int(self.labels[index])
+    #     else:
+    #         img, target = self.data[index], None
 
-        if self.transform is not None:
-            img = self.transform(img)
+    #     if self.transform is not None:
+    #         img = self.transform(img)
 
-        return img, target
+    #     return img, target
 
 
 # *************************************************** CIFAR-10 ***************************************************
@@ -641,21 +641,21 @@ class AugFastCIFAR10(FastCIFAR10):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        img = self.transform(self.data[index])
-        target = self.targets[index]
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     img = self.transform(self.data[index])
+    #     target = self.targets[index]
 
-        return img, target
+    #     return img, target
 
 
 class FastCIFAR100(CIFAR100):
@@ -677,51 +677,51 @@ class FastCIFAR100(CIFAR100):
         mean = (0.4914, 0.48216, 0.44653)
         std = (0.247, 0.2434, 0.2616)
 
-        norm = transforms.Normalize(mean, std)
+    #     norm = transforms.Normalize(mean, std)
 
-        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
-        if self.train:
-            if not isinstance(train_class, str):
-                index_class = np.isin(self.targets, train_class)
-                self.data = self.data[index_class]
-                self.targets = np.array(self.targets)[index_class]
-                self.len = self.data.shape[0]
-                print(self.len)
+    #     if self.train:
+    #         if not isinstance(train_class, str):
+    #             index_class = np.isin(self.targets, train_class)
+    #             self.data = self.data[index_class]
+    #             self.targets = np.array(self.targets)[index_class]
+    #             self.len = self.data.shape[0]
+    #             print(self.len)
 
-        if zca:
-            self.data = (self.data - mean) / std
-            self.zca = whitening_zca(self.data)
-            zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-        self.data = torch.tensor(self.data, dtype=torch.float)
+    #     if zca:
+    #         self.data = (self.data - mean) / std
+    #         self.zca = whitening_zca(self.data)
+    #         zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
+    #     self.data = torch.tensor(self.data, dtype=torch.float)
 
-        self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
-        # self.data = norm(self.data)
-        if zca:
-            self.data = zca_whitening(self.data)
-            print(self.data.mean(), self.data.std())
+    #     self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+    #     # self.data = norm(self.data)
+    #     if zca:
+    #         self.data = zca_whitening(self.data)
+    #         print(self.data.mean(), self.data.std())
 
-        # self.data = self.data.to(device)  # Rescale to [0, 1]
+    #     # self.data = self.data.to(device)  # Rescale to [0, 1]
 
-        # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+    #     # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
 
-        self.targets = torch.tensor(self.targets, device=device)
+    #     self.targets = torch.tensor(self.targets, device=device)
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        img = self.data[index]
-        target = self.targets[index]
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     img = self.data[index]
+    #     target = self.targets[index]
 
-        return img, target
+    #     return img, target
 
 
 class AugFastCIFAR100(FastCIFAR100):
@@ -731,21 +731,21 @@ class AugFastCIFAR100(FastCIFAR100):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        img = self.transform(self.data[index])
-        target = self.targets[index]
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     img = self.transform(self.data[index])
+    #     target = self.targets[index]
 
-        return img, target
+    #     return img, target
 
 
 # ***************************************************  MNIST ***************************************************
@@ -770,26 +770,26 @@ class FastMNIST(MNIST):
                 self.len = self.data.shape[0]
 
         # Scale data to [0,1]
-        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255).unsqueeze(1)
+    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255).unsqueeze(1)
 
-        self.targets = torch.tensor(self.targets, device=device)
+    #     self.targets = torch.tensor(self.targets, device=device)
 
-        # Normalize it with the usual MNIST mean and std
-        # self.data = self.data.sub_(0.1307).div_(0.3081)
+    #     # Normalize it with the usual MNIST mean and std
+    #     # self.data = self.data.sub_(0.1307).div_(0.3081)
 
-        # Put both data and targets on GPU in advance
+    #     # Put both data and targets on GPU in advance
 
-    def __getitem__(self, index):
-        """
-        Args:
-            index (int): Index
+    # def __getitem__(self, index):
+    #     """
+    #     Args:
+    #         index (int): Index
 
-        Returns:
-            tuple: (image, target) where target is index of the target class.
-        """
-        img, target = self.data[index], self.targets[index]
+    #     Returns:
+    #         tuple: (image, target) where target is index of the target class.
+    #     """
+    #     img, target = self.data[index], self.targets[index]
 
-        return img, target
+    #     return img, target
 
 
 class AugFastMNIST(FastMNIST):
@@ -799,21 +799,21 @@ class AugFastMNIST(FastMNIST):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        img = self.transform(self.data[index])
-        target = self.targets[index]
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     img = self.transform(self.data[index])
+    #     target = self.targets[index]
 
-        return img, target
+    #     return img, target
 
 
 # ***************************************************  FashionMNIST ***************************************************
@@ -836,26 +836,26 @@ class FastFashionMNIST(FashionMNIST):
                 self.len = self.data.shape[0]
 
         # Scale data to [0,1]
-        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255).unsqueeze(1)
+    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255).unsqueeze(1)
 
-        self.targets = self.targets.to(device)
+    #     self.targets = self.targets.to(device)
 
-        # Normalize it with the usual MNIST mean and std
-        # self.data = self.data.sub_(0.1307).div_(0.3081)
+    #     # Normalize it with the usual MNIST mean and std
+    #     # self.data = self.data.sub_(0.1307).div_(0.3081)
 
-        # Put both data and targets on GPU in advance
+    #     # Put both data and targets on GPU in advance
 
-    def __getitem__(self, index):
-        """
-        Args:
-            index (int): Index
+    # def __getitem__(self, index):
+    #     """
+    #     Args:
+    #         index (int): Index
 
-        Returns:
-            tuple: (image, target) where target is index of the target class.
-        """
-        img, target = self.data[index], self.targets[index]
+    #     Returns:
+    #         tuple: (image, target) where target is index of the target class.
+    #     """
+    #     img, target = self.data[index], self.targets[index]
 
-        return img, target
+    #     return img, target
 
 
 class AugFastFashionMNIST(FastFashionMNIST):
@@ -865,18 +865,18 @@ class AugFastFashionMNIST(FastFashionMNIST):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    def __getitem__(self, index: int):
-        """
-        Parameters
-        ----------
-        index : int
-            Index of the element to be returned
+    # def __getitem__(self, index: int):
+    #     """
+    #     Parameters
+    #     ----------
+    #     index : int
+    #         Index of the element to be returned
 
-        Returns
-        -------
-            tuple: (image, target) where target is the index of the target class
-        """
-        img = self.transform(self.data[index])
-        target = self.targets[index]
+    #     Returns
+    #     -------
+    #         tuple: (image, target) where target is the index of the target class
+    #     """
+    #     img = self.transform(self.data[index])
+    #     target = self.targets[index]
 
-        return img, target
+    #     return img, target
