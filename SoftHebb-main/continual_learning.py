@@ -201,7 +201,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
         print("Datas: ", d)
 
-def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, new_model):
+def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
