@@ -300,6 +300,8 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     for d in datas: 
 
         print("Datas: ", d)
+    print("RESULTS: ", results)
+
 
 def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config):
 
@@ -431,7 +433,6 @@ if __name__ == '__main__':
             params.resume = None
             evaluate = False
             ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
-            print("RESULTS R1: ", results)
 
             # TASK 2
             #selected_classes = random_n_classes(all_classes, n_classes)
@@ -444,7 +445,6 @@ if __name__ == '__main__':
             params.resume = resume
             evaluate = False
             ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
-            print("RESULTS R2: ", results)
 
             # EVALUATION PHASE
             config['dataset_unsup'] = None
