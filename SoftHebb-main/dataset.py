@@ -352,7 +352,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
             )
 
-    if dataset_config["n_classes"]  != None:
+    if "n_classes" in dataset_config:
         selected_classes = dataset_config["selected_classes"]
         test_dataset = classes_subset(test_dataset, selected_classes) 
         origin_dataset = classes_subset(origin_dataset, selected_classes)
