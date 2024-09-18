@@ -336,7 +336,7 @@ if __name__ == '__main__':
         dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
         resume = params.resume
         skip = params.skip_1
-
+        print(dataset_sup_config_1)
         if not skip: 
             params.continual_learning = False
             params.resume = None
