@@ -51,25 +51,25 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
                                    ' | '.join(load_presets()) +
                                    ' (default: None)')
 
-parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
-parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
-parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
-parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',
                     type=str, help='Training possibilities ' +
