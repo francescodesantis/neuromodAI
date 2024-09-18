@@ -300,7 +300,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     for d in datas: 
 
         print("Datas: ", d)
-    print("RESULTS: ", results)
+    #print("RESULTS: ", results)
 
 
 def procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config):
@@ -436,24 +436,24 @@ if __name__ == '__main__':
 
             # TASK 2
             #selected_classes = random_n_classes(all_classes, n_classes)
-            selected_classes = [2, 1]
+            # selected_classes = [2, 1]
 
-            dataset_sup_config["selected_classes"] = selected_classes
-            dataset_unsup_config["selected_classes"] = selected_classes
+            # dataset_sup_config["selected_classes"] = selected_classes
+            # dataset_unsup_config["selected_classes"] = selected_classes
 
-            params.continual_learning = True
-            params.resume = resume
-            evaluate = False
-            ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            # params.continual_learning = True
+            # params.resume = resume
+            # evaluate = False
+            # ray_search(params, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
-            # EVALUATION PHASE
-            config['dataset_unsup'] = None
-            params.continual_learning = False
-            evaluate = True
-            procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config)
+            # # EVALUATION PHASE
+            # config['dataset_unsup'] = None
+            # params.continual_learning = False
+            # evaluate = True
+            # procedure(params, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config)
 
-            file = "RAY_TASKS_CL.json"
-            save_results(results, file)
+            # file = "RAY_TASKS_CL.json"
+            # save_results(results, file)
         else: 
             print("Error: Not enough available classes to be organized in tasks of n_classes")
 
@@ -474,24 +474,24 @@ if __name__ == '__main__':
             
         # DATASET 2
 
-        dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
-        dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
-        dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
-        dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
+        # dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
+        # dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
+        # dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
+        # dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
 
-        params.continual_learning = True
-        params.resume = resume
-        evaluate = False
-        ray_search(params, dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
+        # params.continual_learning = True
+        # params.resume = resume
+        # evaluate = False
+        # ray_search(params, dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
 
-        # EVALUATION PHASE
-        config['dataset_unsup'] = None
-        params.continual_learning = False
-        evaluate = True
-        procedure(params, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results, config)
+        # # EVALUATION PHASE
+        # config['dataset_unsup'] = None
+        # params.continual_learning = False
+        # evaluate = True
+        # procedure(params, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results, config)
         
-        file = "RAY_MULTD_CL.json"
-        save_results(results, file)
+        # file = "RAY_MULTD_CL.json"
+        # save_results(results, file)
 
     print("RESULTS: ", results)
     data_candidate = "Continual_learning"
