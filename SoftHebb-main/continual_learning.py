@@ -50,25 +50,25 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
                                    ' | '.join(load_presets()) +
                                    ' (default: None)')
 
-parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
-parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
-parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
-parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default='MNIST',
+parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',
                     type=str, help='Training possibilities ' +
@@ -106,12 +106,12 @@ parser.add_argument('--classes', default=None, type=int,
 parser.add_argument('--dataset-unsup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 # we need first to pass both the datasets, the evaluation parameter is not needed, or it could be if we decide to validate just one model on one dataset. 
 # after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
 # during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
