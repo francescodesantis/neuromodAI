@@ -222,6 +222,7 @@ def select_dataset(dataset_config, device, dataset_path):
 
 def get_indices(dataset_config, indices):
     indices = list(range(indices))
+    train_indices, val_indices = None
     if not isinstance(dataset_config['training_class'], str):
         # we have to select indices up to the training_sample (trainign set size) otherwise the future origin_dataset
         # won't have enough indeces (it only stores the datapoints of the chosen training_class(es)
