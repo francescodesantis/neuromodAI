@@ -412,6 +412,7 @@ def class_cleaner(dataset, selected_classes):
     print(dataset.targets[0])
 
     if 0 not in selected_classes: 
+        print("NON CI STAAAAAAAAA")
         min_value = min(dataset.targets)
         dataset.targets = dataset.targets - min_value # filter doesn't work in this case
     return dataset
