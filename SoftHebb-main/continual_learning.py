@@ -271,6 +271,7 @@ if __name__ == '__main__':
 
     if n_classes != None: 
         
+        
         dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
         dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
         out_channels = dataset_sup_config["out_channels"]
@@ -301,6 +302,10 @@ if __name__ == '__main__':
                 params.resume = None
                 evaluate = False
                 procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            else: 
+                params.continual_learning = False
+                evaluate = True
+                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
             all_classes, selected_classes = random_n_classes(all_classes, n_classes)
@@ -313,7 +318,6 @@ if __name__ == '__main__':
             params.continual_learning = True
             params.resume = resume
             evaluate = False
-            name_model = name_model + "_CLM"
             procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # EVALUATION PHASE
@@ -334,6 +338,8 @@ if __name__ == '__main__':
         
         resume = params.resume
         skip = params.skip_1
+        dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+
 
         if not skip: 
             params.continual_learning = False
@@ -341,6 +347,12 @@ if __name__ == '__main__':
             dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
             dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
             procedure(params, name_model, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
+        else: 
+            params.continual_learning = False
+            evaluate = True
+            dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+            dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
+            procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
 
         # DATASET 2
 
@@ -355,7 +367,7 @@ if __name__ == '__main__':
         dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
         dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
         dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
-        
+
         procedure(params, name_model, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
 
         # EVALUATION PHASE
