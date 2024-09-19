@@ -474,8 +474,8 @@ if __name__ == '__main__':
     else: 
         # DATASET 1
 
-        dataset_sup_config_1 = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
-        dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
+        dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+        dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
 
         if not params.skip_1:
             params.continual_learning = False
