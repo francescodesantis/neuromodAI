@@ -360,7 +360,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
             device=device,
             )
     indices = len(counter_dataset.data)
-    print("INDICES: ", indices)
     train_indices, val_indices = get_indices(dataset_config, indices)
 
     if "n_classes" in dataset_config:
@@ -372,6 +371,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train_indices, val_indices = get_indices(dataset_config, indices)
 
         
+    print("INDICES: ", indices)
 
     train_sampler = SubsetRandomSampler(train_indices, generator=g)
 
