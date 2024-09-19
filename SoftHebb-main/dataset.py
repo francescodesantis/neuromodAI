@@ -80,7 +80,7 @@ def select_dataset(dataset_config, device, dataset_path):
     split = dataset_config["split"] if "split" in dataset_config else "train"
     if dataset_config['name'] == 'CIFAR10':
         dataset_class = FastCIFAR10
-        indices = list(range(5000))
+        indices = list(range(50000))
 
         if dataset_config['augmentation']:
             dataset_train_class = AugFastCIFAR10
