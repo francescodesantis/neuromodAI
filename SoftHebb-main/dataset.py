@@ -359,7 +359,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
             transform=transform, 
             device=device,
             )
-    indices = len(counter_dataset.data)
+    indices = len(counter_dataset)
     train_indices, val_indices = get_indices(dataset_config, indices)
 
     if "n_classes" in dataset_config:
