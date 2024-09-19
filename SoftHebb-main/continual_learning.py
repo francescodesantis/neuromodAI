@@ -25,7 +25,6 @@ from train import run_sup, run_unsup, check_dimension, training_config, run_hybr
 from log import Log, save_logs
 import warnings
 import copy
-import ray
 
 from utils import CustomStepLR, double_factorial
 from model import save_layers, HebbianOptimizer, AggregateOptim
@@ -51,25 +50,25 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
                                    ' | '.join(load_presets()) +
                                    ' (default: None)')
 
-parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default=None,
+parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default='MNIST',
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
 
-parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default=None,
+parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default='MNIST',
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
 
-parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default=None,
+parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default='MNIST',
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
 
-parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default=None,
+parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default='MNIST',
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
 
 parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',
                     type=str, help='Training possibilities ' +
@@ -119,13 +118,12 @@ parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=Non
 
 
 
-def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results, model):
+def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
     device = get_device(gpu_id)
+    model = load_layers(blocks, name_model, resume)
+        
+    #model = copy.deepcopy(model_og)
     
-    # model_og = load_layers(blocks, name_model, resume)
-    # path=ray.train.get_context().get_trial_dir(),
-    # torch.save(model_og, path)
-    # model = torch.load()
     model = model.to(device)
     log = Log(train_config)
     test_loss = 0
@@ -157,9 +155,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 device,
                 log.unsup[id],
                 blocks=config['blocks'],
-                save=save,
-                #model_dir=ray.train.get_context().get_trial_dir(),
-
+                save=save
             )
             
         elif config['mode'] == 'supervised':
@@ -174,9 +170,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 device,
                 log.sup[id],
                 blocks=config['blocks'],
-                save=save, 
-                #model_dir=ray.train.get_context().get_trial_dir(),
-
+                save=save
             )
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
@@ -196,9 +190,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 device,
                 log.sup[id],
                 blocks=config['blocks'],
-                save=save,
-                #model_dir=ray.train.get_context().get_trial_dir(),
-
+                save=save
             )
 
     save_logs(log, name_model)
@@ -209,7 +201,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
         print("Datas: ", d)
 
-def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, model):
+def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -224,7 +216,7 @@ def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_conf
                                    params.training_blocks)
 
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
-         params.gpu_id, evaluate, results, model)
+         params.gpu_id, evaluate, results)
 
 def save_results(results, file):
     with open(file, 'a+') as f:
@@ -254,9 +246,9 @@ def save_results(results, file):
 def random_n_classes(all_classes, n_classes):
     np.random.shuffle(all_classes)
     # select n classes indices to extract the classes
-    classes_idx = np.arange(0, n_classes)
-    selected_classes = all_classes[classes_idx]
-    all_classes = np.delete(all_classes, classes_idx)
+    classes = np.arange(0, n_classes)
+    selected_classes = all_classes[classes]
+    all_classes = np.delete(all_classes, classes)
     return all_classes, selected_classes
 
 if __name__ == '__main__':
@@ -268,6 +260,7 @@ if __name__ == '__main__':
     blocks = load_presets(params.preset)
     n_classes = params.classes
     resume = params.resume
+    new_model = False
     results = {}
 
 
@@ -277,7 +270,7 @@ if __name__ == '__main__':
         print("\n\n ################################\n\n")
 
 
-    if n_classes != None and (params.dataset_sup != None and params.dataset_sup != None): 
+    if n_classes != None: 
         
         dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
         dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
@@ -299,7 +292,7 @@ if __name__ == '__main__':
             skip = params.skip_1
 
             if not skip: 
-                #all_classes, selected_classes = random_n_classes(all_classes, n_classes)
+                all_classes, selected_classes = random_n_classes(all_classes, n_classes)
                 selected_classes = [2, 1]
                 dataset_sup_config["selected_classes"] = selected_classes
                 dataset_unsup_config["selected_classes"] = selected_classes
@@ -307,16 +300,10 @@ if __name__ == '__main__':
                 params.continual_learning = False
                 params.resume = None
                 evaluate = False
-
-                model_og = load_layers(blocks, name_model, resume)
-                path= ray.train.get_context().get_trial_dir() + name_model + "OG",
-                torch.save(model_og, path)
-                model = torch.load(path)
-
-                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, model)
+                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
-            selected_classes = random_n_classes(all_classes, n_classes)
+            all_classes, selected_classes = random_n_classes(all_classes, n_classes)
             selected_classes = [2, 1]
 
             dataset_sup_config["selected_classes"] = selected_classes
@@ -325,24 +312,15 @@ if __name__ == '__main__':
             params.continual_learning = True
             params.resume = resume
             evaluate = False
-            name_model = name_model + "OG"
-            model_og = load_layers(blocks, name_model, resume)
-
+            new_model = True
             name_model = name_model + "_CLM"
-
-            path = ray.train.get_context().get_trial_dir() + name_model,
-            torch.save(model_og, path)
-            model = torch.load(path, weights_only=False)
-
-            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, model)
+            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # EVALUATION PHASE
             params.continual_learning = False
             evaluate = True
-
-            model = torch.load(path, weights_only=False)
-
-            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, model)
+            new_model = True
+            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             file = "TASKS_CL.json"
             save_results(results, file)
@@ -354,10 +332,11 @@ if __name__ == '__main__':
     else:
         # DATASET 1
 
-        dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
-        dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
+        dataset_sup_config_1 = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
+        dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
         resume = params.resume
         skip = params.skip_1
+
         if not skip: 
             params.continual_learning = False
             params.resume = None
@@ -384,4 +363,3 @@ if __name__ == '__main__':
         
         file = "MULTD_CL.json"
         save_results(results, file)
-

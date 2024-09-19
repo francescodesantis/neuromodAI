@@ -127,5 +127,6 @@ implement a task are:
 
 
 !!!!!!! Problem detected: the ray search CL done per tasks seems only to save the eval run and not also R1 and R2.
-!!!!!!! Problem detected: continual_learning loads the best model (trained with ray search) but overwrites it, instead we should use
-                        a copy so to keep the best model untouched. So we need to figure out. 
+[fixed] !!!!!!! Problem detected: continual_learning loads the best model (trained with ray search) but overwrites it, instead we should use
+                        a copy so to keep the best model untouched. So we need to figure it out. Just manually create a copy of the model before executing the program.
+                        

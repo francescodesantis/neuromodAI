@@ -309,15 +309,10 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 model_dir=ray.train.get_context().get_trial_dir(),
             )
 
-    #save_logs(log, name_model)
+    save_logs(log, name_model)
     print("Name Model: ", name_model)
     
-    #datas = load_data(name_model, train_config)
-    # for d in datas: 
-    #     print("Datas: ", d)
-    #print("RESULTS: ", results)
-
-
+   
 def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config):
 
     if params.seed is not None:
@@ -376,7 +371,7 @@ def random_n_classes(all_classes, n_classes):
     classes = np.arange(0, n_classes)
     selected_classes = all_classes[classes]
     all_classes = np.delete(all_classes, classes)
-    return selected_classes
+    return all_classes, selected_classes
 
 def save_results(results, file):
     with open(file, 'a+') as f:
@@ -439,7 +434,7 @@ if __name__ == '__main__':
         if out_channels >=  2*n_classes:
 
             # TASK 1
-            #selected_classes = random_n_classes(all_classes, n_classes)
+            all_classes, selected_classes = random_n_classes(all_classes, n_classes)
             selected_classes = [2, 1]
             dataset_sup_config["selected_classes"] = selected_classes
             dataset_unsup_config["selected_classes"] = selected_classes
@@ -450,7 +445,7 @@ if __name__ == '__main__':
             ray_search(params, name_model, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
-            #selected_classes = random_n_classes(all_classes, n_classes)
+            #all_classes, selected_classes = random_n_classes(all_classes, n_classes)
             # selected_classes = [2, 1]
 
             # dataset_sup_config["selected_classes"] = selected_classes

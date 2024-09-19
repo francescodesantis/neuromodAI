@@ -217,6 +217,11 @@ def select_dataset(dataset_config, device, dataset_path):
     else:
         raise ValueError
 
+
+    return dataset_train_class, dataset_class, test_transform, transform, device, split, dataset_path
+
+def get_indices(dataset_config, indices):
+    indices = list(range(indices))
     if not isinstance(dataset_config['training_class'], str):
         # we have to select indices up to the training_sample (trainign set size) otherwise the future origin_dataset
         # won't have enough indeces (it only stores the datapoints of the chosen training_class(es)
@@ -236,7 +241,8 @@ def select_dataset(dataset_config, device, dataset_path):
         val_indices = indices[:dataset_config['val_sample']]
         train_indices = indices[
                         dataset_config['val_sample']:(dataset_config['training_sample'] + dataset_config['val_sample'])]
-    return dataset_train_class, dataset_class, test_transform, transform, device, train_indices, val_indices, split, dataset_path
+    return  train_indices, val_indices
+
 
 
 def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
@@ -264,7 +270,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         seed_init_fn(dataset_config['seed'])
         g.manual_seed(dataset_config['seed'] % 2 ** 32)
 
-    dataset_train_class, dataset_class, test_transform, transform, device, train_indices, val_indices, split, dataset_path = select_dataset(
+    dataset_train_class, dataset_class, test_transform, transform, device, split, dataset_path = select_dataset(
         dataset_config, device, dataset_path)
 
    
@@ -317,14 +323,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
     print("AFTER RESIZING")
 
 
-    if val_indices is not None and dataset_config["continual_learning"] == False:
-        
-        val_sampler = SubsetRandomSampler(val_indices)
-        test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
-                                                  batch_size=batch_size,
-                                                  num_workers=dataset_config['num_workers'],
-                                                  sampler=val_sampler)
-    elif dataset_config["continual_learning"] == True:
+    if dataset_config["continual_learning"] == True:
 
         test_dataset = dataset_class(
                 dataset_path,
@@ -351,11 +350,26 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 device=device
 
             )
+    
+    counter_dataset = dataset_train_class(
+            dataset_path,
+            download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
+            transform=transform, 
+            device=device,
+            )
+    indices = len(counter_dataset.data)
+    print("INDICES: ", indices)
+    train_indices, val_indices = get_indices(dataset_config, indices)
 
     if "n_classes" in dataset_config:
         selected_classes = dataset_config["selected_classes"]
         test_dataset = classes_subset(test_dataset, selected_classes) 
         origin_dataset = classes_subset(origin_dataset, selected_classes)
+        counter_dataset = classes_subset(counter_dataset, selected_classes) 
+        indices = len(counter_dataset.data)
+        train_indices, val_indices = get_indices(dataset_config, indices)
+
+        
 
     train_sampler = SubsetRandomSampler(train_indices, generator=g)
 
@@ -365,15 +379,24 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                 sampler=train_sampler, 
     )
 
-    test_loader = torch.utils.data.DataLoader(
-            dataset=test_dataset,
-            batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
-                                                                'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
-                                                                'ImageNetV2Threshold07'] else 1000,
-            num_workers=dataset_config['num_workers'],
-            shuffle=dataset_config['shuffle'],
+    if val_indices is None:
+        test_loader = torch.utils.data.DataLoader(
+                dataset=test_dataset,
+                batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
+                                                                    'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
+                                                                    'ImageNetV2Threshold07'] else 1000,
+                num_workers=dataset_config['num_workers'],
+                shuffle=dataset_config['shuffle'],
 
-        )
+            )
+    
+    else:
+        
+        val_sampler = SubsetRandomSampler(val_indices)
+        test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
+                                                  batch_size=batch_size,
+                                                  num_workers=dataset_config['num_workers'],
+                                                  sampler=val_sampler)
    
     print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
 
