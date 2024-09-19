@@ -136,3 +136,13 @@ Now let's check if the models are saved/retrieved correctly.
 To check if the models are saved correctly I would go through the corresponding function, 
 same goes for the loading phase. Everything seems to be in check, but I want to clean their code because it is disgusting.
 There is redundancy in load layers and a loop which gets executed but there is the chance it won't do anything at all.
+
+So to execute the continual learning: 
+   - we have the best models for multiple datasets testing
+   - we need to copy them and watch to pass the name of the copied model to the continual learning and not the original one
+   - we need to operate in skip_1 mode True and add in continual learning an evaluation phase 
+
+   - reguarding the subset of classes approach we need to train with ray search and find the best models 
+   - at this point we save the models and copy them with a different name. 
+   - Use the new name in the continual learning using the classes flag.
+For both scenarios we need to clean the already existing json files before doing anything because they contain dirty runs.
