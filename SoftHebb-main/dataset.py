@@ -413,6 +413,9 @@ def class_cleaner(dataset):
     return dataset
 
 def classes_subset(dataset,selected_classes):
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # I don't think it will work with ImageNette 
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Creates a dataset made up of a subsets of classes indicated in the selected classes variable.
     T = np.array(dataset.targets)
     classes = torch.tensor(selected_classes)
@@ -424,7 +427,6 @@ def classes_subset(dataset,selected_classes):
     D = list(D[indices])
     dataset.data = D
     dataset = class_cleaner(dataset)
-    #dataset = Subset(indices, dataset)
 
 
     return dataset
