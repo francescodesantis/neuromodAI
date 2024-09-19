@@ -293,8 +293,6 @@ if __name__ == '__main__':
 
             if not skip: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                if params.test: 
-                    selected_classes = [2, 1]
                 dataset_sup_config["selected_classes"] = selected_classes
                 dataset_unsup_config["selected_classes"] = selected_classes
 
@@ -303,6 +301,9 @@ if __name__ == '__main__':
                 evaluate = False
                 procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
             else: 
+                all_classes, selected_classes = random_n_classes(all_classes, n_classes)
+                dataset_sup_config["selected_classes"] = selected_classes
+                dataset_unsup_config["selected_classes"] = selected_classes
                 params.continual_learning = False
                 evaluate = True
                 procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
