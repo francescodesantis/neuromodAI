@@ -132,3 +132,7 @@ implement a task are:
 
 Everything seems to be working fine. 
 Now let's check if the models are saved/retrieved correctly.
+
+To check if the models are saved correctly I would go through the corresponding function, 
+same goes for the loading phase. Everything seems to be in check, but I want to clean their code because it is disgusting.
+There is redundancy in load layers and a loop which gets executed but there is the chance it won't do anything at all.
