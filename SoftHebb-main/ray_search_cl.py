@@ -474,27 +474,27 @@ if __name__ == '__main__':
     else: 
         # DATASET 1
 
-        dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
-        dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
-
+        
         if not params.skip_1:
             params.continual_learning = False
             params.resume = None
-            
+            dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+            dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
+
             evaluate = False
             ray_search(params, name_model, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
             
         # DATASET 2
 
+        
+        # params.continual_learning = True
+        # params.resume = resume
+        # evaluate = False
         # dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
         # dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
         # dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
         # dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
 
-        # params.continual_learning = True
-        # params.resume = resume
-        # evaluate = False
-        # name_model = name_model + "_CLM"
 
         # ray_search(params, name_model, dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
 
