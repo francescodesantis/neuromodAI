@@ -407,6 +407,10 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 def class_cleaner(dataset):
 # Cleans the classes so that it guarantees that there is first class with index 0 in the dataset, 
 # since it is required by torch. 
+    print("TARGETS: ", type(dataset.targets[1]))
+    print(type(dataset.targets))
+    print(dataset.targets[0])
+
     if 0 not in dataset.targets: 
         min_value = min(dataset.targets)
         dataset.targets = dataset.targets - min_value # filter doesn't work in this case
