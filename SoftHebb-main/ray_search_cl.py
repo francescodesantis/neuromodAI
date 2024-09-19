@@ -16,16 +16,22 @@
 # Ok so when doing continual learning with the best models we need to set the skip-1 flag to true. 
 # 
 
+############################################################
+
+"""
+RAY_SEARCH_CL.py can be used only to train a model either on all the classes of a dataset or on a subset of classes of the dataset.
+The reason being no results can be gathered of the best model if continual learning is implemented and it is easier to do it separately.
+So first you find the best model with ray search and then load it with continual_learning.py
+"""
+
 import argparse
 import os.path as op
 import json
-from utils import load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
+from utils import SEARCH, merge_parameter, load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
 from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
 from log import Log, save_logs
 import warnings
-import copy
-import copy
 
 from utils import CustomStepLR, double_factorial
 from model import save_layers, HebbianOptimizer, AggregateOptim
@@ -36,6 +42,15 @@ import torch.optim as optim
 import torch.nn as nn
 import numpy as np
 from nb_utils import load_data
+import ray
+from ray import tune
+from ray.tune.search.basic_variant import BasicVariantGenerator
+from ray.tune import CLIReporter
+from ray.tune.tuner import Tuner
+from ray.tune.schedulers import ASHAScheduler
+from functools import partial
+
+metric_names = ['train_loss', 'train_acc', 'test_loss', 'test_acc', 'convergence', 'R1']
 
 
 warnings.filterwarnings("ignore")
@@ -45,6 +60,12 @@ parser = argparse.ArgumentParser(description='Multi layer Hebbian Training Conti
 parser.add_argument('--continual_learning', choices=[True, False], default=False,
                     type=str2bool)
 
+parser.add_argument('--metric', choices=metric_names, default='test_acc',
+                    type=str, help='Primary Metric' +
+                                   ' | '.join(metric_names) +
+                                   ' (default: test_acc)')
+parser.add_argument('--config', default='seed', type=str, metavar='N',
+                    help='')
 
 parser.add_argument('--preset', choices=load_presets(), default=None,
                     type=str, help='Preset of hyper-parameters ' +
@@ -54,22 +75,32 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
 parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
 
 parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
 
-parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(), default=None,
+parser.add_argument('--dataset-unsup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
 
-parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default=None,
+parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+                                   ' (default: MNIST)')
+
+parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(),  default=None,
+                    type=str, help='Dataset possibilities ' +
+                                   ' | '.join(load_config_dataset()) +
+                                   ' (default: MNIST)')
+
+parser.add_argument('--dataset-sup-2', choices=load_config_dataset(),  default=None,
+                    type=str, help='Dataset possibilities ' +
+                                   ' | '.join(load_config_dataset()) +
+                                   ' (default: MNIST)')
 
 parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',
                     type=str, help='Training possibilities ' +
@@ -87,44 +118,120 @@ parser.add_argument('--training-blocks', default=None, nargs='+', type=int,
                     help='Selection of the blocks that will be trained')
 
 parser.add_argument('--seed', default=None, type=int,
-                    help='')
+                    help='Selection of the blocks that will be trained')
+
+parser.add_argument('--classes', default=None, type=int,
+                    help='The continual learning is organized in tasks made up of different classes of the same dataset. Number of classes belonging to each task.')
+
+parser.add_argument('--num-samples', default=1, type=int,
+                    help='number of search into the hparams space')
 
 parser.add_argument('--gpu-id', default=0, type=int, metavar='N',
                     help='Id of gpu selected for training (default: 0)')
-
+parser.add_argument('--gpu-exp', default=1, type=int, metavar='N',
+                    help='')
 parser.add_argument('--save', default=True, type=str2bool, metavar='N',
                     help='')
-
 parser.add_argument('--validation', default=False, type=str2bool, metavar='N',
                     help='')
-
+parser.add_argument('--validation-sup', default=False, type=str2bool, metavar='N',
+                    help='')
 parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
                     help='')
 parser.add_argument('--skip-1', default=False, type=str2bool, metavar='N',
                     help='Set to True if you want to skip the training on the first dataset and directly retrieve a model to train it again on the second dataset (you don \'t have to specify a preset if set True) ')
-parser.add_argument('--classes', default=None, type=int,
-                    help='The continual learning is organized in tasks made up of different classes of the same dataset. Number of classes belonging to each task.')
-parser.add_argument('--dataset-unsup', choices=load_config_dataset(),  default=None,
-                    type=str, help='Dataset possibilities ' +
-                                   ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
 
-parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=None,
-                    type=str, help='Dataset possibilities ' +
-                                   ' | '.join(load_config_dataset()) +
-                                   ' (default: None)')
+parser.add_argument('--test', default=False, type=str2bool, metavar='N',
+                    help='Set to True if you want to reduce the number of seed for ray search to just one to speed up training ')
+
 # we need first to pass both the datasets, the evaluation parameter is not needed, or it could be if we decide to validate just one model on one dataset. 
 # after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
 # during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
 
 
+def get_config(config_name, params):
+    
+    if config_name == 'regimes':
+        t_invert_search = [1.25 ** (x - 50) for x in range(100)]
+        softness_search = ["soft", "softkrotov"]
+        seeds = [0, 1, 2]
+        configs = []
+        for i_softness in softness_search:
+            for i_t_invert in t_invert_search:
+                for i_seed in seeds:
+                    i_config = {
+                        f'b{i_layer}': {
+                            "layer": {
+                                't_invert': i_t_invert,
+                                "softness": i_softness,
+                            }
+                        } for i_layer in range(3)}
+                    i_config['dataset_unsup'] = {
+                        'seed': i_seed,
+                    }
+                    configs.append(i_config)
 
-def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
+        config = tune.grid_search(configs)
+
+    elif config_name == 'radius':
+        config = {
+            'b0': {
+                "layer": {
+                    'radius': tune.grid_search([1.25 ** (x - 10) for x in range(27)]),
+                }
+            },
+            'dataset_unsup': {
+                'seed': tune.grid_search([0, 1, 2]),
+            }
+        }
+    elif config_name == 'one_seed':
+        config = {
+            'dataset_unsup': {
+                'seed': 0
+            }
+        }
+    else:
+        if params.test: 
+            config = {
+                'dataset_unsup': {
+                    #'seed': tune.grid_search([0, 1, 2, 3])
+                    'seed': tune.grid_search([0]) ###############################################
+                }
+            }
+        else: 
+            config = {
+                'dataset_unsup': {
+                    'seed': tune.grid_search([0, 1, 2, 3])
+                    #'seed': tune.grid_search([0]) ###############################################
+                }
+            }
+    print("config_name", config_name)
+    print("config", config)
+    return config
+
+
+def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results, config):
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
-        
-    #model = copy.deepcopy(model_og)
-    
+    ##################################################
+    if not evaluate and not (dataset_sup_config["continual_learning"] or dataset_unsup_config["continual_learning"]): 
+        model.reset() ###################### ??? I think it messes with the retrieved saved model
+    print("DATASET UNSUP CONFIG 1: ", dataset_unsup_config)
+
+    if "dataset_unsup" in config:
+        print("config['dataset_unsup']: ", config['dataset_unsup'])
+        dataset_unsup_config   = merge_parameter(dataset_unsup_config, config['dataset_unsup'])
+    print("DATASET SUP CONFIG 1: ", dataset_sup_config)
+
+    if "dataset_sup" in config:
+        dataset_sup_config = merge_parameter(dataset_sup_config, config['dataset_sup'])
+        print("DATASET SUP CONFIG 2: ", dataset_sup_config)
+
+    if dataset_unsup_config['seed'] is not None:
+        print("DATASET UNSUP CONFIG 2: ", dataset_unsup_config)
+        seed_init_fn(dataset_unsup_config['seed'])
+
+    #################################################
     model = model.to(device)
     log = Log(train_config)
     test_loss = 0
@@ -156,9 +263,12 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 device,
                 log.unsup[id],
                 blocks=config['blocks'],
-                save=save
+                save=save,
+                report=ray.train.report,
+                reset=False,
+                model_dir=ray.train.get_context().get_trial_dir(),
             )
-            
+
         elif config['mode'] == 'supervised':
             result = run_sup(
                 config['nb_epoch'],
@@ -171,7 +281,9 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 device,
                 log.sup[id],
                 blocks=config['blocks'],
-                save=save
+                save=save,
+                report=ray.train.report,
+                model_dir=ray.train.get_context().get_trial_dir(),
             )
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
@@ -191,18 +303,17 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 device,
                 log.sup[id],
                 blocks=config['blocks'],
-                save=save
+                save=save,
+                report=ray.train.report,
+                reset=False,
+                model_dir=ray.train.get_context().get_trial_dir(),
             )
 
     save_logs(log, name_model)
     print("Name Model: ", name_model)
     
-    #datas = load_data(name_model, train_config)
-    #for d in datas: 
-
-    #    print("Datas: ", d)
-
-def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
+   
+def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config):
 
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
@@ -215,9 +326,52 @@ def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_conf
 
     train_config = training_config(blocks, dataset_sup_config, dataset_unsup_config, params.training_mode,
                                    params.training_blocks)
+    
+    name_model = params.preset if params.model_name is None else params.model_name
 
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
-         params.gpu_id, evaluate, results)
+         params.gpu_id, evaluate, results, config)
+
+def ray_search(params, name_model, dataset_sup_config, dataset_unsup_config, evaluate, results):
+    config = get_config(params.config, params)
+    reporter = CLIReporter(max_progress_rows=12)
+    for metric in metric_names:
+        reporter.add_metric_column(metric)
+
+    algo_search = BasicVariantGenerator()
+
+    scheduler = ASHAScheduler(
+    grace_period=20, reduction_factor=3, max_t=100_000)
+    params.continual_learning = False
+    blocks = load_presets(params.preset)
+
+    
+    trial_exp = partial(
+            procedure, params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results
+    )
+
+    analysis = tune.run(
+        trial_exp,
+        resources_per_trial={
+                "cpu": 4,
+                "gpu": torch.cuda.device_count()
+            },
+        metric=params.metric,
+        mode='min' if params.metric.endswith('loss') else 'max',
+        search_alg=algo_search,
+        config=config,
+        progress_reporter=reporter,
+        num_samples=params.num_samples,
+        local_dir=SEARCH,
+        name=params.model_name)
+    
+def random_n_classes(all_classes, n_classes):
+    np.random.shuffle(all_classes)
+    # select n classes indices to extract the classes
+    classes = np.arange(0, n_classes)
+    selected_classes = all_classes[classes]
+    all_classes = np.delete(all_classes, classes)
+    return all_classes, selected_classes
 
 def save_results(results, file):
     with open(file, 'a+') as f:
@@ -244,25 +398,16 @@ def save_results(results, file):
 
         json.dump(old, f, indent=4)
 
-def random_n_classes(all_classes, n_classes):
-    np.random.shuffle(all_classes)
-    # select n classes indices to extract the classes
-    classes = np.arange(0, n_classes)
-    selected_classes = all_classes[classes]
-    all_classes = np.delete(all_classes, classes)
-    return all_classes, selected_classes
-
 if __name__ == '__main__':
-
-
 
     params = parser.parse_args()
     name_model = params.preset if params.model_name is None else params.model_name
     blocks = load_presets(params.preset)
     n_classes = params.classes
     resume = params.resume
-    results = {}
+    config = get_config(params.config, params)
 
+    results = {}
 
     if n_classes != None and (params.dataset_sup_2 != None or params.dataset_sup_1 != None):
         print("\n\n ########### WARNING ############\n\n")
@@ -271,7 +416,6 @@ if __name__ == '__main__':
 
 
     if n_classes != None: 
-        
         
         dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
         dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
@@ -290,93 +434,87 @@ if __name__ == '__main__':
         if out_channels >=  2*n_classes:
 
             # TASK 1
-            skip = params.skip_1
-
-            if not skip: 
-                all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                selected_classes = [0,2]
-                dataset_sup_config["selected_classes"] = selected_classes
-                dataset_unsup_config["selected_classes"] = selected_classes
-
-                params.continual_learning = False
-                params.resume = None
-                evaluate = False
-                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
-            else: 
-                all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                dataset_sup_config["selected_classes"] = selected_classes
-                dataset_unsup_config["selected_classes"] = selected_classes
-                params.continual_learning = False
-                evaluate = True
-                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
-
-            # TASK 2
             all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-            selected_classes = [2, 0]                
-
+            selected_classes = [2, 1]
             dataset_sup_config["selected_classes"] = selected_classes
             dataset_unsup_config["selected_classes"] = selected_classes
 
-            params.continual_learning = True
-            params.resume = resume
-            evaluate = False
-            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
-
-            # EVALUATION PHASE
             params.continual_learning = False
-            evaluate = True
-            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            params.resume = None
+            evaluate = False
+            ray_search(params, name_model, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
-            file = "TASKS_CL.json"
-            save_results(results, file)
+            # TASK 2
+            #all_classes, selected_classes = random_n_classes(all_classes, n_classes)
+            # selected_classes = [2, 1]
+
+            # dataset_sup_config["selected_classes"] = selected_classes
+            # dataset_unsup_config["selected_classes"] = selected_classes
+
+            # params.continual_learning = True
+            # params.resume = resume
+            # evaluate = False
+            # name_model = name_model + "_CLM"
+
+            # ray_search(params, name_model, dataset_sup_config, dataset_unsup_config, evaluate, results)
+
+            # # EVALUATION PHASE
+            # config['dataset_unsup'] = None
+            # params.continual_learning = False
+            # evaluate = True
+            # procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results, config)
+
+            # file = "RAY_TASKS_CL.json"
+            # save_results(results, file)
         else: 
             print("Error: Not enough available classes to be organized in tasks of n_classes")
 
 
 
-    else:
+    else: 
         # DATASET 1
 
         
-        resume = params.resume
-        skip = params.skip_1
-        dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
-
-
-        if not skip: 
+        if not params.skip_1:
             params.continual_learning = False
             params.resume = None
             dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
             dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
-            procedure(params, name_model, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
-        else: 
-            params.continual_learning = False
-            evaluate = True
-            dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
-            dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
-            procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
 
+            evaluate = False
+            ray_search(params, name_model, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
+            
         # DATASET 2
 
         
+        # params.continual_learning = True
+        # params.resume = resume
+        # evaluate = False
+        # dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
+        # dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
+        # dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
+        # dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
+
+
+        # ray_search(params, name_model, dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
+
+        # # EVALUATION PHASE
+        # config['dataset_unsup'] = None
+        # params.continual_learning = False
+        # evaluate = True
+        # procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results, config)
         
+        # file = "RAY_MULTD_CL.json"
+        # save_results(results, file)
 
-        params.continual_learning = True
-        params.resume = resume
-        evaluate = False
+    print("RESULTS: ", results)
+    data_candidate = "Continual_learning"
+    DATA = op.realpath(op.expanduser(data_candidate))
 
-        dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
-        dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
-        dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
-        dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
+    
+   
 
-        procedure(params, name_model, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
 
-        # EVALUATION PHASE
-       
-        params.continual_learning = False
-        evaluate = True
-        procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
-        
-        file = "MULTD_CL.json"
-        save_results(results, file)
+    
+
+

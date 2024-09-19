@@ -92,3 +92,57 @@ horse
 		
 ship										
 truck
+
+Ok so when doing continual learning with the best models we need to set the skip-1 flag to true.
+
+Question
+But we trained the best models through the use of ray search which optimizes the training given a certain dataset,
+should we do the same in the continual learning setting?? Like we do a ray search on the the best model but using another dataset, 
+makes sense. So how to do it? We add it to the continual learning? Or better we do another file which is ray search for continual learning.
+
+
+We need to train on less classes now. so we start with 2, and then same dataset but two other classes and then we
+do an evaluation on the first two. And so on increasing the number of classes per task.
+
+Important: in ray search continual learning and continual learning we use the BLOCKS gatheres from the datasets, maybe you should 
+load the preset for the second dataset... but then watch out for the number of layers and stuff...
+See if you should use the reset parameter or not in the ray search CL on the model... 
+
+To implement the training on two different classes of hte same dataset we need to consider: 
+    - we implemented a method which allows to train on two different datasets. 
+    - we need to implement a method which allows us to train on one dataset and everytime we change the classes. 
+
+The problems which I have found during the development of the continual learning approach which uses only subclasses to 
+implement a task are: 
+[bypassed]- the number of samples specified in the preset corresponds to the total set of samples and not to 
+        the dataset which has been deprived of some classes. A possible solution to this is that when we load the preset we count the number 
+        of samples present... this solution unfortunately is very hard to implement because of the way the code flow is organized. Unfortunaly the preset is loaded 
+        way earlier than the actual dataset, so modifying this information can be only done after the dataset is loaded and eventually modified so that we know the amount of samples present. 
+[fixed] - the same assumption is done in the select_dataset() function where the indices variable is intialized by manually inserting 
+        the number of indices to create in the list, and not by actually counting the number of samples present.
+[fixed] - finally the other problem is caused by the fact that when we select the classes to include in the task they might not start 
+        at 0, so we could have classes like [1, 2], problem is torch wants the indexes of the classes to start from 0. So a solution 
+        would be to decrease all the indexes of all the classes in the dataset. This has to be done after the dataset has been resized and modified.
+        Important is also to extract the labels ( in readable language that is ) associated to the selected classes.
+
+
+[bypassed] !!!!!!! Problem detected: the ray search CL done per tasks seems only to save the eval run and not also R1 and R2.
+[fixed] !!!!!!! Problem detected: continual_learning loads the best model (trained with ray search) but overwrites it, instead we should use
+                        a copy so to keep the best model untouched. So we need to figure it out. Just manually create a copy of the model before executing the program.
+
+Everything seems to be working fine. 
+Now let's check if the models are saved/retrieved correctly.
+
+To check if the models are saved correctly I would go through the corresponding function, 
+same goes for the loading phase. Everything seems to be in check, but I want to clean their code because it is disgusting.
+There is redundancy in load layers and a loop which gets executed but there is the chance it won't do anything at all.
+
+So to execute the continual learning: 
+   - we have the best models for multiple datasets testing
+   - we need to copy them and watch to pass the name of the copied model to the continual learning and not the original one
+   - we need to operate in skip_1 mode True and add in continual learning an evaluation phase 
+
+   - reguarding the subset of classes approach we need to train with ray search and find the best models 
+   - at this point we save the models and copy them with a different name. 
+   - Use the new name in the continual learning using the classes flag.
+For both scenarios we need to clean the already existing json files before doing anything because they contain dirty runs.

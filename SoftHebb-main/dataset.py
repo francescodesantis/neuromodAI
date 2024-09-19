@@ -28,6 +28,7 @@ class AddGaussianNoise(object):
 def imagenet_tf(width, height):
     return transforms.Compose([
         transforms.RandomResizedCrop((width, height)),
+        transforms.RandomResizedCrop((width, height)),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -217,6 +218,13 @@ def select_dataset(dataset_config, device, dataset_path):
     else:
         raise ValueError
 
+
+    return dataset_train_class, dataset_class, test_transform, transform, device, split, dataset_path
+
+def get_indices(dataset_config, indices):
+    indices = list(range(indices))
+    train_indices  = None
+    val_indices = None
     if not isinstance(dataset_config['training_class'], str):
         # we have to select indices up to the training_sample (trainign set size) otherwise the future origin_dataset
         # won't have enough indeces (it only stores the datapoints of the chosen training_class(es)
@@ -236,7 +244,8 @@ def select_dataset(dataset_config, device, dataset_path):
         val_indices = indices[:dataset_config['val_sample']]
         train_indices = indices[
                         dataset_config['val_sample']:(dataset_config['training_sample'] + dataset_config['val_sample'])]
-    return dataset_train_class, dataset_class, test_transform, transform, device, train_indices, val_indices, split, dataset_path
+    return  train_indices, val_indices
+
 
 
 def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
@@ -264,17 +273,16 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         seed_init_fn(dataset_config['seed'])
         g.manual_seed(dataset_config['seed'] % 2 ** 32)
 
-    dataset_train_class, dataset_class, test_transform, transform, device, train_indices, val_indices, split, dataset_path = select_dataset(
+    dataset_train_class, dataset_class, test_transform, transform, device, split, dataset_path = select_dataset(
         dataset_config, device, dataset_path)
 
-    train_sampler = SubsetRandomSampler(train_indices, generator=g)
+   
     
     
 
-    #old_dataset_size = 160
 
     print("BEFORE RESIZING")
-    if dataset_config["cl"] == True:
+    if dataset_config["continual_learning"] == True:
         print("INSIDE CL ###############################")
         old_dataset_size = dataset_config["old_dataset_size"]
         #print( type(old_dataset_size))
@@ -320,32 +328,10 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     print("AFTER RESIZING")
 
-    train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
-                                                batch_size=batch_size,
-                                                num_workers=dataset_config['num_workers'],
-                                                sampler=train_sampler, 
-                                               
-    )
 
+    if dataset_config["continual_learning"] == True:
 
-    # for b in range(len(train_loader.dataset)):
-    #     for i in range(len(train_loader.dataset[i])):
-    #         train_loader.dataset[b][i] = F.interpolate(img.T.unsqueeze(0).unsqueeze(0), size=(160, 128, 3))
-
-
-
-
-    print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
-    if val_indices is not None:
-        val_sampler = SubsetRandomSampler(val_indices)
-        test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
-                                                  batch_size=batch_size,
-                                                  num_workers=dataset_config['num_workers'],
-                                                  sampler=val_sampler)
-    elif dataset_config["cl"] == True:
-        print("INSIDE SECOND IF")
-        test_loader = torch.utils.data.DataLoader(
-            dataset_class(
+        test_dataset = dataset_class(
                 dataset_path,
                 split="val" if dataset_config['name'] in ['ImageNet', 'ImageNette',
                                                           'ImageNetV2MatchedFrequency'] else "test",
@@ -358,16 +344,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     ]),
                 device=device
 
-            ),
-            batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
-                                                                'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
-                                                                'ImageNetV2Threshold07'] else 1000,
-            num_workers=dataset_config['num_workers'],
-            shuffle=dataset_config['shuffle'],
-        )
+            )
     else:
-        test_loader = torch.utils.data.DataLoader(
-            dataset_class(
+        test_dataset = dataset_class(
                 dataset_path,
                 split="val" if dataset_config['name'] in ['ImageNet', 'ImageNette',
                                                           'ImageNetV2MatchedFrequency'] else "test",
@@ -376,16 +355,91 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 transform=test_transform,
                 device=device
 
-            ),
-            batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
-                                                                'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
-                                                                'ImageNetV2Threshold07'] else 1000,
-            num_workers=dataset_config['num_workers'],
-            shuffle=dataset_config['shuffle'],
+            )
+    
+    counter_dataset = dataset_train_class(
+            dataset_path,
+            download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
+            transform=transform, 
+            device=device,
+            )
+    indices = len(counter_dataset)
+    train_indices, val_indices = get_indices(dataset_config, indices)
 
-        )
+    if "n_classes" in dataset_config:
+        selected_classes = dataset_config["selected_classes"]
+        test_dataset = classes_subset(test_dataset, selected_classes) 
+        origin_dataset = classes_subset(origin_dataset, selected_classes)
+        counter_dataset = classes_subset(counter_dataset, selected_classes) 
+        indices = len(counter_dataset.data)
+        train_indices, val_indices = get_indices(dataset_config, indices)
+
+        
+    print("INDICES: ", indices)
+
+    train_sampler = SubsetRandomSampler(train_indices, generator=g)
+
+    train_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
+                                                batch_size=batch_size,
+                                                num_workers=dataset_config['num_workers'],
+                                                sampler=train_sampler, 
+    )
+
+    if val_indices is None:
+        test_loader = torch.utils.data.DataLoader(
+                dataset=test_dataset,
+                batch_size=batch_size if dataset_config['name'] in ['STL10', 'ImageNet', 'ImageNette',
+                                                                    'ImageNetV2MatchedFrequency', 'ImageNetV2TopImages',
+                                                                    'ImageNetV2Threshold07'] else 1000,
+                num_workers=dataset_config['num_workers'],
+                shuffle=dataset_config['shuffle'],
+
+            )
+    
+    else:
+        
+        val_sampler = SubsetRandomSampler(val_indices)
+        test_loader = torch.utils.data.DataLoader(dataset=origin_dataset,
+                                                  batch_size=batch_size,
+                                                  num_workers=dataset_config['num_workers'],
+                                                  sampler=val_sampler)
+   
+    print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
+
     return train_loader, test_loader
 
+def class_cleaner(dataset, selected_classes):
+# Cleans the classes so that it guarantees that there is first class with index 0 in the dataset, 
+# since it is required by torch. 
+    print("TARGETS: ", type(dataset.targets[1]))
+    print(type(dataset.targets))
+    print(dataset.targets[0])
+
+    if 0 not in selected_classes: 
+        print("NON CI STAAAAAAAAA")
+        min_value = min(dataset.targets)
+        dataset.targets = dataset.targets - min_value # filter doesn't work in this case
+    return dataset
+
+def classes_subset(dataset,selected_classes):
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # I don't think it will work with ImageNette 
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Creates a dataset made up of a subsets of classes indicated in the selected classes variable.
+    T = np.array(dataset.targets)
+    classes = torch.tensor(selected_classes)
+    indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
+    indices = indices.tolist()
+    T = list(T[indices])
+    dataset.targets = T
+    D = np.array(dataset.data)
+    D = list(D[indices])
+    dataset.data = D
+    dataset = class_cleaner(dataset, selected_classes)
+
+
+
+    return dataset
 
 def whitening_zca(x: torch.Tensor, transpose=True, dataset: str = "CIFAR10"):
     path = op.join(DATASET, dataset + "_zca.pt")
