@@ -260,7 +260,6 @@ if __name__ == '__main__':
     blocks = load_presets(params.preset)
     n_classes = params.classes
     resume = params.resume
-    new_model = False
     results = {}
 
 
@@ -293,7 +292,8 @@ if __name__ == '__main__':
 
             if not skip: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                selected_classes = [2, 1]
+                if params.test: 
+                    selected_classes = [2, 1]
                 dataset_sup_config["selected_classes"] = selected_classes
                 dataset_unsup_config["selected_classes"] = selected_classes
 
@@ -304,7 +304,8 @@ if __name__ == '__main__':
 
             # TASK 2
             all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-            selected_classes = [2, 1]
+            if params.test: 
+                selected_classes = [2, 1]
 
             dataset_sup_config["selected_classes"] = selected_classes
             dataset_unsup_config["selected_classes"] = selected_classes
@@ -312,14 +313,12 @@ if __name__ == '__main__':
             params.continual_learning = True
             params.resume = resume
             evaluate = False
-            new_model = True
             name_model = name_model + "_CLM"
             procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # EVALUATION PHASE
             params.continual_learning = False
             evaluate = True
-            new_model = True
             procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             file = "TASKS_CL.json"
@@ -332,8 +331,8 @@ if __name__ == '__main__':
     else:
         # DATASET 1
 
-        dataset_sup_config_1 = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
-        dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
+        dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+        dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
         resume = params.resume
         skip = params.skip_1
 
