@@ -293,7 +293,7 @@ if __name__ == '__main__':
 
             if not skip: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                selected_classes = [1,2]
+                selected_classes = [0,2]
                 dataset_sup_config["selected_classes"] = selected_classes
                 dataset_unsup_config["selected_classes"] = selected_classes
 
@@ -311,7 +311,7 @@ if __name__ == '__main__':
 
             # TASK 2
             all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-            selected_classes = [2, 1]                
+            selected_classes = [2, 0]                
 
             dataset_sup_config["selected_classes"] = selected_classes
             dataset_unsup_config["selected_classes"] = selected_classes
