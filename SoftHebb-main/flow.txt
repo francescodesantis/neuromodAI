@@ -146,3 +146,5 @@ So to execute the continual learning:
    - at this point we save the models and copy them with a different name. 
    - Use the new name in the continual learning using the classes flag.
 For both scenarios we need to clean the already existing json files before doing anything because they contain dirty runs.
+
+I have a set of unordered labels. I need to scale them by removing the base 

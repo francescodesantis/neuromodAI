@@ -413,12 +413,18 @@ def class_cleaner(dataset, selected_classes):
 # since it is required by torch. 
     print("TARGETS: ", type(dataset.targets[1]))
     print(type(dataset.targets))
-    print(dataset.targets[0])
+    selected_classes.sort()
+    min_value = min(dataset.targets)
+    for i in range(len(selected_classes)): 
+        for j in range(len(dataset.targets)): 
+            if  dataset.targets[j] == selected_classes[i]: 
+                dataset.targets[j] =  i
 
-    if 0 not in selected_classes: 
-        print("NON CI STAAAAAAAAA")
-        min_value = min(dataset.targets)
-        dataset.targets = dataset.targets - min_value # filter doesn't work in this case
+    #if 0 not in selected_classes: 
+    #    print("NON CI STAAAAAAAAA")
+    #    min_value = min(dataset.targets)
+    #    dataset.targets = dataset.targets - min_value # filter doesn't work in this case
+    print(dataset.targets[:20])
     return dataset
 
 def classes_subset(dataset,selected_classes):
@@ -436,7 +442,6 @@ def classes_subset(dataset,selected_classes):
     D = list(D[indices])
     dataset.data = D
     dataset = class_cleaner(dataset, selected_classes)
-
 
 
     return dataset

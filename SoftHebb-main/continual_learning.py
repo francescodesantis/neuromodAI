@@ -117,6 +117,8 @@ parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=Non
 # after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
 # during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
 
+results = {}
+
 
 
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
@@ -124,7 +126,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     model = load_layers(blocks, name_model, resume)
         
     #model = copy.deepcopy(model_og)
-    
+
     model = model.to(device)
     log = Log(train_config)
     test_loss = 0
@@ -173,11 +175,15 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
+            result["dataset_sup"] = dataset_sup_config
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
-            if results.get("R1") == None: 
+            print("RESULT: ", result)
+            if results.get("R1") is None: 
+                print("IN R1: ", results)
                 results["R1"] = result
-            else: 
+            else:
+                print("IN R2: ", results)
                 results["R2"] = result
         else:
             run_hybrid(
@@ -201,6 +207,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     #for d in datas: 
 
     #    print("Datas: ", d)
+
 
 def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
 
@@ -261,7 +268,6 @@ if __name__ == '__main__':
     blocks = load_presets(params.preset)
     n_classes = params.classes
     resume = params.resume
-    results = {}
 
 
     if n_classes != None and (params.dataset_sup_2 != None or params.dataset_sup_1 != None):
@@ -273,19 +279,20 @@ if __name__ == '__main__':
     if n_classes != None: 
         
         
-        dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
-        dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
-        out_channels = dataset_sup_config["out_channels"]
-        dataset_sup_config["old_dataset_size"] = dataset_sup_config["width"]
-        dataset_unsup_config["old_dataset_size"] = dataset_unsup_config["width"]
+        dataset_sup  = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
+        dataset_unsup = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
+        out_channels = dataset_sup["out_channels"]
+        dataset_sup["old_dataset_size"] = dataset_sup["width"]
+        dataset_unsup["old_dataset_size"] = dataset_unsup["width"]
 
-        dataset_sup_config["n_classes"] = n_classes
-        dataset_unsup_config["n_classes"] = n_classes
+        dataset_sup["n_classes"] = n_classes
+        dataset_unsup["n_classes"] = n_classes
 
-        dataset_sup_config["out_channels"] = n_classes
-        dataset_unsup_config["out_channels"] = n_classes
+        dataset_sup["out_channels"] = n_classes
+        dataset_unsup["out_channels"] = n_classes
 
         all_classes = np.arange(0, out_channels)
+        
 
         if out_channels >=  2*n_classes:
 
@@ -294,38 +301,48 @@ if __name__ == '__main__':
 
             if not skip: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                selected_classes = [0,2]
-                dataset_sup_config["selected_classes"] = selected_classes
-                dataset_unsup_config["selected_classes"] = selected_classes
+                #selected_classes = [0,2]
+                selected_classes = selected_classes.tolist()
+                dataset_sup["selected_classes"] = selected_classes
+                dataset_unsup["selected_classes"] = selected_classes
 
                 params.continual_learning = False
                 params.resume = None
-                evaluate = False
-                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+                evaluate = True
+                procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+
             else: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                dataset_sup_config["selected_classes"] = selected_classes
-                dataset_unsup_config["selected_classes"] = selected_classes
+                #selected_classes = [0,2]
+
+                selected_classes = selected_classes.tolist()
+                dataset_sup["selected_classes"] = selected_classes
+                dataset_unsup["selected_classes"] = selected_classes
                 params.continual_learning = False
-                evaluate = True
-                procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+                evaluate = False
+                procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
 
             # TASK 2
             all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-            selected_classes = [2, 0]                
 
-            dataset_sup_config["selected_classes"] = selected_classes
-            dataset_unsup_config["selected_classes"] = selected_classes
+            #selected_classes = [0, 2]                
+            selected_classes = selected_classes.tolist()
+            dataset_sup_2T = dataset_sup
+            dataset_unsup_2T = dataset_unsup
+            dataset_sup_2T["selected_classes_2"] = selected_classes
+            dataset_unsup_2T["selected_classes_2"] = selected_classes
+            
+            print("dataset_sup_2T: ",  dataset_sup_2T)
 
             params.continual_learning = True
             params.resume = resume
             evaluate = False
-            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            procedure(params, name_model, blocks, dataset_sup_2T, dataset_unsup_2T, evaluate, results)
 
             # EVALUATION PHASE
             params.continual_learning = False
             evaluate = True
-            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
 
             file = "TASKS_CL.json"
             save_results(results, file)
@@ -337,24 +354,24 @@ if __name__ == '__main__':
     else:
         # DATASET 1
 
-        
+
         resume = params.resume
         skip = params.skip_1
-        dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+        dataset_sup_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
 
 
         if not skip: 
             params.continual_learning = False
             params.resume = None
-            dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
-            dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
-            procedure(params, name_model, blocks,dataset_sup_config_1, dataset_unsup_config_1, False, results)
+            dataset_sup_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+            dataset_unsup_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
+            procedure(params, name_model, blocks,dataset_sup_1, dataset_unsup_1, False, results)
         else: 
             params.continual_learning = False
             evaluate = True
-            dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
-            dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
-            procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
+            dataset_sup_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
+            dataset_unsup_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
+            procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
 
         # DATASET 2
 
@@ -365,18 +382,18 @@ if __name__ == '__main__':
         params.resume = resume
         evaluate = False
 
-        dataset_sup_config_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
-        dataset_unsup_config_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
-        dataset_sup_config_2["old_dataset_size"] = dataset_sup_config_1["width"]
-        dataset_unsup_config_2["old_dataset_size"] = dataset_unsup_config_1["width"]
+        dataset_sup_2 = load_config_dataset(params.dataset_sup_2, params.validation, params.continual_learning)
+        dataset_unsup_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
+        dataset_sup_2["old_dataset_size"] = dataset_sup_1["width"]
+        dataset_unsup_2["old_dataset_size"] = dataset_unsup_1["width"]
 
-        procedure(params, name_model, blocks,dataset_sup_config_2, dataset_unsup_config_2, evaluate, results)
+        procedure(params, name_model, blocks,dataset_sup_2, dataset_unsup_2, evaluate, results)
 
         # EVALUATION PHASE
        
         params.continual_learning = False
         evaluate = True
-        procedure(params, name_model, blocks, dataset_sup_config_1, dataset_unsup_config_1, evaluate, results)
+        procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
         
         file = "MULTD_CL.json"
         save_results(results, file)
