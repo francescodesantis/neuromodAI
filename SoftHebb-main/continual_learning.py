@@ -123,7 +123,8 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     model = load_layers(blocks, name_model, resume)
         
     #model = copy.deepcopy(model_og)
-    
+    print("\n\nRUNNING MAIN °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°\n\n")
+
     model = model.to(device)
     log = Log(train_config)
     test_loss = 0
@@ -287,7 +288,6 @@ if __name__ == '__main__':
 
         all_classes = np.arange(0, out_channels)
         
-        print("INIZIO MAIN")
 
         if out_channels >=  2*n_classes:
 
@@ -305,6 +305,7 @@ if __name__ == '__main__':
                 params.resume = None
                 evaluate = True
                 procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+
             else: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
                 #selected_classes = [0,2]
