@@ -123,7 +123,6 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     model = load_layers(blocks, name_model, resume)
         
     #model = copy.deepcopy(model_og)
-    print("\n\nRUNNING MAIN °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°\n\n")
 
     model = model.to(device)
     log = Log(train_config)
@@ -322,14 +321,15 @@ if __name__ == '__main__':
 
             #selected_classes = [0, 2]                
             selected_classes = selected_classes.tolist()
-
-            dataset_sup_config["selected_classes"] = selected_classes
-            dataset_unsup_config["selected_classes"] = selected_classes
+            dataset_sup_config_2T = dataset_sup_config
+            dataset_unsup_config_2T = dataset_unsup_config
+            dataset_sup_config_2T["selected_classes"] = selected_classes
+            dataset_unsup_config_2T["selected_classes"] = selected_classes
 
             params.continual_learning = True
             params.resume = resume
             evaluate = False
-            procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
+            procedure(params, name_model, blocks, dataset_sup_config_2T, dataset_unsup_config_2T, evaluate, results)
 
             # EVALUATION PHASE
             params.continual_learning = False
