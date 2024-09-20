@@ -174,7 +174,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
             )
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
-            if results.get("R1") == None: 
+            if results.get("R1") is None: 
                 results["R1"] = result
             else: 
                 results["R2"] = result
@@ -200,6 +200,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     for d in datas: 
 
         print("Datas: ", d)
+
 
 def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
 
@@ -285,6 +286,8 @@ if __name__ == '__main__':
         dataset_unsup_config["out_channels"] = n_classes
 
         all_classes = np.arange(0, out_channels)
+        
+        print("INIZIO MAIN")
 
         if out_channels >=  2*n_classes:
 
@@ -293,25 +296,31 @@ if __name__ == '__main__':
 
             if not skip: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                selected_classes = [0,2]
+                #selected_classes = [0,2]
+                selected_classes = selected_classes.tolist()
                 dataset_sup_config["selected_classes"] = selected_classes
                 dataset_unsup_config["selected_classes"] = selected_classes
 
                 params.continual_learning = False
                 params.resume = None
-                evaluate = False
+                evaluate = True
                 procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
             else: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
+                #selected_classes = [0,2]
+
+                selected_classes = selected_classes.tolist()
                 dataset_sup_config["selected_classes"] = selected_classes
                 dataset_unsup_config["selected_classes"] = selected_classes
                 params.continual_learning = False
-                evaluate = True
+                evaluate = False
                 procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results)
 
             # TASK 2
             all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-            selected_classes = [2, 0]                
+
+            #selected_classes = [0, 2]                
+            selected_classes = selected_classes.tolist()
 
             dataset_sup_config["selected_classes"] = selected_classes
             dataset_unsup_config["selected_classes"] = selected_classes
@@ -336,7 +345,7 @@ if __name__ == '__main__':
     else:
         # DATASET 1
 
-        
+
         resume = params.resume
         skip = params.skip_1
         dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
