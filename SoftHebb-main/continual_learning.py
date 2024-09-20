@@ -116,6 +116,8 @@ parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=Non
 # after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
 # during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
 
+results = {}
+
 
 
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
@@ -172,11 +174,15 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
+            result["dataset_sup"] = dataset_sup_config
             result["dataset_unsup"] = dataset_unsup_config
             result["train_config"] = train_config
+            print("RESULT: ", result)
             if results.get("R1") is None: 
+                print("IN R1: ", results)
                 results["R1"] = result
-            else: 
+            else:
+                print("IN R2: ", results)
                 results["R2"] = result
         else:
             run_hybrid(
@@ -261,7 +267,6 @@ if __name__ == '__main__':
     blocks = load_presets(params.preset)
     n_classes = params.classes
     resume = params.resume
-    results = {}
 
 
     if n_classes != None and (params.dataset_sup_2 != None or params.dataset_sup_1 != None):
@@ -323,8 +328,10 @@ if __name__ == '__main__':
             selected_classes = selected_classes.tolist()
             dataset_sup_2T = dataset_sup
             dataset_unsup_2T = dataset_unsup
-            dataset_sup_2T["selected_classes"] = selected_classes
-            dataset_unsup_2T["selected_classes"] = selected_classes
+            dataset_sup_2T["selected_classes_2"] = selected_classes
+            dataset_unsup_2T["selected_classes_2"] = selected_classes
+            
+            print("dataset_sup_2T: ",  dataset_sup_2T)
 
             params.continual_learning = True
             params.resume = resume
