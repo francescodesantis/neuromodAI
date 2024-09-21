@@ -404,7 +404,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                   num_workers=dataset_config['num_workers'],
                                                   sampler=val_sampler)
    
-    print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
+    #print("IMAGE SIZE: ", (train_loader.dataset)[0][0].size())
 
     return train_loader, test_loader
 
