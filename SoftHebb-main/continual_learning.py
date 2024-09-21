@@ -146,7 +146,11 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 metrics = {"test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
             metrics["dataset_sup"] = dataset_sup_config
             metrics["dataset_unsup"] = dataset_unsup_config
-            results["eval"] = metrics
+
+            if results.get("eval_1") is None: 
+                results["eval_1"] = metrics
+            else:
+                results["eval_2"] = metrics
         elif config['mode'] == 'unsupervised':
             run_unsup(
                 config['nb_epoch'],
