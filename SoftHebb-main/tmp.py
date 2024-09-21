@@ -1,29 +1,24 @@
-import os
+# Import PyTorch dependencies
+import torch
+import intel_extension_for_pytorch as ipex
 
-def rename_files(folder_path):
-    if not os.path.isdir(folder_path):
-        print("Invalid folder path.")
-        return
 
-    file_list = os.listdir(folder_path)
-    file_list.sort()
+from torch.amp import autocast
+from torch.cuda.amp import GradScaler
+from torchvision import transforms
+import torchvision.transforms.functional as TF
+from torch.utils.data import Dataset, DataLoader
+from torchtnt.utils import get_module_summary
+from torcheval.metrics import MulticlassAccuracy
 
-    # Initialize count for renaming
-    count = 1
-
-    # Iterate through files
-    for old_name in file_list:
-        # Construct new file name with incremental number
-        new_name = f"{count}.jpg"
-        new_path = os.path.join(folder_path, new_name)
-
-        # Increment count
-        count += 1
-
-        # Rename the file
-        os.rename(os.path.join(folder_path, old_name), new_path)
-        print(f"Renamed {old_name} to {new_name}")
-
-# Example usage
-folder_path = "/Users/riccardocasciotti/Downloads/BIS1/photos"
-rename_files(folder_path)
+def get_public_properties(obj):
+    return {
+        prop: getattr(obj, prop)
+        for prop in dir(obj)
+        if not prop.startswith("__") and not callable(getattr(obj, prop))
+    }
+print(f'PyTorch Version: {torch.__version__}')
+print(f'Intel PyTorch Extension Version: {ipex.__version__}')
+xpu_device_count = torch.xpu.device_count()
+dict_properties_list = [get_public_properties(torch.xpu.get_device_properties(i)) for i in range(xpu_device_count)]
+print(dict_properties_list)
