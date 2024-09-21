@@ -1,0 +1,17 @@
+_libgcc_mutex=0.1=conda_forge
+_openmp_mutex=4.5=2_gnu
+bzip2=1.0.8=hd590300_5
+libffi=3.4.2=h7f98852_5
+libgomp=13.2.0=hc881cc4_6
+libnsl=2.0.1=hd590300_0
+libsqlite=3.45.3=h2797004_0
+libuuid=2.38.1=h0b41bf4_0
+libzlib=1.2.13=hd590300_5
+ncurses=6.4.20240210=h59595ed_0
+openssl=3.2.1=hd590300_1
+python=3.10.0=h543edf9_3_cpython
+readline=8.2=h8228510_1
+sqlite=3.45.3=h2c6b66d_0
+tk=8.6.13=noxft_h4845f30_101
+xz=5.2.6=h166bdaf_0
+pip=23.2
