@@ -80,31 +80,43 @@ def select_dataset(dataset_config, device, dataset_path):
     val_indices = None
     split = dataset_config["split"] if "split" in dataset_config else "train"
     if dataset_config['name'] == 'CIFAR10':
-        dataset_class = FastCIFAR10
+        #dataset_class = FastCIFAR10
+        dataset_class = datasets.CIFAR10
+
         indices = list(range(50000))
 
         if dataset_config['augmentation']:
-            dataset_train_class = AugFastCIFAR10
+            #dataset_train_class = AugFastCIFAR10
+            dataset_class = datasets.CIFAR10
+
             dataset_config['num_workers'] = 4
             device = 'cpu'
             transform = crop_flip(dataset_config['width'], dataset_config['height'])
         else:
-            dataset_train_class = FastCIFAR10
+            #dataset_train_class = FastCIFAR10
+            dataset_class = datasets.CIFAR10
+
             #transform = None
             transform=transforms.ToTensor()
             test_transform=transforms.ToTensor()
 
     elif dataset_config['name'] == 'CIFAR100':
-        dataset_class = FastCIFAR100
+        #dataset_class = FastCIFAR100
+        dataset_class = datasets.CIFAR100
+
         indices = list(range(50000))
 
         if dataset_config['augmentation']:
-            dataset_train_class = AugFastCIFAR100
+            #dataset_train_class = AugFastCIFAR100
+            dataset_class = datasets.CIFAR10
+
             dataset_config['num_workers'] = 4
             device = 'cpu'
             transform = crop_flip(dataset_config['width'], dataset_config['height'])
         else:
-            dataset_train_class = FastCIFAR100
+            #dataset_train_class = FastCIFAR100
+            dataset_class = datasets.CIFAR100
+
             transform = None
 
     elif dataset_config['name'] == 'MNIST':
