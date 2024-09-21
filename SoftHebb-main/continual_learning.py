@@ -308,7 +308,7 @@ if __name__ == '__main__':
 
                 params.continual_learning = False
                 params.resume = None
-                evaluate = True
+                evaluate = False
                 procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
 
             else: 
@@ -319,7 +319,7 @@ if __name__ == '__main__':
                 dataset_sup["selected_classes"] = selected_classes
                 dataset_unsup["selected_classes"] = selected_classes
                 params.continual_learning = False
-                evaluate = False
+                evaluate = True
                 procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
 
             # TASK 2
