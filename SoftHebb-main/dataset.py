@@ -87,14 +87,14 @@ def select_dataset(dataset_config, device, dataset_path):
 
         if dataset_config['augmentation']:
             #dataset_train_class = AugFastCIFAR10
-            dataset_class = datasets.CIFAR10
+            dataset_train_class = datasets.CIFAR10
 
             dataset_config['num_workers'] = 4
             device = 'cpu'
             transform = crop_flip(dataset_config['width'], dataset_config['height'])
         else:
             #dataset_train_class = FastCIFAR10
-            dataset_class = datasets.CIFAR10
+            dataset_train_class = datasets.CIFAR10
 
             #transform = None
             transform=transforms.ToTensor()
@@ -108,14 +108,14 @@ def select_dataset(dataset_config, device, dataset_path):
 
         if dataset_config['augmentation']:
             #dataset_train_class = AugFastCIFAR100
-            dataset_class = datasets.CIFAR10
+            dataset_train_class = datasets.CIFAR10
 
             dataset_config['num_workers'] = 4
             device = 'cpu'
             transform = crop_flip(dataset_config['width'], dataset_config['height'])
         else:
             #dataset_train_class = FastCIFAR100
-            dataset_class = datasets.CIFAR100
+            dataset_train_class = datasets.CIFAR100
 
             transform = None
 
