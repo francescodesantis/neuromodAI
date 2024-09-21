@@ -34,7 +34,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 click-plugins==1.1.1
 cligj==0.7.2
-cloudpickle==2.2.1
+cloudpickle>=3.0.0
 cmake==3.29.2
 colorama==0.4.6
 comm==0.1.4
