@@ -1,10 +1,10 @@
 import ray 
 ray.init()
-f = open("reqs.txt", "r")
-dest = open("reqs_latest.txt", "w")
+f = open("softhebb_env/pip_reqs.txt", "r")
+dest = open("softhebb_env/pip_reqsX.txt", "w")
 lines = f.readlines()
 for line in lines:
-    cut_index = line.find(">")
-    dest.write(line[:cut_index]+"\n")
+    line = line.split("==")
+    dest.write(line[0]+"\n")
 f.close()
 dest.close()
