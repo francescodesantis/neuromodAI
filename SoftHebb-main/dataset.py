@@ -578,23 +578,23 @@ class FastSTL10(STL10):
 
     #     self.labels = torch.tensor(self.labels, device=device)
 
-    # def __getitem__(self, index: int):
-    #     """
-    #     Parameters
-    #     ----------
-    #     index : int
-    #         Index of the element to be returned
+    def __getitem__(self, index: int):
+        """
+        Parameters
+        ----------
+        index : int
+            Index of the element to be returned
 
-    #     Returns
-    #     -------
-    #         tuple: (image, target) where target is the index of the target class
-    #     """
-    #     if self.labels is not None:
-    #         img, target = self.data[index], int(self.labels[index])
-    #     else:
-    #         img, target = self.data[index], None
+        Returns
+        -------
+            tuple: (image, target) where target is the index of the target class
+        """
+        if self.labels is not None:
+            img, target = self.data[index], int(self.labels[index])
+        else:
+            img, target = self.data[index], None
 
-    #     return img, target
+        return img, target
 
 
 class AugFastSTL10(FastSTL10):
