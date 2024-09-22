@@ -147,4 +147,5 @@ So to execute the continual learning:
    - Use the new name in the continual learning using the classes flag.
 For both scenarios we need to clean the already existing json files before doing anything because they contain dirty runs.
 
-I have a set of unordered labels. I need to scale them by removing the base 
+Everything seems to be working fine reguarding the scaling in continual learning with diff datasets. 
+We still need to try the continual learning with subclasses.
