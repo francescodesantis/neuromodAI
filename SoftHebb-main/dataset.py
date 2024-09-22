@@ -549,52 +549,52 @@ class FastSTL10(STL10):
         mean = (0.4914, 0.48216, 0.44653)
         std = (0.247, 0.2434, 0.2616)
 
-        # norm = transforms.Normalize(mean,  std)
+        norm = transforms.Normalize(mean,  std)
 
-    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
-    #     if train:
-    #         if not isinstance(train_class, str):
-    #             index_class = np.isin(self.labels, train_class)
-    #             self.data = self.data[index_class]
-    #             self.labels = np.array(self.labels)[index_class]
-    #             self.len = self.data.shape[0]
+        if train:
+            if not isinstance(train_class, str):
+                index_class = np.isin(self.labels, train_class)
+                self.data = self.data[index_class]
+                self.labels = np.array(self.labels)[index_class]
+                self.len = self.data.shape[0]
 
-    #     if zca:
-    #         self.data = (self.data - mean) / std
-    #         self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
-    #         zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-    #     self.data = torch.tensor(self.data, dtype=torch.float)
+        if zca:
+            self.data = (self.data - mean) / std
+            self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
+            zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
+        self.data = torch.tensor(self.data, dtype=torch.float)
 
-    #     # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
-    #     # self.data = norm(self.data)
-    #     if zca:
-    #         self.data = zca_whitening(self.data)
-    #         print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
+        # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+        # self.data = norm(self.data)
+        if zca:
+            self.data = zca_whitening(self.data)
+            print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
 
-    #     # self.data = self.data.to(device)  # Rescale to [0, 1]
+        # self.data = self.data.to(device)  # Rescale to [0, 1]
 
-    #     # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+        # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
 
-    #     self.labels = torch.tensor(self.labels, device=device)
+        self.labels = torch.tensor(self.labels, device=device)
 
-    # def __getitem__(self, index: int):
-    #     """
-    #     Parameters
-    #     ----------
-    #     index : int
-    #         Index of the element to be returned
+    def __getitem__(self, index: int):
+        """
+        Parameters
+        ----------
+        index : int
+            Index of the element to be returned
 
-    #     Returns
-    #     -------
-    #         tuple: (image, target) where target is the index of the target class
-    #     """
-    #     if self.labels is not None:
-    #         img, target = self.data[index], int(self.labels[index])
-    #     else:
-    #         img, target = self.data[index], None
+        Returns
+        -------
+            tuple: (image, target) where target is the index of the target class
+        """
+        if self.labels is not None:
+            img, target = self.data[index], int(self.labels[index])
+        else:
+            img, target = self.data[index], None
 
-    #     return img, target
+        return img, target
 
 
 class AugFastSTL10(FastSTL10):
