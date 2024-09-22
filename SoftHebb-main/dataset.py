@@ -312,7 +312,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         )
 
         print("ORIGIN DATASET", origin_dataset)
-        if not dataset_config['name'] in ['ImageNet']:
+        if not (['ImageNette'] in dataset_config['name']):
             origin_dataset = reshape_dataset(origin_dataset, old_dataset_size)
         
     else: 
@@ -353,7 +353,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 device=device,
 
             )
-        if not dataset_config['name'] in ['ImageNet']:
+        if not (['ImageNette'] in dataset_config['name']):
             test_dataset = reshape_dataset(test_dataset, old_dataset_size)
 
     else:
