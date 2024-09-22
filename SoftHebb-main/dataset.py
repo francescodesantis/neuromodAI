@@ -298,14 +298,15 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     # Add more transforms here
                                                     
                                                     # convert to tensor at the end
-                                                      
+                                                    #transforms.ToTensor()
                                                     ]), 
         zca=dataset_config['zca_whitened'],
         device=device,
         train_class=dataset_config['training_class']
         )
 
-        print(origin_dataset[0][0])
+        print("ORIGIN DATASET", origin_dataset)
+
         
     else: 
         origin_dataset = dataset_train_class(

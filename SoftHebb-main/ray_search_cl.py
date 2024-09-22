@@ -318,7 +318,7 @@ def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_conf
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
         dataset_unsup_config['seed'] = params.seed
-
+    print("DATASET SUP CONFIG: , ", dataset_sup_config)
     if dataset_sup_config['seed'] is not None:
         seed_init_fn(dataset_sup_config['seed'])
 
@@ -477,7 +477,7 @@ if __name__ == '__main__':
         
         if not params.skip_1:
             params.continual_learning = False
-            params.resume = None
+            #params.resume = None
             dataset_sup_config_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
             dataset_unsup_config_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
 

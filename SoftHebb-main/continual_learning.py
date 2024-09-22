@@ -366,7 +366,7 @@ if __name__ == '__main__':
 
         if not skip: 
             params.continual_learning = False
-            params.resume = None
+            #params.resume = None
             dataset_sup_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
             dataset_unsup_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
             procedure(params, name_model, blocks,dataset_sup_1, dataset_unsup_1, False, results)
