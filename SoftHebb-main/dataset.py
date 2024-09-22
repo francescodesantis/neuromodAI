@@ -312,7 +312,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         )
 
         print("ORIGIN DATASET", origin_dataset)
-        origin_dataset = reshape_dataset(origin_dataset, old_dataset_size)
+        if not dataset_config['name'] in ['ImageNet']:
+            origin_dataset = reshape_dataset(origin_dataset, old_dataset_size)
         
     else: 
         origin_dataset = dataset_train_class(
@@ -352,7 +353,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 device=device,
 
             )
-        test_dataset = reshape_dataset(test_dataset, old_dataset_size)
+        if not dataset_config['name'] in ['ImageNet']:
+            test_dataset = reshape_dataset(test_dataset, old_dataset_size)
 
     else:
         test_dataset = dataset_class(
