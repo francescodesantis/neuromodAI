@@ -346,7 +346,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     #transforms.ToTensor(),  # convert to tensor at the end
                                                     ]),
                 device=device,
-                continual_learning=dataset_config["continual_learning"]
 
             )
     else:
@@ -358,7 +357,6 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 zca=dataset_config['zca_whitened'],
                 transform=test_transform,
                 device=device,
-                continual_learning=dataset_config["continual_learning"]
 
             )
     
@@ -367,6 +365,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
             download=not dataset_config['name'] in ['ImageNet'],  # TODO: make this depend on whether dataset exists or not
             transform=transform, 
             device=device,
+
             )
     indices = len(counter_dataset)
     train_indices, val_indices = get_indices(dataset_config, indices)
