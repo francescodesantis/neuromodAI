@@ -303,7 +303,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         zca=dataset_config['zca_whitened'],
         device=device,
         train_class=dataset_config['training_class'],
-        continual_learning=True
+        continual_learning=dataset_config["continual_learning"]
         )
 
         print("ORIGIN DATASET", origin_dataset)
@@ -318,7 +318,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         transform=transform, 
         zca=dataset_config['zca_whitened'],
         device=device,
-        train_class=dataset_config['training_class']
+        train_class=dataset_config['training_class'],
+        continual_learning=dataset_config["continual_learning"]
         
         )
 
@@ -356,7 +357,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 train=False,
                 zca=dataset_config['zca_whitened'],
                 transform=test_transform,
-                device=device
+                device=device,
+                continual_learning=dataset_config["continual_learning"]
 
             )
     
