@@ -541,8 +541,9 @@ class FastSTL10(STL10):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    def __init__(self, continual_learning, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         device = kwargs.pop('device', "cpu")
+        continual_learning = kwargs.pop("continual_learning")
         zca = kwargs.pop('zca', False)
         train_class = kwargs.pop('train_class', 'all')
         train = kwargs.pop('train', True)
