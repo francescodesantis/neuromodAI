@@ -247,7 +247,7 @@ def get_indices(dataset_config, indices):
     return  train_indices, val_indices
 
 def reshape_dataset(dataset, old_size):
-    new_dataset = torch.Tensor((dataset.data).shape)
+    new_dataset = torch.Tensor((dataset.data).shape[0], (dataset.data).shape[0], old_size, old_size )
     for i in range(((dataset.data).shape)[0]):
         new_dataset[i] = transforms.Resize(old_size)(dataset.data[i])
     return new_dataset
