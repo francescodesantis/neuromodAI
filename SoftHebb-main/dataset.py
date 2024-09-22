@@ -545,13 +545,11 @@ class FastSTL10(STL10):
 
     def __init__(self, *args, **kwargs):
         device = kwargs.pop('device', "cpu")
-        continual_learning = kwargs.pop("continual_learning")
         zca = kwargs.pop('zca', False)
         train_class = kwargs.pop('train_class', 'all')
         train = kwargs.pop('train', True)
         super().__init__(*args, **kwargs)
 
-        print("CONTINUAL IN STL10: ", continual_learning)
 
         mean = (0.4914, 0.48216, 0.44653)
         std = (0.247, 0.2434, 0.2616)
