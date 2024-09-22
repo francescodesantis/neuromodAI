@@ -447,6 +447,7 @@ def classes_subset(dataset,selected_classes):
     # I don't think it will work with ImageNette 
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Creates a dataset made up of a subsets of classes indicated in the selected classes variable.
+    (dataset.targets).cpu()
     T = np.array(dataset.targets)
     classes = torch.tensor(selected_classes)
     indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
