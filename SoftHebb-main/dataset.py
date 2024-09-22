@@ -302,7 +302,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     ]), 
         zca=dataset_config['zca_whitened'],
         device=device,
-        train_class=dataset_config['training_class']
+        train_class=dataset_config['training_class'],
+        continual_learning=True
         )
 
         print("ORIGIN DATASET", origin_dataset)
@@ -343,7 +344,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                                                     # Add more transforms here
                                                     #transforms.ToTensor(),  # convert to tensor at the end
                                                     ]),
-                device=device
+                device=device,
+                continual_learning=dataset_config["continual_learning"]
 
             )
     else:
@@ -539,44 +541,47 @@ class FastSTL10(STL10):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, continual_learning, *args, **kwargs):
         device = kwargs.pop('device', "cpu")
         zca = kwargs.pop('zca', False)
         train_class = kwargs.pop('train_class', 'all')
         train = kwargs.pop('train', True)
         super().__init__(*args, **kwargs)
 
+        print("CONTINUAL IN STL10: ", continual_learning)
+
         mean = (0.4914, 0.48216, 0.44653)
         std = (0.247, 0.2434, 0.2616)
 
-        # norm = transforms.Normalize(mean,  std)
 
-    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        norm = transforms.Normalize(mean,  std)
 
-    #     if train:
-    #         if not isinstance(train_class, str):
-    #             index_class = np.isin(self.labels, train_class)
-    #             self.data = self.data[index_class]
-    #             self.labels = np.array(self.labels)[index_class]
-    #             self.len = self.data.shape[0]
+        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
-    #     if zca:
-    #         self.data = (self.data - mean) / std
-    #         self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
-    #         zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-    #     self.data = torch.tensor(self.data, dtype=torch.float)
+        if train:
+            if not isinstance(train_class, str):
+                index_class = np.isin(self.labels, train_class)
+                self.data = self.data[index_class]
+                self.labels = np.array(self.labels)[index_class]
+                self.len = self.data.shape[0]
 
-    #     # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
-    #     # self.data = norm(self.data)
-    #     if zca:
-    #         self.data = zca_whitening(self.data)
-    #         print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
+        if zca:
+            self.data = (self.data - mean) / std
+            self.zca = whitening_zca(self.data, transpose=False, dataset=STL10)
+            zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
+        self.data = torch.tensor(self.data, dtype=torch.float)
 
-    #     # self.data = self.data.to(device)  # Rescale to [0, 1]
+        # self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+        # self.data = norm(self.data)
+        if zca:
+            self.data = zca_whitening(self.data)
+            print("self.data.mean(), self.data.std()", self.data.mean(), self.data.std())
 
-    #     # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+        # self.data = self.data.to(device)  # Rescale to [0, 1]
 
-    #     self.labels = torch.tensor(self.labels, device=device)
+        # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+
+        self.labels = torch.tensor(self.labels, device=device)
 
     def __getitem__(self, index: int):
         """
