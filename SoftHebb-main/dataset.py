@@ -246,6 +246,11 @@ def get_indices(dataset_config, indices):
                         dataset_config['val_sample']:(dataset_config['training_sample'] + dataset_config['val_sample'])]
     return  train_indices, val_indices
 
+def reshape_dataset(dataset, old_size):
+    new_dataset = torch.Tensor((dataset.data).shape)
+    for i in range(((dataset.data).shape)[0]):
+        new_dataset[i] = transforms.Resize(old_size)(dataset.data[i])
+    return new_dataset
 
 
 def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
@@ -306,7 +311,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         )
 
         print("ORIGIN DATASET", origin_dataset)
-
+        origin_dataset = reshape_dataset(origin_dataset, old_dataset_size)
         
     else: 
         origin_dataset = dataset_train_class(
@@ -346,6 +351,8 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
                 device=device,
 
             )
+        test_dataset = reshape_dataset(test_dataset, old_dataset_size)
+
     else:
         test_dataset = dataset_class(
                 dataset_path,
