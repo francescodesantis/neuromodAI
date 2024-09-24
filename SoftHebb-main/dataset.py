@@ -380,9 +380,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     if "n_classes" in dataset_config:
         selected_classes = dataset_config["selected_classes"]
-        test_dataset = classes_subset(test_dataset, selected_classes) 
-        origin_dataset = classes_subset(origin_dataset, selected_classes)
-        counter_dataset = classes_subset(counter_dataset, selected_classes) 
+        test_dataset = classes_subset(test_dataset, selected_classes, device) 
+        origin_dataset = classes_subset(origin_dataset, selected_classes, device)
+        counter_dataset = classes_subset(counter_dataset, selected_classes, device) 
         indices = len(counter_dataset.data)
         train_indices, val_indices = get_indices(dataset_config, indices)
 
@@ -442,22 +442,24 @@ def class_cleaner(dataset, selected_classes):
     print(dataset.targets[:20])
     return dataset
 
-def classes_subset(dataset,selected_classes):
+def classes_subset(dataset,selected_classes, device):
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # I don't think it will work with ImageNette 
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Creates a dataset made up of a subsets of classes indicated in the selected classes variable.
-    T = np.array(dataset.targets)
+    T = dataset.targets.detatch().cpu.numpy()
     classes = torch.tensor(selected_classes)
     indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
     indices = indices.tolist()
     T = list(T[indices])
     dataset.targets = T
-    D = np.array(dataset.data)
+    D = dataset.data.detach().cpu().numpy()
     D = list(D[indices])
     dataset.data = D
     dataset = class_cleaner(dataset, selected_classes)
 
+    dataset.data = torch.Tensor(dataset.data, device=device)
+    dataset.targets = torch.Tensor(dataset.data, device=device)
 
     return dataset
 
