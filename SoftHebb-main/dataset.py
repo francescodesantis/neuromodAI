@@ -447,7 +447,12 @@ def classes_subset(dataset_config, dataset,selected_classes, device):
     # I don't think it will work with ImageNette 
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Creates a dataset made up of a subsets of classes indicated in the selected classes variable.
-    T = dataset.targets.cpu().numpy()
+    if dataset_config["name"] == "STL10":
+        T = dataset.labels.cpu().numpy()
+
+    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100": 
+        T = dataset.targets.cpu().numpy()
+
     classes = torch.tensor(selected_classes)
     indices = (torch.tensor(T)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
     indices = indices.tolist()
