@@ -462,7 +462,7 @@ def classes_subset(dataset_config, dataset,selected_classes, device):
     if dataset_config["name"] == "STL10":
         dataset.labels = torch.tensor(dataset.labels, device="cpu")
 
-    elif dataset_config["name"] == "CIFAR10": 
+    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100": 
         dataset.targets = torch.tensor(dataset.targets, device="cpu")
 
 
@@ -627,27 +627,27 @@ class AugFastSTL10(FastSTL10):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    # def __getitem__(self, index: int):
-    #     """
-    #     Parameters
-    #     ----------
-    #     index : int
-    #         Index of the element to be returned
+    def __getitem__(self, index: int):
+        """
+        Parameters
+        ----------
+        index : int
+            Index of the element to be returned
 
-    #     Returns
-    #     -------
-    #         tuple: (image, target) where target is the index of the target class
-    #     """
+        Returns
+        -------
+            tuple: (image, target) where target is the index of the target class
+        """
 
-    #     if self.labels is not None:
-    #         img, target = self.data[index], int(self.labels[index])
-    #     else:
-    #         img, target = self.data[index], None
+        if self.labels is not None:
+            img, target = self.data[index], int(self.labels[index])
+        else:
+            img, target = self.data[index], None
 
-    #     if self.transform is not None:
-    #         img = self.transform(img)
+        if self.transform is not None:
+            img = self.transform(img)
 
-    #     return img, target
+        return img, target
 
 
 # *************************************************** CIFAR-10 ***************************************************
@@ -760,51 +760,51 @@ class FastCIFAR100(CIFAR100):
         mean = (0.4914, 0.48216, 0.44653)
         std = (0.247, 0.2434, 0.2616)
 
-    #     norm = transforms.Normalize(mean, std)
+        norm = transforms.Normalize(mean, std)
 
-    #     self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
+        self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
-    #     if self.train:
-    #         if not isinstance(train_class, str):
-    #             index_class = np.isin(self.targets, train_class)
-    #             self.data = self.data[index_class]
-    #             self.targets = np.array(self.targets)[index_class]
-    #             self.len = self.data.shape[0]
-    #             print(self.len)
+        if self.train:
+            if not isinstance(train_class, str):
+                index_class = np.isin(self.targets, train_class)
+                self.data = self.data[index_class]
+                self.targets = np.array(self.targets)[index_class]
+                self.len = self.data.shape[0]
+                print(self.len)
 
-    #     if zca:
-    #         self.data = (self.data - mean) / std
-    #         self.zca = whitening_zca(self.data)
-    #         zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
-    #     self.data = torch.tensor(self.data, dtype=torch.float)
+        if zca:
+            self.data = (self.data - mean) / std
+            self.zca = whitening_zca(self.data)
+            zca_whitening = transforms.LinearTransformation(self.zca, torch.zeros(self.zca.size(1)))
+        self.data = torch.tensor(self.data, dtype=torch.float)
 
-    #     self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
-    #     # self.data = norm(self.data)
-    #     if zca:
-    #         self.data = zca_whitening(self.data)
-    #         print(self.data.mean(), self.data.std())
+        self.data = torch.movedim(self.data, -1, 1)  # -> set dim to: (batch, channels, height, width)
+        # self.data = norm(self.data)
+        if zca:
+            self.data = zca_whitening(self.data)
+            print(self.data.mean(), self.data.std())
 
-    #     # self.data = self.data.to(device)  # Rescale to [0, 1]
+        # self.data = self.data.to(device)  # Rescale to [0, 1]
 
-    #     # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
+        # self.data = self.data.div_(CIFAR10_STD) #(NOT) Normalize to 0 centered with 1 std
 
-    #     self.targets = torch.tensor(self.targets, device=device)
+        self.targets = torch.tensor(self.targets, device=device)
 
-    # def __getitem__(self, index: int):
-    #     """
-    #     Parameters
-    #     ----------
-    #     index : int
-    #         Index of the element to be returned
+    def __getitem__(self, index: int):
+        """
+        Parameters
+        ----------
+        index : int
+            Index of the element to be returned
 
-    #     Returns
-    #     -------
-    #         tuple: (image, target) where target is the index of the target class
-    #     """
-    #     img = self.data[index]
-    #     target = self.targets[index]
+        Returns
+        -------
+            tuple: (image, target) where target is the index of the target class
+        """
+        img = self.data[index]
+        target = self.targets[index]
 
-    #     return img, target
+        return img, target
 
 
 class AugFastCIFAR100(FastCIFAR100):
@@ -814,21 +814,21 @@ class AugFastCIFAR100(FastCIFAR100):
     Taken from https://github.com/y0ast/pytorch-snippets/tree/main/fast_mnist
     """
 
-    # def __getitem__(self, index: int):
-    #     """
-    #     Parameters
-    #     ----------
-    #     index : int
-    #         Index of the element to be returned
+    def __getitem__(self, index: int):
+        """
+        Parameters
+        ----------
+        index : int
+            Index of the element to be returned
 
-    #     Returns
-    #     -------
-    #         tuple: (image, target) where target is the index of the target class
-    #     """
-    #     img = self.transform(self.data[index])
-    #     target = self.targets[index]
+        Returns
+        -------
+            tuple: (image, target) where target is the index of the target class
+        """
+        img = self.transform(self.data[index])
+        target = self.targets[index]
 
-    #     return img, target
+        return img, target
 
 
 # ***************************************************  MNIST ***************************************************
