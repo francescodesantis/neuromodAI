@@ -436,6 +436,7 @@ def class_cleaner(dataset_config, dataset, selected_classes):
     print(type(dataset.targets))
     selected_classes.sort()
     min_value = min(targets)
+    print(selected_classes)
     for i in range(len(selected_classes)): 
         for j in range(len(targets)): 
             if  targets[j] == selected_classes[i]: 
@@ -449,7 +450,13 @@ def class_cleaner(dataset_config, dataset, selected_classes):
     #    print("NON CI STAAAAAAAAA")
     #    min_value = min(dataset.targets)
     #    dataset.targets = dataset.targets - min_value # filter doesn't work in this case
+    print("NON CI STAAAAAAAAA")
+    print(dataset.targets[:20])
+    print(dataset.labels[:20])
     print(targets[:20])
+    print("------------------------")
+    
+
     return dataset
 
 def classes_subset(dataset_config, dataset,selected_classes, device):
@@ -471,7 +478,6 @@ def classes_subset(dataset_config, dataset,selected_classes, device):
     D = dataset.data.detach().cpu().numpy()
     D = list(D[indices])
     dataset.data = D
-    dataset = class_cleaner(dataset_config ,dataset, selected_classes)
 
     dataset.data = torch.tensor(dataset.data, device="cpu")
     if dataset_config["name"] == "STL10":
@@ -480,6 +486,7 @@ def classes_subset(dataset_config, dataset,selected_classes, device):
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100": 
         dataset.targets = torch.tensor(dataset.targets, device="cpu")
 
+    dataset = class_cleaner(dataset_config ,dataset, selected_classes)
 
     return dataset
 
