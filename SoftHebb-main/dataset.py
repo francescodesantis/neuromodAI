@@ -458,8 +458,8 @@ def classes_subset(dataset,selected_classes, device):
     dataset.data = D
     dataset = class_cleaner(dataset, selected_classes)
 
-    dataset.data = torch.Tensor(dataset.data, device=device)
-    dataset.targets = torch.Tensor(dataset.data, device=device)
+    dataset.data = torch.Tensor(dataset.data, device="cpu")
+    dataset.targets = torch.Tensor(dataset.data, device="cpu")
 
     return dataset
 
