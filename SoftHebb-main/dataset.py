@@ -437,7 +437,7 @@ def class_cleaner(dataset_config, dataset, selected_classes):
     selected_classes.sort()
     min_value = min(targets)
     for i in range(len(selected_classes)): 
-        for j in range(len(dataset.targets)): 
+        for j in range(len(targets)): 
             if  targets[j] == selected_classes[i]: 
                 targets[j] =  i
     if dataset_config["name"] == "STL10":
