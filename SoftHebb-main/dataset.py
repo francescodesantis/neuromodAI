@@ -380,9 +380,9 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     if "n_classes" in dataset_config:
         selected_classes = dataset_config["selected_classes"]
-        test_dataset = classes_subset(test_dataset, selected_classes, device) 
-        origin_dataset = classes_subset(origin_dataset, selected_classes, device)
-        counter_dataset = classes_subset(counter_dataset, selected_classes, device) 
+        test_dataset = classes_subset(dataset_config, test_dataset, selected_classes, device) 
+        origin_dataset = classes_subset(dataset_config, origin_dataset, selected_classes, device)
+        counter_dataset = classes_subset(dataset_config, counter_dataset, selected_classes, device) 
         indices = len(counter_dataset.data)
         train_indices, val_indices = get_indices(dataset_config, indices)
 
@@ -442,7 +442,7 @@ def class_cleaner(dataset, selected_classes):
     print(dataset.targets[:20])
     return dataset
 
-def classes_subset(dataset,selected_classes, device):
+def classes_subset(dataset_config, dataset,selected_classes, device):
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # I don't think it will work with ImageNette 
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -458,8 +458,13 @@ def classes_subset(dataset,selected_classes, device):
     dataset.data = D
     dataset = class_cleaner(dataset, selected_classes)
 
-    dataset.data = torch.Tensor(dataset.data, device="cpu")
-    dataset.targets = torch.Tensor(dataset.data, device="cpu")
+    dataset.data = torch.tensor(dataset.data, device="cpu")
+    if dataset_config["name"] == "STL10":
+        dataset.labels = torch.tensor(dataset.labels, device="cpu")
+
+    elif dataset_config["name"] == "CIFAR10": 
+        dataset.targets = torch.tensor(dataset.targets, device="cpu")
+
 
     return dataset
 
