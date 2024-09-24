@@ -447,9 +447,9 @@ def classes_subset(dataset,selected_classes, device):
     # I don't think it will work with ImageNette 
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Creates a dataset made up of a subsets of classes indicated in the selected classes variable.
-    T = dataset.targets.detatch().cpu.numpy()
+    T = dataset.targets.cpu().numpy()
     classes = torch.tensor(selected_classes)
-    indices = (torch.tensor(dataset.targets)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
+    indices = (torch.tensor(T)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
     indices = indices.tolist()
     T = list(T[indices])
     dataset.targets = T
