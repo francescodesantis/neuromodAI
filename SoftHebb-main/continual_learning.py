@@ -144,13 +144,13 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 metrics = {"test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv, "R1":R1}
             else: 
                 metrics = {"test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
-            metrics["dataset_sup"] = dataset_sup_config
-            metrics["dataset_unsup"] = dataset_unsup_config
+            metrics["dataset_sup"] = dataset_sup_config.copy()
+            metrics["dataset_unsup"] = dataset_unsup_config.copy()
 
             if results.get("eval_1") is None: 
-                results["eval_1"] = metrics
+                results["eval_1"] = metrics.copy()
             else:
-                results["eval_2"] = metrics
+                results["eval_2"] = metrics.copy()
         elif config['mode'] == 'unsupervised':
             run_unsup(
                 config['nb_epoch'],
@@ -179,16 +179,18 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 blocks=config['blocks'],
                 save=save
             )
-            result["dataset_sup"] = dataset_sup_config
-            result["dataset_unsup"] = dataset_unsup_config
-            result["train_config"] = train_config
+            result["dataset_sup"] = dataset_sup_config.copy()
+            result["dataset_unsup"] = dataset_unsup_config.copy()
+            result["train_config"] = train_config.copy()
             print("RESULT: ", result)
             if results.get("R1") is None: 
+                results["R1"] = result.copy()
                 print("IN R1: ", results)
-                results["R1"] = result
+
             else:
+                results["R2"] = result.copy()
                 print("IN R2: ", results)
-                results["R2"] = result
+
         else:
             run_hybrid(
                 config['nb_epoch'],
