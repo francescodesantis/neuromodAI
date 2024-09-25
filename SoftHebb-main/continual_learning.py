@@ -333,17 +333,14 @@ if __name__ == '__main__':
 
             #selected_classes = [0, 2]                
             selected_classes = selected_classes.tolist()
-            dataset_sup_2T = dataset_sup
-            dataset_unsup_2T = dataset_unsup
-            dataset_sup_2T["selected_classes"] = selected_classes
-            dataset_unsup_2T["selected_classes"] = selected_classes
+            dataset_sup["selected_classes"] = selected_classes
+            dataset_unsup["selected_classes"] = selected_classes
             
-            print("dataset_sup_2T: ",  dataset_sup_2T)
 
             params.continual_learning = True
             params.resume = resume
             evaluate = False
-            procedure(params, name_model, blocks, dataset_sup_2T, dataset_unsup_2T, evaluate, results)
+            procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
 
             # EVALUATION PHASE
             params.continual_learning = False
