@@ -426,21 +426,21 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 def class_cleaner(dataset_config, dataset, selected_classes):
 # Cleans the classes so that it guarantees that there is first class with index 0 in the dataset, 
 # since it is required by torch. 
-    print("TARGETS: ", type(dataset.targets[1]))
 
     if dataset_config["name"] == "STL10":
         targets = dataset.labels
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
         targets = dataset.targets
 
-    print(type(dataset.targets))
     selected_classes.sort()
     min_value = min(targets)
     print(selected_classes)
     for i in range(len(selected_classes)): 
         for j in range(len(targets)): 
-            if  targets[j] == selected_classes[i]: 
-                targets[j] =  i
+            #if  targets[j] == selected_classes[i]: 
+            #    print(targets[j], selected_classes[i])
+            #    targets[j] =  i
+            targets[targets==selected_classes[i]] = i
     if dataset_config["name"] == "STL10":
         dataset.labels = targets
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
@@ -450,10 +450,15 @@ def class_cleaner(dataset_config, dataset, selected_classes):
     #    print("NON CI STAAAAAAAAA")
     #    min_value = min(dataset.targets)
     #    dataset.targets = dataset.targets - min_value # filter doesn't work in this case
-    print("NON CI STAAAAAAAAA")
-    print(dataset.targets[:20])
-    print(dataset.labels[:20])
-    print(targets[:20])
+    #print("NON CI STAAAAAAAAA")
+    #print(dataset.targets[:20])
+    #print(dataset.labels[:20])
+    #print(targets[:20])
+    
+    if dataset_config["name"] == "STL10":
+        print("TARGETS AFTER CLEANER: ", dataset.labels[:20])
+    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
+        print("TARGETS AFTER CLEANER: ", dataset.targets[:20])
     print("------------------------")
     
 
@@ -474,18 +479,30 @@ def classes_subset(dataset_config, dataset,selected_classes, device):
     indices = (torch.tensor(T)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
     indices = indices.tolist()
     T = list(T[indices])
-    dataset.targets = T
+   # dataset.targets = T
     D = dataset.data.detach().cpu().numpy()
     D = list(D[indices])
     dataset.data = D
 
     dataset.data = torch.tensor(dataset.data, device="cpu")
+    #print("TARGETS BEFORE SUB: ", dataset.targets[:20])
+    #print("TARGETS BEFORE SUB: ", dataset.labels[:20])
     if dataset_config["name"] == "STL10":
-        dataset.labels = torch.tensor(dataset.labels, device="cpu")
+        print("TARGETS BEFORE SUB: ",dataset.labels[:20])
+    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
+        print("TARGETS BEFORE SUB: ",dataset.targets[:20])
 
+    if dataset_config["name"] == "STL10":
+        dataset.labels = torch.tensor(T, device="cpu")
+   
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100": 
-        dataset.targets = torch.tensor(dataset.targets, device="cpu")
-
+        dataset.targets = torch.tensor(T, device="cpu")
+    #print("TARGETS AFTER SUB: ", dataset.targets[:20])
+    #print("TARGETS AFTER SUB: ", dataset.labels[:20])
+    if dataset_config["name"] == "STL10":
+        print("TARGETS AFTER SUB: ", dataset.labels[:20])
+    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
+        print("TARGETS AFTER SUB: ", dataset.targets[:20])
     dataset = class_cleaner(dataset_config ,dataset, selected_classes)
 
     return dataset
