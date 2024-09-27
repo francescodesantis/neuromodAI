@@ -289,10 +289,10 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
 
     print("BEFORE RESIZING")
     if dataset_config["continual_learning"] == True:
-        print("INSIDE CL ###############################")
+        #print("INSIDE CL ###############################")
         old_dataset_size = dataset_config["old_dataset_size"]
-        #print( type(old_dataset_size))
-        print("I AM IN CL #################################################################################", old_dataset_size)
+        ##print( type(old_dataset_size))
+        #print("I AM IN CL #################################################################################", old_dataset_size)
 
         origin_dataset = dataset_train_class(
         dataset_path,
@@ -311,7 +311,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         train_class=dataset_config['training_class'],
         )
 
-        print("ORIGIN DATASET", origin_dataset)
+        #print("ORIGIN DATASET", origin_dataset)
         if not ('ImageNette' == dataset_config['name']):
             origin_dataset = reshape_dataset(origin_dataset, old_dataset_size)
         
@@ -383,7 +383,7 @@ def make_data_loaders(dataset_config, batch_size, device, dataset_path=DATASET):
         test_dataset = classes_subset(dataset_config, test_dataset, selected_classes, device) 
         origin_dataset = classes_subset(dataset_config, origin_dataset, selected_classes, device)
         counter_dataset = classes_subset(dataset_config, counter_dataset, selected_classes, device) 
-        indices = len(counter_dataset.data)
+        indices = len(counter_dataset)
         train_indices, val_indices = get_indices(dataset_config, indices)
 
         
@@ -431,6 +431,10 @@ def class_cleaner(dataset_config, dataset, selected_classes):
         targets = dataset.labels
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
         targets = dataset.targets
+    elif  dataset_config["name"] == "ImageNette":
+        targets = torch.tensor(dataset.targets)
+
+        
 
     selected_classes.sort()
     min_value = min(targets)
@@ -438,13 +442,21 @@ def class_cleaner(dataset_config, dataset, selected_classes):
     for i in range(len(selected_classes)): 
         for j in range(len(targets)): 
             #if  targets[j] == selected_classes[i]: 
-            #    print(targets[j], selected_classes[i])
+                #print(targets[j], selected_classes[i])
             #    targets[j] =  i
             targets[targets==selected_classes[i]] = i
     if dataset_config["name"] == "STL10":
         dataset.labels = targets
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
         dataset.targets = targets
+    elif dataset_config["name"] == "ImageNette": 
+        dataset.imgs = [dataset.imgs[0], targets.numpy()]
+        dataset.imgs = list(zip(*dataset.imgs))
+        dataset.targets = targets
+        dataset.samples = dataset.imgs
+
+
+        
 
     #if 0 not in selected_classes: 
     #    print("NON CI STAAAAAAAAA")
@@ -457,8 +469,15 @@ def class_cleaner(dataset_config, dataset, selected_classes):
     
     if dataset_config["name"] == "STL10":
         print("TARGETS AFTER CLEANER: ", dataset.labels[:20])
-    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
+    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100" or dataset_config["name"] == "ImageNette":
         print("TARGETS AFTER CLEANER: ", dataset.targets[:20])
+        #print(len(dataset.imgs))
+        #print(len(dataset.targets))
+        #print(len(dataset.samples))
+
+        print(len(dataset))
+        print(type(dataset))
+        print(dataset)
     print("------------------------")
     
 
@@ -474,34 +493,44 @@ def classes_subset(dataset_config, dataset,selected_classes, device):
 
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100": 
         T = dataset.targets.cpu().numpy()
+    elif dataset_config["name"] == "ImageNette":
+        T = np.array(dataset.targets)
+
 
     classes = torch.tensor(selected_classes)
     indices = (torch.tensor(T)[..., None] == classes).any(-1).nonzero(as_tuple=True)[0]
     indices = indices.tolist()
     T = list(T[indices])
-   # dataset.targets = T
-    D = dataset.data.detach().cpu().numpy()
-    D = list(D[indices])
-    dataset.data = D
-
-    dataset.data = torch.tensor(dataset.data, device="cpu")
-    #print("TARGETS BEFORE SUB: ", dataset.targets[:20])
-    #print("TARGETS BEFORE SUB: ", dataset.labels[:20])
+    if dataset_config["name"] == "ImageNette":
+        D, tmp = zip(*dataset.imgs)
+        D = np.array(D)
+        D = D[indices]
+        dataset.imgs = [D, T]
+                
+    else: 
+        D = dataset.data.detach().cpu().numpy()
+        D = list(D[indices])
+        dataset.data = D
+        dataset.data = torch.tensor(dataset.data, device="cpu")
+   
     if dataset_config["name"] == "STL10":
         print("TARGETS BEFORE SUB: ",dataset.labels[:20])
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
         print("TARGETS BEFORE SUB: ",dataset.targets[:20])
+    elif dataset_config["name"] == "ImageNette":
+        print("TARGETS BEFORE SUB: ",dataset.targets[:20])
+
 
     if dataset_config["name"] == "STL10":
         dataset.labels = torch.tensor(T, device="cpu")
-   
     elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100": 
         dataset.targets = torch.tensor(T, device="cpu")
-    #print("TARGETS AFTER SUB: ", dataset.targets[:20])
-    #print("TARGETS AFTER SUB: ", dataset.labels[:20])
+    elif dataset_config["name"] == "ImageNette":
+        dataset.targets = T
+
     if dataset_config["name"] == "STL10":
         print("TARGETS AFTER SUB: ", dataset.labels[:20])
-    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100":
+    elif dataset_config["name"] == "CIFAR10" or dataset_config["name"] == "CIFAR100" or dataset_config["name"] == "ImageNette":
         print("TARGETS AFTER SUB: ", dataset.targets[:20])
     dataset = class_cleaner(dataset_config ,dataset, selected_classes)
 
@@ -711,7 +740,7 @@ class FastCIFAR10(CIFAR10):
         std = (0.247, 0.2434, 0.2616)
 
         norm = transforms.Normalize(mean, std)
-        print("TYPE SELF.DATA: ", type(self.data))
+        #print("TYPE SELF.DATA: ", type(self.data))
         self.data = torch.tensor(self.data, dtype=torch.float, device=device).div_(255)
 
         if self.train:
@@ -809,7 +838,7 @@ class FastCIFAR100(CIFAR100):
                 self.data = self.data[index_class]
                 self.targets = np.array(self.targets)[index_class]
                 self.len = self.data.shape[0]
-                print(self.len)
+                #print(self.len)
 
         if zca:
             self.data = (self.data - mean) / std
@@ -884,7 +913,7 @@ class FastMNIST(MNIST):
 
         if self.train:
             if not isinstance(train_class, str):
-                print(train_class)
+                #print(train_class)
                 self.targets = np.array(self.targets)
                 index_class = np.isin(self.targets, train_class)
                 self.data = self.data[index_class]
@@ -950,7 +979,7 @@ class FastFashionMNIST(FashionMNIST):
         self.split = split
         if self.train:
             if not isinstance(train_class, str):
-                print(train_class)
+                #print(train_class)
                 self.targets = np.array(self.targets)
                 index_class = np.isin(self.targets, train_class)
                 self.data = self.data[index_class]
