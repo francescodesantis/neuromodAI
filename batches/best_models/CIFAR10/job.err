@@ -1,0 +1,8 @@
+---------------- /cineca/prod/opt/modulefiles/deeplrn/libraries ----------------
+cineca-ai/2.0.2  
+2024-09-21 11:04:31,342	INFO worker.py:1749 -- Started a local Ray instance.
+2024-09-21 11:04:39,191	INFO tune.py:263 -- Initializing Ray automatically. For cluster usage or custom Ray initialization, call `ray.init(...)` before `tune.run(...)`.
+2024-09-21 11:04:39,208	INFO tune.py:633 -- [output] This will use the new output engine with verbosity 2. To disable the new output and use the legacy output engine, set the environment variable RAY_AIR_NEW_OUTPUT=0. For more information, please see https://github.com/ray-project/ray/issues/36949
+2024-09-21 11:04:39,829	WARNING tune.py:917 -- AIR_VERBOSITY is set, ignoring passed-in ProgressReporter for now.
+2024-09-21 11:39:58,551	INFO tune.py:1021 -- Wrote the latest version of all result files and experiment state to '/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/search/CIFAR10_Best' in 0.0877s.
+

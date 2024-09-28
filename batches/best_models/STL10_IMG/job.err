@@ -1,0 +1,5 @@
+---------------- /cineca/prod/opt/modulefiles/deeplrn/libraries ----------------
+cineca-ai/2.0.2  
+mkdir: cannot create directory ‘Training/results/hebb/result/network/STL10_ImageNette_CL/models’: File exists
+mv: cannot stat 'Training/results/hebb/result/network/STL10_ImageNette_CL/checkpoint.pth.tar': No such file or directory
+slurmstepd: error: *** JOB 14480315 ON login10 CANCELLED AT 2024-09-28T19:37:48 ***
