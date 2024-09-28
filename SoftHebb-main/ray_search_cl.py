@@ -75,32 +75,32 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
 parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--dataset-sup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--dataset-unsup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--dataset-unsup-2', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--dataset-sup-2', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
-                                   ' (default: MNIST)')
+                                   ' (default: None)')
 
 parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',
                     type=str, help='Training possibilities ' +
@@ -309,7 +309,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 model_dir=ray.train.get_context().get_trial_dir(),
             )
 
-    save_logs(log, name_model)
+    #save_logs(log, name_model)
     print("Name Model: ", name_model)
     
    
@@ -409,13 +409,13 @@ if __name__ == '__main__':
 
     results = {}
 
-    if n_classes != None and (params.dataset_sup_2 != None or params.dataset_sup_1 != None):
+    if n_classes is not None and (params.dataset_sup_2 is not None or params.dataset_sup_1 is not None):
         print("\n\n ########### WARNING ############\n\n")
         print(" Invalid combination of parameters, provide either: [--classes, --dataset-sup, --dataset-unsup] or [--dataset-sup-1, --dataset-unsup-1, --dataset-sup-2, --dataset-unsup-2]\nThe continual learning is implemented per tasks where each task is made up of different classes \n of the same dataset, so only one dataset will be considered.")
         print("\n\n ################################\n\n")
 
 
-    if n_classes != None: 
+    if n_classes is not None: 
         
         dataset_sup_config = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
         dataset_unsup_config = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)

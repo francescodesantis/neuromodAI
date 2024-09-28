@@ -389,7 +389,7 @@ if __name__ == '__main__':
         dataset_unsup_2 = load_config_dataset(params.dataset_unsup_2, params.validation, params.continual_learning)
         dataset_sup_2["old_dataset_size"] = dataset_sup_1["width"]
         dataset_unsup_2["old_dataset_size"] = dataset_unsup_1["width"]
-
+        
         procedure(params, name_model, blocks,dataset_sup_2, dataset_unsup_2, evaluate, results)
 
         # EVALUATION PHASE
