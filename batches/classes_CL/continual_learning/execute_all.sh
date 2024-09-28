@@ -1,5 +1,6 @@
 #!/bin/bash
-for file in /*
+pwd=$(pwd)
+for file in $pwd/*
 do
-   sbatch $file
+   sbatch $pwd/$file
 done
