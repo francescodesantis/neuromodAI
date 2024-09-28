@@ -4,8 +4,8 @@
 #SBATCH --ntasks-per-node=1         # 32 tasks per node
 #SBATCH --cpus-per-task=4
 #SBATCH --time=04:00:00               # time limits: 1/2 hour
-#SBATCH --error=best_models/CIFAR100/job.err            # standard error file
-#SBATCH --output=best_models/CIFAR100/job.out      # standard output file
+#SBATCH --error=CIFAR100/job.err            # standard error file
+#SBATCH --output=CIFAR100/job.out      # standard output file
 #SBATCH --account=EIRI_E_POLIMI     # account name
 module load profile/deeplrn
 module av cineca-ai
