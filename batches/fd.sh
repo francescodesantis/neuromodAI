@@ -1,6 +1,6 @@
 #!/bin/bash
 pwd=$(pwd)
-cd continual_learning
+cd full_datasets_CL
 for file in $pwd/*
 do
    sbatch $file

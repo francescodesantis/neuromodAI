@@ -1,7 +1,7 @@
 #!/bin/bash
 pwd=$(pwd)
-
-for file in $pwd/best_models/*
+cd best_models
+for file in $pwd/*
 do
    sbatch $file
 done
