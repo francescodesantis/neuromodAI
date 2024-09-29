@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os 
- 
-
 
 import json
 
@@ -63,7 +61,6 @@ def format_graphs(path):
                             new_obj["model_name"] = obj["model_name"]
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
 
-                    
                     graphs[dataset].append(runs)
     return graphs
 
@@ -100,6 +97,8 @@ def create_graph(graphs, path):
 
                 #plt.show()
                 plt.savefig(path + "/" + img_name)
+                plt.close()
+
 
     elif classes_CL == False:
         datasets = list(graphs.keys())
@@ -127,7 +126,7 @@ def create_graph(graphs, path):
                 plt.yticks(np.arange(0,105,5))
                 #plt.show()
                 plt.savefig(path + "/" + img_name)
-
+                plt.close()
 
 
 
