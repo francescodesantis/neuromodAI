@@ -38,7 +38,8 @@ def format_graphs(path):
                             new_obj["selected_classes"] = objS["dataset_sup"]["selected_classes"]
                             new_obj["n_classes"] = objS["dataset_sup"]["n_classes"]
                        
-                        new_obj["model_name"] = obj["model_name"]
+                        if obj.get("model_name") is not None:
+                            new_obj["model_name"] = obj["model_name"]
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
                     graphs[dataset].append(runs)
             elif obj.get("R2") is not None:
@@ -48,7 +49,6 @@ def format_graphs(path):
                     
                         new_obj = {}
                         objS = obj[run]
-                        print(type(objS))
                         if isinstance(objS, str):
                             continue
 
@@ -64,7 +64,6 @@ def format_graphs(path):
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
 
                     
-                    print("RUNS: ", runs)
                     graphs[dataset].append(runs)
     return graphs
 
@@ -100,6 +99,8 @@ def create_graph(graphs, path):
                 plt.yticks(np.arange(0,105,5))
 
                 #plt.show()
+                plt.savefig(path + "/" + img_name)
+
     elif classes_CL == False:
         datasets = list(graphs.keys())
         for d in datasets: 
@@ -115,7 +116,7 @@ def create_graph(graphs, path):
                         d_labels.append(g[run]["dataset"])
                 
                 plt.figure(figsize=(5, 6))
-                d_title = str(d_labels[0]) + "/" + str(d_labels[1])
+                d_title = str(d_labels[0]) + "_" + str(d_labels[1])
                 plt.suptitle("Continual Learning with " + d_title)
                 plt.bar(x, y)
                 img_name = d_title + ".png"
@@ -136,8 +137,8 @@ if not os.path.exists(PATH):
 f1 = "MULTD_CL.json"
 f2 = "TASKS_CL.json"
 
-path_1 = PATH + "/" + f1[:len(f1) - 4]
-path_2 = PATH + "/" + f2[:len(f2) - 4]
+path_1 = PATH + "/" + f1[:len(f1) - 5]
+path_2 = PATH + "/" + f2[:len(f2) - 5]
 
 if not os.path.exists(path_1): 
     os.makedirs(path_1) 
