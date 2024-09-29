@@ -85,7 +85,7 @@ def create_graph(graphs, path):
                 plt.figure(figsize=(5, 6))
                 plt.suptitle("Continual Learning with " + str(g[run]["n_classes"]) + " classes per task")
                 plt.bar(x, y)
-                img_name = g[run]["dataset"] + str(g[run]["n_classes"]) + "C" + ".png"
+                img_name = g[run]["dataset"] + "_" + str(g[run]["n_classes"]) + "C" + ".png"
                 if g[run].get("model_name"):
                     img_name = g[run]["model_name"] + ".png"
                     plt.title(g[run]["dataset"] + " on model " + g[run]["model_name"])
