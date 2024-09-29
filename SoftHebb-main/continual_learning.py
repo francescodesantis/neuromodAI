@@ -405,5 +405,6 @@ if __name__ == '__main__':
         evaluate = True
         procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
         
+        results["model_name"] = name_model
         file = "MULTD_CL.json"
         save_results(results, file)
