@@ -10,8 +10,10 @@
 module load profile/deeplrn
 module av cineca-ai
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
+rm -rf -d Training/results/hebb/result/network/STL10_CIFAR100_CL
 cp -r Training/results/hebb/result/network/STL10_Best Training/results/hebb/result/network/STL10_CIFAR100_CL
+rm -rf -d Training/results/hebb/result/network/STL10_CIFAR100_CL/models
 mkdir Training/results/hebb/result/network/STL10_CIFAR100_CL/models
-mv Training/results/hebb/result/network/STL10_CIFAR100_CL/checkpoint.pth.tar Training/results/hebb/result/network/STL10_CIFAR100_CL/models/checkpoint.pth.tar
+cp Training/results/hebb/result/network/STL10_CIFAR100_CL/checkpoint.pth.tar Training/results/hebb/result/network/STL10_CIFAR100_CL/models/checkpoint.pth.tar
 conda run -n softhebb python continual_learning.py --preset 5SoftHebbCnnSTL --resume all --model-name 'STL10_CIFAR100_CL' --dataset-unsup-1 STL10_unlabel --dataset-sup-1 STL10_100aug --dataset-unsup-2 CIFAR100_1 --dataset-sup-2 CIFAR100_50 --continual_learning True --skip-1 True --evaluate True 
 

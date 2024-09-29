@@ -1,0 +1,131 @@
+{'ImageNette': [
+        {'R1': {'test_loss': 10.7691011428833, 'test_acc': 45.5031852722168, 'dataset': 'ImageNette'
+            }, 'R2': {'test_loss': 0.09681480377912521, 'test_acc': 48.88999938964844, 'dataset': 'CIFAR10'
+            }, 'eval': {'test_loss': 267.2303771972656, 'test_acc': 7.974522113800049, 'dataset': 'ImageNette'
+            }
+        },
+        {'R1': {'test_loss': 10.7691011428833, 'test_acc': 45.5031852722168, 'dataset': 'ImageNette'
+            }, 'R2': {'test_loss': 0.09681480377912521, 'test_acc': 48.88999938964844, 'dataset': 'CIFAR10'
+            }, 'eval': {'test_loss': 267.2303771972656, 'test_acc': 7.974522113800049, 'dataset': 'ImageNette'
+            }
+        },
+        {'eval_1': {'test_loss': 267.2303771972656, 'test_acc': 7.974522113800049, 'dataset': 'ImageNette'
+            }, 'eval_2': {'test_loss': 1345.4808349609375, 'test_acc': 5.503184795379639, 'dataset': 'ImageNette'
+            }, 'R1': {'test_loss': 0.11680962890386581, 'test_acc': 48.66999816894531, 'dataset': 'CIFAR10'
+            }
+        },
+        {'R1': {'test_loss': 9.979588508605957, 'test_acc': 51.0318489074707, 'dataset': 'ImageNette'
+            }, 'R2': {'test_loss': 2.372696876525879, 'test_acc': 40.537498474121094, 'dataset': 'STL10'
+            }, 'eval_1': {'test_loss': 114.0702896118164, 'test_acc': 17.2484073638916, 'dataset': 'ImageNette'
+            }, 'eval_2': {'test_loss': 114.0702896118164, 'test_acc': 17.2484073638916, 'dataset': 'ImageNette'
+            }
+        }
+    ], 'CIFAR10': [
+        {'eval_1': {'test_loss': 0.054484058171510696, 'test_acc': 69.20999908447266, 'dataset': 'CIFAR10'
+            }, 'eval_2': {'test_loss': 0.0703079104423523, 'test_acc': 66.94999694824219, 'dataset': 'CIFAR10'
+            }, 'R1': {'test_loss': 0.0703079104423523, 'test_acc': 66.94999694824219, 'dataset': 'CIFAR10'
+            }
+        },
+        {'eval_1': {'test_loss': 0.0703079104423523, 'test_acc': 66.94999694824219, 'dataset': 'CIFAR10'
+            }, 'eval_2': {'test_loss': 0.2139538824558258, 'test_acc': 11.529999732971191, 'dataset': 'CIFAR10'
+            }, 'R1': {'test_loss': 8.777057647705078, 'test_acc': 58.6751594543457, 'dataset': 'ImageNette'
+            }
+        },
+        {'R1': {'test_loss': 0.0048802439123392105, 'test_acc': 62.290000915527344, 'dataset': 'CIFAR10'
+            }, 'R2': {'test_loss': 0.31640729308128357, 'test_acc': 40.36249923706055, 'dataset': 'STL10'
+            }, 'eval_1': {'test_loss': 0.007029821164906025, 'test_acc': 47.459999084472656, 'dataset': 'CIFAR10'
+            }, 'eval_2': {'test_loss': 0.007029821164906025, 'test_acc': 47.459999084472656, 'dataset': 'CIFAR10'
+            }
+        },
+        {'R1': {'test_loss': 0.007437351159751415, 'test_acc': 59.939998626708984, 'dataset': 'CIFAR10'
+            }, 'R2': {'test_loss': 1.126866340637207, 'test_acc': 43.643310546875, 'dataset': 'ImageNette'
+            }, 'eval_1': {'test_loss': 0.018458150327205658, 'test_acc': 13.449999809265137, 'dataset': 'CIFAR10'
+            }, 'eval_2': {'test_loss': 0.018458150327205658, 'test_acc': 13.449999809265137, 'dataset': 'CIFAR10'
+            }
+        },
+        {'R1': {'test_loss': 0.006849042605608702, 'test_acc': 60.029998779296875, 'dataset': 'CIFAR10'
+            }, 'R2': {'test_loss': 0.00801793858408928, 'test_acc': 57.72999954223633, 'dataset': 'CIFAR10'
+            }, 'eval_1': {'test_loss': 0.00801793858408928, 'test_acc': 57.72999954223633, 'dataset': 'CIFAR10'
+            }, 'eval_2': {'test_loss': 0.00801793858408928, 'test_acc': 57.72999954223633, 'dataset': 'CIFAR10'
+            }
+        },
+        {'R1': {'test_loss': 0.005344079807400703, 'test_acc': 48.220001220703125, 'dataset': 'CIFAR10'
+            }, 'R2': {'test_loss': 0.3686979413032532, 'test_acc': 55.261146545410156, 'dataset': 'ImageNette'
+            }, 'eval_1': {'test_loss': 0.0069883354008197784, 'test_acc': 12.199999809265137, 'dataset': 'CIFAR10'
+            }, 'eval_2': {'test_loss': 0.0069883354008197784, 'test_acc': 12.199999809265137, 'dataset': 'CIFAR10'
+            }
+        },
+        {'R1': {'test_loss': 0.005344079807400703, 'test_acc': 48.220001220703125, 'dataset': 'CIFAR10'
+            }, 'R2': {'test_loss': 0.1428554356098175, 'test_acc': 43.76250076293945, 'dataset': 'STL10'
+            }, 'eval_1': {'test_loss': 0.0062372139655053616, 'test_acc': 36.58000183105469, 'dataset': 'CIFAR10'
+            }, 'eval_2': {'test_loss': 0.0062372139655053616, 'test_acc': 36.58000183105469, 'dataset': 'CIFAR10'
+            }
+        }
+    ], 'CIFAR100': [], 'STL10': [
+        {'R1': {'test_loss': 16.535612106323242, 'test_acc': 41.974998474121094, 'dataset': 'STL10'
+            }, 'R2': {'test_loss': 0.5925607085227966, 'test_acc': 60.560001373291016, 'dataset': 'CIFAR10'
+            }, 'eval_1': {'test_loss': 104.61063385009766, 'test_acc': 20.3125, 'dataset': 'STL10'
+            }, 'eval_2': {'test_loss': 104.61063385009766, 'test_acc': 20.3125, 'dataset': 'STL10'
+            }
+        },
+        {'R1': {'test_loss': 16.535612106323242, 'test_acc': 41.974998474121094, 'dataset': 'STL10'
+            }, 'R2': {'test_loss': 63.41868209838867, 'test_acc': 59.92356872558594, 'dataset': 'ImageNette'
+            }, 'eval_1': {'test_loss': 176.95318603515625, 'test_acc': 10.024999618530273, 'dataset': 'STL10'
+            }, 'eval_2': {'test_loss': 176.95318603515625, 'test_acc': 10.024999618530273, 'dataset': 'STL10'
+            }
+        },
+        {'R1': {'test_loss': 15.103979110717773, 'test_acc': 56.36249923706055, 'dataset': 'STL10'
+            }, 'R2': {'test_loss': 0.4781839847564697, 'test_acc': 64.41000366210938, 'dataset': 'CIFAR10'
+            }, 'eval_1': {'test_loss': 127.96601104736328, 'test_acc': 20.899999618530273, 'dataset': 'STL10'
+            }, 'eval_2': {'test_loss': 127.96601104736328, 'test_acc': 20.899999618530273, 'dataset': 'STL10'
+            }
+        }
+    ]
+},
+{'ImageNette': [
+        {'eval_1': {'test_loss': 5.741658687591553, 'test_acc': 50.43586730957031, 'dataset': 'ImageNette', 'selected_classes': [
+                    4,
+                    5
+                ], 'n_classes': 2
+            }, 'R1': {'test_loss': 1.828027606010437, 'test_acc': 81.6377182006836, 'dataset': 'ImageNette', 'selected_classes': [
+                    0,
+                    7
+                ], 'n_classes': 2
+            }, 'eval_2': {'test_loss': 9.788749694824219, 'test_acc': 52.677459716796875, 'dataset': 'ImageNette', 'selected_classes': [
+                    4,
+                    5
+                ], 'n_classes': 2
+            }
+        }
+    ], 'CIFAR10': [
+        {'R1': {'test_loss': 0.000644683837890625, 'test_acc': 85.80000305175781, 'dataset': 'CIFAR10', 'selected_classes': [
+                    3,
+                    7
+                ], 'n_classes': 2
+            }, 'R2': {'test_loss': 0.0006941692554391921, 'test_acc': 90.3499984741211, 'dataset': 'CIFAR10', 'selected_classes': [
+                    2,
+                    9
+                ], 'n_classes': 2
+            }, 'eval_1': {'test_loss': 0.0027022857684642076, 'test_acc': 67.80000305175781, 'dataset': 'CIFAR10', 'selected_classes': [
+                    3,
+                    7
+                ], 'n_classes': 2
+            }
+        }
+    ], 'CIFAR100': [
+        {'eval_1': {'test_loss': 0.053840115666389465, 'test_acc': 51.5, 'dataset': 'CIFAR100', 'selected_classes': [
+                    32,
+                    75
+                ], 'n_classes': 2
+            }, 'R1': {'test_loss': 0.014147070236504078, 'test_acc': 70.0, 'dataset': 'CIFAR100', 'selected_classes': [
+                    27,
+                    65
+                ], 'n_classes': 2
+            }, 'eval_2': {'test_loss': 0.03051299974322319, 'test_acc': 47.0, 'dataset': 'CIFAR100', 'selected_classes': [
+                    32,
+                    75
+                ], 'n_classes': 2
+            }
+        }
+    ], 'STL10': []
+}

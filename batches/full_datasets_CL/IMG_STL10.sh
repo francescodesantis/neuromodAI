@@ -10,8 +10,10 @@
 module load profile/deeplrn
 module av cineca-ai
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
+rm -rf -d Training/results/hebb/result/network/ImageNette_STL10_CL
 cp -r Training/results/hebb/result/network/ImageNette_Best Training/results/hebb/result/network/ImageNette_STL10_CL
+rm -rf -d Training/results/hebb/result/network/ImageNette_STL10_CL/models
 mkdir Training/results/hebb/result/network/ImageNette_STL10_CL/models
-mv Training/results/hebb/result/network/ImageNette_STL10_CL/checkpoint.pth.tar Training/results/hebb/result/network/ImageNette_STL10_CL/models/checkpoint.pth.tar
+cp Training/results/hebb/result/network/ImageNette_STL10_CL/checkpoint.pth.tar Training/results/hebb/result/network/ImageNette_STL10_CL/models/checkpoint.pth.tar
 conda run -n softhebb python continual_learning.py --preset 6SoftHebbCnnImNet --resume all --model-name 'ImageNette_STL10_CL' --dataset-unsup-1 ImageNette_1 --dataset-sup-1 ImageNette_200aug --dataset-unsup-2 STL10_1 --dataset-sup-2 STL10_50 --continual_learning True --skip-1 True --evaluate True
 
