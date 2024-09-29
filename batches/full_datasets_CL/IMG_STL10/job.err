@@ -1,0 +1,5 @@
+---------------- /cineca/prod/opt/modulefiles/deeplrn/libraries ----------------
+cineca-ai/2.0.2  
+cp: cannot stat 'Training/results/hebb/result/network/ImageNette_Best': No such file or directory
+mkdir: cannot create directory ‘Training/results/hebb/result/network/ImageNette_STL10_CL/models’: No such file or directory
+mv: cannot stat 'Training/results/hebb/result/network/ImageNette_STL10_CL/checkpoint.pth.tar': No such file or directory
