@@ -134,79 +134,81 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
     for id, config in train_config.items():
 
-        if evaluate and config['mode'] == 'supervised': ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
-            train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
-            criterion = nn.CrossEntropyLoss()
-            test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
-            print(f'Accuracy of the network on the 1st dataset: {test_acc:.3f} %')
-            print(f'Test loss on the 1st dataset: {test_loss:.3f}')
+        if evaluate:
+            if config['mode'] == 'supervised': ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
+                train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
+                criterion = nn.CrossEntropyLoss()
+                test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
+                print(f'Accuracy of the network on the 1st dataset: {test_acc:.3f} %')
+                print(f'Test loss on the 1st dataset: {test_loss:.3f}')
 
-            conv, R1 = model.convergence()
-            if type(test_loss) ==  torch.Tensor:
-                metrics = {"test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv, "R1":R1}
-            else: 
-                metrics = {"test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
-            metrics["dataset_sup"] = dataset_sup_config.copy()
-            metrics["dataset_unsup"] = dataset_unsup_config.copy()
+                conv, R1 = model.convergence()
+                if type(test_loss) ==  torch.Tensor:
+                    metrics = {"test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv, "R1":R1}
+                else: 
+                    metrics = {"test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
+                metrics["dataset_sup"] = dataset_sup_config.copy()
+                metrics["dataset_unsup"] = dataset_unsup_config.copy()
 
-            if results.get("eval_1") is None: 
-                results["eval_1"] = metrics.copy()
-            else:
-                results["eval_2"] = metrics.copy()
-        elif config['mode'] == 'unsupervised':
-            run_unsup(
-                config['nb_epoch'],
-                config['print_freq'],
-                config['batch_size'],
-                name_model,
-                dataset_unsup_config,
-                model,
-                device,
-                log.unsup[id],
-                blocks=config['blocks'],
-                save=save
-            )
-            
-        elif config['mode'] == 'supervised':
-            result = run_sup(
-                config['nb_epoch'],
-                config['print_freq'],
-                config['batch_size'],
-                config['lr'],
-                name_model,
-                dataset_sup_config,
-                model,
-                device,
-                log.sup[id],
-                blocks=config['blocks'],
-                save=save
-            )
-            result["dataset_sup"] = dataset_sup_config.copy()
-            result["dataset_unsup"] = dataset_unsup_config.copy()
-            result["train_config"] = train_config.copy()
-            print("RESULT: ", result)
-            if results.get("R1") is None: 
-                results["R1"] = result.copy()
-                print("IN R1: ", results)
-
-            else:
-                results["R2"] = result.copy()
-                print("IN R2: ", results)
-
+                if results.get("eval_1") is None: 
+                    results["eval_1"] = metrics.copy()
+                else:
+                    results["eval_2"] = metrics.copy()
         else:
-            run_hybrid(
-                config['nb_epoch'],
-                config['print_freq'],
-                config['batch_size'],
-                config['lr'],
-                name_model,
-                dataset_sup_config,
-                model,
-                device,
-                log.sup[id],
-                blocks=config['blocks'],
-                save=save
-            )
+            if config['mode'] == 'unsupervised':
+                run_unsup(
+                    config['nb_epoch'],
+                    config['print_freq'],
+                    config['batch_size'],
+                    name_model,
+                    dataset_unsup_config,
+                    model,
+                    device,
+                    log.unsup[id],
+                    blocks=config['blocks'],
+                    save=save
+                )
+                
+            elif config['mode'] == 'supervised':
+                result = run_sup(
+                    config['nb_epoch'],
+                    config['print_freq'],
+                    config['batch_size'],
+                    config['lr'],
+                    name_model,
+                    dataset_sup_config,
+                    model,
+                    device,
+                    log.sup[id],
+                    blocks=config['blocks'],
+                    save=save
+                )
+                result["dataset_sup"] = dataset_sup_config.copy()
+                result["dataset_unsup"] = dataset_unsup_config.copy()
+                result["train_config"] = train_config.copy()
+                print("RESULT: ", result)
+                if results.get("R1") is None: 
+                    results["R1"] = result.copy()
+                    print("IN R1: ", results)
+
+                else:
+                    results["R2"] = result.copy()
+                    print("IN R2: ", results)
+
+            else:
+                run_hybrid(
+                    config['nb_epoch'],
+                    config['print_freq'],
+                    config['batch_size'],
+                    config['lr'],
+                    name_model,
+                    dataset_sup_config,
+                    model,
+                    device,
+                    log.sup[id],
+                    blocks=config['blocks'],
+                    save=save
+                )
 
     # save_logs(log, name_model)
     # print("Name Model: ", name_model)
