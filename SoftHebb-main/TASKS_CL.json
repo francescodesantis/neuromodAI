@@ -1,11 +1,11 @@
 {
     "T1": {
         "R1": {
-            "train_loss": 0.000665066996589303,
-            "train_acc": 99.73000288009644,
-            "test_loss": 0.02636909671127796,
-            "test_acc": 92.5,
-            "convergence": 23.626317977905273,
+            "train_loss": 0.0001824830105761066,
+            "train_acc": 99.88999962806702,
+            "test_loss": 0.0019405329367145896,
+            "test_acc": 98.5,
+            "convergence": 23.525100708007812,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR100",
@@ -32,8 +32,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    73,
-                    79
+                    91,
+                    96
                 ]
             },
             "dataset_unsup": {
@@ -61,8 +61,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    73,
-                    79
+                    91,
+                    96
                 ]
             },
             "train_config": {
@@ -109,11 +109,11 @@
             }
         },
         "R2": {
-            "train_loss": 0.0008970832568593323,
-            "train_acc": 99.65999722480774,
-            "test_loss": 0.018973398953676224,
-            "test_acc": 95.0,
-            "convergence": 23.290390014648438,
+            "train_loss": 9.456514089833945e-05,
+            "train_acc": 99.94999766349792,
+            "test_loss": 0.02040521427989006,
+            "test_acc": 96.0,
+            "convergence": 23.144948959350586,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR100",
@@ -140,8 +140,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    8,
-                    20
+                    31,
+                    95
                 ]
             },
             "dataset_unsup": {
@@ -169,8 +169,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    8,
-                    20
+                    31,
+                    95
                 ]
             },
             "train_config": {
@@ -217,9 +217,9 @@
             }
         },
         "eval_1": {
-            "test_loss": 0.3367820084095001,
-            "test_acc": 49.0,
-            "convergence": 23.12994956970215,
+            "test_loss": 0.9833635091781616,
+            "test_acc": 43.5,
+            "convergence": 23.989980697631836,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR100",
@@ -246,8 +246,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    73,
-                    79
+                    91,
+                    96
                 ]
             },
             "dataset_unsup": {
@@ -275,19 +275,19 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    73,
-                    79
+                    91,
+                    96
                 ]
             }
         }
     },
     "T2": {
         "R1": {
-            "train_loss": 0.0023562991991639137,
-            "train_acc": 99.08499717712402,
-            "test_loss": 0.01574360765516758,
-            "test_acc": 87.75,
-            "convergence": 22.987783432006836,
+            "train_loss": 0.004049806389957666,
+            "train_acc": 98.47999811172485,
+            "test_loss": 0.02094011753797531,
+            "test_acc": 85.75,
+            "convergence": 23.147258758544922,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR100",
@@ -314,10 +314,10 @@
                 "old_dataset_size": 32,
                 "n_classes": 4,
                 "selected_classes": [
-                    14,
-                    37,
-                    76,
-                    80
+                    9,
+                    56,
+                    78,
+                    86
                 ]
             },
             "dataset_unsup": {
@@ -345,10 +345,10 @@
                 "old_dataset_size": 32,
                 "n_classes": 4,
                 "selected_classes": [
-                    14,
-                    37,
-                    76,
-                    80
+                    9,
+                    56,
+                    78,
+                    86
                 ]
             },
             "train_config": {
@@ -395,11 +395,11 @@
             }
         },
         "R2": {
-            "train_loss": 0.01209018100053072,
-            "train_acc": 97.079998254776,
-            "test_loss": 0.029837461188435555,
-            "test_acc": 81.5,
-            "convergence": 21.9600887298584,
+            "train_loss": 0.0013978838687762618,
+            "train_acc": 99.66999888420105,
+            "test_loss": 0.015256374143064022,
+            "test_acc": 93.75,
+            "convergence": 22.2087459564209,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR100",
@@ -426,10 +426,10 @@
                 "old_dataset_size": 32,
                 "n_classes": 4,
                 "selected_classes": [
-                    1,
-                    43,
-                    67,
-                    73
+                    26,
+                    61,
+                    76,
+                    94
                 ]
             },
             "dataset_unsup": {
@@ -457,10 +457,10 @@
                 "old_dataset_size": 32,
                 "n_classes": 4,
                 "selected_classes": [
-                    1,
-                    43,
-                    67,
-                    73
+                    26,
+                    61,
+                    76,
+                    94
                 ]
             },
             "train_config": {
@@ -507,9 +507,9 @@
             }
         },
         "eval_1": {
-            "test_loss": 0.14665764570236206,
-            "test_acc": 41.75,
-            "convergence": 21.068359375,
+            "test_loss": 0.449416846036911,
+            "test_acc": 19.0,
+            "convergence": 23.989980697631836,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR100",
@@ -536,10 +536,10 @@
                 "old_dataset_size": 32,
                 "n_classes": 4,
                 "selected_classes": [
-                    14,
-                    37,
-                    76,
-                    80
+                    9,
+                    56,
+                    78,
+                    86
                 ]
             },
             "dataset_unsup": {
@@ -567,21 +567,21 @@
                 "old_dataset_size": 32,
                 "n_classes": 4,
                 "selected_classes": [
-                    14,
-                    37,
-                    76,
-                    80
+                    9,
+                    56,
+                    78,
+                    86
                 ]
             }
         }
     },
     "T3": {
         "R1": {
-            "train_loss": 0.04035256803035736,
-            "train_acc": 94.3530023097992,
-            "test_loss": 0.0052543384954333305,
-            "test_acc": 91.9000015258789,
-            "convergence": 20.198711395263672,
+            "train_loss": 0.014643830247223377,
+            "train_acc": 97.83999919891357,
+            "test_loss": 0.0036855635698884726,
+            "test_acc": 94.6500015258789,
+            "convergence": 20.526851654052734,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR10",
@@ -608,8 +608,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    4,
-                    5
+                    0,
+                    9
                 ]
             },
             "dataset_unsup": {
@@ -637,8 +637,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    4,
-                    5
+                    0,
+                    9
                 ]
             },
             "train_config": {
@@ -685,12 +685,12 @@
             }
         },
         "R2": {
-            "train_loss": 0.06262081116437912,
-            "train_acc": 92.28699803352356,
-            "test_loss": 0.007738132961094379,
-            "test_acc": 88.55000305175781,
-            "convergence": 17.96285057067871,
-            "R1": 0,
+            "train_loss": 0.0025458973832428455,
+            "train_acc": 99.71200227737427,
+            "test_loss": 0.0027066145557910204,
+            "test_acc": 98.0999984741211,
+            "convergence": 18.31085205078125,
+            "R1": 1,
             "dataset_sup": {
                 "name": "CIFAR10",
                 "noise_std": 0,
@@ -716,8 +716,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    2,
-                    3
+                    7,
+                    8
                 ]
             },
             "dataset_unsup": {
@@ -745,8 +745,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    2,
-                    3
+                    7,
+                    8
                 ]
             },
             "train_config": {
@@ -793,10 +793,10 @@
             }
         },
         "eval_1": {
-            "test_loss": 0.025436213240027428,
-            "test_acc": 68.55000305175781,
-            "convergence": 17.095945358276367,
-            "R1": 1,
+            "test_loss": 0.18310698866844177,
+            "test_acc": 49.349998474121094,
+            "convergence": 23.989980697631836,
+            "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR10",
                 "noise_std": 0,
@@ -822,8 +822,8 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    4,
-                    5
+                    0,
+                    9
                 ]
             },
             "dataset_unsup": {
@@ -851,19 +851,19 @@
                 "old_dataset_size": 32,
                 "n_classes": 2,
                 "selected_classes": [
-                    4,
-                    5
+                    0,
+                    9
                 ]
             }
         }
     },
     "T4": {
         "R1": {
-            "train_loss": 0.05612042918801308,
-            "train_acc": 92.80850291252136,
-            "test_loss": 0.006625505164265633,
-            "test_acc": 90.6500015258789,
-            "convergence": 17.988773345947266,
+            "train_loss": 0.04659469053149223,
+            "train_acc": 94.62550282478333,
+            "test_loss": 0.006758906412869692,
+            "test_acc": 91.375,
+            "convergence": 17.969764709472656,
             "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR10",
@@ -892,8 +892,8 @@
                 "selected_classes": [
                     1,
                     2,
-                    4,
-                    6
+                    6,
+                    9
                 ]
             },
             "dataset_unsup": {
@@ -923,8 +923,8 @@
                 "selected_classes": [
                     1,
                     2,
-                    4,
-                    6
+                    6,
+                    9
                 ]
             },
             "train_config": {
@@ -971,11 +971,11 @@
             }
         },
         "R2": {
-            "train_loss": 0.07818624377250671,
-            "train_acc": 90.41849970817566,
-            "test_loss": 0.009179115295410156,
-            "test_acc": 86.19999694824219,
-            "convergence": 16.739124298095703,
+            "train_loss": 0.13429495692253113,
+            "train_acc": 83.30699801445007,
+            "test_loss": 0.011980300769209862,
+            "test_acc": 79.55000305175781,
+            "convergence": 16.521926879882812,
             "R1": 1,
             "dataset_sup": {
                 "name": "CIFAR10",
@@ -1003,9 +1003,9 @@
                 "n_classes": 4,
                 "selected_classes": [
                     3,
+                    4,
                     5,
-                    8,
-                    9
+                    7
                 ]
             },
             "dataset_unsup": {
@@ -1034,9 +1034,9 @@
                 "n_classes": 4,
                 "selected_classes": [
                     3,
+                    4,
                     5,
-                    8,
-                    9
+                    7
                 ]
             },
             "train_config": {
@@ -1083,10 +1083,10 @@
             }
         },
         "eval_1": {
-            "test_loss": 0.20682962238788605,
-            "test_acc": 15.225000381469727,
-            "convergence": 15.952108383178711,
-            "R1": 1,
+            "test_loss": 0.07151449471712112,
+            "test_acc": 35.275001525878906,
+            "convergence": 23.989980697631836,
+            "R1": 0,
             "dataset_sup": {
                 "name": "CIFAR10",
                 "noise_std": 0,
@@ -1114,8 +1114,8 @@
                 "selected_classes": [
                     1,
                     2,
-                    4,
-                    6
+                    6,
+                    9
                 ]
             },
             "dataset_unsup": {
@@ -1145,20 +1145,20 @@
                 "selected_classes": [
                     1,
                     2,
-                    4,
-                    6
+                    6,
+                    9
                 ]
             }
         }
     },
     "T5": {
         "R1": {
-            "train_loss": 9.376359957968816e-05,
-            "train_acc": 99.99479651451111,
-            "test_loss": 1.439763069152832,
-            "test_acc": 96.53401947021484,
-            "convergence": 23.82562255859375,
-            "R1": 3,
+            "train_loss": 4.9350946937920526e-05,
+            "train_acc": 99.99447464942932,
+            "test_loss": 1.981544017791748,
+            "test_acc": 91.4649658203125,
+            "convergence": 23.783475875854492,
+            "R1": 1,
             "dataset_sup": {
                 "name": "ImageNette",
                 "noise_std": 0,
@@ -1185,8 +1185,8 @@
                 "old_dataset_size": 160,
                 "n_classes": 2,
                 "selected_classes": [
-                    6,
-                    9
+                    3,
+                    8
                 ]
             },
             "dataset_unsup": {
@@ -1215,8 +1215,8 @@
                 "old_dataset_size": 160,
                 "n_classes": 2,
                 "selected_classes": [
-                    6,
-                    9
+                    3,
+                    8
                 ]
             },
             "train_config": {
@@ -1283,11 +1283,11 @@
             }
         },
         "R2": {
-            "train_loss": 0.0008766931714490056,
-            "train_acc": 99.98456835746765,
-            "test_loss": 2.645477533340454,
-            "test_acc": 93.12169647216797,
-            "convergence": 23.595958709716797,
+            "train_loss": 0.0001208317480632104,
+            "train_acc": 99.98973608016968,
+            "test_loss": 2.508967161178589,
+            "test_acc": 92.54327392578125,
+            "convergence": 23.549766540527344,
             "R1": 4,
             "dataset_sup": {
                 "name": "ImageNette",
@@ -1316,6 +1316,134 @@
                 "n_classes": 2,
                 "selected_classes": [
                     2,
+                    5
+                ]
+            },
+            "dataset_unsup": {
+                "name": "ImageNette",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 160,
+                "height": 160,
+                "validation_split": 0.2,
+                "training_sample": 9469,
+                "testing_sample": 10000,
+                "out_channels": 2,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 10,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "px": 160,
+                "nb_epoch": 1,
+                "print_freq": 10,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 160,
+                "n_classes": 2,
+                "selected_classes": [
+                    2,
+                    5
+                ]
+            },
+            "train_config": {
+                "t0": {
+                    "blocks": [
+                        0
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.08,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 10
+                },
+                "t2": {
+                    "blocks": [
+                        1
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.01,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 10
+                },
+                "t4": {
+                    "blocks": [
+                        2
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.01,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 10
+                },
+                "t6": {
+                    "blocks": [
+                        3
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.01,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 10
+                },
+                "t8": {
+                    "blocks": [
+                        4
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.01,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 10
+                },
+                "t10": {
+                    "blocks": [
+                        5
+                    ],
+                    "mode": "supervised",
+                    "lr": 0.001,
+                    "nb_epoch": 50,
+                    "batch_size": 32,
+                    "print_freq": 10
+                }
+            }
+        },
+        "eval_1": {
+            "test_loss": 30.187639236450195,
+            "test_acc": 45.47770690917969,
+            "convergence": 23.99959945678711,
+            "R1": 0,
+            "dataset_sup": {
+                "name": "ImageNette",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 160,
+                "height": 160,
+                "validation_split": 0.2,
+                "training_sample": 9469,
+                "testing_sample": 10000,
+                "out_channels": 2,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 32,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "px": 160,
+                "nb_epoch": 50,
+                "print_freq": 10,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 160,
+                "n_classes": 2,
+                "selected_classes": [
+                    3,
                     8
                 ]
             },
@@ -1345,6 +1473,80 @@
                 "old_dataset_size": 160,
                 "n_classes": 2,
                 "selected_classes": [
+                    3,
+                    8
+                ]
+            }
+        }
+    },
+    "T6": {
+        "R1": {
+            "train_loss": 1.5158293535932899e-06,
+            "train_acc": 99.99741315841675,
+            "test_loss": 3.727627992630005,
+            "test_acc": 88.36151123046875,
+            "convergence": 23.796390533447266,
+            "R1": 7,
+            "dataset_sup": {
+                "name": "ImageNette",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 160,
+                "height": 160,
+                "validation_split": 0.2,
+                "training_sample": 9469,
+                "testing_sample": 10000,
+                "out_channels": 4,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 32,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "px": 160,
+                "nb_epoch": 50,
+                "print_freq": 10,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 160,
+                "n_classes": 4,
+                "selected_classes": [
+                    0,
+                    1,
+                    2,
+                    8
+                ]
+            },
+            "dataset_unsup": {
+                "name": "ImageNette",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 160,
+                "height": 160,
+                "validation_split": 0.2,
+                "training_sample": 9469,
+                "testing_sample": 10000,
+                "out_channels": 4,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 10,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "px": 160,
+                "nb_epoch": 1,
+                "print_freq": 10,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 160,
+                "n_classes": 4,
+                "selected_classes": [
+                    0,
+                    1,
                     2,
                     8
                 ]
@@ -1412,214 +1614,12 @@
                 }
             }
         },
-        "eval_1": {
-            "test_loss": 9.588310241699219,
-            "test_acc": 78.562255859375,
-            "convergence": 23.523548126220703,
-            "R1": 8,
-            "dataset_sup": {
-                "name": "ImageNette",
-                "noise_std": 0,
-                "channels": 3,
-                "width": 160,
-                "height": 160,
-                "validation_split": 0.2,
-                "training_sample": 9469,
-                "testing_sample": 10000,
-                "out_channels": 2,
-                "num_workers": 0,
-                "seed": 0,
-                "shuffle": true,
-                "batch_size": 32,
-                "augmentation": false,
-                "zca_whitened": false,
-                "training_class": "all",
-                "split": "train",
-                "px": 160,
-                "nb_epoch": 50,
-                "print_freq": 10,
-                "validation": false,
-                "continual_learning": true,
-                "old_dataset_size": 160,
-                "n_classes": 2,
-                "selected_classes": [
-                    6,
-                    9
-                ]
-            },
-            "dataset_unsup": {
-                "name": "ImageNette",
-                "noise_std": 0,
-                "channels": 3,
-                "width": 160,
-                "height": 160,
-                "validation_split": 0.2,
-                "training_sample": 9469,
-                "testing_sample": 10000,
-                "out_channels": 2,
-                "num_workers": 0,
-                "seed": 0,
-                "shuffle": true,
-                "batch_size": 10,
-                "augmentation": false,
-                "zca_whitened": false,
-                "training_class": "all",
-                "split": "train",
-                "px": 160,
-                "nb_epoch": 1,
-                "print_freq": 10,
-                "validation": false,
-                "continual_learning": true,
-                "old_dataset_size": 160,
-                "n_classes": 2,
-                "selected_classes": [
-                    6,
-                    9
-                ]
-            }
-        }
-    },
-    "T6": {
-        "R1": {
-            "train_loss": 0.0005385730182752013,
-            "train_acc": 99.98643398284912,
-            "test_loss": 4.689259052276611,
-            "test_acc": 84.52455139160156,
-            "convergence": 23.887409210205078,
-            "R1": 8,
-            "dataset_sup": {
-                "name": "ImageNette",
-                "noise_std": 0,
-                "channels": 3,
-                "width": 160,
-                "height": 160,
-                "validation_split": 0.2,
-                "training_sample": 9469,
-                "testing_sample": 10000,
-                "out_channels": 4,
-                "num_workers": 0,
-                "seed": 0,
-                "shuffle": true,
-                "batch_size": 32,
-                "augmentation": false,
-                "zca_whitened": false,
-                "training_class": "all",
-                "split": "train",
-                "px": 160,
-                "nb_epoch": 50,
-                "print_freq": 10,
-                "validation": false,
-                "continual_learning": true,
-                "old_dataset_size": 160,
-                "n_classes": 4,
-                "selected_classes": [
-                    1,
-                    3,
-                    4,
-                    7
-                ]
-            },
-            "dataset_unsup": {
-                "name": "ImageNette",
-                "noise_std": 0,
-                "channels": 3,
-                "width": 160,
-                "height": 160,
-                "validation_split": 0.2,
-                "training_sample": 9469,
-                "testing_sample": 10000,
-                "out_channels": 4,
-                "num_workers": 0,
-                "seed": 0,
-                "shuffle": true,
-                "batch_size": 10,
-                "augmentation": false,
-                "zca_whitened": false,
-                "training_class": "all",
-                "split": "train",
-                "px": 160,
-                "nb_epoch": 1,
-                "print_freq": 10,
-                "validation": false,
-                "continual_learning": true,
-                "old_dataset_size": 160,
-                "n_classes": 4,
-                "selected_classes": [
-                    1,
-                    3,
-                    4,
-                    7
-                ]
-            },
-            "train_config": {
-                "t0": {
-                    "blocks": [
-                        0
-                    ],
-                    "mode": "unsupervised",
-                    "lr": 0.08,
-                    "nb_epoch": 1,
-                    "batch_size": 10,
-                    "print_freq": 10
-                },
-                "t2": {
-                    "blocks": [
-                        1
-                    ],
-                    "mode": "unsupervised",
-                    "lr": 0.01,
-                    "nb_epoch": 1,
-                    "batch_size": 10,
-                    "print_freq": 10
-                },
-                "t4": {
-                    "blocks": [
-                        2
-                    ],
-                    "mode": "unsupervised",
-                    "lr": 0.01,
-                    "nb_epoch": 1,
-                    "batch_size": 10,
-                    "print_freq": 10
-                },
-                "t6": {
-                    "blocks": [
-                        3
-                    ],
-                    "mode": "unsupervised",
-                    "lr": 0.01,
-                    "nb_epoch": 1,
-                    "batch_size": 10,
-                    "print_freq": 10
-                },
-                "t8": {
-                    "blocks": [
-                        4
-                    ],
-                    "mode": "unsupervised",
-                    "lr": 0.01,
-                    "nb_epoch": 1,
-                    "batch_size": 10,
-                    "print_freq": 10
-                },
-                "t10": {
-                    "blocks": [
-                        5
-                    ],
-                    "mode": "supervised",
-                    "lr": 0.001,
-                    "nb_epoch": 50,
-                    "batch_size": 32,
-                    "print_freq": 10
-                }
-            }
-        },
         "R2": {
-            "train_loss": 0.00033290780265815556,
-            "train_acc": 99.98966455459595,
-            "test_loss": 4.332359313964844,
-            "test_acc": 89.80392456054688,
-            "convergence": 23.556373596191406,
+            "train_loss": 0.0010270359925925732,
+            "train_acc": 99.97040033340454,
+            "test_loss": 5.1699981689453125,
+            "test_acc": 85.8681869506836,
+            "convergence": 23.3701229095459,
             "R1": 9,
             "dataset_sup": {
                 "name": "ImageNette",
@@ -1647,10 +1647,10 @@
                 "old_dataset_size": 160,
                 "n_classes": 4,
                 "selected_classes": [
-                    2,
+                    3,
+                    4,
                     5,
-                    6,
-                    9
+                    6
                 ]
             },
             "dataset_unsup": {
@@ -1679,10 +1679,10 @@
                 "old_dataset_size": 160,
                 "n_classes": 4,
                 "selected_classes": [
-                    2,
+                    3,
+                    4,
                     5,
-                    6,
-                    9
+                    6
                 ]
             },
             "train_config": {
@@ -1749,10 +1749,10 @@
             }
         },
         "eval_1": {
-            "test_loss": 48.39931106567383,
-            "test_acc": 29.770044326782227,
-            "convergence": 22.39291000366211,
-            "R1": 10,
+            "test_loss": 50.31114959716797,
+            "test_acc": 32.8348503112793,
+            "convergence": 23.99959945678711,
+            "R1": 0,
             "dataset_sup": {
                 "name": "ImageNette",
                 "noise_std": 0,
@@ -1779,10 +1779,10 @@
                 "old_dataset_size": 160,
                 "n_classes": 4,
                 "selected_classes": [
+                    0,
                     1,
-                    3,
-                    4,
-                    7
+                    2,
+                    8
                 ]
             },
             "dataset_unsup": {
@@ -1811,10 +1811,10 @@
                 "old_dataset_size": 160,
                 "n_classes": 4,
                 "selected_classes": [
+                    0,
                     1,
-                    3,
-                    4,
-                    7
+                    2,
+                    8
                 ]
             }
         }
@@ -1823,9 +1823,9 @@
         "R1": {
             "train_loss": 0.0,
             "train_acc": 100.0,
-            "test_loss": 1.2292165756225586,
-            "test_acc": 95.9375,
-            "convergence": 23.932241439819336,
+            "test_loss": 2.2444028854370117,
+            "test_acc": 92.5625,
+            "convergence": 23.929088592529297,
             "R1": 0,
             "dataset_sup": {
                 "name": "STL10",
@@ -1853,7 +1853,7 @@
                 "n_classes": 2,
                 "selected_classes": [
                     0,
-                    3
+                    2
                 ]
             },
             "dataset_unsup": {
@@ -1882,7 +1882,7 @@
                 "n_classes": 2,
                 "selected_classes": [
                     0,
-                    3
+                    2
                 ]
             },
             "train_config": {
@@ -1939,11 +1939,11 @@
             }
         },
         "R2": {
-            "train_loss": 0.0008465317660011351,
-            "train_acc": 99.98000264167786,
-            "test_loss": 2.973883628845215,
-            "test_acc": 87.25,
-            "convergence": 23.84358787536621,
+            "train_loss": 0.0,
+            "train_acc": 100.0,
+            "test_loss": 1.2058088779449463,
+            "test_acc": 96.1875,
+            "convergence": 23.84430503845215,
             "R1": 0,
             "dataset_sup": {
                 "name": "STL10",
@@ -1970,8 +1970,8 @@
                 "old_dataset_size": 96,
                 "n_classes": 2,
                 "selected_classes": [
-                    1,
-                    6
+                    5,
+                    8
                 ]
             },
             "dataset_unsup": {
@@ -1999,8 +1999,8 @@
                 "old_dataset_size": 96,
                 "n_classes": 2,
                 "selected_classes": [
-                    1,
-                    6
+                    5,
+                    8
                 ]
             },
             "train_config": {
@@ -2057,9 +2057,9 @@
             }
         },
         "eval_1": {
-            "test_loss": 5.342982769012451,
-            "test_acc": 78.4375,
-            "convergence": 23.7999324798584,
+            "test_loss": 41.938232421875,
+            "test_acc": 53.1875,
+            "convergence": 24.0014705657959,
             "R1": 0,
             "dataset_sup": {
                 "name": "STL10",
@@ -2087,7 +2087,7 @@
                 "n_classes": 2,
                 "selected_classes": [
                     0,
-                    3
+                    2
                 ]
             },
             "dataset_unsup": {
@@ -2116,18 +2116,18 @@
                 "n_classes": 2,
                 "selected_classes": [
                     0,
-                    3
+                    2
                 ]
             }
         }
     },
     "T8": {
         "R1": {
-            "train_loss": 0.001545284641906619,
-            "train_acc": 99.91999864578247,
-            "test_loss": 4.825907230377197,
-            "test_acc": 74.96875,
-            "convergence": 23.837804794311523,
+            "train_loss": 0.001013738801702857,
+            "train_acc": 99.97000098228455,
+            "test_loss": 5.120538234710693,
+            "test_acc": 74.875,
+            "convergence": 23.824092864990234,
             "R1": 0,
             "dataset_sup": {
                 "name": "STL10",
@@ -2154,10 +2154,10 @@
                 "old_dataset_size": 96,
                 "n_classes": 4,
                 "selected_classes": [
-                    4,
-                    5,
+                    2,
+                    3,
                     7,
-                    8
+                    9
                 ]
             },
             "dataset_unsup": {
@@ -2185,10 +2185,10 @@
                 "old_dataset_size": 96,
                 "n_classes": 4,
                 "selected_classes": [
-                    4,
-                    5,
+                    2,
+                    3,
                     7,
-                    8
+                    9
                 ]
             },
             "train_config": {
@@ -2245,11 +2245,11 @@
             }
         },
         "R2": {
-            "train_loss": 0.001171698677353561,
-            "train_acc": 99.9750018119812,
-            "test_loss": 3.615605115890503,
-            "test_acc": 86.875,
-            "convergence": 23.759780883789062,
+            "train_loss": 0.002780142007395625,
+            "train_acc": 99.91000294685364,
+            "test_loss": 5.591821193695068,
+            "test_acc": 75.90625,
+            "convergence": 23.74672508239746,
             "R1": 0,
             "dataset_sup": {
                 "name": "STL10",
@@ -2276,10 +2276,10 @@
                 "old_dataset_size": 96,
                 "n_classes": 4,
                 "selected_classes": [
-                    0,
-                    2,
-                    3,
-                    6
+                    1,
+                    4,
+                    5,
+                    8
                 ]
             },
             "dataset_unsup": {
@@ -2307,10 +2307,10 @@
                 "old_dataset_size": 96,
                 "n_classes": 4,
                 "selected_classes": [
-                    0,
-                    2,
-                    3,
-                    6
+                    1,
+                    4,
+                    5,
+                    8
                 ]
             },
             "train_config": {
@@ -2367,10 +2367,10 @@
             }
         },
         "eval_1": {
-            "test_loss": 64.00419616699219,
-            "test_acc": 20.71875,
-            "convergence": 23.753097534179688,
-            "R1": 2,
+            "test_loss": 20.139892578125,
+            "test_acc": 50.09375,
+            "convergence": 24.0014705657959,
+            "R1": 0,
             "dataset_sup": {
                 "name": "STL10",
                 "noise_std": 0,
@@ -2396,10 +2396,10 @@
                 "old_dataset_size": 96,
                 "n_classes": 4,
                 "selected_classes": [
-                    4,
-                    5,
+                    2,
+                    3,
                     7,
-                    8
+                    9
                 ]
             },
             "dataset_unsup": {
@@ -2427,10 +2427,10 @@
                 "old_dataset_size": 96,
                 "n_classes": 4,
                 "selected_classes": [
-                    4,
-                    5,
+                    2,
+                    3,
                     7,
-                    8
+                    9
                 ]
             }
         }
