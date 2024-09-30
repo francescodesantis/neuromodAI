@@ -71,7 +71,7 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
             test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
             print(f'Accuracy of the network: {test_acc:.3f} %')
             print(f'Test loss: {test_loss:.3f}')
-        elif config['mode'] == 'unsupervised':
+        elif evaluate == False and config['mode'] == 'unsupervised':
             run_unsup(
                 config['nb_epoch'],
                 config['print_freq'],
@@ -84,7 +84,7 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
                 blocks=config['blocks'],
                 save=save
             )
-        elif config['mode'] == 'supervised':
+        elif evaluate == False and config['mode'] == 'supervised':
             run_sup(
                 config['nb_epoch'],
                 config['print_freq'],
@@ -98,7 +98,7 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
                 blocks=config['blocks'],
                 save=save
             )
-        else:
+        elif evaluate == False:
             run_hybrid(
                 config['nb_epoch'],
                 config['print_freq'],
