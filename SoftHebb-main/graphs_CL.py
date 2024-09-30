@@ -114,6 +114,8 @@ def create_graph(graphs, path):
                 d_labels = []
                 for run in runs: 
                     y.append(g[run]["test_acc"])
+                    T = g[run]["T"]
+
                     if g[run]["dataset"] not in d_labels:
                         d_labels.append(g[run]["dataset"])
                 
