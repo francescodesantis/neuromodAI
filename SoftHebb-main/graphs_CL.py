@@ -27,7 +27,6 @@ def format_graphs(path):
                         new_obj = {}
                         objS = obj[run]
                         if isinstance(objS, str):
-                            new_obj["T"] = key
                             continue
                         new_obj["test_loss"] = objS["test_loss"]
                         new_obj["test_acc"] = objS["test_acc"]
@@ -39,6 +38,7 @@ def format_graphs(path):
                        
                         if obj.get("model_name") is not None:
                             new_obj["model_name"] = obj["model_name"]
+                        new_obj["T"] = key
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
                     graphs[dataset].append(runs)
             elif obj.get("R2") is not None:
@@ -49,7 +49,6 @@ def format_graphs(path):
                         new_obj = {}
                         objS = obj[run]
                         if isinstance(objS, str):
-                            new_obj["T"] = key
                             continue
 
                         new_obj["test_loss"] = objS["test_loss"]
@@ -61,7 +60,7 @@ def format_graphs(path):
                             new_obj["n_classes"] = objS["dataset_sup"]["n_classes"]
                         if obj.get("model_name") is not None:
                             new_obj["model_name"] = obj["model_name"]
-                        
+                        new_obj["T"] = key
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
                     #print(runs)
                     graphs[dataset].append(runs)
