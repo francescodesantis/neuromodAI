@@ -61,7 +61,7 @@ def format_graphs(path):
                             new_obj["model_name"] = obj["model_name"]
                         new_obj["T"] = key
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
-
+                    print(runs)
                     graphs[dataset].append(runs)
     return graphs
 
