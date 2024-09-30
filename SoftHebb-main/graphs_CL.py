@@ -61,7 +61,7 @@ def format_graphs(path):
                             new_obj["model_name"] = obj["model_name"]
                         new_obj["T"] = key
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
-                    print(runs)
+                    #print(runs)
                     graphs[dataset].append(runs)
     return graphs
 
@@ -83,11 +83,11 @@ def create_graph(graphs, path):
                 runs = x
                 for run in runs: 
                     y.append(g[run]["test_acc"])
+                    print(run)
+                    print(g[run])
                     T = g[run]["T"]
                 plt.figure(figsize=(5, 6))
-                print(run)
-
-                print(g[run])
+                
                 plt.suptitle("Continual Learning with " + str(g[run]["n_classes"]) + " classes per task " + "("+ T +")")
                 plt.bar(x, y)
                 img_name = g[run]["dataset"] + "_" + str(g[run]["n_classes"]) + "C" + ".png"
@@ -115,6 +115,8 @@ def create_graph(graphs, path):
                 runs = x
                 d_labels = []
                 for run in runs: 
+                    print(run)
+                    print(g[run])
                     y.append(g[run]["test_acc"])
                     T = g[run]["T"]
 
