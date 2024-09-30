@@ -85,6 +85,8 @@ def create_graph(graphs, path):
                     y.append(g[run]["test_acc"])
                     T = g[run]["T"]
                 plt.figure(figsize=(5, 6))
+                print(run)
+
                 print(g[run])
                 plt.suptitle("Continual Learning with " + str(g[run]["n_classes"]) + " classes per task " + "("+ T +")")
                 plt.bar(x, y)
@@ -118,7 +120,9 @@ def create_graph(graphs, path):
 
                     if g[run]["dataset"] not in d_labels:
                         d_labels.append(g[run]["dataset"])
-                
+                print(run)
+                print(g[run])
+
                 plt.figure(figsize=(5, 6))
                 d_title = str(d_labels[0]) + "_" + str(d_labels[1])
                 plt.suptitle("Continual Learning with " + d_title + "("+ T +")")
