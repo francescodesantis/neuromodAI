@@ -70,53 +70,55 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
     log = Log(train_config)
 
     for id, config in train_config.items():
-        if evaluate and config['mode'] == 'supervised': ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
-            train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
-            criterion = nn.CrossEntropyLoss()
-            test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
-            print(f'Accuracy of the network: {test_acc:.3f} %')
-            print(f'Test loss: {test_loss:.3f}')
-        elif evaluate == False and config['mode'] == 'unsupervised':
-            run_unsup(
-                config['nb_epoch'],
-                config['print_freq'],
-                config['batch_size'],
-                name_model,
-                dataset_unsup_config,
-                model,
-                device,
-                log.unsup[id],
-                blocks=config['blocks'],
-                save=save
-            )
-        elif evaluate == False and config['mode'] == 'supervised':
-            run_sup(
-                config['nb_epoch'],
-                config['print_freq'],
-                config['batch_size'],
-                config['lr'],
-                name_model,
-                dataset_sup_config,
-                model,
-                device,
-                log.sup[id],
-                blocks=config['blocks'],
-                save=save
-            )
-        elif evaluate == False:
-            run_hybrid(
-                config['nb_epoch'],
-                config['print_freq'],
-                config['batch_size'],
-                config['lr'],
-                name_model,
-                dataset_sup_config,
-                model,
-                device,
-                log.sup[id],
-                blocks=config['blocks'],
-                save=save
-            )
+        if evaluate : ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
+            if config['mode'] == 'supervised':
+                train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
+                criterion = nn.CrossEntropyLoss()
+                test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
+                print(f'Accuracy of the network: {test_acc:.3f} %')
+                print(f'Test loss: {test_loss:.3f}')
+        else: 
+            if config['mode'] == 'unsupervised':
+                run_unsup(
+                    config['nb_epoch'],
+                    config['print_freq'],
+                    config['batch_size'],
+                    name_model,
+                    dataset_unsup_config,
+                    model,
+                    device,
+                    log.unsup[id],
+                    blocks=config['blocks'],
+                    save=save
+                )
+            elif config['mode'] == 'supervised':
+                run_sup(
+                    config['nb_epoch'],
+                    config['print_freq'],
+                    config['batch_size'],
+                    config['lr'],
+                    name_model,
+                    dataset_sup_config,
+                    model,
+                    device,
+                    log.sup[id],
+                    blocks=config['blocks'],
+                    save=save
+                )
+            else:
+                run_hybrid(
+                    config['nb_epoch'],
+                    config['print_freq'],
+                    config['batch_size'],
+                    config['lr'],
+                    name_model,
+                    dataset_sup_config,
+                    model,
+                    device,
+                    log.sup[id],
+                    blocks=config['blocks'],
+                    save=save
+                )
 
     save_logs(log, name_model)
 
