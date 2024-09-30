@@ -62,7 +62,6 @@ def format_graphs(path):
                             new_obj["model_name"] = obj["model_name"]
                         new_obj["T"] = key
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
-                    #print(runs)
                     graphs[dataset].append(runs)
     return graphs
 
@@ -84,8 +83,6 @@ def create_graph(graphs, path):
                 runs = x
                 for run in runs: 
                     y.append(g[run]["test_acc"])
-                    print(run)
-                    print(g[run])
                     T = g[run]["T"]
                 plt.figure(figsize=(5, 6))
                 
@@ -116,15 +113,13 @@ def create_graph(graphs, path):
                 runs = x
                 d_labels = []
                 for run in runs: 
-                    print(run)
-                    print(g[run])
+                    
                     y.append(g[run]["test_acc"])
                     T = g[run]["T"]
 
                     if g[run]["dataset"] not in d_labels:
                         d_labels.append(g[run]["dataset"])
-                print(run)
-                print(g[run])
+                
 
                 plt.figure(figsize=(5, 6))
                 d_title = str(d_labels[0]) + "_" + str(d_labels[1])
