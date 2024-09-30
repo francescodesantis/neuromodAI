@@ -2,7 +2,7 @@ import argparse
 
 from utils import load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
 from model import load_layers
-from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
+from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid, evaluate_sup, evaluate_unsup
 from log import Log, save_logs
 import warnings
 
@@ -52,8 +52,11 @@ parser.add_argument('--save', default=True, type=str2bool, metavar='N',
 parser.add_argument('--validation', default=False, type=str2bool, metavar='N',
                     help='')
 
+parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
+                    help='')
 
-def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id):
+
+def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset_unsup_config, train_config, gpu_id):
     device = get_device(gpu_id)
     model = load_layers(blocks, name_model, resume)
 
@@ -62,7 +65,13 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     log = Log(train_config)
 
     for id, config in train_config.items():
-        if config['mode'] == 'unsupervised':
+        if evaluate and config['mode'] == 'supervised': ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
+            train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
+            criterion = nn.CrossEntropyLoss()
+            test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
+            print(f'Accuracy of the network: {test_acc:.3f} %')
+            print(f'Test loss: {test_loss:.3f}')
+        elif config['mode'] == 'unsupervised':
             run_unsup(
                 config['nb_epoch'],
                 config['print_freq'],
@@ -125,5 +134,5 @@ if __name__ == '__main__':
     train_config = training_config(blocks, dataset_sup_config, dataset_unsup_config, params.training_mode,
                                    params.training_blocks)
 
-    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+    main(blocks, name_model, params.resume, params.save, params.evaluate, dataset_sup_config, dataset_unsup_config, train_config,
          params.gpu_id)
