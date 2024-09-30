@@ -1,4 +1,2 @@
 ---------------- /cineca/prod/opt/modulefiles/deeplrn/libraries ----------------
 cineca-ai/2.0.2  
-mkdir: cannot create directory ‘Training/results/hebb/result/network/STL10_CIFAR10_CL/models’: File exists
-mv: cannot stat 'Training/results/hebb/result/network/STL10_CIFAR10_CL/checkpoint.pth.tar': No such file or directory
