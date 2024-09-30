@@ -67,11 +67,14 @@ def format_graphs(path):
 
 def create_graph(graphs, path):
 
-    dataset = list(graphs.keys())[0]
-    first_obj = (graphs[dataset])[0]
-    first_run = list(first_obj.keys())[0]
-    run_obj = first_obj[first_run]
-    classes_CL = run_obj.get("n_classes") is not None
+    classes_CL = False
+    for dataset in graphs.keys():
+        if len(graphs[dataset]) > 0: 
+            first_obj = (graphs[dataset])[0]
+            first_run = list(first_obj.keys())[0]
+            run_obj = first_obj[first_run]
+            classes_CL = run_obj.get("n_classes") is not None
+            break
 
     if classes_CL: 
         datasets = list(graphs.keys())
