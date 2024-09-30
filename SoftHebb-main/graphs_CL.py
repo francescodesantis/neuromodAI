@@ -84,6 +84,7 @@ def create_graph(graphs, path):
                 for run in runs: 
                     y.append(g[run]["test_acc"])
                 plt.figure(figsize=(5, 6))
+                print(g[run])
                 plt.suptitle("Continual Learning with " + str(g[run]["n_classes"]) + " classes per task " + "("+ g["T"]+")")
                 plt.bar(x, y)
                 img_name = g[run]["dataset"] + "_" + str(g[run]["n_classes"]) + "C" + ".png"
