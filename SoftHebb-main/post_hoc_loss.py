@@ -3,7 +3,7 @@ import argparse
 from utils import load_presets, get_device, load_config_dataset, seed_init_fn
 from model import load_layers
 from train import run_sup, check_dimension
-from log import Log, save_logs
+from log_m import Log, save_logs
 import copy
 import warnings
 warnings.filterwarnings("ignore")

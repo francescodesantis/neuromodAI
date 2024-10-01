@@ -3,7 +3,7 @@ import argparse
 from utils import load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
 from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid, evaluate_sup, evaluate_unsup
-from log import Log, save_logs
+from log_m import Log, save_logs
 from dataset import make_data_loaders
 import torch
 import torch.optim as optim

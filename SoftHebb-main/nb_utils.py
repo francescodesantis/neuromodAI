@@ -24,7 +24,7 @@ import torch
 import umap
 
 from model import load_layers
-from log import load_logs
+from log_m import load_logs
 from utils import SEARCH
 
 
