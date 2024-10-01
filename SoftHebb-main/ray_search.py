@@ -14,7 +14,7 @@ from utils import SEARCH, load_presets, get_device, load_config_dataset, merge_p
 from model import load_layers
 import torch
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid
-from log import Log
+from log_m import Log
 import ray
 from ray import tune
 #from ray.tune.suggest.basic_variant import BasicVariantGenerator
