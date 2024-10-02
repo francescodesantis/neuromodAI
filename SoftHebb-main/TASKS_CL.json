@@ -2434,5 +2434,335 @@
                 ]
             }
         }
+    },
+    "T9": {
+        "R1": {
+            "train_loss": 0.013124372810125351,
+            "train_acc": 96.57599925994873,
+            "test_loss": 0.014639913104474545,
+            "test_acc": 77.9000015258789,
+            "convergence": 21.46358871459961,
+            "R1": 0,
+            "dataset_sup": {
+                "name": "CIFAR100",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 32,
+                "height": 32,
+                "validation_split": 0.2,
+                "training_sample": 50000,
+                "testing_sample": 10000,
+                "out_channels": 10,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 64,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "nb_epoch": 50,
+                "print_freq": 10,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 32,
+                "n_classes": 10,
+                "selected_classes": [
+                    25,
+                    28,
+                    41,
+                    51,
+                    55,
+                    65,
+                    75,
+                    77,
+                    81,
+                    92
+                ]
+            },
+            "dataset_unsup": {
+                "name": "CIFAR100",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 32,
+                "height": 32,
+                "validation_split": 0.2,
+                "training_sample": 50000,
+                "testing_sample": 10000,
+                "out_channels": 10,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 10,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "nb_epoch": 1,
+                "print_freq": 50,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 32,
+                "n_classes": 10,
+                "selected_classes": [
+                    25,
+                    28,
+                    41,
+                    51,
+                    55,
+                    65,
+                    75,
+                    77,
+                    81,
+                    92
+                ]
+            },
+            "train_config": {
+                "t0": {
+                    "blocks": [
+                        0
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.08,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 50
+                },
+                "t2": {
+                    "blocks": [
+                        1
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.005,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 50
+                },
+                "t4": {
+                    "blocks": [
+                        2
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.01,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 50
+                },
+                "t6": {
+                    "blocks": [
+                        3
+                    ],
+                    "mode": "supervised",
+                    "lr": 0.001,
+                    "nb_epoch": 50,
+                    "batch_size": 64,
+                    "print_freq": 10
+                }
+            }
+        },
+        "R2": {
+            "train_loss": 0.027201944962143898,
+            "train_acc": 94.6179986000061,
+            "test_loss": 0.023192372173070908,
+            "test_acc": 72.80000305175781,
+            "convergence": 20.262283325195312,
+            "R1": 0,
+            "dataset_sup": {
+                "name": "CIFAR100",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 32,
+                "height": 32,
+                "validation_split": 0.2,
+                "training_sample": 50000,
+                "testing_sample": 10000,
+                "out_channels": 10,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 64,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "nb_epoch": 50,
+                "print_freq": 10,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 32,
+                "n_classes": 10,
+                "selected_classes": [
+                    4,
+                    5,
+                    12,
+                    27,
+                    32,
+                    39,
+                    46,
+                    54,
+                    79,
+                    80
+                ]
+            },
+            "dataset_unsup": {
+                "name": "CIFAR100",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 32,
+                "height": 32,
+                "validation_split": 0.2,
+                "training_sample": 50000,
+                "testing_sample": 10000,
+                "out_channels": 10,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 10,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "nb_epoch": 1,
+                "print_freq": 50,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 32,
+                "n_classes": 10,
+                "selected_classes": [
+                    4,
+                    5,
+                    12,
+                    27,
+                    32,
+                    39,
+                    46,
+                    54,
+                    79,
+                    80
+                ]
+            },
+            "train_config": {
+                "t0": {
+                    "blocks": [
+                        0
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.08,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 50
+                },
+                "t2": {
+                    "blocks": [
+                        1
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.005,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 50
+                },
+                "t4": {
+                    "blocks": [
+                        2
+                    ],
+                    "mode": "unsupervised",
+                    "lr": 0.01,
+                    "nb_epoch": 1,
+                    "batch_size": 10,
+                    "print_freq": 50
+                },
+                "t6": {
+                    "blocks": [
+                        3
+                    ],
+                    "mode": "supervised",
+                    "lr": 0.001,
+                    "nb_epoch": 50,
+                    "batch_size": 64,
+                    "print_freq": 10
+                }
+            }
+        },
+        "eval_1": {
+            "test_loss": 0.1926954984664917,
+            "test_acc": 8.699999809265137,
+            "convergence": 23.989980697631836,
+            "R1": 0,
+            "dataset_sup": {
+                "name": "CIFAR100",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 32,
+                "height": 32,
+                "validation_split": 0.2,
+                "training_sample": 50000,
+                "testing_sample": 10000,
+                "out_channels": 10,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 64,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "nb_epoch": 50,
+                "print_freq": 10,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 32,
+                "n_classes": 10,
+                "selected_classes": [
+                    25,
+                    28,
+                    41,
+                    51,
+                    55,
+                    65,
+                    75,
+                    77,
+                    81,
+                    92
+                ]
+            },
+            "dataset_unsup": {
+                "name": "CIFAR100",
+                "noise_std": 0,
+                "channels": 3,
+                "width": 32,
+                "height": 32,
+                "validation_split": 0.2,
+                "training_sample": 50000,
+                "testing_sample": 10000,
+                "out_channels": 10,
+                "num_workers": 0,
+                "seed": 0,
+                "shuffle": true,
+                "batch_size": 10,
+                "augmentation": false,
+                "zca_whitened": false,
+                "training_class": "all",
+                "split": "train",
+                "nb_epoch": 1,
+                "print_freq": 50,
+                "validation": false,
+                "continual_learning": true,
+                "old_dataset_size": 32,
+                "n_classes": 10,
+                "selected_classes": [
+                    25,
+                    28,
+                    41,
+                    51,
+                    55,
+                    65,
+                    75,
+                    77,
+                    81,
+                    92
+                ]
+            }
+        }
     }
 }
