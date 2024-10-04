@@ -1,0 +1,7 @@
+2024-10-04 23:21:17,817	INFO worker.py:1786 -- Started a local Ray instance.
+2024-10-04 23:21:34,516	INFO tune.py:253 -- Initializing Ray automatically. For cluster usage or custom Ray initialization, call `ray.init(...)` before `tune.run(...)`.
+2024-10-04 23:21:34,581	WARNING tune.py:902 -- AIR_VERBOSITY is set, ignoring passed-in ProgressReporter for now.
+[36m(func pid=1586616)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:757: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=1586616)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+2024-10-04 23:22:19,868	INFO tune.py:1009 -- Wrote the latest version of all result files and experiment state to '/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/search/CIFAR10_Test' in 0.0047s.
+
