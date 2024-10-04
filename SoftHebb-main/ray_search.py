@@ -87,6 +87,8 @@ parser.add_argument('--save-model', default=False, action='store_true',
                     help='Save model checkpoints, configs, etc')
 
 parser.add_argument('--debug', default=False, action='store_true', help='Debug mode (ray local)')
+parser.add_argument('--test', default=False, type=str2bool, metavar='N',
+                    help='Set to True if you want to reduce the number of seed for ray search to just one to speed up training ')
 
 default={}
 print(parser)
@@ -136,12 +138,20 @@ def get_config(config_name):
             }
         }
     else:
-        config = {
-            'dataset_unsup': {
-                'seed': tune.grid_search([0, 1, 2, 3])
-                #'seed': tune.grid_search([0 ]) ###############################################
+        if params.test: 
+            config = {
+                'dataset_unsup': {
+                    #'seed': tune.grid_search([0, 1, 2, 3])
+                    'seed': tune.grid_search([0]) ###############################################
+                }
             }
-        }
+        else: 
+            config = {
+                'dataset_unsup': {
+                    'seed': tune.grid_search([0, 1, 2, 3])
+                    #'seed': tune.grid_search([0]) ###############################################
+                }
+            }
     print("config_name", config_name)
     print("config", config)
     return config
