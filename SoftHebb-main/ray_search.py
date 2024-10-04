@@ -319,24 +319,8 @@ if __name__ == '__main__':
     #t = Tuner(tuner)
     # results = tuner.fit()
 
-    # analysis = tune.run(
-    #     trial_exp,
-    #     resources_per_trial={
-    #         "cpu": os.cpu_count(),
-    #         "gpu": torch.cuda.device_count()
-    #     },
-    #     metric=params.metric,
-    #     mode='min' if params.metric.endswith('loss') else 'max',
-    #     search_alg=algo_search,
-    #     config=config,
-    #     progress_reporter=reporter,
-    #     num_samples=params.num_samples,
-    #     storage_path=SEARCH,
-    #     name=params.folder_name)
-        
-    analysis = tune.Tuner(
+    analysis = tune.run(
         trial_exp,
-        tune_config=tune.TuneConfig(
         resources_per_trial={
             "cpu": os.cpu_count(),
             "gpu": torch.cuda.device_count()
@@ -349,8 +333,25 @@ if __name__ == '__main__':
         num_samples=params.num_samples,
         storage_path=SEARCH,
         name=params.folder_name)
-        )
-    
-    results = analysis.fit()
+        
+    # analysis = tune.Tuner(
+    #     tune.with_resources(trial_exp, {
+    #         "cpu": os.cpu_count(),
+    #         "gpu": torch.cuda.device_count()
+    #     }),
+    #     tune_config=tune.TuneConfig(
+        
+    #     metric=params.metric,
+    #     mode='min' if params.metric.endswith('loss') else 'max',
+    #     search_alg=algo_search,
+    #     num_samples=params.num_samples,
+        
+    #     progress_reporter=reporter,
+    #     storage_path=SEARCH,
+    #     name=params.folder_name
+    #     ), 
+    #     param_space=config,
+    # )
+    # results = analysis.fit()
     #
        
