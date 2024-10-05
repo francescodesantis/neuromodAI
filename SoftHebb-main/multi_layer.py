@@ -69,7 +69,10 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
 
     log = Log(train_config)
 
-    print("MODEL PARAMETERS: ", model.parameters())
+    print("MODEL PARAMETERS: ")
+    for p in model.parameters():
+        print(p.name, p.data)
+    print("############################################")
 
     for id, config in train_config.items():
         if evaluate : ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
