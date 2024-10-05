@@ -93,6 +93,10 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 # Save if measurement is wanted
                 conv, r1 = model.convergence()
                 measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), conv, r1, model.get_lr())
+            print("STATE DICT: ###############################")
+            for param_tensor in model.state_dict():
+                print(param_tensor, "\t", model.state_dict()[param_tensor].size())
+
             model.update()
 
     info = model.radius()
