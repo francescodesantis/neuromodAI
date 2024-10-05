@@ -281,6 +281,7 @@ def generate_block(params) -> BasicBlock:
             batch_norm = nn.BatchNorm1d(config['out_channels'], affine=False)
 
     elif config['arch'] == 'CNN':
+        print("CNN LAYER CONFIG: ", config)
         if config['hebbian']:
             layer = select_Conv2d_layer(config)
         else:
