@@ -71,7 +71,7 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
 
     print("MODEL PARAMETERS: ")
     for p in model.parameters():
-        print(p.shape(), p.data)
+        print(p.size(), p.data)
     print("############################################")
 
     for id, config in train_config.items():
