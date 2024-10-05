@@ -69,6 +69,8 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
 
     log = Log(train_config)
 
+    print("MODEL PARAMETERS: ", model.parameters())
+
     for id, config in train_config.items():
         if evaluate : ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
             if config['mode'] == 'supervised':
