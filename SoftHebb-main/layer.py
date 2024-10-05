@@ -238,7 +238,7 @@ def generate_block(params) -> BasicBlock:
 
     """
     config = params['layer']
-    print("CONFIG:", config)
+    #print("CONFIG:", config)
 
     pool = None
     batch_norm = None

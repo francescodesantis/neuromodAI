@@ -78,6 +78,7 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
                 print(f'Accuracy of the network: {test_acc:.3f} %')
                 print(f'Test loss: {test_loss:.3f}')
         else: 
+            print("BLOCKS: ", config['blocks'])
             if config['mode'] == 'unsupervised':
                 run_unsup(
                     config['nb_epoch'],
