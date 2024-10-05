@@ -11,6 +11,8 @@
 #SBATCH --account=EIRI_E_POLIMI     # account name
 module load profile/deeplrn
 module av cineca-ai
+module load anaconda3
+
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
 conda run -n softhebb python continual_learning.py --preset 4SoftHebbCnnCIFAR --resume all --model-name 'C10_4C_CL' --dataset-unsup CIFAR10_1 --dataset-sup CIFAR10_50 --continual_learning True --evaluate True --classes 4
 

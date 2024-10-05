@@ -10,6 +10,8 @@
 #SBATCH --output=STL10_C10/job.out           # standard output file
 module load profile/deeplrn
 module av cineca-ai
+module load anaconda3
+
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
 rm -rf -d Training/results/hebb/result/network/STL10_CIFAR10_CL
 cp -r Training/results/hebb/result/network/STL10_Best Training/results/hebb/result/network/STL10_CIFAR10_CL

@@ -10,6 +10,8 @@
 #SBATCH --output=C100_2C/job.out           # standard output file
 module load profile/deeplrn
 module av cineca-ai
+module load anaconda3
+
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
 conda run -n softhebb python continual_learning.py --preset 4SoftHebbCnnCIFAR --resume all --model-name 'C100_2C_CL' --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --classes 2
 

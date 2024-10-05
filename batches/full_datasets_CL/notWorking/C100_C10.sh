@@ -9,6 +9,8 @@
 #SBATCH --account=EIRI_E_POLIMI     # account name
 module load profile/deeplrn
 module av cineca-ai
+module load anaconda3
+
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
 rm -rf -d Training/results/hebb/result/network/CIFAR100_CIFAR10_CL
 cp -r Training/results/hebb/result/network/CIFAR100_Best Training/results/hebb/result/network/CIFAR100_CIFAR10_CL

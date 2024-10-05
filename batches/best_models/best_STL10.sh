@@ -8,6 +8,7 @@
 #SBATCH --time=04:00:00               # time limits: 1/2 hour
 #SBATCH --error=STL10/job.err            # standard error file
 #SBATCH --output=STL10/job.out           # standard output file
+module load anaconda3
 module load profile/deeplrn
 module av cineca-ai
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main

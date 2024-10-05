@@ -10,6 +10,8 @@
 #SBATCH --output=STL10_4C/job.out           # standard output file
 module load profile/deeplrn
 module av cineca-ai
+module load anaconda3
+
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
 conda run -n softhebb python ray_search_cl.py --preset 5SoftHebbCnnSTL --resume all --model-name 'STL10_4C_Best' --dataset-unsup STL10_1 --dataset-sup STL10_50 --continual_learning True --evaluate True --classes 4
 

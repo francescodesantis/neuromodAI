@@ -10,5 +10,7 @@
 #SBATCH --output=IMG_4C/job.out           # standard output file
 module load profile/deeplrn
 module av cineca-ai
+module load anaconda3
+
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
 conda run -n softhebb python continual_learning.py --preset 6SoftHebbCnnImNet --resume all --model-name 'IMG_4C_CL' --dataset-unsup ImageNette_1 --dataset-sup ImageNette_50 --continual_learning True --evaluate True --classes 4

@@ -10,5 +10,7 @@
 #SBATCH --output=CIFAR10/job.out           # standard output file
 module load profile/deeplrn
 module av cineca-ai
+module load anaconda3
+
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
 conda run -n softhebb python ray_search.py --preset 4SoftHebbCnnCIFAR --dataset-unsup CIFAR10_1 --dataset-sup CIFAR10_50 --folder-name 'CIFAR10_Best' --model-name 'CIFAR10_Best' --save-model
