@@ -65,7 +65,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     t = True
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
-
+            
             # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
             ## 1. forward propagation
             inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
@@ -78,6 +78,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 # print(output)
                 # print("#############################################")
                 t = True
+                print(model.state_dict())
                 #print(r"%s"%(time.time()-t))
 
             if loss_acc:  
@@ -94,11 +95,11 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 # Save if measurement is wanted
                 conv, r1 = model.convergence()
                 measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), conv, r1, model.get_lr())
-            print("STATE DICT: ###############################")
-            print(i)
-            i += 1
-            for param_tensor in model.state_dict():
-                print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
+            # print("STATE DICT: ###############################")
+            # print(i)
+            # i += 1
+            # for param_tensor in model.state_dict():
+            #     print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
 
             model.update()
 
