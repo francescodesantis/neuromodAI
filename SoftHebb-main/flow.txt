@@ -148,4 +148,24 @@ So to execute the continual learning:
 For both scenarios we need to clean the already existing json files before doing anything because they contain dirty runs.
 
 Everything seems to be working fine reguarding the scaling in continual learning with diff datasets. 
-We still need to try the continual learning with subclasses.
+We still need to try the continual learning with subclasses. CL with subclasses works fine. 
+[completed]
+
+#################
+
+Now we have to implement the continual leanring. Briefly I would meassure the different in the weights after every 
+either epoch, or batch or single image ( though this could be too expensive if done from the get go, so I would do it like in the end to fine tune the meta learning approach). 
+With this difference caluclated I am able to understand where the weights chamge and how, additionally I am able to see how much fo the previolsy elarned representation my 
+model is able to use with a different dataset. Knowin gthis, I would implement a metalearning approach which modulates the plasticity of certain areas of the network based on the change in weights in that area
+and on the loss of the classification. 
+
+To visualize the weight change we need to access to the state_dict of the network. These contains different information, amongst those 
+also the weights tensor. They are organized by blocks (which I am assuming are an alias for layer). So we have to store per each block
+this tensor, and put them in a dict... no sense just use the state_dict dictionary you dumb fuck. Ok, so maybe we can ust clean it... we ll see I don't think there is an actual need. 
+Anyway, the important thing is state we store the current state_dict and the previous state_dict. Simple, we just have to store it before it changes, and that would be the previous state. 
+Now, we care to store the difference, should we consider the absolute value of this difference or not? If we just want to know if it was a big or 
+small change but we don't care in which direction than we cold consider the absolute value, if we also want to know the direction of the change
+then it is necessary to keep the sign. Hinton graphs are the choice to represent this weight change, I still have to find a kind of graph which works but has color, 
+like a dense red for a positive change or deep blue for high negative change. The question that I have right know is how should we combine this change 
+in a graph? Like we wouldn't really need to visualize it for the meta learning approach to work, it would be more for us. As an example to start we could also create it for just one image to image, 
+or one epoch to epoch, or also batch to batch or why not from dataset to dataset. 

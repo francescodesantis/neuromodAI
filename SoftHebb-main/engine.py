@@ -2,6 +2,10 @@ import torch
 import torch.nn as nn
 import time
 from PIL import ImageFile
+import matplotlib.pyplot as plt
+from mpltools import special
+
+
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def train_BP(model, criterion, optimizer, loader, device, measures):
@@ -63,13 +67,31 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     #print("#############################################")
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
     t = False
+    i = 0
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
             
             # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
             ## 1. forward propagation
+            prev_dict = model.state_dict()
             inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
             output = model(inputs) 
+            curr_dict = model.state_dict()
+
+            if i == 1: 
+                prev_weights = prev_dict['blocks.0.layer.weight']
+                curr_weigths = curr_dict['blocks.0.layer.weight']
+
+                delta_weights = torch.sub(prev_weights, curr_weigths)
+                special.hinton(delta_weights)
+                plt.savefig("Images/Hinton.png")
+                plt.close()
+            i +=1
+
+            # for param_tensor in model.state_dict():
+            #     if "weight" in param_tensor:
+            #         #print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
+            #         prev_weights = param_tensor
             if t == False:
                 # print("INPUT VARIABLE")
                 # print(inputs)
