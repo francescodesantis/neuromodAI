@@ -84,6 +84,9 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 curr_weigths = curr_dict['blocks.0.layer.weight']
 
                 delta_weights = torch.sub(prev_weights.cpu(), curr_weigths.cpu())
+                print("DELTA WEIGHTS: ", delta_weights[0])
+                print("DELTA WEIGHTS: ", delta_weights[0][0])
+
                 hinton(delta_weights[0][0])
     
                 plt.savefig("Images/Hinton.png")
@@ -102,7 +105,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 # print(output)
                 # print("#############################################")
                 t = True
-                print(model.state_dict())
+                #print(model.state_dict())
                 #print(r"%s"%(time.time()-t))
 
             if loss_acc:  
