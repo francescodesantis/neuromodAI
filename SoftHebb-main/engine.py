@@ -74,25 +74,10 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             
             # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
             ## 1. forward propagation
-            prev_dict = model.state_dict()
+           
             inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
             output = model(inputs) 
-            curr_dict = model.state_dict()
-
-            if i == 1: 
-                prev_weights = prev_dict['blocks.0.layer.weight']
-                curr_weigths = curr_dict['blocks.0.layer.weight']
-
-                delta_weights = torch.sub(prev_weights.cpu(), curr_weigths.cpu())
-                print("DELTA WEIGHTS: ", delta_weights[0])
-                print("DELTA WEIGHTS: ", delta_weights[0][0])
-
-                hinton(delta_weights[0][0])
-    
-                plt.savefig("Images/Hinton.png")
-                plt.close()
-            i +=1
-
+        
             # for param_tensor in model.state_dict():
             #     if "weight" in param_tensor:
             #         #print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
@@ -127,8 +112,22 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             # i += 1
             # for param_tensor in model.state_dict():
             #     print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
-
+            prev_dict = model.state_dict()
             model.update()
+            curr_dict = model.state_dict()
+            if i == 1: 
+                prev_weights = prev_dict['blocks.0.layer.weight']
+                curr_weigths = curr_dict['blocks.0.layer.weight']
+
+                delta_weights = torch.sub(prev_weights.cpu(), curr_weigths.cpu())
+                print("DELTA WEIGHTS: ", delta_weights[0])
+                print("DELTA WEIGHTS: ", delta_weights[0][0])
+
+                hinton(delta_weights[0][0])
+    
+                plt.savefig("Images/Hinton.png")
+                plt.close()
+            i +=1
 
     info = model.radius()
     convergence, R1 = model.convergence()
