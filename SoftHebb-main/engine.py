@@ -69,6 +69,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
     t = False
     i = 0
+    prev_dict = model.state_dict()
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
             
@@ -114,8 +115,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             #     print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
             
             model.update()
-            if i == 1: 
-                prev_dict = model.state_dict()
+            
+               
             if i == 2500: 
                 curr_dict = model.state_dict()
                 prev_weights = prev_dict['blocks.0.layer.weight']
