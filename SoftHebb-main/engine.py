@@ -117,7 +117,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             model.update()
             
                
-            if i == 2500: 
+            if i == 1: 
                 curr_dict = deepcopy(model.state_dict())
                 prev_weights = prev_dict['blocks.0.layer.weight']
                 curr_weigths = curr_dict['blocks.0.layer.weight']
