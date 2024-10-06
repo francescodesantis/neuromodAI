@@ -128,7 +128,9 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 print("DELTA WEIGHTS: ", delta_weights[0][0])
 
                 hinton(delta_weights[0][0])
-    
+                tmp = delta_weights.flatten()
+                tmp = tmp.filter(lambda x: x > 0)
+                print(tmp)
                 plt.savefig("Images/Hinton.png")
                 plt.close()
             i +=1
