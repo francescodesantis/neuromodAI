@@ -136,6 +136,7 @@ mccabe
 mdurl
 mistune
 ml-dtypes
+mpltools
 mpmath
 msgpack
 multidict

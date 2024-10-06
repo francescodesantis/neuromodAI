@@ -12,4 +12,4 @@ module load profile/deeplrn
 module av cineca-ai
 module load anaconda3
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
-conda run -n softhebb python ray_search.py --preset 2SoftHebbCnnCIFAR --dataset-unsup CIFAR10_1 --dataset-sup CIFAR10_1 --folder-name 'CIFAR10_Test' --model-name 'CIFAR10_Test' --save-model --test True
+conda run -n softhebb python multi_layer.py --preset 2SoftHebbCnnCIFAR --dataset-unsup CIFAR10_1 --dataset-sup CIFAR10_1  --model-name 'CIFAR10_Test'

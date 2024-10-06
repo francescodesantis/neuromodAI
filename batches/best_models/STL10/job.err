@@ -1,19 +1,21 @@
----------------- /cineca/prod/opt/modulefiles/deeplrn/libraries ----------------
-cineca-ai/2.0.2  
-2024-09-12 18:31:37,157	INFO worker.py:1749 -- Started a local Ray instance.
-2024-09-12 18:31:45,473	INFO tune.py:263 -- Initializing Ray automatically. For cluster usage or custom Ray initialization, call `ray.init(...)` before `tune.run(...)`.
-2024-09-12 18:31:45,488	INFO tune.py:633 -- [output] This will use the new output engine with verbosity 2. To disable the new output and use the legacy output engine, set the environment variable RAY_AIR_NEW_OUTPUT=0. For more information, please see https://github.com/ray-project/ray/issues/36949
-2024-09-12 18:31:45,867	WARNING tune.py:917 -- AIR_VERBOSITY is set, ignoring passed-in ProgressReporter for now.
-[36m(func pid=17154)[0m /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/dataset.py:507: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
-[36m(func pid=17154)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
-[36m(func pid=24536)[0m /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/dataset.py:507: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
-[36m(func pid=24536)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
-[36m(func pid=31781)[0m /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/dataset.py:507: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
-[36m(func pid=31781)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
-[36m(func pid=38174)[0m /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/dataset.py:507: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
-[36m(func pid=38174)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
-2024-09-12 20:34:45,784	WARNING experiment_state.py:205 -- Experiment state snapshotting has been triggered multiple times in the last 5.0 seconds. A snapshot is forced if `CheckpointConfig(num_to_keep)` is set, and a trial has checkpointed >= `num_to_keep` times since the last snapshot.
-You may want to consider increasing the `CheckpointConfig(num_to_keep)` or decreasing the frequency of saving checkpoints.
-You can suppress this error by setting the environment variable TUNE_WARN_EXCESSIVE_EXPERIMENT_CHECKPOINT_SYNC_THRESHOLD_S to a smaller value than the current threshold (5.0).
-2024-09-12 20:34:46,517	INFO tune.py:1021 -- Wrote the latest version of all result files and experiment state to '/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/search/STL10_SoftHebb5_Best' in 0.7402s.
+2024-10-04 23:55:08,216	INFO worker.py:1786 -- Started a local Ray instance.
+2024-10-04 23:55:23,943	INFO tune.py:253 -- Initializing Ray automatically. For cluster usage or custom Ray initialization, call `ray.init(...)` before `tune.run(...)`.
+2024-10-04 23:55:23,975	WARNING tune.py:902 -- AIR_VERBOSITY is set, ignoring passed-in ProgressReporter for now.
+[36m(func pid=1594918)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:658: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=1594918)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+[36m(func pid=1594918)[0m /leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/utils/data/dataloader.py:557: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+[36m(func pid=1594918)[0m   warnings.warn(_create_warning_msg(
+[36m(func pid=1611733)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:658: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=1611733)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+[36m(func pid=1611733)[0m /leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/utils/data/dataloader.py:557: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+[36m(func pid=1611733)[0m   warnings.warn(_create_warning_msg(
+[36m(func pid=1628435)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:658: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=1628435)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+[36m(func pid=1628435)[0m /leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/utils/data/dataloader.py:557: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+[36m(func pid=1628435)[0m   warnings.warn(_create_warning_msg(
+[36m(func pid=1644900)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:658: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=1644900)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+[36m(func pid=1644900)[0m /leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/utils/data/dataloader.py:557: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+[36m(func pid=1644900)[0m   warnings.warn(_create_warning_msg(
+2024-10-05 00:45:05,781	INFO tune.py:1009 -- Wrote the latest version of all result files and experiment state to '/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/search/STL10_SoftHebb5_Best' in 0.4738s.
 

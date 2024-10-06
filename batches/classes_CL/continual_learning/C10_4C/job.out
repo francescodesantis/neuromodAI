@@ -1,3 +1,9 @@
+--------------- /leonardo/prod/opt/modulefiles/deeplrn/libraries ---------------
+cineca-ai/3.0.0  cineca-ai/4.0.0  cineca-ai/4.1.1(default)  
+cineca-ai/3.0.1  cineca-ai/4.1.0  cineca-ai/4.3.0           
+
+Key:
+(symbolic-version)  
 BLOCKS:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3}}, 'b3': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 3, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.25, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10}, 'pool': None, 'activation': None}}
 CL:  True
 {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True}
@@ -50,48 +56,48 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 6, 1, 6, 1, 9, 9, 6, 9, 2, 9, 6, 6, 9, 2, 1, 9, 6, 6, 9])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 2, 0, 2, 0, 3, 3, 2, 3, 1, 3, 2, 2, 3, 1, 0, 3, 2, 2, 3])
+TARGETS AFTER SUB:  tensor([3, 0, 6, 6, 6, 3, 0, 9, 9, 6, 0, 9, 0, 9, 6, 6, 9, 9, 6, 6])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([1, 0, 2, 2, 2, 1, 0, 3, 3, 2, 0, 3, 0, 3, 2, 2, 3, 3, 2, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
@@ -101,19 +107,19 @@ IMAGE SIZE: torch.Size([10, 3, 32, 32])
 SAVING FOLDER FOR UNSUP:  C10_4C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 1.30e-01	time: 00:00:41	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.525e-02/SW:4.848e-01/MR:3.957e+00/SR:1.418e+00/MeD:1.045e+00/MaD:4.379e+00/MW:0.567/MAW:0.433
-|        0 |      1 |       2 |       3 |       4 |       5 |      6 |       7 |       8 |       9 |        10 |      11 |     12 |      13 |      14 |      15 |         16 |      17 |      18 |      19 |      20 |      21 |     22 |      23 |      24 |         25 |      26 |       27 |      28 |      29 |
-|----------+--------+---------+---------+---------+---------+--------+---------+---------+---------+-----------+---------+--------+---------+---------+---------+------------+---------+---------+---------+---------+---------+--------+---------+---------+------------+---------+----------+---------+---------|
-|   0.0988 |   0.11 |   0.103 |   0.148 |   0.142 |   0.119 |   0.14 |   0.178 |   0.128 |   0.142 |   0.00133 |   0.148 |   0.15 |   0.107 |   0.137 |   0.151 |   4.78e-05 |   0.146 |   0.138 |   0.144 |   0.163 |   0.123 |   0.13 |   0.172 |   0.168 |   3.38e-05 |   0.179 |   0.0627 |   0.142 |   0.153 |
-|   2.53   |   2.89 |   2.65  |   4.41  |   4.14  |   3.21  |   4.05 |   5.94  |   3.56  |   4.14  |   1       |   4.42  |   4.51 |   2.8   |   3.93  |   4.58  |   1        |   4.34  |   3.98  |   4.23  |   5.14  |   3.37  |   3.64 |   5.62  |   5.41  |   1        |   6.01  |   1.62   |   4.16  |   4.64  |
-|   0.61   |   0.51 |   0.53  |   0.6   |   0.64  |   0.72  |   0.46 |   0.56  |   0.64  |   0.54  |   2.73    |   0.56  |   0.55 |   0.52  |   0.61  |   0.45  |  15.39     |   0.58  |   0.52  |   0.62  |   0.62  |   0.55  |   0.56 |   0.58  |   0.59  |  22.41     |   0.42  |   0.88   |   0.52  |   0.52  |
-| nan      | nan    | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan       | nan     | nan    | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan        | nan     | nan      | nan     | nan     |
-| nan      | nan    | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan       | nan     | nan    | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan        | nan     | nan      | nan     | nan     |
-| nan      | nan    | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan       | nan     | nan    | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan        | nan     | nan      | nan     | nan     |
+Epoch: [1/1]	lr: 1.41e-01	time: 00:00:40	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.121e-02/SW:5.521e-01/MR:4.460e+00/SR:1.733e+00/MeD:1.278e+00/MaD:5.294e+00/MW:0.600/MAW:0.400
+|        0 |       1 |       2 |       3 |       4 |       5 |       6 |       7 |       8 |       9 |      10 |      11 |      12 |      13 |      14 |      15 |         16 |      17 |      18 |      19 |     20 |      21 |     22 |      23 |     24 |         25 |      26 |      27 |      28 |      29 |
+|----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+------------+---------+---------+---------+--------+---------+--------+---------+--------+------------+---------+---------+---------+---------|
+|   0.0975 |   0.123 |   0.115 |   0.171 |   0.147 |   0.121 |   0.151 |   0.163 |   0.134 |   0.151 |   0.157 |   0.151 |   0.171 |   0.109 |   0.141 |   0.152 |   0.000343 |   0.147 |   0.157 |   0.167 |   0.22 |   0.122 |   0.14 |   0.194 |   0.18 |   0.000317 |   0.194 |   0.129 |   0.128 |   0.198 |
+|   2.49   |   3.36  |   3.06  |   5.59  |   4.38  |   3.29  |   4.59  |   5.15  |   3.8   |   4.58  |   4.87  |   4.55  |   5.59  |   2.85  |   4.12  |   4.59  |   1        |   4.38  |   4.87  |   5.37  |   8.57 |   3.31  |   4.07 |   6.88  |   6.08 |   1        |   6.9   |   3.59  |   3.54  |   7.13  |
+|   0.59   |   0.52  |   0.5   |   0.6   |   0.64  |   0.8   |   0.53  |   0.52  |   0.63  |   0.53  |   0.75  |   0.53  |   0.58  |   0.49  |   0.63  |   0.46  |  17.07     |   0.57  |   0.54  |   0.64  |   0.66 |   0.59  |   0.54 |   0.57  |   0.55 |  21.36     |   0.45  |   0.77  |   0.49  |   0.56  |
+| nan      | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan    | nan     | nan    | nan     | nan    | nan        | nan     | nan     | nan     | nan     |
+| nan      | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan    | nan     | nan    | nan     | nan    | nan        | nan     | nan     | nan     | nan     |
+| nan      | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan    | nan     | nan    | nan     | nan    | nan        | nan     | nan     | nan     | nan     |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [1] **********
 SEED:  0
@@ -123,48 +129,48 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 6, 1, 6, 1, 9, 9, 6, 9, 2, 9, 6, 6, 9, 2, 1, 9, 6, 6, 9])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 2, 0, 2, 0, 3, 3, 2, 3, 1, 3, 2, 2, 3, 1, 0, 3, 2, 2, 3])
+TARGETS AFTER SUB:  tensor([3, 0, 6, 6, 6, 3, 0, 9, 9, 6, 0, 9, 0, 9, 6, 6, 9, 9, 6, 6])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([1, 0, 2, 2, 2, 1, 0, 3, 3, 2, 0, 3, 0, 3, 2, 2, 3, 3, 2, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
@@ -174,19 +180,19 @@ IMAGE SIZE: torch.Size([10, 3, 32, 32])
 SAVING FOLDER FOR UNSUP:  C10_4C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 1.30e-01	time: 00:01:22	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:4.918e-03/SW:1.821e-01/MR:5.189e+00/SR:1.320e+00/MeD:1.028e+00/MaD:4.189e+00/MW:0.529/MAW:0.471
-|      0 |         1 |         2 |         3 |          4 |         5 |         6 |         7 |        8 |         9 |       10 |        11 |       12 |       13 |       14 |       15 |        16 |        17 |        18 |        19 |       20 |       21 |       22 |      23 |       24 |       25 |      26 |        27 |       28 |        29 |
-|--------+-----------+-----------+-----------+------------+-----------+-----------+-----------+----------+-----------+----------+-----------+----------+----------+----------+----------+-----------+-----------+-----------+-----------+----------+----------+----------+---------+----------+----------+---------+-----------+----------+-----------|
-|   0.01 |   0.00994 |   0.00854 |   0.00773 |   5.71e-05 |   0.00854 |   0.00939 |   0.00957 |   0.0107 |   0.00983 |   0.0105 |   0.00636 |   0.0103 |   0.0115 |   0.0107 |   0.0102 |   0.00792 |   0.00995 |   0.00506 |   0.00904 |   0.0121 |   0.0129 |   0.0103 |   0.012 |   0.0104 |   0.0114 |   0.011 |   0.00906 |   0.0124 |   0.00636 |
-|   5.03 |   4.95    |   3.92    |   3.39    |   1        |   3.92    |   4.53    |   4.67    |   5.59   |   4.86    |   5.41   |   2.62    |   5.26   |   6.33   |   5.56   |   5.16   |   3.51    |   4.96    |   2.02    |   4.27    |   6.86   |   7.63   |   5.27   |   6.74  |   5.34   |   6.2    |   5.8   |   4.29    |   7.15   |   2.62    |
-|   0.2  |   0.18    |   0.24    |   0.22    |   5.16     |   0.19    |   0.31    |   0.25    |   0.19   |   0.21    |   0.28   |   0.24    |   0.3    |   0.27   |   0.18   |   0.21   |   0.17    |   0.32    |   0.26    |   0.27    |   0.18   |   0.29   |   0.44   |   0.27  |   0.4    |   0.41   |   0.29  |   0.2     |   0.2    |   0.27    |
-| nan    | nan       | nan       | nan       | nan        | nan       | nan       | nan       | nan      | nan       | nan      | nan       | nan      | nan      | nan      | nan      | nan       | nan       | nan       | nan       | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan       | nan      | nan       |
-| nan    | nan       | nan       | nan       | nan        | nan       | nan       | nan       | nan      | nan       | nan      | nan       | nan      | nan      | nan      | nan      | nan       | nan       | nan       | nan       | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan       | nan      | nan       |
-| nan    | nan       | nan       | nan       | nan        | nan       | nan       | nan       | nan      | nan       | nan      | nan       | nan      | nan      | nan      | nan      | nan       | nan       | nan       | nan       | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan       | nan      | nan       |
+Epoch: [1/1]	lr: 1.41e-01	time: 00:01:12	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:4.233e-03/SW:1.917e-01/MR:5.477e+00/SR:1.328e+00/MeD:1.029e+00/MaD:4.477e+00/MW:0.548/MAW:0.452
+|        0 |         1 |        2 |         3 |         4 |        5 |         6 |         7 |        8 |         9 |       10 |        11 |        12 |       13 |       14 |       15 |       16 |     17 |        18 |        19 |       20 |       21 |       22 |       23 |         24 |       25 |       26 |        27 |       28 |        29 |
+|----------+-----------+----------+-----------+-----------+----------+-----------+-----------+----------+-----------+----------+-----------+-----------+----------+----------+----------+----------+--------+-----------+-----------+----------+----------+----------+----------+------------+----------+----------+-----------+----------+-----------|
+|   0.0102 |   0.00989 |   0.0112 |   0.00847 |   0.00509 |   0.0102 |   0.00901 |   0.00775 |   0.0103 |   0.00986 |   0.0101 |   0.00702 |   0.00936 |   0.0127 |   0.0104 |   0.0106 |   0.0111 |   0.01 |   0.00521 |   0.00899 |   0.0118 |   0.0119 |   0.0107 |   0.0129 |   8.54e-05 |   0.0127 |   0.0102 |   0.00784 |   0.0117 |   0.00811 |
+|   5.14   |   4.91    |   5.98   |   3.87    |   2.04    |   5.15   |   4.25    |   3.4     |   5.23   |   4.89    |   5.09   |   2.97    |   4.5     |   7.48   |   5.3    |   5.52   |   5.97   |   5.03 |   2.09    |   4.23    |   6.61   |   6.64   |   5.61   |   7.61   |   1        |   7.48   |   5.16   |   3.46    |   6.44   |   3.63    |
+|   0.31   |   0.18    |   0.17   |   0.2     |   0.59    |   0.23   |   0.2     |   0.23    |   0.19   |   0.2     |   0.26   |   0.2     |   0.26    |   0.2    |   0.15   |   0.19   |   0.16   |   0.24 |   0.28    |   0.27    |   0.18   |   0.35   |   0.49   |   0.21   |   3.92     |   0.32   |   0.21   |   0.22    |   0.23   |   0.28    |
+| nan      | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan      | nan       | nan      | nan       | nan       | nan      | nan      | nan      | nan      | nan    | nan       | nan       | nan      | nan      | nan      | nan      | nan        | nan      | nan      | nan       | nan      | nan       |
+| nan      | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan      | nan       | nan      | nan       | nan       | nan      | nan      | nan      | nan      | nan    | nan       | nan       | nan      | nan      | nan      | nan      | nan        | nan      | nan      | nan       | nan      | nan       |
+| nan      | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan      | nan       | nan      | nan       | nan       | nan      | nan      | nan      | nan      | nan    | nan       | nan       | nan      | nan      | nan      | nan      | nan        | nan      | nan      | nan       | nan      | nan       |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [2] **********
 SEED:  0
@@ -196,48 +202,48 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 6, 1, 6, 1, 9, 9, 6, 9, 2, 9, 6, 6, 9, 2, 1, 9, 6, 6, 9])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 2, 0, 2, 0, 3, 3, 2, 3, 1, 3, 2, 2, 3, 1, 0, 3, 2, 2, 3])
+TARGETS AFTER SUB:  tensor([3, 0, 6, 6, 6, 3, 0, 9, 9, 6, 0, 9, 0, 9, 6, 6, 9, 9, 6, 6])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([1, 0, 2, 2, 2, 1, 0, 3, 3, 2, 0, 3, 0, 3, 2, 2, 3, 3, 2, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
@@ -247,19 +253,19 @@ IMAGE SIZE: torch.Size([10, 3, 32, 32])
 SAVING FOLDER FOR UNSUP:  C10_4C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 4.23e-02	time: 00:02:05	Acc_train 0.00	Acc_test 0.00	convergence: 1.80e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:3.276e-03/SW:3.257e-01/MR:1.897e+01/SR:2.616e+00/MeD:2.052e+00/MaD:1.793e+01/MW:0.416/MAW:0.584
-|        0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |       26 |       27 |       28 |       29 |
-|----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------|
-|   0.0451 |   0.0449 |   0.0441 |   0.0438 |   0.0402 |   0.0438 |   0.0437 |   0.0355 |   0.0408 |   0.0477 |   0.0386 |   0.0445 |   0.0371 |   0.0393 |   0.0442 |   0.0381 |   0.0413 |   0.0457 |   0.0457 |   0.0442 |   0.0438 |   0.0402 |   0.0358 |   0.0438 |   0.0389 |   0.0339 |   0.0415 |   0.0465 |   0.0392 |   0.0445 |
-|  21.34   |  21.18   |  20.41   |  20.14   |  17.18   |  20.17   |  20.13   |  13.59   |  17.64   |  23.73   |  15.89   |  20.82   |  14.77   |  16.42   |  20.5    |  15.49   |  18.05   |  21.9    |  21.9    |  20.57   |  20.15   |  17.15   |  13.81   |  20.23   |  16.1    |  12.52   |  18.23   |  22.66   |  16.4    |  20.76   |
-|   0.04   |   0.03   |   0.05   |   0.06   |   0.03   |   0.04   |   0.07   |   0.03   |   0.06   |   0.04   |   0.08   |   0.08   |   0.18   |   0.06   |   0.17   |   0.05   |   0.05   |   0.08   |   0.07   |   0.03   |   0.07   |   0.05   |   0.14   |   0.04   |   0.06   |   0.06   |   0.06   |   0.04   |   0.04   |   0.04   |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
+Epoch: [1/1]	lr: 4.25e-02	time: 00:01:48	Acc_train 0.00	Acc_test 0.00	convergence: 1.82e+01	R1: 1	Info MB:0.000e+00/SB:0.000e+00/MW:3.221e-03/SW:3.295e-01/MR:1.919e+01/SR:2.595e+00/MeD:2.049e+00/MaD:1.819e+01/MW:0.430/MAW:0.570
+|        0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |      18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |       26 |       27 |       28 |       29 |
+|----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------|
+|   0.0452 |   0.0394 |   0.0424 |   0.0453 |   0.0408 |   0.0418 |   0.0478 |   0.0405 |   0.0422 |   0.0477 |   0.0398 |   0.0412 |   0.0436 |   0.0377 |   0.0412 |   0.0386 |   0.0434 |   0.0461 |   0.045 |   0.0426 |   0.0442 |   0.0395 |   0.0386 |   0.0433 |   0.0386 |   0.0364 |   0.0421 |   0.0449 |   0.0402 |   0.0423 |
+|  21.47   |  16.51   |  18.99   |  21.51   |  17.62   |  18.49   |  23.86   |  17.42   |  18.79   |  23.71   |  16.85   |  17.99   |  20.02   |  15.18   |  18.01   |  15.88   |  19.85   |  22.22   |  21.21  |  19.18   |  20.54   |  16.57   |  15.89   |  19.78   |  15.87   |  14.21   |  18.69   |  21.13   |  17.12   |  18.9    |
+|   0.04   |   0.03   |   0.07   |   0.06   |   0.04   |   0.05   |   0.06   |   0.04   |   0.06   |   0.05   |   0.08   |   0.08   |   0.15   |   0.05   |   0.14   |   0.03   |   0.05   |   0.08   |   0.07  |   0.03   |   0.07   |   0.05   |   0.17   |   0.09   |   0.06   |   0.06   |   0.07   |   0.04   |   0.04   |   0.05   |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
 
  ********** Supervised learning of blocks [3] **********
 SAVING FOLDER FOR SUP:  C10_4C_CL
@@ -270,80 +276,80 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 6, 1, 6, 1, 9, 9, 6, 9, 2, 9, 6, 6, 9, 2, 1, 9, 6, 6, 9])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 2, 0, 2, 0, 3, 3, 2, 3, 1, 3, 2, 2, 3, 1, 0, 3, 2, 2, 3])
+TARGETS AFTER SUB:  tensor([3, 0, 6, 6, 6, 3, 0, 9, 9, 6, 0, 9, 0, 9, 6, 6, 9, 9, 6, 6])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([1, 0, 2, 2, 2, 1, 0, 3, 3, 2, 0, 3, 0, 3, 2, 2, 3, 3, 2, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
 ------------------------
 INDICES:  20000
 IMAGE SIZE: torch.Size([64, 3, 32, 32])
-Epoch: [1/50]	lr: 1.00e-03	time: 00:02:41	Loss_train 0.17963	Acc_train 77.68	/	Loss_test 0.00549	Acc_test 86.53
+Epoch: [1/50]	lr: 1.00e-03	time: 00:02:17	Loss_train 0.17907	Acc_train 78.49	/	Loss_test 0.00960	Acc_test 81.62
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [10/50]	lr: 1.00e-03	time: 00:02:54	Loss_train 0.13856	Acc_train 87.53	/	Loss_test 0.01074	Acc_test 89.05
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [10/50]	lr: 1.00e-03	time: 00:02:25	Loss_train 0.13987	Acc_train 87.40	/	Loss_test 0.01286	Acc_test 88.15
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [20/50]	lr: 2.50e-04	time: 00:03:07	Loss_train 0.08927	Acc_train 92.21	/	Loss_test 0.00765	Acc_test 91.07
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [20/50]	lr: 2.50e-04	time: 00:02:34	Loss_train 0.09034	Acc_train 91.92	/	Loss_test 0.00909	Acc_test 90.10
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [30/50]	lr: 1.25e-04	time: 00:03:20	Loss_train 0.06237	Acc_train 93.70	/	Loss_test 0.00721	Acc_test 91.43
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [30/50]	lr: 1.25e-04	time: 00:02:43	Loss_train 0.06369	Acc_train 93.37	/	Loss_test 0.00849	Acc_test 90.82
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [40/50]	lr: 3.13e-05	time: 00:03:34	Loss_train 0.04935	Acc_train 94.44	/	Loss_test 0.00690	Acc_test 91.18
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [40/50]	lr: 3.13e-05	time: 00:02:51	Loss_train 0.05029	Acc_train 94.13	/	Loss_test 0.00800	Acc_test 90.88
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [50/50]	lr: 7.81e-06	time: 00:03:47	Loss_train 0.04659	Acc_train 94.63	/	Loss_test 0.00676	Acc_test 91.38
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [50/50]	lr: 7.81e-06	time: 00:03:00	Loss_train 0.04648	Acc_train 94.43	/	Loss_test 0.00803	Acc_test 90.93
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-RESULT:  {'train_loss': 0.04659469053149223, 'train_acc': 94.62550282478333, 'test_loss': 0.006758906412869692, 'test_acc': 91.375, 'convergence': 17.969764709472656, 'R1': 0, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 2, 6, 9]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 2, 6, 9]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}
-IN R1:  {'R1': {'train_loss': 0.04659469053149223, 'train_acc': 94.62550282478333, 'test_loss': 0.006758906412869692, 'test_acc': 91.375, 'convergence': 17.969764709472656, 'R1': 0, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 2, 6, 9]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 2, 6, 9]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}}
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+RESULT:  {'train_loss': 0.0464845672249794, 'train_acc': 94.4320023059845, 'test_loss': 0.008030473254621029, 'test_acc': 90.92500305175781, 'convergence': 18.194021224975586, 'R1': 1, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [0, 3, 6, 9]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [0, 3, 6, 9]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}
+IN R1:  {'R1': {'train_loss': 0.0464845672249794, 'train_acc': 94.4320023059845, 'test_loss': 0.008030473254621029, 'test_acc': 90.92500305175781, 'convergence': 18.194021224975586, 'R1': 1, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [0, 3, 6, 9]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [0, 3, 6, 9]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}}
 SEED:  0
 block 0, size : 96 16 16
 range = 2.886751345948129
@@ -395,48 +401,48 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([3, 3, 5, 7, 5, 7, 7, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 3, 7, 3])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([0, 0, 2, 3, 2, 3, 3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 3, 0])
+TARGETS AFTER SUB:  tensor([8, 8, 1, 1, 7, 8, 7, 8, 7, 4, 4, 4, 4, 1, 4, 7, 8, 8, 8, 7])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([3, 3, 0, 0, 2, 3, 2, 3, 2, 1, 1, 1, 1, 0, 1, 2, 3, 3, 3, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
@@ -446,19 +452,19 @@ IMAGE SIZE: torch.Size([10, 3, 32, 32])
 SAVING FOLDER FOR UNSUP:  C10_4C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 1.47e-01	time: 00:00:40	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:9.441e-03/SW:6.078e-01/MR:4.866e+00/SR:2.018e+00/MeD:1.411e+00/MaD:8.613e+00/MW:0.598/MAW:0.402
-|       0 |       1 |       2 |       3 |       4 |       5 |       6 |       7 |       8 |       9 |        10 |      11 |      12 |      13 |      14 |      15 |         16 |      17 |      18 |      19 |      20 |      21 |     22 |      23 |     24 |         25 |      26 |      27 |      28 |      29 |
-|---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-----------+---------+---------+---------+---------+---------+------------+---------+---------+---------+---------+---------+--------+---------+--------+------------+---------+---------+---------+---------|
-|   0.131 |   0.124 |   0.118 |   0.165 |   0.147 |   0.143 |   0.179 |   0.206 |   0.172 |   0.152 |   0.00114 |   0.163 |   0.207 |   0.117 |   0.135 |   0.181 |   5.52e-05 |   0.159 |   0.149 |   0.187 |   0.171 |   0.154 |   0.16 |   0.172 |   0.19 |   4.37e-05 |   0.232 |   0.133 |   0.151 |   0.188 |
-|   3.67  |   3.4   |   3.16  |   5.24  |   4.39  |   4.19  |   6.01  |   7.65  |   5.64  |   4.61  |   1       |   5.13  |   7.67  |   3.16  |   3.83  |   6.12  |   1        |   4.97  |   4.48  |   6.44  |   5.59  |   4.71  |   5.02 |   5.65  |   6.66 |   1        |   9.42  |   3.78  |   4.55  |   6.51  |
-|   0.58  |   0.48  |   0.54  |   0.56  |   0.5   |   0.54  |   0.42  |   0.5   |   0.51  |   0.44  |   3.26    |   0.53  |   0.47  |   0.59  |   0.46  |   0.49  |  19.83     |   0.53  |   0.47  |   0.5   |   0.51  |   0.46  |   0.48 |   0.53  |   0.53 |  26.12     |   0.43  |   0.64  |   0.58  |   0.51  |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan       | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan    | nan        | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan       | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan    | nan        | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan       | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan    | nan        | nan     | nan     | nan     | nan     |
+Epoch: [1/1]	lr: 1.40e-01	time: 00:00:31	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.559e-02/SW:5.441e-01/MR:4.433e+00/SR:1.611e+00/MeD:1.217e+00/MaD:4.362e+00/MW:0.599/MAW:0.401
+|       0 |       1 |      2 |       3 |       4 |        5 |       6 |       7 |       8 |       9 |      10 |      11 |      12 |      13 |      14 |      15 |        16 |      17 |      18 |     19 |      20 |      21 |      22 |      23 |      24 |         25 |      26 |       27 |      28 |      29 |
+|---------+---------+--------+---------+---------+----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-----------+---------+---------+--------+---------+---------+---------+---------+---------+------------+---------+----------+---------+---------|
+|   0.105 |   0.134 |   0.13 |   0.178 |   0.151 |   0.0969 |   0.121 |   0.162 |   0.161 |   0.199 |   0.146 |   0.163 |   0.145 |   0.125 |   0.131 |   0.166 |   0.00037 |   0.172 |   0.167 |   0.16 |   0.185 |   0.141 |   0.143 |   0.177 |   0.188 |   0.000333 |   0.163 |   0.0649 |   0.144 |   0.194 |
+|   2.72  |   3.8   |   3.62 |   5.96  |   4.58  |   2.47   |   3.29  |   5.08  |   5.05  |   7.19  |   4.32  |   5.17  |   4.29  |   3.46  |   3.68  |   5.29  |   1       |   5.6   |   5.37  |   4.98 |   6.34  |   4.09  |   4.19  |   5.9   |   6.55  |   1        |   5.15  |   1.66   |   4.25  |   6.88  |
+|   0.54  |   0.52  |   0.59 |   0.63  |   0.5   |   0.6    |   0.33  |   0.51  |   0.5   |   0.52  |   0.53  |   0.54  |   0.34  |   0.55  |   0.46  |   0.47  |  20.09    |   0.55  |   0.5   |   0.48 |   0.42  |   0.42  |   0.46  |   0.53  |   0.52  |  26.23     |   0.34  |   0.41   |   0.5   |   0.48  |
+| nan     | nan     | nan    | nan     | nan     | nan      | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan       | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan      | nan     | nan     |
+| nan     | nan     | nan    | nan     | nan     | nan      | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan       | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan      | nan     | nan     |
+| nan     | nan     | nan    | nan     | nan     | nan      | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan       | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan        | nan     | nan      | nan     | nan     |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [1] **********
 SEED:  0
@@ -468,48 +474,48 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([3, 3, 5, 7, 5, 7, 7, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 3, 7, 3])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([0, 0, 2, 3, 2, 3, 3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 3, 0])
+TARGETS AFTER SUB:  tensor([8, 8, 1, 1, 7, 8, 7, 8, 7, 4, 4, 4, 4, 1, 4, 7, 8, 8, 8, 7])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([3, 3, 0, 0, 2, 3, 2, 3, 2, 1, 1, 1, 1, 0, 1, 2, 3, 3, 3, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
@@ -519,19 +525,19 @@ IMAGE SIZE: torch.Size([10, 3, 32, 32])
 SAVING FOLDER FOR UNSUP:  C10_4C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 1.47e-01	time: 00:01:20	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:7.032e-03/SW:1.574e-01/MR:4.395e+00/SR:1.466e+00/MeD:1.183e+00/MaD:3.395e+00/MW:0.557/MAW:0.443
-|         0 |        1 |         2 |         3 |          4 |         5 |         6 |         7 |         8 |        9 |       10 |        11 |        12 |       13 |       14 |        15 |       16 |       17 |       18 |       19 |       20 |        21 |       22 |       23 |        24 |       25 |       26 |        27 |       28 |        29 |
-|-----------+----------+-----------+-----------+------------+-----------+-----------+-----------+-----------+----------+----------+-----------+-----------+----------+----------+-----------+----------+----------+----------+----------+----------+-----------+----------+----------+-----------+----------+----------+-----------+----------+-----------|
-|   0.00363 |   0.0086 |   0.00475 |   0.00427 |   2.01e-05 |   0.00887 |   0.00618 |   0.00608 |   0.00967 |   0.0092 |   0.0106 |   0.00389 |   0.00945 |   0.0106 |   0.0107 |   0.00792 |   0.0107 |   0.0067 |   0.0015 |   0.0107 |   0.0108 |   0.00963 |   0.0101 |   0.0106 |   0.00949 |   0.0092 |   0.0121 |   0.00851 |   0.0118 |   0.00557 |
-|   1.53    |   3.96   |   1.9     |   1.73    |   1        |   4.15    |   2.53    |   2.48    |   4.74    |   4.38   |   5.48   |   1.61    |   4.57    |   5.47   |   5.56   |   3.51    |   5.54   |   2.79   |   1.09   |   5.58   |   5.63   |   4.71    |   5.08   |   5.52   |   4.61    |   4.38   |   6.84   |   3.9     |   6.59   |   2.24    |
-|   0.24    |   0.17   |   0.24    |   0.12    |  12.24     |   0.12    |   0.25    |   0.17    |   0.16    |   0.19   |   0.22   |   0.15    |   0.22    |   0.19   |   0.17   |   0.13    |   0.12   |   0.18   |   0.15   |   0.17   |   0.2    |   0.13    |   0.17   |   0.2    |   0.16    |   0.23   |   0.21   |   0.14    |   0.21   |   0.13    |
-| nan       | nan      | nan       | nan       | nan        | nan       | nan       | nan       | nan       | nan      | nan      | nan       | nan       | nan      | nan      | nan       | nan      | nan      | nan      | nan      | nan      | nan       | nan      | nan      | nan       | nan      | nan      | nan       | nan      | nan       |
-| nan       | nan      | nan       | nan       | nan        | nan       | nan       | nan       | nan       | nan      | nan      | nan       | nan       | nan      | nan      | nan       | nan      | nan      | nan      | nan      | nan      | nan       | nan      | nan      | nan       | nan      | nan      | nan       | nan      | nan       |
-| nan       | nan      | nan       | nan       | nan        | nan       | nan       | nan       | nan       | nan      | nan      | nan       | nan       | nan      | nan      | nan       | nan      | nan      | nan      | nan      | nan      | nan       | nan      | nan      | nan       | nan      | nan      | nan       | nan      | nan       |
+Epoch: [1/1]	lr: 1.40e-01	time: 00:01:01	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:5.758e-03/SW:1.749e-01/MR:4.900e+00/SR:1.570e+00/MeD:1.236e+00/MaD:3.900e+00/MW:0.576/MAW:0.424
+|         0 |        1 |         2 |         3 |        4 |      5 |         6 |        7 |        8 |         9 |       10 |        11 |        12 |       13 |        14 |        15 |       16 |        17 |        18 |      19 |       20 |       21 |       22 |       23 |         24 |       25 |       26 |        27 |       28 |        29 |
+|-----------+----------+-----------+-----------+----------+--------+-----------+----------+----------+-----------+----------+-----------+-----------+----------+-----------+-----------+----------+-----------+-----------+---------+----------+----------+----------+----------+------------+----------+----------+-----------+----------+-----------|
+|   0.00954 |   0.0109 |   0.00948 |   0.00536 |   0.0026 |   0.01 |   0.00457 |   0.0023 |   0.0108 |   0.00607 |   0.0105 |   0.00734 |   0.00935 |   0.0113 |   0.00782 |   0.00969 |   0.0106 |   0.00805 |   0.00152 |   0.011 |   0.0118 |   0.0108 |   0.0107 |   0.0121 |   2.64e-05 |   0.0108 |   0.0102 |   0.00867 |   0.0122 |   0.00759 |
+|   4.64    |   5.75   |   4.59    |   2.15    |   1.27   |   5.03 |   1.83    |   1.21   |   5.63   |   2.47    |   5.45   |   3.16    |   4.5     |   6.14   |   3.45    |   4.76    |   5.49   |   3.59    |   1.09    |   5.87  |   6.58   |   5.7    |   5.56   |   6.89   |   1        |   5.7    |   5.17   |   4.01    |   6.97   |   3.31    |
+|   0.21    |   0.16   |   0.14    |   0.15    |   0.26   |   0.11 |   0.12    |   0.13   |   0.18   |   0.18    |   0.17   |   0.09    |   0.15    |   0.18   |   0.12    |   0.13    |   0.14   |   0.16    |   0.16    |   0.14  |   0.17   |   0.14   |   0.16   |   0.22   |  10.97     |   0.2    |   0.14   |   0.13    |   0.18   |   0.12    |
+| nan       | nan      | nan       | nan       | nan      | nan    | nan       | nan      | nan      | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan     | nan      | nan      | nan      | nan      | nan        | nan      | nan      | nan       | nan      | nan       |
+| nan       | nan      | nan       | nan       | nan      | nan    | nan       | nan      | nan      | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan     | nan      | nan      | nan      | nan      | nan        | nan      | nan      | nan       | nan      | nan       |
+| nan       | nan      | nan       | nan       | nan      | nan    | nan       | nan      | nan      | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan      | nan       | nan       | nan     | nan      | nan      | nan      | nan      | nan        | nan      | nan      | nan       | nan      | nan       |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [2] **********
 SEED:  0
@@ -541,48 +547,48 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([3, 3, 5, 7, 5, 7, 7, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 3, 7, 3])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([0, 0, 2, 3, 2, 3, 3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 3, 0])
+TARGETS AFTER SUB:  tensor([8, 8, 1, 1, 7, 8, 7, 8, 7, 4, 4, 4, 4, 1, 4, 7, 8, 8, 8, 7])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([3, 3, 0, 0, 2, 3, 2, 3, 2, 1, 1, 1, 1, 0, 1, 2, 3, 3, 3, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
@@ -592,19 +598,19 @@ IMAGE SIZE: torch.Size([10, 3, 32, 32])
 SAVING FOLDER FOR UNSUP:  C10_4C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 4.06e-02	time: 00:02:03	Acc_train 0.00	Acc_test 0.00	convergence: 1.65e+01	R1: 1	Info MB:0.000e+00/SB:0.000e+00/MW:8.016e-03/SW:2.999e-01/MR:1.752e+01/SR:1.985e+00/MeD:1.541e+00/MaD:1.652e+01/MW:0.439/MAW:0.561
-|        0 |       1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |       26 |       27 |       28 |       29 |
-|----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------|
-|   0.0411 |   0.046 |   0.0416 |   0.0417 |   0.0403 |   0.0412 |   0.0398 |   0.0393 |   0.0389 |   0.0457 |   0.0394 |   0.0405 |   0.0398 |   0.0409 |   0.0396 |   0.0361 |   0.0383 |   0.0392 |   0.0422 |   0.0438 |   0.0406 |   0.0398 |   0.0382 |   0.0414 |   0.0377 |   0.0384 |   0.0431 |   0.0435 |   0.0373 |   0.0414 |
-|  17.91   |  22.2   |  18.33   |  18.38   |  17.22   |  17.99   |  16.83   |  16.45   |  16.1    |  21.92   |  16.51   |  17.43   |  16.87   |  17.75   |  16.66   |  14.01   |  15.66   |  16.37   |  18.82   |  20.2    |  17.49   |  16.82   |  15.62   |  18.11   |  15.18   |  15.71   |  19.58   |  19.9    |  14.93   |  18.16   |
-|   0.05   |   0.04  |   0.07   |   0.08   |   0.03   |   0.03   |   0.07   |   0.02   |   0.06   |   0.07   |   0.09   |   0.05   |   0.07   |   0.03   |   0.08   |   0.04   |   0.05   |   0.08   |   0.06   |   0.04   |   0.06   |   0.06   |   0.04   |   0.08   |   0.06   |   0.05   |   0.08   |   0.08   |   0.05   |   0.08   |
-| nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
-| nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
-| nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
+Epoch: [1/1]	lr: 4.07e-02	time: 00:01:34	Acc_train 0.00	Acc_test 0.00	convergence: 1.67e+01	R1: 1	Info MB:0.000e+00/SB:0.000e+00/MW:7.972e-03/SW:3.021e-01/MR:1.765e+01/SR:2.022e+00/MeD:1.585e+00/MaD:1.665e+01/MW:0.439/MAW:0.561
+|       0 |        1 |        2 |        3 |        4 |        5 |       6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |       26 |       27 |       28 |       29 |
+|---------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------|
+|   0.045 |   0.0432 |   0.0406 |   0.0398 |   0.0409 |   0.0405 |   0.043 |   0.0428 |   0.0393 |   0.0469 |   0.0397 |   0.0352 |   0.0391 |   0.0376 |   0.0393 |   0.0399 |   0.0416 |   0.0434 |   0.0428 |   0.0417 |   0.0401 |   0.0388 |   0.0407 |   0.0432 |   0.0376 |   0.0385 |   0.0381 |   0.0418 |   0.0401 |   0.0433 |
+|  21.27  |  19.69   |  17.45   |  16.82   |  17.74   |  17.44   |  19.49  |  19.28   |  16.41   |  22.95   |  16.74   |  13.38   |  16.25   |  15.16   |  16.46   |  16.95   |  18.33   |  19.86   |  19.36   |  18.41   |  17.09   |  16.02   |  17.58   |  19.68   |  15.16   |  15.86   |  15.52   |  18.46   |  17.1    |  19.72   |
+|   0.05  |   0.03   |   0.08   |   0.05   |   0.04   |   0.05   |   0.07  |   0.03   |   0.05   |   0.07   |   0.07   |   0.06   |   0.1    |   0.03   |   0.05   |   0.04   |   0.06   |   0.08   |   0.07   |   0.04   |   0.06   |   0.06   |   0.05   |   0.05   |   0.05   |   0.04   |   0.06   |   0.08   |   0.05   |   0.06   |
+| nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
+| nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
+| nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
 
  ********** Supervised learning of blocks [3] **********
 SAVING FOLDER FOR SUP:  C10_4C_CL
@@ -615,80 +621,80 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([3, 3, 5, 7, 5, 7, 7, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 3, 7, 3])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([0, 0, 2, 3, 2, 3, 3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 3, 0])
+TARGETS AFTER SUB:  tensor([8, 8, 1, 1, 7, 8, 7, 8, 7, 4, 4, 4, 4, 1, 4, 7, 8, 8, 8, 7])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([3, 3, 0, 0, 2, 3, 2, 3, 2, 1, 1, 1, 1, 0, 1, 2, 3, 3, 3, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([4, 7, 3, 4, 7, 7, 3, 4, 3, 3, 5, 4, 3, 4, 3, 7, 3, 3, 5, 7])
-[3, 4, 5, 7]
-TARGETS AFTER CLEANER:  tensor([1, 3, 0, 1, 3, 3, 0, 1, 0, 0, 2, 1, 0, 1, 0, 3, 0, 0, 2, 3])
+TARGETS AFTER SUB:  tensor([4, 1, 1, 7, 8, 4, 7, 7, 4, 4, 1, 4, 7, 7, 1, 1, 1, 7, 4, 1])
+[1, 4, 7, 8]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 2, 3, 1, 2, 2, 1, 1, 0, 1, 2, 2, 0, 0, 0, 2, 1, 0])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
 ------------------------
 INDICES:  20000
 IMAGE SIZE: torch.Size([64, 3, 32, 32])
-Epoch: [1/50]	lr: 1.00e-03	time: 00:02:39	Loss_train 0.80169	Acc_train 57.24	/	Loss_test 0.02644	Acc_test 68.93
+Epoch: [1/50]	lr: 1.00e-03	time: 00:02:02	Loss_train 0.45446	Acc_train 76.53	/	Loss_test 0.01051	Acc_test 88.60
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [10/50]	lr: 1.00e-03	time: 00:02:51	Loss_train 0.37434	Acc_train 73.05	/	Loss_test 0.01983	Acc_test 75.75
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [10/50]	lr: 1.00e-03	time: 00:02:10	Loss_train 0.13779	Acc_train 90.38	/	Loss_test 0.00792	Acc_test 92.15
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [20/50]	lr: 2.50e-04	time: 00:03:05	Loss_train 0.22754	Acc_train 79.59	/	Loss_test 0.01464	Acc_test 78.32
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [20/50]	lr: 2.50e-04	time: 00:02:18	Loss_train 0.06358	Acc_train 94.63	/	Loss_test 0.00650	Acc_test 93.50
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [30/50]	lr: 1.25e-04	time: 00:03:18	Loss_train 0.16864	Acc_train 81.74	/	Loss_test 0.01333	Acc_test 78.93
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [30/50]	lr: 1.25e-04	time: 00:02:27	Loss_train 0.04270	Acc_train 95.79	/	Loss_test 0.00628	Acc_test 93.62
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [40/50]	lr: 3.13e-05	time: 00:03:32	Loss_train 0.14182	Acc_train 82.99	/	Loss_test 0.01226	Acc_test 79.38
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [40/50]	lr: 3.13e-05	time: 00:02:36	Loss_train 0.03435	Acc_train 96.28	/	Loss_test 0.00605	Acc_test 93.68
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-Epoch: [50/50]	lr: 7.81e-06	time: 00:03:45	Loss_train 0.13429	Acc_train 83.31	/	Loss_test 0.01198	Acc_test 79.55
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+Epoch: [50/50]	lr: 7.81e-06	time: 00:02:45	Loss_train 0.03220	Acc_train 96.42	/	Loss_test 0.00584	Acc_test 93.97
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
-RESULT:  {'train_loss': 0.13429495692253113, 'train_acc': 83.30699801445007, 'test_loss': 0.011980300769209862, 'test_acc': 79.55000305175781, 'convergence': 16.521926879882812, 'R1': 1, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [3, 4, 5, 7]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [3, 4, 5, 7]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}
-IN R2:  {'R1': {'train_loss': 0.04659469053149223, 'train_acc': 94.62550282478333, 'test_loss': 0.006758906412869692, 'test_acc': 91.375, 'convergence': 17.969764709472656, 'R1': 0, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 2, 6, 9]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 2, 6, 9]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}, 'R2': {'train_loss': 0.13429495692253113, 'train_acc': 83.30699801445007, 'test_loss': 0.011980300769209862, 'test_acc': 79.55000305175781, 'convergence': 16.521926879882812, 'R1': 1, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [3, 4, 5, 7]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [3, 4, 5, 7]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}}
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/C10_4C_CL/models
+RESULT:  {'train_loss': 0.03219570219516754, 'train_acc': 96.41799926757812, 'test_loss': 0.005842471960932016, 'test_acc': 93.9749984741211, 'convergence': 16.652780532836914, 'R1': 1, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 4, 7, 8]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 4, 7, 8]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}
+IN R2:  {'R1': {'train_loss': 0.0464845672249794, 'train_acc': 94.4320023059845, 'test_loss': 0.008030473254621029, 'test_acc': 90.92500305175781, 'convergence': 18.194021224975586, 'R1': 1, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [0, 3, 6, 9]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [0, 3, 6, 9]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}, 'R2': {'train_loss': 0.03219570219516754, 'train_acc': 96.41799926757812, 'test_loss': 0.005842471960932016, 'test_acc': 93.9749984741211, 'convergence': 16.652780532836914, 'R1': 1, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 4, 7, 8]}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 4, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32, 'n_classes': 4, 'selected_classes': [1, 4, 7, 8]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}}}
 SEED:  0
 block 0, size : 96 16 16
 range = 2.886751345948129
@@ -738,54 +744,54 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([3, 8, 8, 0, 6, 6, 1, 6, 3, 1, 0, 9, 5, 7, 9, 8, 5, 7, 8, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 6, 1, 6, 1, 9, 9, 6, 9, 2, 9, 6, 6, 9, 2, 1, 9, 6, 6, 9])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 2, 0, 2, 0, 3, 3, 2, 3, 1, 3, 2, 2, 3, 1, 0, 3, 2, 2, 3])
+TARGETS AFTER SUB:  tensor([3, 0, 6, 6, 6, 3, 0, 9, 9, 6, 0, 9, 0, 9, 6, 6, 9, 9, 6, 6])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([1, 0, 2, 2, 2, 1, 0, 3, 3, 2, 0, 3, 0, 3, 2, 2, 3, 3, 2, 2])
 4000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 4000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Test
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: Compose(
                ToTensor()
-               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=warn)
+               Resize(size=(32, 32), interpolation=bilinear, max_size=None, antialias=True)
            )
 ------------------------
 TARGETS BEFORE SUB:  tensor([6, 9, 9, 4, 1, 1, 2, 7, 8, 3, 4, 7, 7, 2, 9, 9, 9, 3, 2, 6],
        device='cuda:0')
-TARGETS AFTER SUB:  tensor([6, 9, 9, 1, 1, 2, 2, 9, 9, 9, 2, 6, 6, 6, 2, 6, 9, 1, 2, 2])
-[1, 2, 6, 9]
-TARGETS AFTER CLEANER:  tensor([2, 3, 3, 0, 0, 1, 1, 3, 3, 3, 1, 2, 2, 2, 1, 2, 3, 0, 1, 1])
+TARGETS AFTER SUB:  tensor([6, 9, 9, 3, 9, 9, 9, 3, 6, 3, 6, 6, 6, 3, 0, 0, 9, 3, 0, 3])
+[0, 3, 6, 9]
+TARGETS AFTER CLEANER:  tensor([2, 3, 3, 1, 3, 3, 3, 1, 2, 1, 2, 2, 2, 1, 0, 0, 3, 1, 0, 1])
 20000
 <class 'dataset.FastCIFAR10'>
 Dataset FastCIFAR10
     Number of datapoints: 20000
-    Root location: /g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/data
+    Root location: /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/data
     Split: Train
     StandardTransform
 Transform: ToTensor()
 ------------------------
 INDICES:  20000
 IMAGE SIZE: torch.Size([64, 3, 32, 32])
-Accuracy of the network on the 1st dataset: 35.275 %
-Test loss on the 1st dataset: 0.072
+Accuracy of the network on the 1st dataset: 25.725 %
+Test loss on the 1st dataset: 0.193
 

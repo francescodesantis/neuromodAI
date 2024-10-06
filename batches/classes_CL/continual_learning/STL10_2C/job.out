@@ -1,3 +1,9 @@
+--------------- /leonardo/prod/opt/modulefiles/deeplrn/libraries ---------------
+cineca-ai/3.0.0  cineca-ai/4.0.0  cineca-ai/4.1.1(default)  
+cineca-ai/3.0.1  cineca-ai/4.1.0  cineca-ai/4.3.0           
+
+Key:
+(symbolic-version)  
 BLOCKS:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.45-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.45, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3}}, 'b3': {'arch': 'CNN', 'preset': 'softkrotov-c6144-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 3, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 6144, 'kernel_size': 3}}, 'b4': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 4, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.25, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10}, 'pool': None, 'activation': None}}
 CL:  True
 {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True}
@@ -59,26 +65,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([7, 1, 1, 1, 1, 1, 7, 1, 7, 7, 1, 1, 1, 7, 1, 1, 7, 1, 1, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
-       dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
+       dtype=torch.uint8)
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -86,19 +92,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 3.69e-01	time: 00:00:39	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-1.736e-02/SW:2.608e+00/MR:2.241e+01/SR:2.803e+00/MeD:2.148e+00/MaD:8.628e+00/MW:0.678/MAW:0.322
-|       0 |       1 |       2 |       3 |       4 |       5 |       6 |      7 |       8 |       9 |      10 |      11 |      12 |      13 |      14 |      15 |      16 |      17 |      18 |      19 |      20 |      21 |      22 |      23 |      24 |      25 |      26 |      27 |      28 |      29 |
-|---------+---------+---------+---------+---------+---------+---------+--------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------|
-|   0.389 |   0.376 |   0.347 |   0.369 |   0.343 |   0.321 |   0.388 |   0.4  |   0.384 |   0.389 |   0.369 |   0.376 |   0.403 |   0.383 |   0.371 |   0.366 |   0.293 |   0.393 |   0.404 |   0.377 |   0.398 |   0.371 |   0.384 |   0.398 |   0.407 |   0.312 |   0.375 |   0.367 |   0.371 |   0.374 |
-|  24.66  |  23.15  |  19.84  |  22.29  |  19.4   |  17.07  |  24.53  |  26.01 |  23.99  |  24.69  |  22.3   |  23.12  |  26.36  |  23.95  |  22.55  |  21.94  |  14.45  |  25.14  |  26.52  |  23.19  |  25.69  |  22.48  |  24.03  |  25.76  |  26.88  |  16.23  |  22.95  |  22.03  |  22.53  |  22.84  |
-|   0.43  |   0.01  |   0.01  |   0.03  |   4.1   |   6.82  |   0.72  |   0.02 |   2.04  |   0.01  |   1.15  |   0.28  |   0.33  |   0.04  |   0.76  |   0.01  |   8.46  |   0.22  |   0.43  |   0.3   |   0.08  |   0.51  |   0.29  |   0.04  |   0.17  |   2.77  |   0.08  |   0.08  |   0.13  |   0.01  |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     |
+Epoch: [1/1]	lr: 3.48e-01	time: 00:00:36	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-1.914e-02/SW:2.356e+00/MR:2.012e+01/SR:3.373e+00/MeD:2.731e+00/MaD:8.848e+00/MW:0.719/MAW:0.281
+|       0 |       1 |       2 |       3 |       4 |       5 |       6 |       7 |       8 |       9 |     10 |      11 |     12 |      13 |      14 |      15 |      16 |      17 |      18 |      19 |      20 |     21 |      22 |      23 |      24 |      25 |      26 |      27 |     28 |      29 |
+|---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+--------+---------+--------+---------+---------+---------+---------+---------+---------+---------+---------+--------+---------+---------+---------+---------+---------+---------+--------+---------|
+|   0.346 |   0.376 |   0.347 |   0.367 |   0.312 |   0.283 |   0.371 |   0.394 |   0.321 |   0.389 |   0.34 |   0.356 |   0.38 |   0.378 |   0.332 |   0.364 |   0.265 |   0.369 |   0.365 |   0.338 |   0.386 |   0.35 |   0.373 |   0.392 |   0.395 |   0.293 |   0.375 |   0.356 |   0.36 |   0.373 |
+|  19.73  |  23.09  |  19.82  |  22.1   |  16.23  |  13.53  |  22.54  |  25.28  |  17.15  |  24.64  |  19.02 |  20.81  |  23.55 |  23.38  |  18.25  |  21.71  |  11.95  |  22.27  |  21.77  |  18.89  |  24.32  |  20.14 |  22.71  |  25.01  |  25.35  |  14.41  |  23.03  |  20.84  |  21.29 |  22.76  |
+|   0.85  |   0.02  |   0.01  |   0.04  |   3.12  |   4.83  |   0.82  |   0.09  |   1.93  |   0.01  |   1.5  |   0.4   |   0.56 |   0.08  |   1.39  |   0.03  |   6.29  |   0.45  |   0.69  |   0.81  |   0.23  |   0.65 |   0.28  |   0.1   |   0.24  |   2.55  |   0.08  |   0.34  |   0.2  |   0.02  |
+| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     |
+| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     |
+| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [1] **********
 SEED:  0
@@ -108,26 +114,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([7, 1, 1, 1, 1, 1, 7, 1, 7, 7, 1, 1, 1, 7, 1, 1, 7, 1, 1, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
-       dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
+       dtype=torch.uint8)
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -135,19 +141,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 3.69e-01	time: 00:01:16	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-3.271e-03/SW:8.459e-01/MR:2.485e+01/SR:7.688e-01/MeD:5.331e-01/MaD:4.656e+00/MW:0.798/MAW:0.202
-|        0 |        1 |        2 |        3 |       4 |        5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |      25 |       26 |       27 |       28 |       29 |
-|----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------|
-|   0.0247 |   0.0246 |   0.0242 |   0.0242 |   0.024 |   0.0251 |   0.0245 |   0.0251 |   0.0244 |   0.0242 |   0.0248 |   0.0241 |   0.0248 |   0.0246 |   0.0242 |   0.0243 |   0.0241 |   0.0243 |   0.0244 |   0.0248 |   0.0239 |   0.0248 |   0.0246 |   0.0247 |   0.0242 |   0.024 |   0.0247 |   0.0242 |   0.0245 |   0.0251 |
-|  25.44   |  25.12   |  24.49   |  24.34   |  24.05  |  26.29   |  24.92   |  26.25   |  24.88   |  24.51   |  25.62   |  24.32   |  25.57   |  25.19   |  24.49   |  24.58   |  24.21   |  24.58   |  24.81   |  25.69   |  23.88   |  25.69   |  25.14   |  25.42   |  24.49   |  24.02  |  25.32   |  24.5    |  25.04   |  26.14   |
-|   0.04   |   0      |   0      |   0.01   |   2.16  |   0.18   |   0      |   0.02   |   0      |   0.11   |   0      |   0.09   |   0.11   |   0.06   |   0.01   |   0.03   |   0      |   0.42   |   0      |   0.03   |   0.07   |   0      |   0.03   |   0.04   |   0.16   |   0.21  |   0.45   |   0.02   |   0.03   |   0.01   |
-| nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      |
+Epoch: [1/1]	lr: 3.48e-01	time: 00:01:04	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-3.262e-03/SW:8.454e-01/MR:2.484e+01/SR:7.916e-01/MeD:5.446e-01/MaD:5.589e+00/MW:0.815/MAW:0.185
+|        0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |      25 |       26 |       27 |       28 |       29 |
+|----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------|
+|   0.0247 |   0.0246 |   0.0242 |   0.0242 |   0.0236 |   0.0252 |   0.0245 |   0.0251 |   0.0244 |   0.0242 |   0.0248 |   0.0242 |   0.0248 |   0.0246 |   0.0242 |   0.0243 |   0.0241 |   0.0242 |   0.0244 |   0.0248 |   0.0239 |   0.0248 |   0.0246 |   0.0247 |   0.0242 |   0.024 |   0.0244 |   0.0242 |   0.0245 |   0.0251 |
+|  25.44   |  25.12   |  24.49   |  24.34   |  23.34   |  26.35   |  24.92   |  26.25   |  24.88   |  24.5    |  25.62   |  24.35   |  25.58   |  25.19   |  24.49   |  24.58   |  24.21   |  24.4    |  24.81   |  25.65   |  23.88   |  25.69   |  25.14   |  25.43   |  24.5    |  24     |  24.91   |  24.5    |  25.05   |  26.14   |
+|   0.03   |   0      |   0      |   0.01   |   3.19   |   0.11   |   0      |   0.02   |   0      |   0.12   |   0      |   0.02   |   0.09   |   0.05   |   0      |   0.03   |   0      |   0.72   |   0      |   0.11   |   0.06   |   0      |   0.02   |   0.02   |   0.12   |   0.29  |   1.01   |   0.02   |   0.03   |   0.01   |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [2] **********
 SEED:  0
@@ -157,26 +163,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([7, 1, 1, 1, 1, 1, 7, 1, 7, 7, 1, 1, 1, 7, 1, 1, 7, 1, 1, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
-       dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
+       dtype=torch.uint8)
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -184,19 +190,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 4.90e-02	time: 00:01:54	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.272e-04/SW:4.192e-01/MR:2.462e+01/SR:1.010e+00/MeD:5.530e-01/MaD:1.174e+01/MW:0.704/MAW:0.296
-|       0 |        1 |        2 |       3 |        4 |       5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |      13 |       14 |      15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |      26 |       27 |       28 |       29 |
-|---------+----------+----------+---------+----------+---------+----------+----------+----------+----------+----------+----------+----------+---------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------|
-|   0.049 |   0.0491 |   0.0487 |   0.049 |   0.0485 |   0.048 |   0.0494 |   0.0487 |   0.0486 |   0.0489 |   0.0484 |   0.0494 |   0.0491 |   0.045 |   0.0487 |   0.049 |   0.0477 |   0.0496 |   0.0484 |   0.0492 |   0.0487 |   0.0492 |   0.0482 |   0.0492 |   0.0481 |   0.0486 |   0.049 |   0.0495 |   0.0476 |   0.0488 |
-|  25.01  |  25.15   |  24.72   |  25.05  |  24.5    |  24.05  |  25.37   |  24.69   |  24.66   |  24.96   |  24.43   |  25.45   |  25.1    |  21.25  |  24.74   |  25.02  |  23.71   |  25.62   |  24.44   |  25.23   |  24.71   |  25.25   |  24.24   |  25.22   |  24.17   |  24.66   |  25.02  |  25.53   |  23.66   |  24.85   |
-|   0     |   0      |   0.03   |   0.01  |   0.05   |   0.11  |   0      |   0.02   |   0.05   |   0      |   0.07   |   0.01   |   0.03   |   0.5   |   0      |   0.04  |   0.2    |   0      |   0.01   |   0      |   0.09   |   0      |   0.12   |   0      |   0.01   |   0.01   |   0     |   0      |   0.21   |   0      |
-| nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
-| nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
-| nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
+Epoch: [1/1]	lr: 4.90e-02	time: 00:01:32	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.272e-04/SW:4.180e-01/MR:2.455e+01/SR:1.076e+00/MeD:6.114e-01/MaD:1.186e+01/MW:0.714/MAW:0.286
+|       0 |        1 |        2 |       3 |        4 |        5 |        6 |        7 |        8 |        9 |      10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |      26 |       27 |       28 |       29 |
+|---------+----------+----------+---------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------|
+|   0.049 |   0.0491 |   0.0488 |   0.049 |   0.0486 |   0.0484 |   0.0494 |   0.0483 |   0.0488 |   0.0489 |   0.049 |   0.0495 |   0.0488 |   0.0462 |   0.0487 |   0.0492 |   0.0467 |   0.0496 |   0.0484 |   0.0492 |   0.0483 |   0.0491 |   0.0477 |   0.0492 |   0.0479 |   0.0486 |   0.049 |   0.0495 |   0.0486 |   0.0488 |
+|  25.01  |  25.15   |  24.77   |  24.99  |  24.66   |  24.46   |  25.37   |  24.28   |  24.82   |  24.96   |  24.99  |  25.46   |  24.83   |  22.38   |  24.71   |  25.23   |  22.84   |  25.61   |  24.47   |  25.22   |  24.36   |  25.11   |  23.75   |  25.22   |  23.91   |  24.6    |  25     |  25.49   |  24.66   |  24.85   |
+|   0     |   0      |   0.02   |   0.02  |   0.02   |   0.05   |   0      |   0.06   |   0.02   |   0      |   0.04  |   0.01   |   0.06   |   0.28   |   0.02   |   0.01   |   0.3    |   0      |   0.01   |   0      |   0.15   |   0.02   |   0.16   |   0      |   0.05   |   0.02   |   0     |   0.01   |   0.1    |   0      |
+| nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
+| nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
+| nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [3] **********
 SEED:  0
@@ -206,26 +212,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([7, 1, 1, 1, 1, 1, 7, 1, 7, 7, 1, 1, 1, 7, 1, 1, 7, 1, 1, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
-       dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
+       dtype=torch.uint8)
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -233,19 +239,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 4.86e-02	time: 00:02:35	Acc_train 0.00	Acc_test 0.00	convergence: 2.39e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-1.998e-05/SW:2.121e-01/MR:2.493e+01/SR:7.137e-01/MeD:2.272e-01/MaD:2.155e+01/MW:0.563/MAW:0.437
-|        0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |      10 |       11 |       12 |      13 |       14 |       15 |      16 |       17 |      18 |       19 |       20 |      21 |       22 |       23 |       24 |      25 |      26 |      27 |       28 |       29 |
-|----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+---------+----------+----------+---------+----------+---------+----------+----------+---------+----------+----------+----------+---------+---------+---------+----------+----------|
-|   0.0488 |   0.0491 |   0.0492 |   0.0493 |   0.0491 |   0.0491 |   0.0493 |   0.0489 |   0.0465 |   0.0488 |   0.049 |   0.0492 |   0.0488 |   0.049 |   0.0492 |   0.0492 |   0.049 |   0.0491 |   0.049 |   0.0492 |   0.0491 |   0.049 |   0.0489 |   0.0491 |   0.0489 |   0.049 |   0.049 |   0.049 |   0.0491 |   0.0489 |
-|  24.77   |  25.08   |  25.17   |  25.33   |  25.07   |  25.09   |  25.29   |  24.95   |  22.65   |  24.82   |  24.99  |  25.2    |  24.85   |  25.04  |  25.18   |  25.21   |  25     |  25.12   |  25.02  |  25.22   |  25.09   |  24.98  |  24.91   |  25.11   |  24.9    |  25     |  25     |  25.02  |  25.12   |  24.94   |
-|   0      |   0      |   0      |   0      |   0.01   |   0.02   |   0      |   0      |   0.2    |   0      |   0     |   0      |   0      |   0     |   0.01   |   0      |   0     |   0      |   0     |   0      |   0      |   0.02  |   0      |   0.01   |   0.01   |   0.01  |   0.01  |   0     |   0.01   |   0      |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan     | nan     | nan     | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan     | nan     | nan     | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan     | nan     | nan     | nan      | nan      |
+Epoch: [1/1]	lr: 4.85e-02	time: 00:02:00	Acc_train 0.00	Acc_test 0.00	convergence: 2.39e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-1.785e-05/SW:2.120e-01/MR:2.491e+01/SR:7.321e-01/MeD:2.536e-01/MaD:2.099e+01/MW:0.537/MAW:0.463
+|        0 |        1 |        2 |        3 |        4 |       5 |        6 |        7 |        8 |        9 |      10 |       11 |       12 |      13 |       14 |       15 |      16 |       17 |      18 |       19 |       20 |       21 |       22 |       23 |       24 |      25 |       26 |      27 |       28 |       29 |
+|----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+---------+----------+----------+---------+----------+----------+---------+----------+---------+----------+----------+----------+----------+----------+----------+---------+----------+---------+----------+----------|
+|   0.0489 |   0.0491 |   0.0491 |   0.0493 |   0.0492 |   0.049 |   0.0494 |   0.0489 |   0.0441 |   0.0488 |   0.049 |   0.0492 |   0.0488 |   0.049 |   0.0491 |   0.0492 |   0.049 |   0.0491 |   0.049 |   0.0492 |   0.0491 |   0.0487 |   0.0489 |   0.0491 |   0.0489 |   0.049 |   0.0491 |   0.049 |   0.0491 |   0.0489 |
+|  24.88   |  25.13   |  25.13   |  25.34   |  25.2    |  25.05  |  25.4    |  24.94   |  20.44   |  24.82   |  25.06  |  25.18   |  24.85   |  25.05  |  25.07   |  25.17   |  25.03  |  25.12   |  25.02  |  25.2    |  25.08   |  24.74   |  24.93   |  25.06   |  24.89   |  24.99  |  25.07   |  25.02  |  25.13   |  24.95   |
+|   0.01   |   0      |   0      |   0      |   0      |   0     |   0.01   |   0      |   0.27   |   0      |   0.01  |   0.02   |   0      |   0     |   0.02   |   0      |   0     |   0      |   0     |   0      |   0      |   0.05   |   0      |   0      |   0.01   |   0.01  |   0.01   |   0     |   0      |   0      |
+| nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      |
+| nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      |
+| nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Supervised learning of blocks [4] **********
 SAVING FOLDER FOR SUP:  STL10_2C_CL
@@ -256,56 +262,56 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([7, 1, 1, 1, 1, 1, 7, 1, 7, 7, 1, 1, 1, 7, 1, 1, 7, 1, 1, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
-       dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
+       dtype=torch.uint8)
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
 IMAGE SIZE: torch.Size([32, 3, 96, 96])
-Epoch: [1/50]	lr: 1.00e-03	time: 00:03:15	Loss_train 9.23758	Acc_train 83.50	/	Loss_test 6.56686	Acc_test 85.56
+Epoch: [1/50]	lr: 1.00e-03	time: 00:02:29	Loss_train 6.85146	Acc_train 67.20	/	Loss_test 2.55759	Acc_test 75.31
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [10/50]	lr: 1.00e-03	time: 00:03:28	Loss_train 0.48844	Acc_train 97.34	/	Loss_test 2.47198	Acc_test 92.12
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [10/50]	lr: 1.00e-03	time: 00:02:35	Loss_train 1.12703	Acc_train 89.84	/	Loss_test 3.17834	Acc_test 81.81
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [20/50]	lr: 2.50e-04	time: 00:03:42	Loss_train 0.00473	Acc_train 99.90	/	Loss_test 2.28587	Acc_test 92.31
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [20/50]	lr: 2.50e-04	time: 00:02:41	Loss_train 0.05821	Acc_train 99.12	/	Loss_test 2.88473	Acc_test 81.69
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [30/50]	lr: 1.25e-04	time: 00:03:56	Loss_train 0.00000	Acc_train 100.00	/	Loss_test 2.28611	Acc_test 92.19
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [30/50]	lr: 1.25e-04	time: 00:02:47	Loss_train 0.00418	Acc_train 99.91	/	Loss_test 2.73727	Acc_test 82.56
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [40/50]	lr: 3.13e-05	time: 00:04:10	Loss_train 0.00006	Acc_train 99.99	/	Loss_test 2.24440	Acc_test 92.56
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [40/50]	lr: 3.13e-05	time: 00:02:54	Loss_train 0.00038	Acc_train 99.97	/	Loss_test 2.72849	Acc_test 82.38
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [50/50]	lr: 7.81e-06	time: 00:04:24	Loss_train 0.00000	Acc_train 100.00	/	Loss_test 2.24440	Acc_test 92.56
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [50/50]	lr: 7.81e-06	time: 00:03:00	Loss_train 0.00019	Acc_train 99.98	/	Loss_test 2.73622	Acc_test 82.19
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-RESULT:  {'train_loss': 0.0, 'train_acc': 100.0, 'test_loss': 2.2444028854370117, 'test_acc': 92.5625, 'convergence': 23.929088592529297, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 2]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 2]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}
-IN R1:  {'R1': {'train_loss': 0.0, 'train_acc': 100.0, 'test_loss': 2.2444028854370117, 'test_acc': 92.5625, 'convergence': 23.929088592529297, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 2]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 2]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}}
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+RESULT:  {'train_loss': 0.00019294281082693487, 'train_acc': 99.98000264167786, 'test_loss': 2.736222505569458, 'test_acc': 82.1875, 'convergence': 23.912944793701172, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [1, 7]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [1, 7]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}
+IN R1:  {'R1': {'train_loss': 0.00019294281082693487, 'train_acc': 99.98000264167786, 'test_loss': 2.736222505569458, 'test_acc': 82.1875, 'convergence': 23.912944793701172, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [1, 7]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [1, 7]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}}
 SEED:  0
 block 0, size : 96 48 48
 range = 2.886751345948129
@@ -366,26 +372,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 5, 5, 5, 5, 5, 8, 8, 5, 5, 8, 5, 5, 5, 8, 5, 8, 8, 8],
+TARGETS AFTER SUB:  tensor([0, 3, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
-       dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
+       dtype=torch.uint8)
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -393,19 +399,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 3.35e-01	time: 00:00:37	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-1.417e-02/SW:2.203e+00/MR:1.876e+01/SR:3.470e+00/MeD:2.845e+00/MaD:8.446e+00/MW:0.622/MAW:0.378
-|       0 |       1 |       2 |       3 |       4 |       5 |       6 |       7 |      8 |       9 |      10 |      11 |      12 |      13 |      14 |      15 |      16 |      17 |      18 |      19 |      20 |      21 |      22 |     23 |      24 |      25 |      26 |      27 |      28 |      29 |
-|---------+---------+---------+---------+---------+---------+---------+---------+--------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+--------+---------+---------+---------+---------+---------+---------|
-|   0.335 |   0.374 |   0.346 |   0.365 |   0.303 |   0.276 |   0.343 |   0.393 |   0.31 |   0.388 |   0.318 |   0.343 |   0.363 |   0.371 |   0.317 |   0.363 |   0.252 |   0.351 |   0.353 |   0.327 |   0.374 |   0.329 |   0.359 |   0.39 |   0.382 |   0.275 |   0.364 |   0.358 |   0.347 |   0.372 |
-|  18.57  |  22.88  |  19.69  |  21.79  |  15.31  |  12.9   |  19.36  |  25.15  |  16.04 |  24.52  |  16.79  |  19.43  |  21.61  |  22.5   |  16.7   |  21.58  |  10.94  |  20.3   |  20.51  |  17.71  |  22.89  |  17.87  |  21.12  |  24.73 |  23.78  |  12.83  |  21.71  |  20.99  |  19.81  |  22.62  |
-|   0.72  |   0.05  |   0.04  |   0.09  |   1.86  |   3.95  |   0.79  |   0.12  |   1.8  |   0.04  |   1.31  |   0.5   |   0.56  |   0.17  |   2.31  |   0.07  |   3.05  |   0.54  |   0.72  |   1.17  |   0.39  |   1     |   0.39  |   0.14 |   0.32  |   2.42  |   0.19  |   0.39  |   0.31  |   0.05  |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     |
+Epoch: [1/1]	lr: 3.10e-01	time: 00:00:27	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-8.346e-03/SW:1.909e+00/MR:1.620e+01/SR:3.343e+00/MeD:2.726e+00/MaD:7.653e+00/MW:0.588/MAW:0.412
+|       0 |       1 |       2 |       3 |       4 |       5 |       6 |       7 |       8 |      9 |      10 |      11 |      12 |      13 |      14 |      15 |      16 |      17 |      18 |      19 |      20 |      21 |      22 |      23 |      24 |      25 |      26 |      27 |      28 |      29 |
+|---------+---------+---------+---------+---------+---------+---------+---------+---------+--------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------|
+|   0.311 |   0.366 |   0.332 |   0.347 |   0.285 |   0.255 |   0.312 |   0.374 |   0.292 |   0.38 |   0.283 |   0.308 |   0.332 |   0.351 |   0.285 |   0.352 |   0.239 |   0.317 |   0.325 |   0.299 |   0.341 |   0.294 |   0.329 |   0.368 |   0.347 |   0.245 |   0.346 |   0.322 |   0.323 |   0.364 |
+|  16.07  |  21.92  |  18.23  |  19.77  |  13.68  |  11.16  |  16.24  |  22.88  |  14.33  |  23.61 |  13.53  |  15.84  |  18.21  |  20.3   |  13.72  |  20.36  |   9.94  |  16.74  |  17.55  |  14.94  |  19.22  |  14.51  |  17.94  |  22.11  |  19.81  |  10.35  |  19.74  |  17.21  |  17.3   |  21.7   |
+|   0.42  |   0.13  |   0.16  |   0.24  |   1.91  |   3.82  |   0.89  |   0.24  |   0.86  |   0.1  |   1.22  |   0.51  |   0.54  |   0.24  |   1.65  |   0.14  |   2.68  |   0.53  |   0.49  |   1     |   0.58  |   1.13  |   0.41  |   0.24  |   0.43  |   2.87  |   0.4   |   1.21  |   0.36  |   0.12  |
+| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     |
+| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     |
+| nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     | nan     |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [1] **********
 SEED:  0
@@ -415,26 +421,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 5, 5, 5, 5, 5, 8, 8, 5, 5, 8, 5, 5, 5, 8, 5, 8, 8, 8],
+TARGETS AFTER SUB:  tensor([0, 3, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
-       dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
+       dtype=torch.uint8)
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -442,19 +448,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 3.35e-01	time: 00:01:14	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-3.238e-03/SW:8.359e-01/MR:2.454e+01/SR:1.222e+00/MeD:7.530e-01/MaD:8.530e+00/MW:0.768/MAW:0.232
+Epoch: [1/1]	lr: 3.10e-01	time: 00:00:54	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-3.246e-03/SW:8.383e-01/MR:2.462e+01/SR:1.105e+00/MeD:6.888e-01/MaD:7.394e+00/MW:0.775/MAW:0.225
 |        0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |       26 |       27 |       28 |       29 |
 |----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------|
-|   0.0247 |   0.0246 |   0.0242 |   0.0242 |   0.0228 |   0.0249 |   0.0245 |   0.0251 |   0.0244 |   0.0242 |   0.0248 |   0.0241 |   0.0247 |   0.0246 |   0.0242 |   0.0243 |   0.0241 |   0.0238 |   0.0244 |   0.0248 |   0.0238 |   0.0248 |   0.0246 |   0.0247 |   0.0241 |   0.0239 |   0.0239 |   0.0242 |   0.0245 |   0.0251 |
-|  25.41   |  25.12   |  24.49   |  24.34   |  21.72   |  25.89   |  24.92   |  26.21   |  24.88   |  24.37   |  25.62   |  24.28   |  25.49   |  25.15   |  24.48   |  24.56   |  24.21   |  23.64   |  24.8    |  25.57   |  23.72   |  25.69   |  25.14   |  25.41   |  24.31   |  23.86   |  23.93   |  24.48   |  25.01   |  26.14   |
-|   0.03   |   0      |   0.01   |   0.01   |   1.93   |   0.18   |   0      |   0.03   |   0      |   0.13   |   0      |   0.06   |   0.09   |   0.07   |   0.01   |   0.03   |   0      |   0.78   |   0      |   0.09   |   0.13   |   0      |   0.04   |   0.03   |   0.24   |   0.28   |   1.22   |   0.01   |   0.03   |   0.01   |
+|   0.0247 |   0.0246 |   0.0242 |   0.0242 |   0.0229 |   0.0251 |   0.0245 |   0.0251 |   0.0244 |   0.0242 |   0.0248 |   0.0241 |   0.0248 |   0.0246 |   0.0242 |   0.0243 |   0.0241 |   0.0238 |   0.0244 |   0.0248 |   0.0239 |   0.0248 |   0.0246 |   0.0247 |   0.0242 |   0.0239 |   0.0242 |   0.0242 |   0.0245 |   0.0251 |
+|  25.42   |  25.12   |  24.49   |  24.34   |  22.03   |  26.11   |  24.92   |  26.22   |  24.88   |  24.42   |  25.62   |  24.32   |  25.51   |  25.16   |  24.48   |  24.57   |  24.21   |  23.73   |  24.8    |  25.57   |  23.77   |  25.69   |  25.14   |  25.43   |  24.38   |  23.86   |  24.46   |  24.48   |  25.03   |  26.14   |
+|   0.03   |   0      |   0.01   |   0.01   |   1.66   |   0.15   |   0      |   0.03   |   0      |   0.12   |   0      |   0.05   |   0.11   |   0.07   |   0.01   |   0.03   |   0      |   0.84   |   0      |   0.1    |   0.14   |   0      |   0.04   |   0.03   |   0.22   |   0.35   |   0.7    |   0.02   |   0.03   |   0.01   |
 | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
 | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
 | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [2] **********
 SEED:  0
@@ -464,26 +470,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 5, 5, 5, 5, 5, 8, 8, 5, 5, 8, 5, 5, 5, 8, 5, 8, 8, 8],
+TARGETS AFTER SUB:  tensor([0, 3, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
-       dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
+       dtype=torch.uint8)
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -491,19 +497,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 4.90e-02	time: 00:01:52	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.109e-04/SW:4.080e-01/MR:2.391e+01/SR:1.893e+00/MeD:1.304e+00/MaD:1.390e+01/MW:0.654/MAW:0.346
-|       0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |       8 |       9 |       10 |       11 |      12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |      24 |       25 |      26 |       27 |       28 |       29 |
-|---------+----------+----------+----------+----------+----------+----------+----------+---------+---------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+---------+----------+----------+----------|
-|   0.049 |   0.0491 |   0.0487 |   0.0486 |   0.0471 |   0.0466 |   0.0494 |   0.0472 |   0.048 |   0.049 |   0.0455 |   0.0494 |   0.048 |   0.0413 |   0.0488 |   0.0484 |   0.0454 |   0.0496 |   0.0483 |   0.0492 |   0.0462 |   0.0491 |   0.0462 |   0.0491 |   0.048 |   0.0476 |   0.049 |   0.0493 |   0.0451 |   0.0488 |
-|  25.02  |  25.13   |  24.68   |  24.6    |  23.18   |  22.74   |  25.37   |  23.3    |  24.02  |  24.97  |  21.7    |  25.37   |  24.01  |  18.03   |  24.77   |  24.42   |  21.58   |  25.62   |  24.35   |  25.24   |  22.32   |  25.15   |  22.39   |  25.13   |  24.06  |  23.69   |  25.03  |  25.33   |  21.38   |  24.86   |
-|   0     |   0      |   0.03   |   0.06   |   0.08   |   0.11   |   0      |   0.06   |   0.05  |   0     |   0.15   |   0.01   |   0.06  |   0.22   |   0.01   |   0.04   |   0.23   |   0      |   0.01   |   0      |   0.17   |   0.01   |   0.19   |   0.01   |   0.01  |   0.05   |   0     |   0.02   |   0.13   |   0      |
-| nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      |
-| nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      |
-| nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan     | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      |
+Epoch: [1/1]	lr: 4.90e-02	time: 00:01:22	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.140e-04/SW:4.107e-01/MR:2.409e+01/SR:1.658e+00/MeD:1.107e+00/MaD:1.276e+01/MW:0.659/MAW:0.341
+|       0 |        1 |        2 |        3 |       4 |        5 |        6 |        7 |        8 |        9 |      10 |       11 |       12 |       13 |       14 |       15 |      16 |       17 |       18 |       19 |       20 |       21 |       22 |       23 |       24 |       25 |      26 |       27 |       28 |       29 |
+|---------+----------+----------+----------+---------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------|
+|   0.049 |   0.0491 |   0.0487 |   0.0489 |   0.048 |   0.0474 |   0.0494 |   0.0476 |   0.0482 |   0.0489 |   0.047 |   0.0494 |   0.0483 |   0.0423 |   0.0487 |   0.0488 |   0.045 |   0.0496 |   0.0483 |   0.0492 |   0.0469 |   0.0491 |   0.0467 |   0.0491 |   0.0476 |   0.0483 |   0.049 |   0.0492 |   0.0462 |   0.0488 |
+|  25.01  |  25.13   |  24.74   |  24.92   |  24.02  |  23.45   |  25.37   |  23.69   |  24.25   |  24.96   |  23.07  |  25.39   |  24.32   |  18.91   |  24.7    |  24.79   |  21.28  |  25.62   |  24.36   |  25.23   |  23      |  25.06   |  22.83   |  25.14   |  23.65   |  24.36   |  25.02  |  25.21   |  22.32   |  24.84   |
+|   0     |   0      |   0.02   |   0.05   |   0.06  |   0.13   |   0      |   0.05   |   0.07   |   0      |   0.15  |   0.01   |   0.05   |   0.28   |   0.02   |   0.04   |   0.27  |   0      |   0.01   |   0      |   0.19   |   0.01   |   0.15   |   0.01   |   0.03   |   0.03   |   0     |   0.02   |   0.18   |   0      |
+| nan     | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
+| nan     | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
+| nan     | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Hebbian Unsupervised learning of blocks [3] **********
 SEED:  0
@@ -513,26 +519,26 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 5, 5, 5, 5, 5, 8, 8, 5, 5, 8, 5, 5, 5, 8, 5, 8, 8, 8],
+TARGETS AFTER SUB:  tensor([0, 3, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
-       dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
+       dtype=torch.uint8)
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
@@ -540,19 +546,19 @@ IMAGE SIZE: torch.Size([32, 3, 96, 96])
 SAVING FOLDER FOR UNSUP:  STL10_2C_CL
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 4.78e-02	time: 00:02:32	Acc_train 0.00	Acc_test 0.00	convergence: 2.38e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-1.580e-05/SW:2.116e-01/MR:2.484e+01/SR:1.239e+00/MeD:4.445e-01/MaD:2.371e+01/MW:0.553/MAW:0.447
-|        0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |      10 |       11 |       12 |       13 |       14 |       15 |      16 |       17 |      18 |       19 |       20 |       21 |       22 |       23 |      24 |      25 |       26 |      27 |       28 |      29 |
-|----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+---------+----------+---------+----------+----------+----------+----------+----------+---------+---------+----------+---------+----------+---------|
-|   0.0488 |   0.0491 |   0.0493 |   0.0494 |   0.0492 |   0.0491 |   0.0494 |   0.0489 |   0.0428 |   0.0488 |   0.049 |   0.0492 |   0.0488 |   0.0491 |   0.0492 |   0.0492 |   0.049 |   0.0492 |   0.049 |   0.0492 |   0.0491 |   0.0487 |   0.0489 |   0.0492 |   0.049 |   0.049 |   0.0493 |   0.049 |   0.0492 |   0.049 |
-|  24.83   |  25.14   |  25.27   |  25.36   |  25.21   |  25.14   |  25.42   |  24.88   |  19.28   |  24.84   |  25     |  25.16   |  24.83   |  25.06   |  25.19   |  25.24   |  24.99  |  25.18   |  25.03  |  25.24   |  25.09   |  24.75   |  24.91   |  25.21   |  24.98  |  25     |  25.27   |  25.03  |  25.21   |  25     |
-|   0      |   0.01   |   0      |   0      |   0.01   |   0.01   |   0.01   |   0      |   0.18   |   0      |   0     |   0.01   |   0      |   0      |   0.01   |   0      |   0.01  |   0      |   0     |   0      |   0      |   0.02   |   0      |   0      |   0     |   0     |   0.01   |   0     |   0.01   |   0     |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan     | nan      | nan     | nan      | nan     |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan     | nan      | nan     | nan      | nan     |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan     | nan     | nan      | nan     | nan      | nan     |
+Epoch: [1/1]	lr: 4.80e-02	time: 00:01:50	Acc_train 0.00	Acc_test 0.00	convergence: 2.39e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:-1.518e-05/SW:2.116e-01/MR:2.486e+01/SR:1.132e+00/MeD:4.089e-01/MaD:2.361e+01/MW:0.553/MAW:0.447
+|        0 |        1 |        2 |        3 |        4 |        5 |        6 |       7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |      18 |       19 |       20 |       21 |       22 |      23 |       24 |      25 |       26 |      27 |       28 |      29 |
+|----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+---------+----------+---------+----------+---------+----------+---------|
+|   0.0489 |   0.0492 |   0.0492 |   0.0494 |   0.0492 |   0.0491 |   0.0495 |   0.049 |   0.0422 |   0.0488 |   0.0492 |   0.0492 |   0.0488 |   0.0491 |   0.0488 |   0.0492 |   0.0491 |   0.0491 |   0.049 |   0.0492 |   0.0491 |   0.0486 |   0.0489 |   0.049 |   0.0484 |   0.049 |   0.0493 |   0.049 |   0.0493 |   0.049 |
+|  24.92   |  25.19   |  25.2    |  25.36   |  25.25   |  25.09   |  25.48   |  24.97  |  18.84   |  24.83   |  25.16   |  25.17   |  24.86   |  25.08   |  24.85   |  25.21   |  25.13   |  25.15   |  25.03  |  25.21   |  25.09   |  24.63   |  24.95   |  25.03  |  24.39   |  25.01  |  25.28   |  25.03  |  25.27   |  24.98  |
+|   0      |   0      |   0      |   0      |   0.01   |   0.01   |   0      |   0     |   0.13   |   0      |   0      |   0      |   0      |   0      |   0.02   |   0      |   0      |   0      |   0     |   0      |   0      |   0.02   |   0      |   0     |   0.01   |   0     |   0.01   |   0     |   0.01   |   0     |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan     | nan      | nan     |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan     | nan      | nan     |
+| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan     | nan      | nan     | nan      | nan     | nan      | nan     |
 
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
 
  ********** Supervised learning of blocks [4] **********
 SAVING FOLDER FOR SUP:  STL10_2C_CL
@@ -563,56 +569,56 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 5, 5, 5, 5, 5, 8, 8, 5, 5, 8, 5, 5, 5, 8, 5, 8, 8, 8],
+TARGETS AFTER SUB:  tensor([0, 3, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
-       dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([5, 5, 8, 8, 8, 5, 5, 5, 5, 8, 8, 5, 8, 8, 8, 5, 5, 5, 8, 5],
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
        dtype=torch.uint8)
-[5, 8]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 3, 3, 0, 0],
+       dtype=torch.uint8)
+[0, 3]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
 IMAGE SIZE: torch.Size([32, 3, 96, 96])
-Epoch: [1/50]	lr: 1.00e-03	time: 00:03:12	Loss_train 8.18156	Acc_train 83.10	/	Loss_test 5.90907	Acc_test 86.75
+Epoch: [1/50]	lr: 1.00e-03	time: 00:02:19	Loss_train 2.69641	Acc_train 89.70	/	Loss_test 1.67663	Acc_test 93.19
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [10/50]	lr: 1.00e-03	time: 00:03:25	Loss_train 0.44273	Acc_train 98.08	/	Loss_test 1.54925	Acc_test 95.50
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [10/50]	lr: 1.00e-03	time: 00:02:25	Loss_train 0.41891	Acc_train 97.57	/	Loss_test 1.65834	Acc_test 95.25
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [20/50]	lr: 2.50e-04	time: 00:03:39	Loss_train 0.00800	Acc_train 99.89	/	Loss_test 1.33936	Acc_test 96.06
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [20/50]	lr: 2.50e-04	time: 00:02:31	Loss_train 0.00857	Acc_train 99.90	/	Loss_test 1.45467	Acc_test 95.31
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [30/50]	lr: 1.25e-04	time: 00:03:53	Loss_train 0.00016	Acc_train 99.99	/	Loss_test 1.20581	Acc_test 96.19
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [30/50]	lr: 1.25e-04	time: 00:02:37	Loss_train 0.00000	Acc_train 100.00	/	Loss_test 1.45467	Acc_test 95.31
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [40/50]	lr: 3.13e-05	time: 00:04:07	Loss_train 0.00000	Acc_train 100.00	/	Loss_test 1.20581	Acc_test 96.19
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [40/50]	lr: 3.13e-05	time: 00:02:43	Loss_train 0.00000	Acc_train 100.00	/	Loss_test 1.45467	Acc_test 95.31
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-Epoch: [50/50]	lr: 7.81e-06	time: 00:04:21	Loss_train 0.00000	Acc_train 100.00	/	Loss_test 1.20581	Acc_test 96.19
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+Epoch: [50/50]	lr: 7.81e-06	time: 00:02:50	Loss_train 0.00016	Acc_train 99.99	/	Loss_test 1.47876	Acc_test 95.56
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
-/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
-RESULT:  {'train_loss': 0.0, 'train_acc': 100.0, 'test_loss': 1.2058088779449463, 'test_acc': 96.1875, 'convergence': 23.84430503845215, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [5, 8]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [5, 8]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}
-IN R2:  {'R1': {'train_loss': 0.0, 'train_acc': 100.0, 'test_loss': 2.2444028854370117, 'test_acc': 92.5625, 'convergence': 23.929088592529297, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 2]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 2]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}, 'R2': {'train_loss': 0.0, 'train_acc': 100.0, 'test_loss': 1.2058088779449463, 'test_acc': 96.1875, 'convergence': 23.84430503845215, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [5, 8]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [5, 8]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}}
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/STL10_2C_CL/models
+RESULT:  {'train_loss': 0.00016043444338720292, 'train_acc': 99.98999834060669, 'test_loss': 1.4787596464157104, 'test_acc': 95.5625, 'convergence': 23.856800079345703, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 3]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 3]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}
+IN R2:  {'R1': {'train_loss': 0.00019294281082693487, 'train_acc': 99.98000264167786, 'test_loss': 2.736222505569458, 'test_acc': 82.1875, 'convergence': 23.912944793701172, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [1, 7]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [1, 7]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}, 'R2': {'train_loss': 0.00016043444338720292, 'train_acc': 99.98999834060669, 'test_loss': 1.4787596464157104, 'test_acc': 95.5625, 'convergence': 23.856800079345703, 'R1': 0, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 3]}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 2, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 96, 'n_classes': 2, 'selected_classes': [0, 3]}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't8': {'blocks': [4], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}}
 SEED:  0
 block 0, size : 96 48 48
 range = 2.886751345948129
@@ -671,30 +677,30 @@ AFTER RESIZING
 Files already downloaded and verified
 TARGETS BEFORE SUB:  tensor([6, 7, 5, 0, 3, 1, 1, 1, 4, 4, 0, 0, 4, 0, 1, 5, 4, 9, 0, 6],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 0, 0, 0, 2, 2, 2, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([7, 1, 1, 1, 1, 1, 7, 1, 7, 7, 1, 1, 1, 7, 1, 1, 7, 1, 1, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
-       dtype=torch.uint8)
-------------------------
-TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
-       dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
-       dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
        dtype=torch.uint8)
 ------------------------
 TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
        dtype=torch.uint8)
-TARGETS AFTER SUB:  tensor([0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2, 0, 0],
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
        dtype=torch.uint8)
-[0, 2]
-TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
+       dtype=torch.uint8)
+------------------------
+TARGETS BEFORE SUB:  tensor([1, 5, 1, 6, 3, 9, 7, 4, 5, 8, 0, 6, 0, 8, 7, 6, 4, 6, 2, 2],
+       dtype=torch.uint8)
+TARGETS AFTER SUB:  tensor([1, 1, 7, 7, 1, 1, 1, 1, 1, 7, 1, 1, 1, 7, 7, 1, 1, 7, 7, 7],
+       dtype=torch.uint8)
+[1, 7]
+TARGETS AFTER CLEANER:  tensor([0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1],
        dtype=torch.uint8)
 ------------------------
 INDICES:  1000
 IMAGE SIZE: torch.Size([32, 3, 96, 96])
-Accuracy of the network on the 1st dataset: 53.188 %
-Test loss on the 1st dataset: 41.938
+Accuracy of the network on the 1st dataset: 62.688 %
+Test loss on the 1st dataset: 32.787
 

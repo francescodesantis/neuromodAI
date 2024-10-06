@@ -1,1 +1,13 @@
-/usr/bin/env: ‘python’: No such file or directory
+2024-10-04 23:55:12,602	INFO worker.py:1786 -- Started a local Ray instance.
+2024-10-04 23:55:29,970	INFO tune.py:253 -- Initializing Ray automatically. For cluster usage or custom Ray initialization, call `ray.init(...)` before `tune.run(...)`.
+2024-10-04 23:55:30,047	WARNING tune.py:902 -- AIR_VERBOSITY is set, ignoring passed-in ProgressReporter for now.
+[36m(func pid=902755)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:757: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=902755)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+[36m(func pid=904171)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:757: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=904171)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+[36m(func pid=905343)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:757: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=905343)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+[36m(func pid=905840)[0m /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/dataset.py:757: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+[36m(func pid=905840)[0m   self.data = torch.tensor(self.data, dtype=torch.float)
+2024-10-05 00:07:53,815	INFO tune.py:1009 -- Wrote the latest version of all result files and experiment state to '/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/search/CIFAR10_Best' in 0.1159s.
+

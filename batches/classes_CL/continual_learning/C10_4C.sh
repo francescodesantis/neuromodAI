@@ -8,7 +8,6 @@
 #SBATCH --time=04:00:00               # time limits: 1/2 hour
 #SBATCH --error=C10_4C/job.err            # standard error file
 #SBATCH --output=C10_4C/job.out           # standard output file
-#SBATCH --account=EIRI_E_POLIMI     # account name
 module load profile/deeplrn
 module av cineca-ai
 module load anaconda3
