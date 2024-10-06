@@ -56,6 +56,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     """
     Train only the hebbian blocks
     """
+    i=0
     t = time.time()
     #print("LOADER VARIABLE")
     #print(loader)
@@ -77,7 +78,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 # print(output)
                 # print("#############################################")
                 t = True
-            # print(r"%s"%(time.time()-t))
+                #print(r"%s"%(time.time()-t))
 
             if loss_acc:  
                 target = target.to(device, non_blocking=True)
@@ -94,6 +95,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 conv, r1 = model.convergence()
                 measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), conv, r1, model.get_lr())
             print("STATE DICT: ###############################")
+            print(i)
+            i += 1
             for param_tensor in model.state_dict():
                 print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
 
