@@ -118,7 +118,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             if i == 1: 
                 prev_weights = prev_dict['blocks.0.layer.weight']
                 curr_weigths = curr_dict['blocks.0.layer.weight']
-
+                print(prev_weights[0])
+                print(curr_weigths[0])
                 delta_weights = torch.sub(prev_weights.cpu(), curr_weigths.cpu())
                 print("DELTA WEIGHTS: ", delta_weights[0])
                 print("DELTA WEIGHTS: ", delta_weights[0][0])
