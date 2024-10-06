@@ -112,10 +112,12 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             # i += 1
             # for param_tensor in model.state_dict():
             #     print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
-            prev_dict = model.state_dict()
+            
             model.update()
-            curr_dict = model.state_dict()
             if i == 1: 
+                prev_dict = model.state_dict()
+            if i == 2500: 
+                curr_dict = model.state_dict()
                 prev_weights = prev_dict['blocks.0.layer.weight']
                 curr_weigths = curr_dict['blocks.0.layer.weight']
                 print(prev_weights[0])
