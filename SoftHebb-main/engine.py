@@ -62,7 +62,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     #print(loader)
     #print("#############################################")
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
-    t = True
+    t = False
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
             
