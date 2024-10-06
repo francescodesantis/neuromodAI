@@ -4,6 +4,7 @@ import time
 from PIL import ImageFile
 import matplotlib.pyplot as plt
 from mpltools import special
+from graphs_CL import hinton
 
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -83,7 +84,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 curr_weigths = curr_dict['blocks.0.layer.weight']
 
                 delta_weights = torch.sub(prev_weights, curr_weigths)
-                special.hinton(delta_weights)
+                hinton(delta_weights)
+    
                 plt.savefig("Images/Hinton.png")
                 plt.close()
             i +=1
