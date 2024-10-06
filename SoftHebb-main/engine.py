@@ -5,7 +5,7 @@ from PIL import ImageFile
 import matplotlib.pyplot as plt
 from mpltools import special
 from graphs_CL import hinton
-
+from copy import deepcopy
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -69,7 +69,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
     t = False
     i = 0
-    prev_dict = model.state_dict()
+    prev_dict = deepcopy(model.state_dict())
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
             
@@ -118,7 +118,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             
                
             if i == 2500: 
-                curr_dict = model.state_dict()
+                curr_dict = deepcopy(model.state_dict())
                 prev_weights = prev_dict['blocks.1.layer.weight']
                 curr_weigths = curr_dict['blocks.1.layer.weight']
                 print(prev_weights[0])

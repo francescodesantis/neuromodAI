@@ -169,3 +169,9 @@ then it is necessary to keep the sign. Hinton graphs are the choice to represent
 like a dense red for a positive change or deep blue for high negative change. The question that I have right know is how should we combine this change 
 in a graph? Like we wouldn't really need to visualize it for the meta learning approach to work, it would be more for us. As an example to start we could also create it for just one image to image, 
 or one epoch to epoch, or also batch to batch or why not from dataset to dataset. 
+
+First issue, keep in mind we are doing just one epoch. Second it seems that the kernels in the hebbian layers are not 
+getting modified during training. It is true that the modification of the weights in a kernel happen in relation
+to the backpropagated error and since here there is no error to backpropagate we don't know how to change them in the first place. 
+But still, aren't the neurons just an input passed through a function which gives an output? And the weight is related to that 
+output right?
