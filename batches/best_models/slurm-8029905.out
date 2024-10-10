@@ -1,0 +1,3 @@
+rm: cannot remove '/g100_work/EIRI_E_POLIMI/rcasciot/neuromodAI/SoftHebb-main/MULTD_CL.json': No such file or directory
+/var/spool/slurmd/job8029905/slurm_script: line 5: cd: full_datasets_CL: No such file or directory
+sbatch: error: Unable to open file /leonardo_work/try24_antoniet/rcasciot/neuromodAI/batches/best_models/full_datasets_CL/*

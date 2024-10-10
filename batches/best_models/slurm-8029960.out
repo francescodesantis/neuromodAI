@@ -1,0 +1,25 @@
+/var/spool/slurmd/job8029960/slurm_script: line 3: cd: best_models: No such file or directory
+Submitted batch job 8029962
+Submitted batch job 8029963
+Submitted batch job 8029964
+Submitted batch job 8029965
+sbatch: error: Batch script is empty!
+Submitted batch job 8029966
+sbatch: error: Batch script is empty!
+Submitted batch job 8029967
+sbatch: error: Batch script is empty!
+sbatch: error: Batch script is empty!
+sbatch: error: Batch script is empty!
+sbatch: error: This does not look like a batch script.  The first
+sbatch: error: line must start with #! followed by the path to an interpreter.
+sbatch: error: For instance: #!/bin/sh
+sbatch: error: This does not look like a batch script.  The first
+sbatch: error: line must start with #! followed by the path to an interpreter.
+sbatch: error: For instance: #!/bin/sh
+sbatch: error: This does not look like a batch script.  The first
+sbatch: error: line must start with #! followed by the path to an interpreter.
+sbatch: error: For instance: #!/bin/sh
+sbatch: error: This does not look like a batch script.  The first
+sbatch: error: line must start with #! followed by the path to an interpreter.
+sbatch: error: For instance: #!/bin/sh
+sbatch: error: Batch script is empty!
