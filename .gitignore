@@ -13,6 +13,8 @@ code/model_zoo/pytorch_ipynb/data
 # Binary PyTorch models
 *.pt
 
+SoftHebb-main/Training
+
 # Temporary OS files
 .DS_Store
 
