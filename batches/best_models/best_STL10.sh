@@ -12,4 +12,4 @@ module load anaconda3
 module load profile/deeplrn
 module av cineca-ai
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
-conda run -n softhebb python ray_search.py --preset 5SoftHebbCnnSTL --dataset-unsup STL10_unlabel --dataset-sup STL10_100aug --folder-name 'STL10_SoftHebb5_Best' --model-name 'STL10_SoftHebb5_Best' --save-model
+conda run -n softhebb python ray_search.py --preset 5SoftHebbCnnSTL --dataset-unsup STL10_unlabel --dataset-sup STL10_500aug --folder-name 'STL10_SoftHebb5_Best' --model-name 'STL10_SoftHebb5_Best' --save-model

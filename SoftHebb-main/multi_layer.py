@@ -5,6 +5,7 @@ from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid, evaluate_sup, evaluate_unsup
 from log_m import Log, save_logs
 from dataset import make_data_loaders
+from engine_cl import getActivation
 import torch
 import torch.optim as optim
 import torch.nn as nn
@@ -60,6 +61,7 @@ parser.add_argument('--validation', default=False, type=str2bool, metavar='N',
 parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
                     help='')
 
+feature_maps = {}
 
 def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset_unsup_config, train_config, gpu_id):
     device = get_device(gpu_id)
@@ -67,6 +69,21 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
 
     model = model.to(device)
 
+    depth = 0
+    for layer in model.children():
+        print(list(model.children()))
+	# check for convolutional layer
+        for subl in layer.children():
+            for subsubl in subl.children():
+
+                if subsubl._get_name().__eq__("HebbSoftKrotovConv2d") and depth == 0:
+                    subsubl.register_forward_hook(getActivation("conv0"))
+            depth += 1
+        
+    
+        
+
+	    
     log = Log(train_config)
 
     print("MODEL PARAMETERS: ")
@@ -127,6 +144,8 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
                 )
 
     save_logs(log, name_model)
+
+
 
 
 if __name__ == '__main__':

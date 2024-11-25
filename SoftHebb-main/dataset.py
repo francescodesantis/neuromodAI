@@ -15,6 +15,7 @@ import torchvision.transforms.functional as TF
 from torchvision.datasets import CIFAR10, CIFAR100, MNIST, FashionMNIST, STL10, ImageNet, ImageFolder
 from typing import Optional, Any
 
+torch.cuda.empty_cache()
 
 class AddGaussianNoise(object):
     def __init__(self, mean=0., std=1.):

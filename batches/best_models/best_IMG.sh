@@ -14,5 +14,5 @@ module av cineca-ai
 module load anaconda3
 
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
-conda run -n softhebb python ray_search.py --preset 6SoftHebbCnnImNet --dataset-unsup ImageNette_1 --dataset-sup ImageNette_200aug --folder-name 'ImageNette_SoftHebb6' --model-name 'Imagenette_SoftHebb6_Best' --save-model
+conda run -n softhebb python ray_search.py --preset 6SoftHebbCnnImNet --dataset-unsup ImageNette_1 --dataset-sup ImageNette_500aug --folder-name 'ImageNette_SoftHebb6' --model-name 'Imagenette_SoftHebb6_Best' --save-model
 

@@ -175,4 +175,125 @@ First issue, keep in mind we are doing just one epoch. Second it seems that the 
 getting modified during training. It is true that the modification of the weights in a kernel happen in relation
 to the backpropagated error and since here there is no error to backpropagate we don't know how to change them in the first place. 
 But still, aren't the neurons just an input passed through a function which gives an output? And the weight is related to that 
-output right? Ok fixed, I need to execute a deepcopy rather than a copy on the state_dict of the model.
+output right? Ok fixed, I need to execute a deepcopy rather than a copy on the state_dict of the model so the weights change correctly during training.
+
+
+################### NEUROMODULATION approach
+Now another problem arises: 
+    - We want to measure the change of weights between two different tasks. This means that we have to store all the weights of the first task, very expensive man. 
+    Let's say we don't care about resources usage. We store it, and every few updates, like every 100 images we decide to apply neuromodulation through the analysis of the weight change. 
+    This approach could work, but I don't like it because it is very expensive spatially. 
+    - We want to measure the change of weights between two different tasks. A different approach from the one used above could be to train only on the first task,
+    without storing all the weights,  and what we do is actually analyze the weight update in that particular kernel / zone. This implies that we would 
+    need to find a correlation rule between following kernels, so that we are able to apply the neuromodulation in the same style if we organized all the weights in 
+    a 2D matrix but without actually doing it.
+
+Out of the methods explained above the second is the one I like the most. So I am going to go with the second done.
+So the solution we could utilize for the second approach is to catch is the weight change and scale it. But wouldn't this be as if I apply an upper 
+bound to the learning rate /  plasticity of the network? Yes, it is pretty much the same thing because whenever there is a weight update bigger than I would like 
+I just limit it. But hold on, I limit it in a certain part of the network, this could mean that I unlock in other parts of the network, but then 
+It would mean that I go over threshold on the other part of the network and limit it there too. I think the way I apply neuromodulation cannot be decided only 
+based on the weight change, but also what that weight change is changing: like am I modifying zones where task information was stored or am I modifying parts of the network
+where no acctual information was stored (like they are almost as the initialized weights before training) ? So I need to know what I am modifying.
+Ok, what I can do is during task 1 I can keep track of the average change per kernel, I put them in a 2d matrix where the row 1 contains the average kernel changes for layer 1, and cell 1 is for the 1st kernel.
+I take this matrix, and zones where there is high change in the kernel value means that zone is important for task 1 and so if the change is big for task 2 in the same kernel I suppress it and increase the plasticity in other parts of the network.
+
+How is the activation calculated?
+DELTA w_ik = n * y_k * x_i -  n * y_k * u_k * w_ik
+
+Like if I want to redistribute the learning in other parts of the network, what should I neuromodulate?
+I should act on the learning rate probably, I increase it here and reduce it where I want to redirect the learning.
+
+- Remember that there was a paper which did adaptive learning rate, cite it and be sure to find the similarities/differences with this approach.
+- Remember to consider also recurrent connections, maybe they could work. So learn how to implement them and understand if they accept the hebbian learning 
+    like the one in the paper or they work in backpropagation setting. Unsupervised RNNs????
+
+The fact about modifying the learning rate is also to consider the adaptive learning rate of softhebb itself.
+
+Ok let's start. I would ignore the adaptive learning rate for now. 
+During training we have to consider the way the weights are initialized. In particular, when doing the vaerage weight change in a kernel it could happen that the weights are by chance initialized
+the correct way and so they don't really get updated. 
+So first let's understand how the weights are initialized. The weights are initialized following a normal distribution, so I guess we just ignore it? Mhhh, let's see, 
+If the weights are nitialized correctly for task 1, so there is no big update, then there is no real way of understanding how much that is important for the task 1 during training 
+of task 2. In that case how should we behave? Bare in mind we are ignoring the loss of the classificator to keep it unsupervised.
+The learnt information is expressed through the loss of the classificator. We have to investigate if using the network's loss to decide 
+what parts of the network contain which information makes it supervised learning or still unsupervised. 
+
+To see what happens in the network we can use the UMAP technique. 
+
+Weight visualization: 
+    - https://distill.pub/2020/circuits/visualizing-weights/
+
+We need to  study ho the weights change in the network. 
+The solutions proposed are about using activation maps and heat maps. The activation maps basically contain the activations relative to a certain layer or kernel? Like do they contain the activation of the single layer and sum all the channels together? Or do they contain the activations per channel, so all the kernels in the same layer organized per spatial zone of the input they worked on and all stacked together? Or maybe an activation map can be all of the three and they are just different kinds of activation maps. 
+Ok so the feature map, or activation map, is the result of convoluting one filter among all the ones in the channels over the input image. So the feature map is done by filter in one layer.
+Now on with the heat maps, what are they? 
+So the heatmaps are basically maps which when overlayed to a certain input allows us to know which parts of an image are useful to recognize something. I don't think they are very useful for our objective. 
+
+I would start with visualizing the activation maps of a certain layer. And then we can graph the average change per filter in the layer and average activation
+(so we need to create a semantic dictionary). The semantic dictionary can include sorted key value pairs of the filter and the corresponding activation. In addition we can graph somehow the vaerage filter weight update. 
+
+
+The semantic dictionary can allow us to kind of sort which kernels are more significant for a certain dataset???
+
+Anyways, let's reorder th e thought real quick. We did msanage to graph bothe the kernels and the activation map of the fifrst convolutional layer. 
+Now we need to figure out how to graph the change in the kernels relative to a certain dataset. We can use the idea of calculating the average change in kernel:
+to find the mean if we sum up all the changes of the kernels and divide them byt  henumber of kernels we obtain the average change of kernel per layer, so
+not much is known about the importance of the single kernel. What we can do is calculate the average change of kernel: 
+per every batch of # images we calculate the average. So we find the difference between the first step and the step #, sum all the changes and this represents one of the dataset_len/# changes, so we sum all this changes and divide them by dataset_len/#. At this point we have all kernels which contain the average change. 
+When training the network on a new task we need to analyze the change that we have in the kernels, and if the change surpasses the avg change corresponding to a particular kernel we reduce the plasticity and increment the plasticity of other kernels in the 
+layer. But to apply the3 plasticity rteroute we need to know which kernels are important for a specific task so that we can avoid modifying those. 
+
+Another idea couldl be to use a recurrent layer so to consider the kernels state before seeing the current new task and somehow incorporate that into thelearning of the new unseen task.
+MMMhhh look at the differene with residual layers...
+
+anyways, let's start and implement the function which calculates the difference of the kernels and then calculates the average on the single 
+filter every # images. To do so we need to tap into the cnn training procedure, store the activations...
+
+!!!!!! AHHH found huge dataset that we could use: LESUN letsgoooooo
+
+Ok, I calculated the difference in kernels every some steps and now I get about 50 delta tensors of all the kernels in all the layers.
+Everything seems to be working fine, the only doubt I have is about the very small weight change I obtain after the sample the network sees, maybe
+it is reduced to a very small number right after?? Could be due to the adaptive learning rate I have... better dig deeper into that. 
+
+Now I need to calculate the average change per kernel, how to do so? 
+we sum all the kernel changes by summing up all the cells of one diven kernel, and that would give us the change of 1 kernel, we repeat this for all the 
+kernels for every different measurement and divide the sum obtained of every kernel by the number of delta measures we have.
+
+Ok, the part where we gather the weight updates, collapse the three channels of every kernel, 
+and calculates the average weight change per every kernel and then finally sum all the cells of the averaged 
+kernels to obtain one final value per kernel and then we normalize that value for the maxiumum registered average weight change in the kernels is completed. 
+
+Now, I would like to create a semantic dictionary which allows us to say which kernel is mostly important for that particular task or which
+top k kernels are most important for that task. This could be doable by sorting all the kernels activations per image, retrieving the top ones and registering
+how many times a kernel has fallen in the k first positions, then after the whole dataset has been seen we sort the kernels with the associated value and retrieve the first top k, 
+so the first being the most important and the last the least important. And so we combine this idea with the average weight changes registered so that
+if the weight change of the  new task is over the average weight change of a particular kernel of the previous task and that kernel is in the top k kernels for task 1, we apply some kind of neuromodulation
+like for example reduce plasticity on those kernels and augment it on the ones not in the top k.
+
+The question arises... where should I store the tensor of the average weights change? When should I apply the neuromodulation? 
+When  should I check if the threshold of the weight update is broken? When should I calculate the semantic dictionary for the activations of the kernels?
+
+For the complexity of a network: https://medium.com/@marvelous_catawba_otter_200/a-brief-discussion-the-computational-cost-of-backward-propagation-is-approximately-twice-that-of-5dd0eac9b389
+                                https://medium.com/@pashashaik/a-guide-to-hand-calculating-flops-and-macs-fa5221ce5ccc
+
+I could store the tensor into a variable, which is accessed in every training and keeps track of the change of every kernel and checks if the average change of that kernel is respected or not. 
+If it is then we change the plasticity of that part of the network (with the 2 adjacent kernels for example) and increase it somewhere else where the threshold is not broken.
+
+!!!! Instead of using sum to calculate the value of each kernel I can use standard deviation.
+
+[Problem -- fixed ]
+When saving the vector of the average kernel weight change the size of the saved vector is more than 1gb which is impossible, considering that the model
+itself is much smaller. 
+
+Ok, so apparently we are saving the delta_weights vector, rather than the avg weights update per kernel.
+
+#############################
+The problem I have right now is that I don't know how to keep a link between the most important kernels I have learned during training
+and the current kernel during the current training so to apply the threshold check. 
+I could associate an index to every kernel, and to keep the top k I put the indexes in a list. 
+I need to find a way to access the single kernel instance. 
+So, I could technically keep track of the single kernel, but the problem is that when I reload the model to implement continual 
+learning I am not able to use the same kernel references, this is because when the model is reloaded the references are reassigned. 
+So, I need to have a reference system which is relative to the model and not to the memory system. I could keep an index, I think the 
+positions of the tensors is not changed, meaning that a kernel will have a relative position in the layer which is constant, so I can use a dictionary, made up of 

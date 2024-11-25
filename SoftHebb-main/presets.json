@@ -2166,6 +2166,12 @@
         "batch_size": 32,
         "augmentation": true
       },
+      "500aug": {
+        "nb_epoch": 500,
+        "print_freq": 50,
+        "batch_size": 32,
+        "augmentation": true
+      },
       "200aug+250px": {
         "px": 250,
         "width": 250,

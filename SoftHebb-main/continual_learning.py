@@ -29,7 +29,7 @@ import copy
 
 from utils import CustomStepLR, double_factorial
 from model import save_layers, HebbianOptimizer, AggregateOptim
-from engine import train_sup, train_unsup, evaluate_unsup, evaluate_sup
+from engine_cl import train_sup, train_unsup, evaluate_unsup, evaluate_sup
 from dataset import make_data_loaders
 import torch
 import torch.optim as optim
@@ -128,6 +128,9 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     #model = copy.deepcopy(model_og)
 
     model = model.to(device)
+    
+    
+    
     log = Log(train_config)
     test_loss = 0
     test_acc = 0
