@@ -56,15 +56,7 @@ So are they both to be defined???
 
 
 """
-activations = {}
-def getActivation(name):
-  # the hook signature
-  def hook(model, input, output):
-    activations[name] = output.detach()
-  return hook
 
-conv_act = []
-images = []
 
 def train_hebb(model, loader, device, measures=None, criterion=None):
     """
@@ -76,22 +68,9 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     #print(loader)
     #print("#############################################")
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
-    t = False
-    i = 0
-    prev_dict = deepcopy(model.state_dict())
     
     
-    layer_num = -1
-    iteration = 0
-    interval = 100
-    depth = 0
-    for layer in model.children():
-        for subl in layer.children():
-            depth += 1
-    depth -= 1
-    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and str(depth) not in k}     
-    
-    print("DEPTH: ", depth)
+   
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
             
@@ -100,13 +79,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
            
             inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
             output = model(inputs) 
-            if i < 30: 
-                conv_act.append(activations["conv0"])
-                images.append(inputs)
-            # for param_tensor in model.state_dict():
-            #     if "weight" in param_tensor:
-            #         #print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
-            #         prev_weights = param_tensor
+            
+            
            
 
             if loss_acc:  
@@ -123,118 +97,17 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
                 # Save if measurement is wanted
                 conv, r1 = model.convergence()
                 measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), conv, r1, model.get_lr())
-            # print("STATE DICT: ###############################")
-            # print(i)
-            # i += 1
-            # for param_tensor in model.state_dict():
-            #     print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
            
             model.update()
             
-            if layer_num == -1:
-                layer_num = 0
-                for k, v in prev_dict.items():
-                    if "layer.weight" in k and str(depth) not in k:
-                        if not torch.equal(model.state_dict()[k], prev_dict[k]):
-                            break
-                        layer_num += 1
-                prev_dict = {k: v for k, v in prev_dict.items() if str(layer_num) in k}
-                delta_weights = {k: [] for k in prev_dict.keys() }
-                print("LAYER_NUM: ",layer_num)
-                print(len(prev_dict))
-
-            #remember that we are workng with batches, so you need to multiply interval by the batch size
-            if iteration % interval == 0: 
-            #here we store the final kernel values
-                curr_dict = deepcopy(model.state_dict())
-                curr_dict = {k: v for k, v in curr_dict.items() if str(layer_num) + ".layer.weight" in k and str(depth) not in k}
-                # I should put all the tensors from the dict to a tensor which comprises all the layers
-                # to improve performance by loading everything on GPU
-                for kc, tc in curr_dict.items():
-                    tc = tc.to(device)
-                    #print(tc.shape)
-                    tmp = deepcopy(tc)
-                    tp = prev_dict[kc].to(device)
-                        
-                    if i < 1:
-                        print(kc)
-                        print("TP: ",tp[0, :1, 0])
-                        print("TC: ",tc[0, :1, 0])
-                    # use subtract_() to do an inplace op and save space 
-                    tc.subtract_(tp)
-                    if i < 1:
-                        print("TC after sub: ",tc[0, :1, 0])
-                        print("#########################################")
-                    i +=1
-                    # !!!! double check if you need a deep copy or not
-                    # and also check if the tensor is in cpu or in gpu ...
-                    delta_weights[kc].append(deepcopy(tc))
-                
-                prev_dict = deepcopy(model.state_dict())
-                #['blocks.0.operations.0.running_mean', 'blocks.0.operations.0.running_var', 'blocks.0.operations.0.num_batches_tracked', 'blocks.0.layer.weight', 'blocks.1.operations.0.running_mean', 'blocks.1.operations.0.running_var', 'blocks.1.operations.0.num_batches_tracked', 'blocks.1.layer.weight', 'blocks.2.operations.0.running_mean', 'blocks.2.operations.0.running_var', 'blocks.2.operations.0.num_batches_tracked', 'blocks.2.layer.weight', 'blocks.3.layer.weight', 'blocks.3.layer.bias']
-                prev_dict = {k: v for k, v in prev_dict.items() if str(layer_num) + ".layer.weight" in k and str(depth) not in k}     
            
-                
             
-            iteration += 1
 
     #print("BYTES OF delta_weights:", delta_weights.nelement()*4)
-    
-    
-    print("delta_weights INFO:" )
-    print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
-    print("NUM OF TRACKED WEIGHTS CHANGES PER LAYER: ", len(delta_weights[list(delta_weights.keys())[0]]) )
-    avg_deltas = average_deltas(delta_weights,  device)
-
-    print("avg_deltas size: ", len(list(avg_deltas.keys())))
-    print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
-
-    print("################################################")
-
-
-
 
     info = model.radius()
     convergence, R1 = model.convergence()
-    curr_dict = deepcopy(model.state_dict())
-    curr_weights = curr_dict['blocks.0.layer.weight']
-    print(curr_weights.shape)
-    print("ACTIVATIONS: ", len(activations))
-    print("CONV_ACT: ", conv_act[0].shape)
-
-    act = conv_act[0][0].squeeze()
-    fig, axarr = plt.subplots(9, 12)
-    plt.axis('off')
- 
-    k = 0
-    for idx in range(9):
-        for idy in range(12):
-            axarr[idx, idy].axis('off')
-            if k < 96:
-                axarr[idx, idy].imshow(act[k].cpu())
-            k += 1
     
-    axarr[8, 0].imshow(images[0][0].cpu().T)
-    plt.savefig("Images/" + "conv_acts.png")
-    plt.close()
-
-    curr_weights = curr_weights.squeeze()
-    fig, axarr = plt.subplots(9, 12)
-    plt.axis('off')
-    plt.xticks([])
-    plt.yticks([])
-    k = 0
-    for idx in range(9):
-        for idy in range(12):
-            axarr[idx, idy].axis('off')
-            
-            if k < 96:
-                axarr[idx, idy].imshow(curr_weights[k].cpu().T)
-            k += 1
-    
-    axarr[8, 0].imshow(images[0][0].cpu().T)
-    plt.savefig("Images/" + "kernels.png")
-    plt.close()
 
     return measures, model.get_lr(), info, convergence, R1
 
@@ -299,29 +172,6 @@ If it is BP we set the hebbian flag to false otherwise we set it to true.
 
 """
 
-def average_deltas(delta_weights,  device):
-    print(device)
-    summed_deltas = {}
-    print(list(delta_weights.keys()))
-    print(len(delta_weights[list(delta_weights.keys())[0]]))
-    for k, v in delta_weights.items():
-        res = torch.zeros(v[0].shape, device=device)
-        for t in v:            
-            res.add_(t)
-            
-        summed_deltas[k] = [len(v), res]
-        print(summed_deltas[k][1][:5])
-
-    # Now we sum all the cells 
-    avg_deltas ={}
-    for  k, v in summed_deltas.items():
-        channel_collapsed = torch.sum(v[1], 1)
-        final_sum = torch.sum(channel_collapsed, (1,2))
-        avg_tensor = final_sum / v[0]
-        avg_deltas[k] = avg_tensor / max(avg_tensor) #normalize
-        print(avg_deltas[k][:1])
-    
-    return avg_deltas
 
 
           

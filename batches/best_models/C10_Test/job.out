@@ -45,6 +45,48 @@ CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': Tru
     (dropout): Dropout(p=0.5, inplace=False)
   )
 )]
+LAYER NAME:  Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=4, stride=2, padding=1)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+LAYER CHILDREN:  [BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+  (pool): AvgPool2d(kernel_size=4, stride=2, padding=1)
+  (activation): Triangle(power=0.7)
+), BasicBlock(
+  (operations): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+  )
+  (layer): Linear(in_features=24576, out_features=10, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)]
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  AvgPool2d(kernel_size=4, stride=2, padding=1)
+subsubl NAME:  Triangle(power=0.7)
+subsubl NAME:  Sequential(
+  (0): Flatten(start_dim=1, end_dim=-1)
+)
+subsubl NAME:  Linear(in_features=24576, out_features=10, bias=True)
+subsubl NAME:  Dropout(p=0.5, inplace=False)
 MODEL PARAMETERS: 
 torch.Size([10, 24576]) tensor([[ 5.2488e-03, -1.6758e-03, -1.2735e-03,  ...,  2.9649e-03,
           1.6020e-03,  1.7173e-03],
@@ -78,13 +120,13 @@ LAYER_NUM:  0
 delta_weights INFO:
 NUM OF TRACKED COV LAYERS:  1
 NUM OF TRACKED WEIGHTS CHANGES PER LAYER:  50
-avg_deltas size:  1
+avg_deltas size:  3
 num of averages for 0 layer:  torch.Size([96])
 ################################################
-torch.Size([96, 3, 5, 5])
+ACTIVATIONS SHAPE:  torch.Size([10, 96, 32, 32])
 INSIDE EVALUATE UNSUP
 INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 1.46e-01	time: 00:00:15	Acc_train 0.00	Acc_test 0.00	convergence: 3.74e+00	R1: 8	Info MB:0.000e+00/SB:0.000e+00/MW:1.570e-02/SW:5.813e-01/MR:4.741e+00/SR:1.705e+00/MeD:1.297e+00/MaD:5.197e+00/MW:0.603/MAW:0.397
+Epoch: [1/1]	lr: 1.46e-01	time: 00:00:17	Acc_train 0.00	Acc_test 0.00	convergence: 3.74e+00	R1: 8	Info MB:0.000e+00/SB:0.000e+00/MW:1.570e-02/SW:5.813e-01/MR:4.741e+00/SR:1.705e+00/MeD:1.297e+00/MaD:5.197e+00/MW:0.603/MAW:0.397
 |       0 |       1 |       2 |       3 |       4 |        5 |       6 |       7 |       8 |       9 |        10 |      11 |      12 |      13 |      14 |      15 |         16 |      17 |      18 |      19 |      20 |      21 |      22 |      23 |      24 |         25 |      26 |      27 |         28 |      29 |
 |---------+---------+---------+---------+---------+----------+---------+---------+---------+---------+-----------+---------+---------+---------+---------+---------+------------+---------+---------+---------+---------+---------+---------+---------+---------+------------+---------+---------+------------+---------|
 |   0.191 |   0.129 |   0.121 |   0.158 |   0.171 |   0.0964 |   0.143 |   0.135 |   0.176 |   0.192 |   0.00115 |   0.177 |   0.133 |   0.133 |   0.134 |   0.183 |   0.000361 |   0.187 |   0.163 |   0.184 |   0.184 |   0.175 |   0.142 |   0.187 |   0.172 |   0.000321 |   0.198 |   0.175 |   0.000361 |   0.172 |
@@ -108,7 +150,7 @@ AFTER RESIZING
 Files already downloaded and verified
 INDICES:  50000
 IMAGE SIZE: torch.Size([10, 3, 32, 32])
-Epoch: [1/1]	lr: 1.00e-03	time: 00:00:24	Loss_train 0.41533	Acc_train 48.29	/	Loss_test 0.00638	Acc_test 44.83
+Epoch: [1/1]	lr: 1.00e-03	time: 00:00:26	Loss_train 0.41533	Acc_train 48.29	/	Loss_test 0.00638	Acc_test 44.83
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
 /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_Test/models

@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=boost_usr_prod
-#SBATCH --qos=boost_qos_dbg
+
 #SBATCH --account=try24_antoniet     # account name
 #SBATCH --gres=gpu:1
 #SBATCH --nodes=1                    # 1 node

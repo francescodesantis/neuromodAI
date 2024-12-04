@@ -8,7 +8,10 @@ from mpltools import special
 from graphs_CL import hinton
 from copy import deepcopy
 import pickle
+import numpy as np
 ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+K = 20
 
 def train_BP(model, criterion, optimizer, loader, device, measures):
     """
@@ -60,11 +63,16 @@ So are they both to be defined???
 activations = {}
 
 
-
 def getActivation(name):
   # the hook signature
   def hook(model, input, output):
-    activations[name] = output.detach().clone()
+    
+    activations[name] = torch.sum(output.detach().clone(), dim=0)
+    
+    # ACTIVATIONS SHAPE:  torch.Size([10, 96, 32, 32]), where 10 is the batch size
+    # what we have to do is sum all the activations to get 1 single kernel and we do this during all the training. At the end 
+    # we create the semantic dictionary
+     
   return hook
 
 
@@ -116,6 +124,10 @@ def get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights 
         if  kc not in delta_weights:
             delta_weights[kc] = []
         delta_weights[kc].append(tc.detach().clone())
+        del tc # removes the allocated gpu memory for tensor t
+        del tp
+        torch.cuda.empty_cache()# removes the reserved memory for tensor t
+        
     return delta_weights
 
 conv_act = []
@@ -125,6 +137,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     """
     Train only the hebbian blocks
     """
+    
     t = time.time()
     #print("LOADER VARIABLE")
     #print(loader)
@@ -133,20 +146,31 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     t = False
     i = 0
 
-    file_path = 'avg_deltas.p'
+    file_path_d = 'avg_deltas.p'
+    file_path_act = 'activations.p'
+
     avg_deltas = {}
     delta_weights = {}
+    activations_sum = []
+    acts = {}
 
-    # Check if the file exists
-    if os.path.exists(file_path):
+    #Check if the file exists
+    if os.path.exists(file_path_d):
         with open('avg_deltas.p', 'rb') as pfile:
             avg_deltas = pickle.load(pfile)
     else:
         avg_deltas = {}
         with open('avg_deltas.p', 'wb') as pfile:
             pickle.dump(avg_deltas, pfile, protocol=pickle.HIGHEST_PROTOCOL)
-
     
+    #Check if the file exists
+    if os.path.exists(file_path_act):
+        with open('activations.p', 'rb') as pfile:
+            acts = pickle.load(pfile)
+    else:
+        with open('activations.p', 'wb') as pfile:
+            pickle.dump(acts, pfile, protocol=pickle.HIGHEST_PROTOCOL)
+
     
     layer_num = -1
     iteration = 0
@@ -160,6 +184,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     prev_dict = deepcopy(model.state_dict())
     prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and str(depth) not in k} 
     print("DEPTH: ", depth)
+    if "conv1" in activations: 
+        print("ACTIVATIONS SHAPE: ", activations["conv1"][0])
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
             
@@ -168,13 +194,14 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
            
             inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
             output = model(inputs) 
-            if i < 30: 
-                conv_act.append(activations["conv0"])
-                images.append(inputs)
+            # if i < 30: 
+            #     conv_act.append(activations["conv0"])
+            #     images.append(inputs)
             # for param_tensor in model.state_dict():
             #     if "weight" in param_tensor:
             #         #print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
             #         prev_weights = param_tensor
+            
             if loss_acc:  
                 target = target.to(device, non_blocking=True)
                 print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSIDE LOSS ACCURACY")
@@ -195,6 +222,10 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             
             if layer_num == -1:
                 prev_dict, layer_num = get_layer(model, depth, prev_dict)
+            
+            # I store the activations of every batch
+            activations_sum.append(activations["conv" + str(layer_num)].cpu())
+
 
             #remember that we are workng with batches, so you need to multiply interval by the batch size
             if iteration % interval == 0: 
@@ -210,14 +241,56 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
             iteration += 1
 
     #print("BYTES OF delta_weights:", delta_weights.nelement()*4)
+    # now I sum all the activations of all the batches to obtain 1 final vector which has the dimensions of the layer
     
+    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+    final_sum = activations_sum[0]
+    for i in range(1, len(activations_sum)):
+       final_sum += activations_sum[i]
     
+    # here we sum all the values of each activation map to obtain 1 value of activation per kernel instead of a map.
+    final_sum = torch.sum(final_sum, dim=1)
+    final_sum = torch.sum(final_sum, dim=1)
+
+    # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
+    # sum as value. Then we sort them, to consider only the first top k.
+    final_sum = {k:v for k, v in enumerate(final_sum)}
+    
+    final_sum = sorted(final_sum.items(), key = lambda item : item[1], reverse=True)
+    final_sum = list(dict(final_sum))
+    
+
+    acts["conv" + str(layer_num)] = final_sum[:K+1]
+    print("FINAL_SUM: ", final_sum[:10])
+    print("acts len: ", len(list(acts.keys())))
+    print("acts keys: ", list(acts.keys()))
+    print("acts: ", acts)
+    print("final_sum len: ", len(final_sum))
+
+
+    # if layer_num == 0: 
+    #     print("activations_sum: ", len(activations_sum))
+    #     print("activations_sum[0]: ", activations_sum[0].shape)
+    #     prev = activations_sum[0]
+    #     r = True
+    #     for el in activations_sum[1:]:
+    #         if torch.equal(el, prev):
+    #             r = False
+    #             break
+    #         prev = el
+    #     print(r)
+
     print("delta_weights INFO:" )
     print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
     print("NUM OF TRACKED WEIGHTS CHANGES PER LAYER: ", len(delta_weights[list(delta_weights.keys())[0]]) )
     avg_deltas = average_deltas(delta_weights, avg_deltas, device)
+
     with open('avg_deltas.p', 'wb') as pfile:
         pickle.dump(avg_deltas, pfile, protocol=pickle.HIGHEST_PROTOCOL)
+
+    with open('activations.p', 'wb') as pfile:
+        pickle.dump(acts, pfile, protocol=pickle.HIGHEST_PROTOCOL)
 
     print("avg_deltas size: ", len(list(avg_deltas.keys())))
     print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
@@ -225,49 +298,52 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     print("################################################")
 
 
-
+    # print("ACTIVATIONS SHAPE: ", activations["conv0"].shape)
+    # if "conv1" in activations: 
+    #     print("ACTIVATIONS SHAPE: ", activations["conv1"][0])
+    # if "conv2" in activations: 
+    #     print("ACTIVATIONS SHAPE: ", activations["conv2"].shape)
 
     info = model.radius()
     convergence, R1 = model.convergence()
-    curr_dict = deepcopy(model.state_dict())
-    curr_weights = curr_dict['blocks.0.layer.weight']
-    print(curr_weights.shape)
-    #print("ACTIVATIONS: ", len(activations))
-    #print("CONV_ACT: ", conv_act[0].shape)
+    # curr_dict = deepcopy(model.state_dict())
+    # curr_weights = curr_dict['blocks.0.layer.weight']
+    # print(curr_weights.shape)
+    # #print("CONV_ACT: ", conv_act[0].shape)
 
-    act = conv_act[0][0].squeeze()
-    fig, axarr = plt.subplots(9, 12)
-    plt.axis('off')
+    # act = conv_act[0][0].squeeze()
+    # fig, axarr = plt.subplots(9, 12)
+    # plt.axis('off')
  
-    k = 0
-    for idx in range(9):
-        for idy in range(12):
-            axarr[idx, idy].axis('off')
-            if k < 96:
-                axarr[idx, idy].imshow(act[k].cpu())
-            k += 1
+    # k = 0
+    # for idx in range(9):
+    #     for idy in range(12):
+    #         axarr[idx, idy].axis('off')
+    #         if k < 96:
+    #             axarr[idx, idy].imshow(act[k].cpu())
+    #         k += 1
     
-    axarr[8, 0].imshow(images[0][0].cpu().T)
-    plt.savefig("Images/" + "conv_acts.png")
-    plt.close()
+    # axarr[8, 0].imshow(images[0][0].cpu().T)
+    # plt.savefig("Images/" + "conv_acts.png")
+    # plt.close()
 
-    curr_weights = curr_weights.squeeze()
-    fig, axarr = plt.subplots(9, 12)
-    plt.axis('off')
-    plt.xticks([])
-    plt.yticks([])
-    k = 0
-    for idx in range(9):
-        for idy in range(12):
-            axarr[idx, idy].axis('off')
+    # curr_weights = curr_weights.squeeze()
+    # fig, axarr = plt.subplots(9, 12)
+    # plt.axis('off')
+    # plt.xticks([])
+    # plt.yticks([])
+    # k = 0
+    # for idx in range(9):
+    #     for idy in range(12):
+    #         axarr[idx, idy].axis('off')
             
-            if k < 96:
-                axarr[idx, idy].imshow(curr_weights[k].cpu().T)
-            k += 1
+    #         if k < 96:
+    #             axarr[idx, idy].imshow(curr_weights[k].cpu().T)
+    #         k += 1
     
-    axarr[8, 0].imshow(images[0][0].cpu().T)
-    plt.savefig("Images/" + "kernels.png")
-    plt.close()
+    # axarr[8, 0].imshow(images[0][0].cpu().T)
+    # plt.savefig("Images/" + "kernels.png")
+    # plt.close()
 
     return measures, model.get_lr(), info, convergence, R1
 

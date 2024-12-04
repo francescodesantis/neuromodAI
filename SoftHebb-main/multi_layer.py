@@ -61,6 +61,10 @@ parser.add_argument('--validation', default=False, type=str2bool, metavar='N',
 parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
                     help='')
 
+import gc
+
+
+
 feature_maps = {}
 
 def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset_unsup_config, train_config, gpu_id):
@@ -70,19 +74,21 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
     model = model.to(device)
 
     depth = 0
+
+    # here we obtain the activations of all the layers (which are convolutional layers)
     for layer in model.children():
         print(list(model.children()))
+        print("LAYER NAME: " , layer)
+        print("LAYER CHILDREN: " , list(layer.children()))
 	# check for convolutional layer
         for subl in layer.children():
+            if not subl.__eq__(None):
+                print("SUBLAYER NAME: " , subl)
             for subsubl in subl.children():
-
-                if subsubl._get_name().__eq__("HebbSoftKrotovConv2d") and depth == 0:
-                    subsubl.register_forward_hook(getActivation("conv0"))
+                print("subsubl NAME: " , subsubl)
+                if subsubl._get_name().__eq__("HebbSoftKrotovConv2d"):
+                    subsubl.register_forward_hook(getActivation("conv"+str(depth)))
             depth += 1
-        
-    
-        
-
 	    
     log = Log(train_config)
 
@@ -149,6 +155,9 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
 
 
 if __name__ == '__main__':
+    gc.collect()
+
+    torch.cuda.empty_cache()
     params = parser.parse_args()
     name_model = params.preset if params.model_name is None else params.model_name
     blocks = load_presets(params.preset)

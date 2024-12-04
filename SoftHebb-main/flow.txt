@@ -223,6 +223,11 @@ To see what happens in the network we can use the UMAP technique.
 
 Weight visualization: 
     - https://distill.pub/2020/circuits/visualizing-weights/
+    - https://cs231n.github.io/understanding-cnn/
+    - https://distill.pub/2018/building-blocks/
+
+CNNs: 
+    - https://cs231n.github.io/convolutional-networks/
 
 We need to  study ho the weights change in the network. 
 The solutions proposed are about using activation maps and heat maps. The activation maps basically contain the activations relative to a certain layer or kernel? Like do they contain the activation of the single layer and sum all the channels together? Or do they contain the activations per channel, so all the kernels in the same layer organized per spatial zone of the input they worked on and all stacked together? Or maybe an activation map can be all of the three and they are just different kinds of activation maps. 
@@ -297,3 +302,73 @@ So, I could technically keep track of the single kernel, but the problem is that
 learning I am not able to use the same kernel references, this is because when the model is reloaded the references are reassigned. 
 So, I need to have a reference system which is relative to the model and not to the memory system. I could keep an index, I think the 
 positions of the tensors is not changed, meaning that a kernel will have a relative position in the layer which is constant, so I can use a dictionary, made up of 
+the indexes associated to the kernels.
+So what I do is: 
+I look at the activations, every how many training steps though?
+Associate every activation with an index, inside a hashmap (dict)
+Sort them by value to obtain a semantic dictionary ( it means I need a sorted dictionary)
+At this point take the first k and increment the value of the first k in the kernel dictionary.
+Do this for every layer.
+At the end of training we should have a dictionary which contains the most important kernels. 
+This is scalable due to the fact that we can keep on updating the dictionary when we increase the tasks effectivly obtaining
+an importance score for the kernels associated with all the tasks. 
+
+[Problem-- GPU out of memory]
+2 scenarios, one could be thata I don't have all the 64 gb available for myself. Meaning I either need to speccify somehow that I need more gigs or I don't know.
+The other scenario is that I somehow fuck up and store too much stuff in the GPU. Now, I never had any problem regarding allocation when executing
+the code to find the best models, this means that the problem is due to the continual learning implementation of the engine.py file. If we think about it, we store a lot of tensors in the GPU, 
+but this tensors are not so big to use the whole 64 gbs available. I should try by executing the code without using the engine_cl but the normal engine. 2
+
+Ok, I ran the code again but with engine, and it doesn't have any problem. So I allocate too many things in engine_cl. 
+Meaning I am the root cause of the problem. 
+Where could the problem be? I need to look at all the tensors I allocate.
+Since the memory that I end up using is the GPU memory, I need to watch out for all the tensors I copy into it. 
+I do it in: 
+- get_delta_weights, in particulare I do it to calculate the delta of the weight update. It is a for loop which is iterated # kernels in layer times, so I copy a layer into the the GPU, 
+how many times? I do it 50 times for examples, if done for 3 three layers I have 150 layers!!! copied in GPU. 
+This could be a potential issue. 
+Since everytime I do the delta I detach and clone the result I can remove the just copied layer from GPU in order 
+to not use all the space. 
+I can use: 
+
+del t # removes the allocated gpu memory for tensor t
+torch.cuda.empty_cache() # removes the reserved memory for tensor t
+
+It still doesn't work. I don't understand if the cause of the problem is linked to the training process or not.
+What else is saved on GPU?
+it is not caused by get_delta_weights because I made it do just one cycle and problem persists. 
+Something else is filling up the memory 
+
+[-- FIXED, it was the vectore to create the images which was using up all the memory]
+
+
+Now we continue to analyze the problem: 
+
+So what I do is: 
+
+1. I look at the activations, every how many training steps though?
+    So I have the list of activations, let's say we start by doing it for every training step.
+    The problem is how should I save the activations, the training is done per layer, so the first layer sees data, 
+    then the whole 2nd layer does and so on. Which means I need to save the information in such way that I can retrieve the whole activations
+    object at once. 
+    !!! WATCH OUT because the whole activations object is loaded in gpu, so you must unload it sometime somehow !!!
+        here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+        or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+2. Associate every activation with an index, inside a hashmap (dict)
+    I keep on summing the activations instead of limiting them by task. I should probably normalize them by the highest possible activation 
+    value. 
+3. Sort them by value to obtain a semantic dictionary ( it means I need a sorted dictionary)
+4. At this point take the first k and increment the value of the first k in the kernel dictionary.
+5. Do this for every layer.
+6. At the end of training we should have a dictionary which contains the most important kernels. 
+    I would update the dict containing the top k kernels only after  every task is learned other 
+    wise we have to sort it too many times ( or maybe every few training steps we update it and re-sort it) the control to modify the kernel plasticity 
+7. This is scalable due to the fact that we can keep on updating the dictionary when we increase the tasks effectivly obtaining
+an importance score for the kernels associated with all the tasks. 
+
+
+One problem we need to address is the fact that when we do a first training and when we do a 2nd training  using another task
+the network must behave differently. To memorize the kernels I use their index and I start with an empty dictionary, so when I check if
+the kernel is among the top k or not I am free becaue there are no kernels in the dict yet (talking about the first task to be learned).
+
+The vector containig the firt top k indexes of the kernels is fully implemented. 
