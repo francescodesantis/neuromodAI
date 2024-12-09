@@ -372,3 +372,10 @@ the network must behave differently. To memorize the kernels I use their index a
 the kernel is among the top k or not I am free becaue there are no kernels in the dict yet (talking about the first task to be learned).
 
 The vector containig the firt top k indexes of the kernels is fully implemented. 
+
+Next step, it is to use the averages of the kernel change and the top k activations to modulate how the network learns. 
+We need to figure out a way to pick on the sigle kernel in order to apply a plasticity variation which should happen in the 
+variable learning rate part: 
+Currently I am looking at the hebbconv.py file which contains the class for the convolutional layer.
+If the training happens by simply doing a multiplication between kernels, which is probably how it happens, what we do is modify the
+tensor which contains the weights by multiplying them with a vector of learning rates which has one learning rate per kernel. 

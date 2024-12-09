@@ -964,7 +964,6 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             out_channels, batch_size, height_out, width_out
         ).transpose(0, 1)
         
-
         return wta
 
     def radius(self) -> float:
