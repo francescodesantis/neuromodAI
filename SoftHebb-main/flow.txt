@@ -379,3 +379,107 @@ variable learning rate part:
 Currently I am looking at the hebbconv.py file which contains the class for the convolutional layer.
 If the training happens by simply doing a multiplication between kernels, which is probably how it happens, what we do is modify the
 tensor which contains the weights by multiplying them with a vector of learning rates which has one learning rate per kernel. 
+
+After carefully analyziyng the functions, in particular the ones inside the hebbconv.py file: get_wta of the HebbSoftKrotov class, we don't really need to understand 
+what happens inside the function since we really just care about the returned value which is a tensor containg the pre activatioins of the current
+layer which have been fed through a softmax function to obtain a tensor of values which are between 0 and 1. This tensor is then 
+used in:
+- forward: it is used to calculate the wta relative to the all the batches, so in the end we have a list of wtas to pass to 
+    the plasticity function. 
+
+The next impportant function is the plasticity function which basically calculates the weight update for the given layer. 
+the self.delta_w field is filled with the weight update. The weight update is then used in the update function which is called everytime we do model.update
+
+The activations are passed forward because we use the forward function inside the single convolutional layer (HebbSoftKrotov) and then also use the 
+forward in the layer.py BasicBlock which will return the activated input x to the next layer. 
+
+I would insert myself in the update function of the particular layer. We need to do a couple of things: 
+- extract the top k kernels
+- check in the delta_w is above the threshold for those top k kernels: 
+    - if it is not we don't do anything, meanign wwe just keep on training
+    - if it is above the threshold we need to limit the learning on the top k kernels. 
+
+There is one slight problem: first the learning rate, which we need to modify but it is a number which multiplies the vector of kernels. 
+In our implementation we should have something which can be applied to every single kernel independently. 
+We could work in two different ways: first we could just implement a function which is called eveytime we need to update the laerning rate and returns a vector 
+which is the learning rate based on the above considerations. The second solution we could implement is to create a mask, meaning that we create a funciton that return a tensor containing
+scaling factors for each and every kernel. This scaling factors will be all multiplied by the learning rate and then the whole vector will be multiplied by the kernels' vector. 
+In my opinion the second solution is much cleaner than the first one because we don't need to deal with the calculation of the learning rate which will be calculated like explained in the paper. 
+Ok, actually the learning rate is a tensor which has the same size as the layer of weights. This is good, meaning we don't make things too much heavier. Ok, now the flux of execution:
+
+- start by creating a function that retrieves the top k kernels
+- after this create a function which returns a tensor containing the indexes of the kernels which break the threshold limit
+(should we consider an interval around the mean, meaning that values which are slightly lower or sligthly higher are fine, or values which are only lower?)
+(or in this case we can return a tensor which is set to 1 where the kernels break the limit and to 0 where they don't, but the tensor is of all the kernels, not just the top k)
+- We have a mask which has 0 if the threshold is not broken and 1 if it is.
+- Now, out of this mask we need to consider only the indexes in the top k kernels. 
+(for this I could consider two masks, 1 where I set indexes to 1 if they break the threshold and on e where I set them to 1 if they are of the top k kernels. And then I confront them and teturn a 1 hot encoded mask which
+has all bits to zeros except the ones breaking the threshold and belonging to the top k). And this is to calculate where to reduce the lr,
+Then we consider a one-hot tensor of the cells which are not the top k kernels, and this is where we should increase the learning rate.
+- lastly create a function which given the tensor of the kernels which break the threshold returns a mask which contains coefficients lower than 1 in the 
+kernels which break the threshold. 
+How to reduce or increase the learning? 
+I could work in a simmetric way, meaning that I increase it and decrease of the same quantity. To do so the lower lr should be made up of -1s instead of +1s...
+Ok when we want to increase it or decrease it it is usually better to decrease it by a higher factor which is between 2 and 10, thus multiplying by 0.5 and 0.1.
+When we want to increase it, it is better to do it in smaller steps like 1.1 to 2 times.
+
+If I have a mask which has 1s and I need to obtain an increase of 10 percent I can simply multiply everything by 1.1 and then multiply it by the lr.
+Then I can do the same when I reduce the lr, meaning I multiply everything by 0.9 and then multply by the learning rate.
+At this point I sum this two, and I obtain the fantastic mask. Attention though, you need to replace all the 0s with ones, so then you can place it in the multiplication of the weight update. 
+
+
+One problem I have is how am I going to load the objects containing the top k kernels and the average weight change?
+I could include a field in every layer, but that wouldn't be so efficient because I would load the same file too many times, meaning I would have the copy of the same object too many 
+times. One thing I should do is try to attach it to the model object (MultiLayer). Let's say I attach it to the multilayer object, then I need to find a way to let the single layers know where they are in the model. 
+Or better when I create the model I can pass to the layer the corresponding object directly. So I load the file when I create the model, and every layer I pass on the corresponding layer in the 
+saved object. I am able to do this when I generate the multilayer in the init in model.py.
+
+Last element to consider is the fact that the objects don't have the same shape as the tensors of kernels. So when comparing the weight update to the average allowed kernel weight
+update we need to calculate the average on delta_w and then compare it to the average delta weights tensor, store where the limit
+has been broken and return the indexes of these kernels. 
+
+Ok we have successfully retrieved the top k kernels and the average weight change per layer and we have successfully propagated them until the 
+update, forward etc. functions. Now we need to implement the functions that we were discussing. 
+
+
+[Done] Figure out a way to move all the learning rate calculations to GPU for speed up... I loaded all the tensors in GPU but no speed up is visible. 
+[!!!!!] MOVE WHERE THE ACTIVATIONS AND THE AVG DELTA CHANGE are calculated, from engine_cl into hebbconv.py
+
+!!! New Hyperparameters:
+
+    - Top k, choosing k based on the number of neurons in the layer
+    - How to modify the learning rate 
+
+The first thing I need to do is to make it so that everytime a new folder is created, meaning I train a model on a subset of classes and
+then retrain it on a second set of classes, what I do is create a new folder everytime which contains the vectors of the average delta weights and the relative top k 
+vectors [to have a unique id I can use the date]
+I should modify the code so that it saves the results into a separate file if they are about continual learning with the topk active. 
+I need to add the option to pass in the run that the program has to emulate. Meaning that I pass in T25 for example and so the program
+reads off that the classes which need to be used for CL.
+!!! Check that the classes are not shuffled everytime, otherwise it doesn't work... this wouldn't make sense because how can you compare different runs
+on the same dataset if the indices associated to the classes change everytime...
+
+To modify the way the models are saved: 
+we do 1 run which is classical continual learning baseline without any other solution implemented.
+In this case we want to save the model..., do we though? like what do I need it for. So we run the model, we train it and then we save it in to a folder
+that has the name CIFAR10_2C. 
+I need to differentiate between two cases: 
+- When I run the models without CL sol and when I repeat the run on the same subset of classes but with the CL sol actiive, in this case I need
+to keep a link between the 2. So I would store them based on the name, like for example CIFAR10_2C + date( of the first run without CL sol active).
+- When I simply run the CL case, with or without CL sol active. 
+
+I can combine the two by creating CIFAR10_2C folder and plcing inside two subfolders: single and paired, and in paired I emulate the run with no CL sol active.
+In each I save them using the date. 
+
+In the json file, to keep track of parameters, I simply add a field which tells me if the CL solution is active, if it is a single run or if it is paired with some other run, and what run it is paired with
+and also a filed which contains the name of the run with the date id so I can go back and take it. Or I can simply use the ids in the json file as a unique ID 
+instead of the date. 
+
+How do I communicate which run does it have to emulate? 
+I look at the run number in the json file and pass that as a parameter.
+
+The other scenario is if I want to run a model with more than 2 tasks. I need to implement something which given a run name, it loads the model, checks 
+the parameters it was trained with and makes sure the classes in the continual learning tasks are not repeated. Then trains on a new set of classes and 
+saves the copied model in a new task by copying the data of the Tx is started of and appending data to it.
+
+[!!!] Check if there is a way to incorporate the tensors of activations and average deltas into the model itself so you don't need to save them separately.

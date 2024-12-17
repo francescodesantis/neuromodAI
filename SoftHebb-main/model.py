@@ -1,3 +1,4 @@
+import pickle
 import torch
 import torch.nn as nn
 
@@ -114,17 +115,42 @@ class MultiLayer(nn.Module):
         self.train_mode = None
         self.train_blocks = []
 
+        ########################################################
+        file_path_d = 'avg_deltas.p'
+        file_path_act = 'activations.p'
+        
+        avg_deltas = None
+        acts = None
+        if os.path.exists(file_path_d):
+            with open('avg_deltas.p', 'rb') as pfile:
+                avg_deltas = pickle.load(pfile)
+        
+        if os.path.exists(file_path_act):
+            with open('activations.p', 'rb') as pfile:
+                acts = pickle.load(pfile)
+        ########################################################
+
         self.config = blocks_params
+        layer_num = 0
+        avg_deltas_layer = None
+        acts_layer = None
         if blocks_params is not None:
             blocks = []
             for _, params in blocks_params.items():
-                blocks.append(generate_block(params))# simply associate an id to each block
+                # params : {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}
+                if params['arch'] == 'CNN':
+                    if avg_deltas is not None: 
+                        avg_deltas_layer = avg_deltas["blocks." +  str(layer_num) + ".layer.weight"]
+                    if acts is not None: 
+                        acts_layer = acts["conv" + str(layer_num)]
+                blocks.append(generate_block(params, avg_deltas_layer, acts_layer))
+                layer_num += 1
             self.blocks = nn.Sequential(*blocks)
         else:
             self.blocks = nn.Sequential(*blocks)
 
     def foward_x_wta(self, x: torch.Tensor) -> torch.Tensor:
-        for id, block in self.generator_block():  # simply associate an id to each block
+        for id, block in self.generator_block():  
             if id != len(self.blocks) - 1:
                 x = block(x)   # block is an instance of a layer or a more complex sequence of layers (often called a block or a module). 
                                 # so we apply the transformation to the input x for all the components in block 

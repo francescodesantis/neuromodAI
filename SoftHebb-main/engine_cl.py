@@ -281,10 +281,12 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     #         prev = el
     #     print(r)
 
-    print("delta_weights INFO:" )
+    print("delta_weights INFO: ")
     print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
     print("NUM OF TRACKED WEIGHTS CHANGES PER LAYER: ", len(delta_weights[list(delta_weights.keys())[0]]) )
     avg_deltas = average_deltas(delta_weights, avg_deltas, device)
+    print("avg_deltas INFO: ", type(avg_deltas))
+    print("avg_deltas keys: ", list(avg_deltas.keys()))
 
     with open('avg_deltas.p', 'wb') as pfile:
         pickle.dump(avg_deltas, pfile, protocol=pickle.HIGHEST_PROTOCOL)

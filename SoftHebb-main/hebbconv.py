@@ -3,7 +3,7 @@ import torch.nn as nn
 from typing import Generator, Union
 import torch.nn.functional as F
 from torch.nn.modules.utils import _pair
-
+from utils import DEVICE
 try:
     from utils import init_weight, activation, unsup_lr_scheduler
 except:
@@ -14,6 +14,11 @@ from tabulate import tabulate
 from activation import Triangle
 global xyz
 import numpy as np
+R = [True]
+def myprint(t):
+    if R[0]: 
+        print("WTA IN delta_weight: ", t)
+        R[0] = False
 
 class HebbHardConv2d(nn.Module):
     def __init__(
@@ -34,13 +39,16 @@ class HebbHardConv2d(nn.Module):
             padding_mode: str = "zeros",
             bias: bool = False,
             nb_train: int = None,
+            # avg_deltas_layer: torch.tensor = None,
+            # top_acts_layer: list = None
+
     ) -> None:
         """
         Hard Winner take all convolutional layer implementation
         """
 
         super(HebbHardConv2d, self).__init__()
-
+        self.temp = -1
         self.learning_update = False
 
         self.was_update = True
@@ -120,6 +128,10 @@ class HebbHardConv2d(nn.Module):
         self.conv = 0
 
         self.register_buffer('bias', None)
+        
+        
+
+        
 
     def reset(self):
         if self.lr_adaptive:
@@ -165,7 +177,11 @@ class HebbHardConv2d(nn.Module):
         pre_x : torch.Tensor
             Current of the hebbian layer
         """
-
+        # the calulation of the preactivations is done through the convolution operation of the input x 
+        # and the weights associated to the current layer. Store the signs of the weight vector in a tensor, 
+        # so that we can consider the absolute value of the tensor of the weights to the power of (self.lebesgue_p - 1)
+        # and then restore the signs of the single weights by multiplying it with torch.sign(self.weight).
+        
         pre_x = self._conv_forward(
             x,
             torch.sign(self.weight) * torch.abs(self.weight) ** (self.lebesgue_p - 1),
@@ -261,6 +277,8 @@ class HebbHardConv2d(nn.Module):
             pre_x = torch.chunk(pre_x, self.groups, dim=1)
             # wta = [self.get_wta(pre_x_group.clone(), group_id) for group_id, pre_x_group in enumerate(pre_x)]
             wta = []
+            # pre_x.shape=(batch_size,channels,height,width)
+            # so we calculate the i_wta for every single batch and then append it to the list wta.
             for group_id, pre_x_group in enumerate(pre_x):
                 i_wta = self.get_wta(pre_x_group.clone(), group_id)
                 wta.append(i_wta)
@@ -283,7 +301,6 @@ class HebbHardConv2d(nn.Module):
         mode:False --> predict
         """
         self.learning_update = mode
-
     def delta_weight(
             self,
             x: torch.Tensor,
@@ -291,6 +308,7 @@ class HebbHardConv2d(nn.Module):
             wta: torch.Tensor,
             weight: torch.tensor
     ) -> torch.Tensor:
+        # delta_weight(x_group, pre_x_group, wta_group, weight_group)
         """
         Compute the change of weights
         Parameters
@@ -305,10 +323,13 @@ class HebbHardConv2d(nn.Module):
         -------
             delta_weight : torch.Tensor
         """
-
+        # here we apply the convolution operation on the inputs using wta as weights. 
+        # The wta contains the indexes of kernels with the highest activations... but it doesn't make sense...hold on.
+        myprint(wta[0])
+        
         yx = F.conv2d(
             x.transpose(0, 1),
-            wta.transpose(0, 1),
+            wta.transpose(0, 1), # the wta are the weights associated to all the pre activations. 
             padding=self.padding,
             stride=self.dilation,
             dilation=self.stride,
@@ -322,6 +343,7 @@ class HebbHardConv2d(nn.Module):
         yu = torch.sum(torch.mul(wta, pre_x), dim=(0, 2, 3))
 
         delta_weight = yx - yu.view(-1, 1, 1, 1) * weight
+
         # ---Normalize---#
         nc = torch.abs(delta_weight).amax()
         delta_weight.div_(nc + 1e-30)
@@ -396,12 +418,98 @@ class HebbHardConv2d(nn.Module):
 
         if self.bias is not None:
             self.delta_b = self.delta_bias(wta_groups)
+    
+    def average_deltas(self):
+        # returns the average normalized weight change
+        # self.delta_w.shape = torch.Size([1536, 384, 3, 3])
+        device = DEVICE
+        summed_kernels = torch.sum(self.delta_w, dim=(1,2,3)).to(device)
+        average = summed_kernels / summed_kernels.shape[0]
+        average_norm = average / max(average)
+        return average_norm
+
+    def check_threshold(self, current_kernels_avg):
+        # returns a mask which identifies 
+        device = DEVICE
+        mask = (current_kernels_avg > self.avg_deltas_layer).type(torch.uint8).to(device)
+        if self.temp == 0:
+            print(mask[0], current_kernels_avg.cpu()[0], self.avg_deltas_layer.cpu()[0])
+            self.temp = 1
+        return mask
+    def get_lower_lr_mask(self, threshold_mask):
+        # this function returns a one hot tensor where the cell to 0 are the ones where we don't need to decrease the lr and the cells with 1 are the ones where we have to
+        # decrease the lr
+        device = DEVICE
+        topk_mask = torch.zeros(len(threshold_mask)).to(device)
+        topk_mask[self.top_acts_layer] = 1
+        final_mask = topk_mask + threshold_mask
+        if self.temp == 1:
+            print("topk_mask ", topk_mask.cpu())
+            print("threshold_mask ", threshold_mask.cpu())
+            print("final_mask", final_mask.cpu())
+            self.temp = 2
+        final_mask = (final_mask == 2 ).type(torch.uint8)
+        return final_mask
+    def get_higher_lr_mask(self):
+        # this function returns a one hot tensor where the cell to 0 are the on s where we don't need to increase the lr and the cells with 1 are the ones where we have to
+        # increase the lr
+        # to do we take a one hot encoding of the cells representing with one the top k kernels
+        device = DEVICE
+        topk_mask = torch.zeros(self.out_channels).to(device)
+        topk_mask[self.top_acts_layer] = 1
+
+        # since we need to consider only the cells not among the top k kernels we calculate the inverse
+        not_topk_mask = (topk_mask == 0).type(torch.uint8)
+        if self.temp == 2:
+            print("topk_mask ", topk_mask.cpu())
+            print("not_topk_mask ", not_topk_mask.cpu())
+            self.temp = 3
+        return not_topk_mask
 
     def update(self) -> None:
 
+        # nb_train è un valore che corrisponde sempre a out_channels dato che non è mai stato inizializzato perchè nei preset non 
+        # ci sta.
         if self.nb_train > 0:
             # self.delta_w[self.mask] = 0
-            self.weight[:self.nb_train].add_(self.lr * self.delta_w[:self.nb_train])
+            #print(self.lr.shape)
+            # !!! self.weight.shape is always equal to self.nb_train
+################################################################################
+            if self.avg_deltas_layer is not None and self.top_acts_layer is not None:
+                lower_lr = 0.9 # means that we reduce it of 90%
+                higher_lr = 0.5 # means that we increase it of 50%
+                # first we find the average weight change per kernel
+                current_kernels_avg = self.average_deltas()
+                # find a tensor which flags the kernels that break the threshold
+                threshold_mask = self.check_threshold(current_kernels_avg)
+
+                # create a mask of kernels which break the threshold and are in the top k kernels, will be used to reduce the learning rate 
+                lower_lr_mask = self.get_lower_lr_mask(threshold_mask)
+                # 10% decrease
+                lower_lr_mask = -lower_lr*lower_lr_mask
+
+                # create a mask which contains 1s in the cells where the learning rate has to be increased and zeros otherwise.
+                # basically it has 1s where the cells are not among the top k kernels. 
+                higher_lr_mask = self.get_higher_lr_mask()
+                # 10% increase
+                higher_lr_mask = higher_lr*higher_lr_mask
+
+                lr_mask = 1 + higher_lr_mask+lower_lr_mask
+                lr_mask = lr_mask.view(self.lr.shape[0], 1, 1, 1)
+                # return a mask of the learning rate which limits the learning where the threshold was broken and increases it where it wasn't.
+                if self.temp == 3:
+                    print("lower_lr_mask ", lower_lr_mask.cpu())
+                    print("higher_lr_mask ", higher_lr_mask.cpu())
+                    print("lr_mask ", lr_mask.cpu())
+                    print(self.lr.shape)
+                    print("self.lr", self.lr[0])
+                    self.temp = 4
+                #lr_mask = lr_mask.to("cuda:0")
+                self.weight[:self.nb_train].add_(self.lr *lr_mask*self.delta_w[:self.nb_train])
+################################################################################################
+            else:
+                self.weight[:self.nb_train].add_(self.lr*self.delta_w[:self.nb_train])
+            
             # self.weight = self.weight * self.mask
             self.was_update = True
             if self.bias is not None:
@@ -737,7 +845,9 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             delta: float = 4,
             activation_fn: str = 'exp',
             t_invert: float = 12,
-            nb_train: int = None
+            nb_train: int = None,
+            avg_deltas_layer: torch.tensor = None,
+            top_acts_layer: list = None
     ) -> None:
         """
         Krotov implementation from the SoftConv2d class
@@ -751,10 +861,12 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
         self.delta = delta
         self.ranking_param = ranking_param
-
         self.m_winner = []
         self.m_anti_winner = []
         self.mode = 0
+
+        self.avg_deltas_layer = avg_deltas_layer
+        self.top_acts_layer = top_acts_layer
         # self.stat = torch.zeros(5, out_channels)
 
     def extra_repr(self):
@@ -824,6 +936,8 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         #np.savetxt('pre_x_flat.txt', pre_x_flat.cpu().numpy())
         #print("PRE_X_FLAT:", pre_x_flat.shape)
 
+        # here we basically take all the pre activations and feed them thouigh a softmax activation function to obtain 
+        # values between 0 and 1 and which all sum up to 1
         wta = activation(pre_x_flat, t_invert=self.t_invert, activation_fn=self.activation_fn, normalize=True, dim=0)
 
         self.stat[2, group_id * self.out_channels_groups: (group_id + 1) * self.out_channels_groups] += wta.sum(1).cpu()
@@ -881,6 +995,8 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
 
             #here we inverse the values of the wta vector
+            # Here, the values corresponding to the winning channels (ranking_indices) and their batch positions (batch_indices) are negated. 
+            # This operation updates the winning values, possibly to enforce a competitive learning mechanism.
             wta[ranking_indices, batch_indices] = -wta[ranking_indices, batch_indices]
 
             #here we calculate the the mean of the vector containing the winning values
@@ -1003,7 +1119,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         ) + '\n' + self.stat_wta() + '\n'
 
 
-def select_Conv2d_layer(params) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
+def select_Conv2d_layer(params, avg_deltas_layer=None, acts_layer=None) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
     """
     Select the appropriate from a set of params
     ----------
@@ -1032,7 +1148,9 @@ def select_Conv2d_layer(params) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, H
             groups=params['groups'],
             padding_mode=params['padding_mode'],
             bias=params['add_bias'],
-            nb_train=params['nb_train']
+            nb_train=params['nb_train'], 
+            # avg_deltas_layer = avg_deltas_layer,
+            # acts_layer = acts_layer
         )
     elif params['softness'] == 'hardkrotov':
         layer = HebbHardKrotovConv2d(
@@ -1053,7 +1171,9 @@ def select_Conv2d_layer(params) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, H
             bias=params['add_bias'],
             delta=params['delta'],
             ranking_param=params['ranking_param'],
-            nb_train=params['nb_train']
+            nb_train=params['nb_train'], 
+            # avg_deltas_layer = avg_deltas_layer,
+            # acts_layer = acts_layer
         )
     elif params['softness'] == 'soft':
         layer = HebbSoftConv2d(
@@ -1074,7 +1194,10 @@ def select_Conv2d_layer(params) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, H
             bias=params['add_bias'],
             activation_fn=params['soft_activation_fn'],
             t_invert=params['t_invert'],
-            nb_train=params['nb_train'])
+            nb_train=params['nb_train'], 
+            # avg_deltas_layer = avg_deltas_layer,
+            # acts_layer = acts_layer
+            )
     elif params['softness'] == 'softkrotov':
         layer = HebbSoftKrotovConv2d(
             in_channels=params['in_channels'],
@@ -1096,6 +1219,8 @@ def select_Conv2d_layer(params) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, H
             ranking_param=params['ranking_param'],
             activation_fn=params['soft_activation_fn'],
             t_invert=params['t_invert'],
-            nb_train=params['nb_train']
+            nb_train=params['nb_train'],
+            avg_deltas_layer = avg_deltas_layer,
+            top_acts_layer = acts_layer
         )
     return layer

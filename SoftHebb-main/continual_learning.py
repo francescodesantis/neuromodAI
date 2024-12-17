@@ -29,7 +29,7 @@ import copy
 
 from utils import CustomStepLR, double_factorial
 from model import save_layers, HebbianOptimizer, AggregateOptim
-from engine_cl import train_sup, train_unsup, evaluate_unsup, evaluate_sup
+from engine_cl import train_sup, train_unsup, evaluate_unsup, evaluate_sup, getActivation
 from dataset import make_data_loaders
 import torch
 import torch.optim as optim
@@ -128,6 +128,23 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     #model = copy.deepcopy(model_og)
 
     model = model.to(device)
+
+    depth = 0
+
+    # here we obtain the activations of all the layers (which are convolutional layers)
+    for layer in model.children():
+        print(list(model.children()))
+        print("LAYER NAME: " , layer)
+        print("LAYER CHILDREN: " , list(layer.children()))
+	# check for convolutional layer
+        for subl in layer.children():
+            if not subl.__eq__(None):
+                print("SUBLAYER NAME: " , subl)
+            for subsubl in subl.children():
+                print("subsubl NAME: " , subsubl)
+                if subsubl._get_name().__eq__("HebbSoftKrotovConv2d"):
+                    subsubl.register_forward_hook(getActivation("conv"+str(depth)))
+            depth += 1
     
     
     

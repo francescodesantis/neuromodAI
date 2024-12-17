@@ -136,7 +136,7 @@ def get_device(gpu_id=0):
     print(device)
     return device
 
-
+DEVICE = get_device()
 def seed_init_fn(seed):
     """
     Dataloader worker init function, if seed is not None every epoch and 

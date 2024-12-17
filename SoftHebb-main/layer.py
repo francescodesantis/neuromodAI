@@ -226,7 +226,7 @@ class BasicBlock(nn.Module):
             self.resume = 'Block %s not found' % self.get_name()
 
 
-def generate_block(params) -> BasicBlock:
+def generate_block(params, avg_deltas_layer=None, acts_layer=None) -> BasicBlock:
     """
 
     Parameters
@@ -237,6 +237,7 @@ def generate_block(params) -> BasicBlock:
     -------
 
     """
+
     config = params['layer']
     #print("CONFIG:", config)
 
@@ -283,7 +284,7 @@ def generate_block(params) -> BasicBlock:
     elif config['arch'] == 'CNN':
         print("CNN LAYER CONFIG: ", config)
         if config['hebbian']:
-            layer = select_Conv2d_layer(config)
+            layer = select_Conv2d_layer(config, avg_deltas_layer, acts_layer)
         else:
             layer = nn.Conv2d(
                 config['in_channels'],
