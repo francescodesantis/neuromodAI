@@ -25,7 +25,6 @@ from train import run_sup, run_unsup, check_dimension, training_config, run_hybr
 from log_m import Log, save_logs
 import warnings
 import copy
-import copy
 
 from utils import CustomStepLR, double_factorial
 from model import save_layers, HebbianOptimizer, AggregateOptim
@@ -71,7 +70,7 @@ parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default=No
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: None)')
 
-parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',
+parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',   ###################
                     type=str, help='Training possibilities ' +
                                    ' | '.join(['successive', 'consecutive', 'simultaneous']) +
                                    ' (default: successive)')
@@ -152,10 +151,12 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
     test_loss = 0
     test_acc = 0
 
-    for id, config in train_config.items():
 
+    for id, config in train_config.items():
+        print("CONFIG MODE: ", config['mode'])
         if evaluate:
-            if config['mode'] == 'supervised': ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
+            
+            if config['mode'] == 'supervised' or config['mode'] == 'hybrid': ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
                 train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
                 criterion = nn.CrossEntropyLoss()
                 test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
@@ -214,7 +215,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 else:
                     results["R2"] = result.copy()
                     print("IN R2: ", results)
-
+                #print()
             else:
                 run_hybrid(
                     config['nb_epoch'],
@@ -333,11 +334,12 @@ if __name__ == '__main__':
 
             # TASK 1
             skip = params.skip_1
-
+            print("task 1")
             if not skip: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                #selected_classes = [0,2]
+                
                 selected_classes = selected_classes.tolist()
+                selected_classes = [2,8]
                 dataset_sup_1["selected_classes"] = selected_classes
                 dataset_unsup_1["selected_classes"] = selected_classes
 
@@ -348,20 +350,22 @@ if __name__ == '__main__':
 
             else: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                #selected_classes = [0,2]
-
+                
                 selected_classes = selected_classes.tolist()
+                selected_classes = [2,8]
+
                 dataset_sup_1["selected_classes"] = selected_classes
                 dataset_unsup_1["selected_classes"] = selected_classes
                 params.continual_learning = False
                 evaluate = True
                 procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
-
+            
             # TASK 2
-            all_classes, selected_classes = random_n_classes(all_classes, n_classes)
+            print("task 2")
 
-            #selected_classes = [0, 2]                
+            all_classes, selected_classes = random_n_classes(all_classes, n_classes)
             selected_classes = selected_classes.tolist()
+            selected_classes = [1, 5]      
             dataset_sup_2["selected_classes"] = selected_classes
             dataset_unsup_2["selected_classes"] = selected_classes
             

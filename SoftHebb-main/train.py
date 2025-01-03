@@ -422,6 +422,7 @@ def run_sup(
                 log.verbose()
 
             if save:
+                print("BLOCKS IN SUP: ", blocks)
                 save_layers(model, folder_name, epoch, blocks, storing_path=model_dir)
 
             if plot_fc is not None:

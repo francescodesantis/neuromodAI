@@ -22,6 +22,7 @@ def train_BP(model, criterion, optimizer, loader, device, measures):
     for inputs, target in loader:
         ## 1. forward propagation$
         inputs = inputs.float().to(device, non_blocking=True)
+        #print(inputs.shape)
         target = target.to(device, non_blocking=True)
 
         output = model(inputs)
@@ -30,20 +31,33 @@ def train_BP(model, criterion, optimizer, loader, device, measures):
         ## 2. loss calculation
         loss = criterion(output, target)
 
+        # Store the original weights for comparison
+        
+        prev_weights = model.blocks[-1].layer.weight.detach().clone()
+
         ## 3. compute gradient and do SGD step
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
-        # print(optimizer.param_groups)
+        # Calculate the average weight change per neuron
+        # Average change per row (neuron)
+        curr_weights = model.blocks[-1].layer.weight.detach().clone()
+        delta_weight = torch.abs(curr_weights - prev_weights)
+        avg_weight_change_per_neuron = torch.mean(delta_weight, dim=1)
+
+        # Forward pass again to compute activations
+        activations = output.detach().clone()  # Detach activations for analysis
+        #print(activations.shape)
+        # Compute the importance of neurons based on average activation values
+        avg_activation_per_neuron = torch.mean(activations, dim=0) 
 
         ## 4. Accuracy assessment
         predict = output.data.max(1)[1]
 
         acc = predict.eq(target.data).sum()
         # Save if measurement is wanted
-
-        # print(model.blocks[1].layer.weight.mean(), model.blocks[1].layer.weight.std())
+        
 
         convergence, R1 = model.convergence()
         measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), convergence, R1, model.get_lr())
@@ -148,28 +162,28 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
 
     file_path_d = 'avg_deltas.p'
     file_path_act = 'activations.p'
-
-    avg_deltas = {}
+    
+    avg_deltas = model.avg_deltas
     delta_weights = {}
     activations_sum = []
-    acts = {}
+    acts = model.acts
 
     #Check if the file exists
-    if os.path.exists(file_path_d):
-        with open('avg_deltas.p', 'rb') as pfile:
-            avg_deltas = pickle.load(pfile)
-    else:
-        avg_deltas = {}
-        with open('avg_deltas.p', 'wb') as pfile:
-            pickle.dump(avg_deltas, pfile, protocol=pickle.HIGHEST_PROTOCOL)
+    # if os.path.exists(file_path_d):
+    #     with open('avg_deltas.p', 'rb') as pfile:
+    #         avg_deltas = pickle.load(pfile)
+    # else:
+    #     avg_deltas = {}
+    #     with open('avg_deltas.p', 'wb') as pfile:
+    #         pickle.dump(avg_deltas, pfile, protocol=pickle.HIGHEST_PROTOCOL)
     
-    #Check if the file exists
-    if os.path.exists(file_path_act):
-        with open('activations.p', 'rb') as pfile:
-            acts = pickle.load(pfile)
-    else:
-        with open('activations.p', 'wb') as pfile:
-            pickle.dump(acts, pfile, protocol=pickle.HIGHEST_PROTOCOL)
+    # #Check if the file exists
+    # if os.path.exists(file_path_act):
+    #     with open('activations.p', 'rb') as pfile:
+    #         acts = pickle.load(pfile)
+    # else:
+    #     with open('activations.p', 'wb') as pfile:
+    #         pickle.dump(acts, pfile, protocol=pickle.HIGHEST_PROTOCOL)
 
     
     layer_num = -1
@@ -260,7 +274,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     final_sum = sorted(final_sum.items(), key = lambda item : item[1], reverse=True)
     final_sum = list(dict(final_sum))
     
-
+    K = round(len(final_sum)*0.3) # K takes 20% of the kernels
+    print("FINAL SUM LENNNN " , len(final_sum))
     acts["conv" + str(layer_num)] = final_sum[:K+1]
     print("FINAL_SUM: ", final_sum[:10])
     print("acts len: ", len(list(acts.keys())))
@@ -269,18 +284,6 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     print("final_sum len: ", len(final_sum))
 
 
-    # if layer_num == 0: 
-    #     print("activations_sum: ", len(activations_sum))
-    #     print("activations_sum[0]: ", activations_sum[0].shape)
-    #     prev = activations_sum[0]
-    #     r = True
-    #     for el in activations_sum[1:]:
-    #         if torch.equal(el, prev):
-    #             r = False
-    #             break
-    #         prev = el
-    #     print(r)
-
     print("delta_weights INFO: ")
     print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
     print("NUM OF TRACKED WEIGHTS CHANGES PER LAYER: ", len(delta_weights[list(delta_weights.keys())[0]]) )
@@ -288,11 +291,9 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     print("avg_deltas INFO: ", type(avg_deltas))
     print("avg_deltas keys: ", list(avg_deltas.keys()))
 
-    with open('avg_deltas.p', 'wb') as pfile:
-        pickle.dump(avg_deltas, pfile, protocol=pickle.HIGHEST_PROTOCOL)
-
-    with open('activations.p', 'wb') as pfile:
-        pickle.dump(acts, pfile, protocol=pickle.HIGHEST_PROTOCOL)
+    
+    model.avg_deltas = avg_deltas
+    model.acts = acts
 
     print("avg_deltas size: ", len(list(avg_deltas.keys())))
     print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
@@ -300,52 +301,10 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     print("################################################")
 
 
-    # print("ACTIVATIONS SHAPE: ", activations["conv0"].shape)
-    # if "conv1" in activations: 
-    #     print("ACTIVATIONS SHAPE: ", activations["conv1"][0])
-    # if "conv2" in activations: 
-    #     print("ACTIVATIONS SHAPE: ", activations["conv2"].shape)
-
+    
     info = model.radius()
     convergence, R1 = model.convergence()
-    # curr_dict = deepcopy(model.state_dict())
-    # curr_weights = curr_dict['blocks.0.layer.weight']
-    # print(curr_weights.shape)
-    # #print("CONV_ACT: ", conv_act[0].shape)
-
-    # act = conv_act[0][0].squeeze()
-    # fig, axarr = plt.subplots(9, 12)
-    # plt.axis('off')
- 
-    # k = 0
-    # for idx in range(9):
-    #     for idy in range(12):
-    #         axarr[idx, idy].axis('off')
-    #         if k < 96:
-    #             axarr[idx, idy].imshow(act[k].cpu())
-    #         k += 1
     
-    # axarr[8, 0].imshow(images[0][0].cpu().T)
-    # plt.savefig("Images/" + "conv_acts.png")
-    # plt.close()
-
-    # curr_weights = curr_weights.squeeze()
-    # fig, axarr = plt.subplots(9, 12)
-    # plt.axis('off')
-    # plt.xticks([])
-    # plt.yticks([])
-    # k = 0
-    # for idx in range(9):
-    #     for idy in range(12):
-    #         axarr[idx, idy].axis('off')
-            
-    #         if k < 96:
-    #             axarr[idx, idy].imshow(curr_weights[k].cpu().T)
-    #         k += 1
-    
-    # axarr[8, 0].imshow(images[0][0].cpu().T)
-    # plt.savefig("Images/" + "kernels.png")
-    # plt.close()
 
     return measures, model.get_lr(), info, convergence, R1
 
@@ -444,6 +403,34 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     t = time.time()
     loss_acc = (not model.is_hebbian()) and (criterion is not None)
     print("LOSS_ACC: ", loss_acc )
+    t = False
+    i = 0
+
+    file_path_d = 'avg_deltas.p'
+    file_path_act = 'activations.p'
+    
+    avg_deltas = model.avg_deltas
+    delta_weights = {}
+    activations_sum = []
+    acts = model.acts
+
+    
+    layer_num = -1
+    iteration = 0
+    interval = 100
+    depth = 0
+    for layer in model.children():
+        for subl in layer.children():
+            depth += 1
+    depth -= 1
+        
+    prev_dict = deepcopy(model.state_dict())
+    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and str(depth) not in k} 
+    print("DEPTH: ", depth)
+    if "conv1" in activations: 
+        print("ACTIVATIONS SHAPE: ", activations["conv1"][0])
+
+
     with torch.no_grad():
         for inputs, target in loader:
             # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
@@ -472,6 +459,71 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
                 measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), conv, r1, model.get_lr())
 
             model.update()
+            if layer_num == -1:
+                prev_dict, layer_num = get_layer(model, depth, prev_dict)
+            
+            # I store the activations of every batch
+            activations_sum.append(activations["conv" + str(layer_num)].cpu())
+
+
+            #remember that we are workng with batches, so you need to multiply interval by the batch size
+            if iteration % interval == 0: 
+
+                delta_weights = get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights)
+                
+                prev_dict = deepcopy(model.state_dict())
+                #['blocks.0.operations.0.running_mean', 'blocks.0.operations.0.running_var', 'blocks.0.operations.0.num_batches_tracked', 'blocks.0.layer.weight', 'blocks.1.operations.0.running_mean', 'blocks.1.operations.0.running_var', 'blocks.1.operations.0.num_batches_tracked', 'blocks.1.layer.weight', 'blocks.2.operations.0.running_mean', 'blocks.2.operations.0.running_var', 'blocks.2.operations.0.num_batches_tracked', 'blocks.2.layer.weight', 'blocks.3.layer.weight', 'blocks.3.layer.bias']
+                prev_dict = {k: v for k, v in prev_dict.items() if str(layer_num) + ".layer.weight" in k and str(depth) not in k}     
+           
+                
+            
+            iteration += 1
+
+    # now I sum all the activations of all the batches to obtain 1 final vector which has the dimensions of the layer
+    
+    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+    final_sum = activations_sum[0]
+    for i in range(1, len(activations_sum)):
+       final_sum += activations_sum[i]
+    
+    # here we sum all the values of each activation map to obtain 1 value of activation per kernel instead of a map.
+    final_sum = torch.sum(final_sum, dim=1)
+    final_sum = torch.sum(final_sum, dim=1)
+
+    # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
+    # sum as value. Then we sort them, to consider only the first top k.
+    final_sum = {k:v for k, v in enumerate(final_sum)}
+    
+    final_sum = sorted(final_sum.items(), key = lambda item : item[1], reverse=True)
+    final_sum = list(dict(final_sum))
+    
+    K = round(len(final_sum)*0.3) # K takes 20% of the kernels
+    print("FINAL SUM LENNNN " , len(final_sum))
+    acts["conv" + str(layer_num)] = final_sum[:K+1]
+    print("FINAL_SUM: ", final_sum[:10])
+    print("acts len: ", len(list(acts.keys())))
+    print("acts keys: ", list(acts.keys()))
+    print("acts: ", acts)
+    print("final_sum len: ", len(final_sum))
+
+    print("delta_weights INFO: ")
+    print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
+    print("NUM OF TRACKED WEIGHTS CHANGES PER LAYER: ", len(delta_weights[list(delta_weights.keys())[0]]) )
+    avg_deltas = average_deltas(delta_weights, avg_deltas, device)
+    print("avg_deltas INFO: ", type(avg_deltas))
+    print("avg_deltas keys: ", list(avg_deltas.keys()))
+
+    model.avg_deltas = avg_deltas
+    model.acts = acts
+
+    print("avg_deltas size: ", len(list(avg_deltas.keys())))
+    print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
+
+    print("################################################")
+
+
+    
 
     info = model.radius()
     convergence, R1 = model.convergence()

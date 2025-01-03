@@ -15,6 +15,7 @@ from activation import Triangle
 global xyz
 import numpy as np
 R = [True]
+CF_SOL = True
 def myprint(t):
     if R[0]: 
         print("WTA IN delta_weight: ", t)
@@ -48,9 +49,8 @@ class HebbHardConv2d(nn.Module):
         """
 
         super(HebbHardConv2d, self).__init__()
-        self.temp = -1
+        self.temp = 0
         self.learning_update = False
-
         self.was_update = True
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -128,6 +128,7 @@ class HebbHardConv2d(nn.Module):
         self.conv = 0
 
         self.register_buffer('bias', None)
+
         
         
 
@@ -282,7 +283,7 @@ class HebbHardConv2d(nn.Module):
             for group_id, pre_x_group in enumerate(pre_x):
                 i_wta = self.get_wta(pre_x_group.clone(), group_id)
                 wta.append(i_wta)
-
+            #print("pre_x in forward: ", pre_x.cpu().shape)
             if return_x_wta:
                 wta = torch.cat(wta)
                 return pre_x.reshape(pre_x.shape[0], -1), wta.reshape(wta.shape[0], -1)
@@ -470,14 +471,15 @@ class HebbHardConv2d(nn.Module):
 
         # nb_train è un valore che corrisponde sempre a out_channels dato che non è mai stato inizializzato perchè nei preset non 
         # ci sta.
+
         if self.nb_train > 0:
             # self.delta_w[self.mask] = 0
             #print(self.lr.shape)
             # !!! self.weight.shape is always equal to self.nb_train
 ################################################################################
-            if self.avg_deltas_layer is not None and self.top_acts_layer is not None:
-                lower_lr = 0.9 # means that we reduce it of 90%
-                higher_lr = 0.5 # means that we increase it of 50%
+            if CF_SOL and self.avg_deltas_layer is not None and self.top_acts_layer is not None:
+                lower_lr = 0.7 # means that we reduce it of 90%
+                higher_lr = 0.3 # means that we increase it of 50%
                 # first we find the average weight change per kernel
                 current_kernels_avg = self.average_deltas()
                 # find a tensor which flags the kernels that break the threshold
@@ -509,7 +511,9 @@ class HebbHardConv2d(nn.Module):
 ################################################################################################
             else:
                 self.weight[:self.nb_train].add_(self.lr*self.delta_w[:self.nb_train])
-            
+            if self.temp == -1:
+                
+                self.temp = 5
             # self.weight = self.weight * self.mask
             self.was_update = True
             if self.bias is not None:
@@ -847,7 +851,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             t_invert: float = 12,
             nb_train: int = None,
             avg_deltas_layer: torch.tensor = None,
-            top_acts_layer: list = None
+            top_acts_layer: list = None,
     ) -> None:
         """
         Krotov implementation from the SoftConv2d class
@@ -1221,6 +1225,7 @@ def select_Conv2d_layer(params, avg_deltas_layer=None, acts_layer=None) -> Union
             t_invert=params['t_invert'],
             nb_train=params['nb_train'],
             avg_deltas_layer = avg_deltas_layer,
-            top_acts_layer = acts_layer
+            top_acts_layer = acts_layer, 
+
         )
     return layer

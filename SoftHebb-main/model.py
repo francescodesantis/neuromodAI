@@ -30,7 +30,10 @@ def load_layers(params, model_name, resume=None, verbose=True, model_path_overri
                 classifier_key = list(params.keys())[-1]
                 params2[classifier_key] = params[classifier_key]
 
+            print("PARAMSSSS IN LOAD: ", params2)
             model = MultiLayer(params2)
+            
+
 
             state_dict2 = model.state_dict()
 
@@ -43,6 +46,9 @@ def load_layers(params, model_name, resume=None, verbose=True, model_path_overri
                 model.load_state_dict(state_dict2)
             else:
                 model.load_state_dict(state_dict)
+            model.acts=checkpoint["acts"]
+            model.avg_deltas=checkpoint["avg_deltas"]
+            #print("Previously stored value: ", model.acts["conv0"][:5], model.avg_deltas['blocks.0.layer.weight'][:5] )
             # log.from_dict(checkpoint['measures'])
             starting_epoch = 0  # checkpoint['epoch']
             print('\n', 'Model %s loaded successfuly with best perf' % (model_name))
@@ -81,9 +87,14 @@ def save_layers(model, model_name, epoch, blocks, filename='checkpoint.pth.tar',
 
     print("SAVING THE MODEL")
     print(storing_path)
+    
+
+    #print("Current stored value: ", model.acts["conv0"][:5], model.avg_deltas['blocks.0.layer.weight'][:5] )
     torch.save({
         'state_dict': model.state_dict(),
         'config': model.config,
+        'avg_deltas': model.avg_deltas,
+        'acts': model.acts,
         'epoch': epoch
     }, op.join(storing_path, filename))
 
@@ -114,20 +125,20 @@ class MultiLayer(nn.Module):
         super().__init__()
         self.train_mode = None
         self.train_blocks = []
-
+        self.storage = 0
         ########################################################
         file_path_d = 'avg_deltas.p'
         file_path_act = 'activations.p'
         
-        avg_deltas = None
-        acts = None
-        if os.path.exists(file_path_d):
-            with open('avg_deltas.p', 'rb') as pfile:
-                avg_deltas = pickle.load(pfile)
+        self.avg_deltas = {}
+        self.acts = {}
+        # if os.path.exists(file_path_d):
+        #     with open('avg_deltas.p', 'rb') as pfile:
+        #         avg_deltas = pickle.load(pfile)
         
-        if os.path.exists(file_path_act):
-            with open('activations.p', 'rb') as pfile:
-                acts = pickle.load(pfile)
+        # if os.path.exists(file_path_act):
+        #     with open('activations.p', 'rb') as pfile:
+        #         acts = pickle.load(pfile)
         ########################################################
 
         self.config = blocks_params
@@ -139,10 +150,10 @@ class MultiLayer(nn.Module):
             for _, params in blocks_params.items():
                 # params : {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}
                 if params['arch'] == 'CNN':
-                    if avg_deltas is not None: 
-                        avg_deltas_layer = avg_deltas["blocks." +  str(layer_num) + ".layer.weight"]
-                    if acts is not None: 
-                        acts_layer = acts["conv" + str(layer_num)]
+                    if self.avg_deltas != {}: 
+                        avg_deltas_layer = self.avg_deltas["blocks." +  str(layer_num) + ".layer.weight"]
+                    if self.acts != {}: 
+                        acts_layer = self.acts["conv" + str(layer_num)]
                 blocks.append(generate_block(params, avg_deltas_layer, acts_layer))
                 layer_num += 1
             self.blocks = nn.Sequential(*blocks)

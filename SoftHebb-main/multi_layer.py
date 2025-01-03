@@ -92,10 +92,7 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
 	    
     log = Log(train_config)
 
-    print("MODEL PARAMETERS: ")
-    for p in model.parameters():
-        print(p.size(), p.data)
-    print("############################################")
+ 
 
     for id, config in train_config.items():
         if evaluate : ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
@@ -120,6 +117,7 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
                     blocks=config['blocks'],
                     save=save
                 )
+                print()
             elif config['mode'] == 'supervised':
                 run_sup(
                     config['nb_epoch'],
@@ -134,6 +132,8 @@ def main(blocks, name_model, resume, save, evaluate, dataset_sup_config, dataset
                     blocks=config['blocks'],
                     save=save
                 )
+                #print()
+
             else:
                 run_hybrid(
                     config['nb_epoch'],
@@ -172,8 +172,11 @@ if __name__ == '__main__':
 
     blocks = check_dimension(blocks, dataset_sup_config)
 
+    print("BLOCKS: ", blocks)
+
     train_config = training_config(blocks, dataset_sup_config, dataset_unsup_config, params.training_mode,
                                    params.training_blocks)
+    print("train_config: ", train_config)
 
     main(blocks, name_model, params.resume, params.save, params.evaluate, dataset_sup_config, dataset_unsup_config, train_config,
          params.gpu_id)
