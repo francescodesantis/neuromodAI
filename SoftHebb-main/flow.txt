@@ -351,7 +351,7 @@ So what I do is:
     The problem is how should I save the activations, the training is done per layer, so the first layer sees data, 
     then the whole 2nd layer does and so on. Which means I need to save the information in such way that I can retrieve the whole activations
     object at once. 
-    !!! WATCH OUT because the whole activations object is loaded in gpu, so you must unload it sometime somehow !!!
+    [!!!] WATCH OUT because the whole activations object is loaded in gpu, so you must unload it sometime somehow !!!
         here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
         or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
 2. Associate every activation with an index, inside a hashmap (dict)
@@ -445,18 +445,19 @@ update, forward etc. functions. Now we need to implement the functions that we w
 [Done] Figure out a way to move all the learning rate calculations to GPU for speed up... I loaded all the tensors in GPU but no speed up is visible. 
 [!!!!!] MOVE WHERE THE ACTIVATIONS AND THE AVG DELTA CHANGE are calculated, from engine_cl into hebbconv.py
 
-!!! New Hyperparameters:
+[!!!] New Hyperparameters:
 
     - Top k, choosing k based on the number of neurons in the layer
     - How to modify the learning rate 
 
+[!!!!]
 The first thing I need to do is to make it so that everytime a new folder is created, meaning I train a model on a subset of classes and
 then retrain it on a second set of classes, what I do is create a new folder everytime which contains the vectors of the average delta weights and the relative top k 
 vectors [to have a unique id I can use the date]
 I should modify the code so that it saves the results into a separate file if they are about continual learning with the topk active. 
 I need to add the option to pass in the run that the program has to emulate. Meaning that I pass in T25 for example and so the program
 reads off that the classes which need to be used for CL.
-!!! Check that the classes are not shuffled everytime, otherwise it doesn't work... this wouldn't make sense because how can you compare different runs
+[Done] Check that the classes are not shuffled everytime, otherwise it doesn't work... this wouldn't make sense because how can you compare different runs
 on the same dataset if the indices associated to the classes change everytime...
 
 To modify the way the models are saved: 
@@ -482,4 +483,146 @@ The other scenario is if I want to run a model with more than 2 tasks. I need to
 the parameters it was trained with and makes sure the classes in the continual learning tasks are not repeated. Then trains on a new set of classes and 
 saves the copied model in a new task by copying the data of the Tx is started of and appending data to it.
 
-[!!!] Check if there is a way to incorporate the tensors of activations and average deltas into the model itself so you don't need to save them separately.
+[Done] Check if there is a way to incorporate the tensors of activations and average deltas into the model itself so you don't need to save them separately.
+OK so far wew got the following: 
+- MultiLayer.py incorporates the different blocks. It is also what is actually saved of the model, so when we want to save parameters we have to pass them in torch.save
+- Each block is contained inside the MultiLayer Object and is generated through the generate block function. 
+What we can do is: 
+- move the calulations of the single vectors inside each block, at the end, when the training is finished we run though every layer and store the calculated tensors inside a list/dict.
+- when we load a model we retrieve this object and then we pass the corresponding vector to the associated layer to update the corresponding field. 
+- Where should we place the calculation of the tensors? we could place it before saving the model.  
+Basically until now we have saved 2 params in the model object, the entire tensors.  We couldn't save them per every layer because they save
+model using the dict and not torch.save(model) method. So we simply save them and then redistribute them between the various layers. 
+To  retrieve them in the single layers we have already dones the work. Technically wwe are done, we need now to deal with how we save them and how we load them.
+to save them we add two fields in the torch.save and use the same fields in the load of the model. 
+
+
+[!!!] Try and train for more than 1 epoch on every dataset.
+[Done] modify the way the vectors are stored such that each layer keep one vector only without creating an object that is a dictionary. 
+We would need to move the computation of these vectors somewhere else in the model. I would do it in the hebbconv.py file but the problem is that when we save stuff
+we save them in the MultiLayer parent object.
+
+[!!!!!!!!!!!!!!!] ISSUE 
+There is a huge problem, basically we implement a continual learning solution which works only for the CNN layers... the problem is that we modify also the last
+to classify the current task. What should we do? We could use the same approach also for the last layer... and see what happens. 
+How could we do it on the fully connected layer as well?
+Ok, we need to treat the fully connected layer like the CNN one. Basically we do the same exact operations. 
+Another solution could be to use a different head per different task, so we store the head for every different task and when we evaluate/train we
+pass which task we are working on select the correct head. So the model will have a field which contains a different head for every different task.
+
+First try: 
+Implement the same solution we implemented in the CNN on the last layer. The shape of the weights on the last layer is: [2, 24576].
+So we have to apply the solution to 24576 neurons which will then be combined in only 2 activation values. Every epoch I take the previous weights, 
+update th eodel, take the current weights and calculate the average weight change. At the same time I take the activation values, 
+and sort them to find the most important ones, remeber to choose k accordingly to the size of the layer. There is to see what is the size of
+the activation vector... [64, 2], why the fuck is it  like that. We have 64 objects, each one of them containing the probablity for class1 and class 2. Now, why 64? is it becasue we have a batch which is made up 
+of 64 images: yes, it is like that because the isze of the input is torch.Size([64, 3, 32, 32]). So what could the solution be? I could consider the flattened output of the last
+convolutional layer to say which are the important neurons, I flattened it and then I consider the top k ones ... but I am confused... 
+wouldn't the input of the last layer be the output of the convolutional layer? Thus have different shape then torch.Size([64, 3, 32, 32]).
+It is strange because the last layer seems to be trained separate from the convolutions, it doesn't seem to change anything also if I use
+the successive option or not because the hebbian and the last layer are trained though two diff. functions and those functions call 
+make_data_loader everytime, which loads the dsataset. So I know the classifier is mounted on top, but it doesn't seem to do anything other than learning without the CNN.
+How is it possible though? Like it wouldn't make sense, to have a proof of what the last layer is seeing, meaning the image 
+from the dataset or the activation from the last layer, I should print it. In the demo it actually passes the out of the last 
+conv layter to the input of the last linear layer. So what the hell...
+In the demo it works like it should meaning that the input from the convolutional layers is passed to the last classifier layer. The weird
+thing is that in the normal multilayer file, th ecnn layers and the classifier ar trained separetely, it is very weird... 
+Let's see more in detail what is the hybrid functionality doing. The hybrid functionality works by training all the layers together. How does it do so? 
+In the other cases it would iterate on the different layers and then call the functions accordingly. In this case it looks like it calls the training 
+function once and it does so on all the layers. The weird thing I don't understand is how does it do so?
+The for loop in the main still iterates over the layers I think, unless they are organizedin a different object and in which case we would go through only one iteration.
+
+ok I am going to try and impolement the continual learning solution on the last layer as well. If we consdier the last convolutional layer: we take all the activations of the 
+kernels and we flatten them, then we combine them all (with weights) to return two values. 
+To modify the update of the weights we cannot directly access to the learning rate because it is managed by torch. We need to find a way to apply a mask before the weight update happens. 
+Easy, we apply the mask directly to the current newly calculated weights... mmh that would rescale also the prev weights though:
+ok, we simply do curr - prev (and this corresponds to the weight update), multiply by the mask and then resum it to the prev weights
+to obtain the curr weights with the mask applied. 
+
+Now, let's recap a bit:
+- every 50 something iterations we keep track of the weight update by summing it to a certain tensor.
+- at the same time we keep track of the activations, by summing every time the activations into a tensor.
+- during training we check, right after the curr weights have been calculated, if the weight update is over the threshold, and if it is we calculate a mask
+and apply it before recalculating the current weights. 
+- in the end we sort the value in the activation tensor by value, and then consder only the indexes of these neurons. 
+- in the end we take the tensor of the average weight change and we calculate the average weight change per every neuron.
+Let's do soemthing very tidy and clear: 
+- we need to include also the tensors of averages and of deltas of the linear layer. 
+- right now we save the tensors as follows: 
+    - whenever we save a model we include the two fields acts and avg_deltas in the torch.save()
+    - whevever we load a model a model we retrieve these 2 fields from the checkpoint and assign the corresponding fields in 
+    the model. 
+    - whenever we create a model we have: the corresponding acts and avg_deltas for every layer are extracted and passed in generate_block.
+    [FIXED] Problem encountered: if I reload the model after the training of the first task and then assign the fields the generate_block, 
+    which is called upon creation of a model, will receive all empty fields for acts_layer and avg_deltas_layer... we need to pass the parameters
+    when we load the model. Let's check if they are actually correctly set or not: the problem exists since after loading the model we get these fields: 
+    self.avg_deltas_layer:  <class 'NoneType'>
+    self.top_acts_layer:  <class 'NoneType'>
+    so the fields are not populated correctly. Let's fix it by passing the avg_deltas_layer and top_acts_layer as parameters when creating the model.
+    ok the problem has been fixed.
+    - until now we have done such book keeping operations for the the convolutional layers. to keep track of the classifiers as well we need to implement the same 
+    functions also in the supervised learning part: 
+    DONE    - first we need to add a hook to record the activations on the linear layer as well, so this needs to be done in the continual_learning.py file. 
+    DONE    - then we need to tap into the training procedures: 
+                - we can for sure reuse the functions implemented for the unsupervised learning part. 
+                - use the same schema used in the usupervised learning. 
+    The following cannot be donebecause the linear layer used is the default on eof pytorch.
+        - after we managed to keep track of everything we need to modify how the layers are passed the single activation and average vectors:
+            - tap into the linear layer class used for the classifier 
+            - if you cannot do that you can always keep track of it with a specific field in the model class itself. It is not really  problem 
+            because we won't have more than one fully connected layer probably, at most we will have two. create a list to store the specific vectors, 
+            so in case we want to use more than 1 fully connected layer everything is already set up. 
+    #################################
+
+    DONE    - then remember to modify the ifs where we look only for the convolutional layers, because at this point we also look for the fully connected 1.
+    DONE    - very important: we also have to modify the unsupervised training, b yplacing an if and checking that what we are loading is actually the correct type of layer tensor. 
+
+    [!!! Problem] Basically what happened is that the values utilized for the calculation of the delta weights vtensors and the values used fro the calulaion of the top 
+    k important kernels are jsut 2 values... I wonder if the problem is localized only to the top k kernels, for which we look at the activation or also to the delta
+    weights. If it is localized only for the top k, we could use the "most important" kernels of the last convolutional layer and consider the weight updates of the last one... I think the last layer has
+    only two weights though ... Let's check these 2 facts:
+        - The shape of the weights on the last layer is: [2, 24576]. Which means that we have two weights...no?
+        Ok, so the last layer actually doesn't have any activation function but it only multiplies the flattened weights for the input and spits out 2 probabilities, 
+        so to understand which weights are more important per task, we can just do a top k list of the highest values obtained by multiplying the weights with the correspondign 
+        inputs. The Linear Applies an affine linear transformation to the incoming data: y = x*A^T + b
+    
+    [!!! PROBLEM ]
+    Ok hold on, I am at a loss. We now need to clarify why the network doesn't train using the classical feed forward way... It is so weird that they don't feed it but they give each layer the input right away everytime. 
+    No sense man.
+    It is important to mention that the training is the only thing happening in htis weird way. Meaning that the evaluation phase is probably performed normally, with 
+    the output of a previous layer being passed as input to the next. This means that the last layer will receive as input the flattened tensor deriving from the last convolutional 
+    layer. Does it make sense? Not at all. Because the model has beemn trained in a different way and so if we do evaluation passin gdifferenmt inputs to every layer the result is that the network will work with data that has never 
+    seen before and thus it canot yeld a sufficient enough result. I think it is important to write ann email to the people who made the paper. 
+    I wrote the email asking my doubts but no answer wass given I think it is time to abort the op of implementing the continual learing solution on the head as welland directly try to implement the different heads. 
+
+
+    [SECOND APPROACH]
+
+    The other approach involves utilizing another head for each new task encountered. We first need to understand where the head is created and mounted on the model: 
+    - the model is created by calling load_layers: if the model is resumed or if we create a new one the flow is the same, we call MultiLayer()
+    - inside MultiLayer we call generate_block() and return the actual block by reading its characteristics from the params. 
+    Basicaslly it works that we save the specs of the layer and then wwe load the corresponding state_dict in the model. So we would need to savae a list of state_dicts inside
+    the model and load the corresponding one. How to choose the corresponding one?
+    There can be 2 main cases: 
+    - the task we are currently training on has never been seen before, in which case we need to create a new head: 
+    - the task we are currently training on / evaluating has been seen before by the model.
+    In both cases we need to do an evaluation run of all the stored heads, pick the one which has the highest evaluation and based on a threshold decide if that is enough
+    or if we need a new head. Like if performance is below 80% or something like that. We could technically make it so the threshold depends on the evaluation of the previously
+    seen task, by doing an average and giving some sort of tolerance, so it would be kind of autonomous.
+    Steps: 
+
+        - include a list of state dicts inside the torch.save(). 
+        - inside the load layers include a section where you evaluate the model on all the possible state dicts by loading them one by one in the model. 
+        We need to understand how to load the convolutional layers seprately from the classifier layer: 
+        - We could just remove the classifier layer from the state_dict of the overall model saved through torch.save() and add one of the saved state_dicts of the head into the state_dict 
+        object before loading it into the model. Let's its shape: 
+            - odict_keys(['blocks.0.operations.0.running_mean', 'blocks.0.operations.0.running_var', 'blocks.0.operations.0.num_batches_tracked', 'blocks.0.layer.weight', 
+            'blocks.1.operations.0.running_mean', 'blocks.1.operations.0.running_var', 'blocks.1.operations.0.num_batches_tracked', 'blocks.1.layer.weight', 
+            'blocks.2.operations.0.running_mean', 'blocks.2.operations.0.running_var', 'blocks.2.operations.0.num_batches_tracked', 'blocks.2.layer.weight', 
+            'blocks.3.layer.weight', 'blocks.3.layer.bias'])
+            - so we would need to swap out only the following: 'blocks.3.layer.weight', 'blocks.3.layer.bias' (which are of the head layer).
+            - we know if we need to add a new head only after we completed all the evaluations, meaning that we need a field in the model
+            - which allows us to know, right before saving it, if we need to store the current head or not.
+            - We store the head regardless, if it is an old one bein gretrained on the same dataset we resave it, if it is a new one we save it again. 
+            - So everytime we pick a head for the list, we need to remove it, and then we save it at the end of training, to avoid having duplicates.
+        - if the performance is below threshold on all the state dicts then have a model from scratch by not loading anything inside the model itself. 

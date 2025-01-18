@@ -421,6 +421,13 @@ def run_sup(
             else:
                 log.verbose()
 
+            if epoch == final_epoch: 
+                state_dict = model.state_dict()
+                keys = list(state_dict.keys())
+                new_head = {keys[-1]: state_dict[keys[-1]], keys[-2]: state_dict[keys[-2]]}
+                print("new_head: ", new_head)
+                model.heads.append(new_head)
+
             if save:
                 print("BLOCKS IN SUP: ", blocks)
                 save_layers(model, folder_name, epoch, blocks, storing_path=model_dir)
@@ -428,6 +435,7 @@ def run_sup(
             if plot_fc is not None:
                 for block in blocks:
                     plot_fc(model, block)
+    
 
     metrics["dataset_sup"] = dataset_config
     return metrics

@@ -122,7 +122,7 @@ results = {}
 
 def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
     device = get_device(gpu_id)
-    model = load_layers(blocks, name_model, resume)
+    model = load_layers(blocks, name_model, resume, dataset_sup_config=dataset_sup_config, batch_size=list(train_config.values())[-1]["batch_size"])
         
     #model = copy.deepcopy(model_og)
 
@@ -143,6 +143,8 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 print("subsubl NAME: " , subsubl)
                 if subsubl._get_name().__eq__("HebbSoftKrotovConv2d"):
                     subsubl.register_forward_hook(getActivation("conv"+str(depth)))
+                if subsubl._get_name().__eq__("Linear"):
+                    subsubl.register_forward_hook(getActivation("linear"+str(depth)))
             depth += 1
     
     

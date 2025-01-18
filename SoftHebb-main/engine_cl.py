@@ -12,6 +12,8 @@ import numpy as np
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 K = 20
+activations = {}
+
 
 def train_BP(model, criterion, optimizer, loader, device, measures):
     """
@@ -19,6 +21,24 @@ def train_BP(model, criterion, optimizer, loader, device, measures):
     """
     # with torch.autograd.set_detect_anomaly(True):
     t = time.time()
+
+    # avg_deltas = model.avg_deltas
+    # delta_weights = {}
+    # activations_sum = []
+    # acts = model.acts
+
+    # layer_num = -1
+    # iteration = 0
+    # interval = 100
+    # depth = 0
+    # for layer in model.children():
+    #     for subl in layer.children():
+    #         depth += 1
+    # depth -= 1
+
+    # prev_dict = deepcopy(model.state_dict())
+    # prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and str(depth) in k} 
+
     for inputs, target in loader:
         ## 1. forward propagation$
         inputs = inputs.float().to(device, non_blocking=True)
@@ -33,24 +53,44 @@ def train_BP(model, criterion, optimizer, loader, device, measures):
 
         # Store the original weights for comparison
         
-        prev_weights = model.blocks[-1].layer.weight.detach().clone()
+        curr_act = model.blocks[-1].layer.weight.detach().clone()
 
         ## 3. compute gradient and do SGD step
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        ###################################################################################
 
+        # if layer_num == -1:
+        #         prev_dict, layer_num = get_layer(model, depth, prev_dict)
+            
+        # # I store the activations of every batch
+        # activations_sum.append(activations["linear" + str(layer_num)].cpu())
+
+        # #remember that we are workng with batches, so you need to multiply interval by the batch size
+        # if iteration % interval == 0: 
+
+        #     delta_weights = get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights)
+            
+        #     prev_dict = deepcopy(model.state_dict())
+        #     #['blocks.0.operations.0.running_mean', 'blocks.0.operations.0.running_var', 'blocks.0.operations.0.num_batches_tracked', 'blocks.0.layer.weight', 'blocks.1.operations.0.running_mean', 'blocks.1.operations.0.running_var', 'blocks.1.operations.0.num_batches_tracked', 'blocks.1.layer.weight', 'blocks.2.operations.0.running_mean', 'blocks.2.operations.0.running_var', 'blocks.2.operations.0.num_batches_tracked', 'blocks.2.layer.weight', 'blocks.3.layer.weight', 'blocks.3.layer.bias']
+        #     prev_dict = {k: v for k, v in prev_dict.items() if str(layer_num) + ".layer.weight" in k and str(depth) in k}     
+
+                
+            
+        # iteration += 1
+        ###################################################################################
         # Calculate the average weight change per neuron
         # Average change per row (neuron)
-        curr_weights = model.blocks[-1].layer.weight.detach().clone()
-        delta_weight = torch.abs(curr_weights - prev_weights)
-        avg_weight_change_per_neuron = torch.mean(delta_weight, dim=1)
+        # curr_weights = model.blocks[-1].layer.weight.detach().clone()
+        # delta_weight = torch.abs(curr_weights - prev_weights)
+        # avg_weight_change_per_neuron = torch.mean(delta_weight, dim=1)
 
-        # Forward pass again to compute activations
-        activations = output.detach().clone()  # Detach activations for analysis
-        #print(activations.shape)
-        # Compute the importance of neurons based on average activation values
-        avg_activation_per_neuron = torch.mean(activations, dim=0) 
+        # # Forward pass again to compute activations
+        # activations = output.detach().clone()  # Detach activations for analysis
+        # #print(activations.shape)
+        # # Compute the importance of neurons based on average activation values
+        # avg_activation_per_neuron = torch.mean(activations, dim=0) 
 
         ## 4. Accuracy assessment
         predict = output.data.max(1)[1]
@@ -62,6 +102,55 @@ def train_BP(model, criterion, optimizer, loader, device, measures):
         convergence, R1 = model.convergence()
         measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), convergence, R1, model.get_lr())
 
+    
+    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+    # final_sum = activations_sum[0]
+    # for i in range(1, len(activations_sum)):
+    #    final_sum += activations_sum[i]
+    
+    # # here we sum all the values of each activation map to obtain 1 value of activation per kernel instead of a map.ù
+    # print("shape of final_sum: ", final_sum.shape )
+    # final_sum = torch.sum(final_sum, dim=0)
+    # #final_sum = torch.sum(final_sum, dim=1)
+
+    # # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
+    # # sum as value. Then we sort them, to consider only the first top k.
+    # final_sum = {k:v for k, v in enumerate(final_sum)}
+    
+    # final_sum = sorted(final_sum.items(), key = lambda item : item[1], reverse=True)
+    # final_sum = list(dict(final_sum))
+
+    # K = round(len(final_sum)*0.3) # K takes 20% of the kernels
+    # print("FINAL SUM LENNNN " , len(final_sum))
+    # acts["conv" + str(layer_num)] = final_sum[:K+1]
+    # print("FINAL_SUM: ", final_sum[:10])
+    # print("acts len: ", len(list(acts.keys())))
+    # print("acts keys: ", list(acts.keys()))
+    # print("acts: ", acts)
+    # print("final_sum len: ", len(final_sum))
+
+
+    # print("delta_weights INFO: ")
+    # print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
+    # print("NUM OF TRACKED WEIGHTS CHANGES PER LAYER: ", len(delta_weights[list(delta_weights.keys())[0]]) )
+    # avg_deltas = average_deltas(delta_weights, avg_deltas, device)
+    # print("avg_deltas INFO: ", type(avg_deltas))
+    # print("avg_deltas keys: ", list(avg_deltas.keys()))
+
+    
+    # model.avg_deltas = avg_deltas
+    # model.acts = acts
+
+    # print("avg_deltas size: ", len(list(avg_deltas.keys())))
+    # print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
+
+    # print("################################################")
+
+
+
+
+        
     return measures, optimizer.param_groups[0]['lr']
 
 """
@@ -74,7 +163,6 @@ So are they both to be defined???
 
 
 """
-activations = {}
 
 
 def getActivation(name):
@@ -95,12 +183,12 @@ def get_layer(model, depth, prev_dict):
     # When it finds one layer that has current state different than previous state then it returns the layer num and the prev_dict
     # cleaned of all the other non changing layers. 
     layer_num = 0
-    
-    for k, v in prev_dict.items():
-        if "layer.weight" in k and str(depth) not in k:
-            if not torch.equal(model.state_dict()[k], prev_dict[k]):
+    total = len(model.config)
+    for k in range(total):
+        if prev_dict.get('blocks.' + str(k) + '.layer.weight') is not None:
+            if not torch.equal(model.state_dict()['blocks.' + str(k) + '.layer.weight'], prev_dict['blocks.' + str(k) + '.layer.weight']):
                 break
-            layer_num += 1
+        layer_num += 1
     prev_dict = {k: v for k, v in prev_dict.items() if str(layer_num) in k}
     print("LAYER_NUM: ",layer_num)
     #print(len(prev_dict))
@@ -116,7 +204,7 @@ def get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights 
     curr_dict = deepcopy(model.state_dict())
     #print("CURR DICT state: ", list(curr_dict.keys()))
 
-    curr_dict = {k: v for k, v in curr_dict.items() if str(layer_num) + ".layer.weight" in k and str(depth) not in k}
+    curr_dict = {k: v for k, v in curr_dict.items() if str(layer_num) + ".layer.weight" in k and k in prev_dict }
     # I should put all the tensors from the dict to a tensor which comprises all the layers
     # to improve performance by loading everything on GPU
     for kc, tc in curr_dict.items():
@@ -264,6 +352,8 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
        final_sum += activations_sum[i]
     
     # here we sum all the values of each activation map to obtain 1 value of activation per kernel instead of a map.
+    print("shape of final_sum: ", final_sum.shape )
+
     final_sum = torch.sum(final_sum, dim=1)
     final_sum = torch.sum(final_sum, dim=1)
 
@@ -406,8 +496,6 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     t = False
     i = 0
 
-    file_path_d = 'avg_deltas.p'
-    file_path_act = 'activations.p'
     
     avg_deltas = model.avg_deltas
     delta_weights = {}

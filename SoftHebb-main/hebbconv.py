@@ -437,6 +437,7 @@ class HebbHardConv2d(nn.Module):
             print(mask[0], current_kernels_avg.cpu()[0], self.avg_deltas_layer.cpu()[0])
             self.temp = 1
         return mask
+    
     def get_lower_lr_mask(self, threshold_mask):
         # this function returns a one hot tensor where the cell to 0 are the ones where we don't need to decrease the lr and the cells with 1 are the ones where we have to
         # decrease the lr
@@ -477,6 +478,10 @@ class HebbHardConv2d(nn.Module):
             #print(self.lr.shape)
             # !!! self.weight.shape is always equal to self.nb_train
 ################################################################################
+            if self.temp == 0:
+                print("self.avg_deltas_layer: ", type(self.avg_deltas_layer))
+                print("self.top_acts_layer: ", type(self.top_acts_layer))
+                self.temp = 1
             if CF_SOL and self.avg_deltas_layer is not None and self.top_acts_layer is not None:
                 lower_lr = 0.7 # means that we reduce it of 90%
                 higher_lr = 0.3 # means that we increase it of 50%
@@ -500,6 +505,7 @@ class HebbHardConv2d(nn.Module):
                 lr_mask = lr_mask.view(self.lr.shape[0], 1, 1, 1)
                 # return a mask of the learning rate which limits the learning where the threshold was broken and increases it where it wasn't.
                 if self.temp == 3:
+                    
                     print("lower_lr_mask ", lower_lr_mask.cpu())
                     print("higher_lr_mask ", higher_lr_mask.cpu())
                     print("lr_mask ", lr_mask.cpu())
