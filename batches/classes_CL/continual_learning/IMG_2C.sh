@@ -13,4 +13,4 @@ module av cineca-ai
 module load anaconda3
 
 cd $WORK/rcasciot/neuromodAI/SoftHebb-main
-conda run -n softhebb python continual_learning.py --preset 6SoftHebbCnnImNet --resume all --model-name 'IMG_2C_CL' --dataset-unsup ImageNette_1 --dataset-sup ImageNette_50 --continual_learning True --evaluate True --classes 2
+conda run -n softhebb python continual_learning.py --preset 6SoftHebbCnnImNet --resume all --model-name 'IMG_2C_CL' --dataset-unsup ImageNette_1 --dataset-sup ImageNette_50 --continual_learning True --evaluate True --classes 2 --training-mode $1 --cf-sol $2 --head-sol $3 --top-k $4 --high-lr $5 --low-lr $6 --t-criteria $7 --delta-w-interval $8 --heads-basis-t $9 --selected-classes "${10}"

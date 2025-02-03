@@ -12,11 +12,12 @@ import os.path as op
 from engine_cl import evaluate_sup
 from dataset import make_data_loaders
 from utils import get_device
+import numpy
 
 
 
 
-def load_layers(params, model_name, resume=None, verbose=True, model_path_override=None, dataset_sup_config=None, batch_size=None):
+def load_layers(params, model_name, resume=None, verbose=True, model_path_override=None, dataset_sup_config=None, batch_size=None, cl_hyper={}):
     """
     Create Model and load state if resume
     """
@@ -39,7 +40,8 @@ def load_layers(params, model_name, resume=None, verbose=True, model_path_overri
             # print("state_dict.keys(): ", state_dict.keys())
 
             # print("state_dict: ", state_dict)
-            model = MultiLayer(params2, acts=checkpoint["acts"], avg_deltas=checkpoint["avg_deltas"], heads=checkpoint["heads"], heads_thresh=checkpoint["heads_thresh"])
+            cl_hyper["heads_basis_t"]=float(checkpoint["heads_thresh"])
+            model = MultiLayer(params2, acts=checkpoint["acts"], avg_deltas=checkpoint["avg_deltas"], heads=checkpoint["heads"], cl_hyper=cl_hyper)
             
 
 
@@ -51,7 +53,7 @@ def load_layers(params, model_name, resume=None, verbose=True, model_path_overri
                         continue
                     if key in state_dict2:
                         state_dict2[key] = value
-                if dataset_sup_config is not None and batch_size is not None:
+                if cl_hyper["head_sol"] and dataset_sup_config is not None and batch_size is not None:
                     #call best_head
                     model.to(get_device())
                     chosen_head = best_head(model, state_dict2, dataset_sup_config, batch_size)
@@ -60,7 +62,7 @@ def load_layers(params, model_name, resume=None, verbose=True, model_path_overri
                     state_dict2[keys[1]] = chosen_head[keys[1]]
                 model.load_state_dict(state_dict2)
             else:
-                if dataset_sup_config is not None and batch_size is not None:
+                if cl_hyper["head_sol"] and dataset_sup_config is not None and batch_size is not None:
                     #call best_head
                     model.to(get_device())
                     chosen_head = best_head(model, state_dict, dataset_sup_config, batch_size)
@@ -77,10 +79,10 @@ def load_layers(params, model_name, resume=None, verbose=True, model_path_overri
         else:
             print('\n', 'Model %s not found' % model_name)
             
-            model = MultiLayer(params)
+            model = MultiLayer(params, cl_hyper=cl_hyper)
         print('\n')
     else:
-        model = MultiLayer(params)
+        model = MultiLayer(params, cl_hyper=cl_hyper)
 
     if verbose:
         model.__str__()
@@ -99,7 +101,6 @@ def best_head(model, state_dict, dataset_sup_config, batch_size):
     initial_state = state_dict
     criterion = nn.CrossEntropyLoss()
     train_loader, test_loader = make_data_loaders(dataset_sup_config, batch_size, device)
-
     for head in model.heads: 
         keys = list(head.keys())
         if keys[0] in state_dict and keys[1]  in state_dict:
@@ -109,13 +110,12 @@ def best_head(model, state_dict, dataset_sup_config, batch_size):
         loss_test, acc_test = evaluate_sup(model, criterion, test_loader, device)
         acc_test = acc_test/100
         avg_acc += acc_test
-        print("test_acc: ", acc_test)
-        if acc_test > chosen_acc and acc_test > model.heads_thresh: 
+        print("test_acc: ", acc_test, model.heads_thresh)
+        if acc_test > chosen_acc: 
             chosen_head = head
             chosen_acc = acc_test
             print("chosen_acc: ", chosen_acc)
-    if len(model.heads) > 0: 
-        model.heads_thresh = avg_acc/len(model.heads)
+    
     #model.heads.remove(chosen_head)
     return chosen_head
 
@@ -148,6 +148,9 @@ def save_layers(model, model_name, epoch, blocks, filename='checkpoint.pth.tar',
     
 
     #print("Current stored value: ", model.acts["conv0"][:5], model.avg_deltas['blocks.0.layer.weight'][:5] )
+    print("SAVED HEADS THRESHOLD: ", model.heads_thresh)
+    print("SAVED model.acts", model.acts)
+    print("SAVED model.heads_thresh", model.heads_thresh)
     torch.save({
         'state_dict': model.state_dict(),
         'config': model.config,
@@ -181,7 +184,7 @@ class MultiLayer(nn.Module):
        MultiLayer Network created from list of preset blocks
     """
 
-    def __init__(self, blocks_params: dict, blocks: nn.Module = None, acts: dict = {}, avg_deltas: dict = {}, heads: list = [], heads_thresh: float = 0.75) -> None:
+    def __init__(self, blocks_params: dict, blocks: nn.Module = None, acts: dict = {}, avg_deltas: dict = {}, heads: list = [], cl_hyper: dict = {}) -> None:
         super().__init__()
         self.train_mode = None
         self.train_blocks = []
@@ -193,7 +196,9 @@ class MultiLayer(nn.Module):
         self.avg_deltas = avg_deltas
         self.acts = acts
         self.heads = heads
-        self.heads_thresh = heads_thresh
+        self.heads_thresh = cl_hyper["heads_basis_t"]
+        self.cl_hyper = cl_hyper
+        
         # if os.path.exists(file_path_d):
         #     with open('avg_deltas.p', 'rb') as pfile:
         #         avg_deltas = pickle.load(pfile)
@@ -212,21 +217,27 @@ class MultiLayer(nn.Module):
             print(avg_deltas.keys())
             print(acts_layer.keys())
         else: 
-            print(avg_deltas)
-            print(acts_layer)
+            print("avg_deltas: ", avg_deltas)
+            print("acts_layer: ", acts_layer)
         if blocks_params is not None:
             blocks = []
             for _, params in blocks_params.items():
                 # params : {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}
                 if params['arch'] == 'CNN':
-                    if len(self.avg_deltas) > 0: 
+                    if len(self.avg_deltas) > 0:
+                        print("self.avg_deltas inside model: ", self.avg_deltas) 
                         avg_deltas_layer = self.avg_deltas["blocks." +  str(layer_num) + ".layer.weight"]
+                        print('"blocks." +  str(layer_num) + ".layer.weight": ', "blocks." +  str(layer_num) + ".layer.weight") 
+
+                        print("self.avg_deltas_layer inside model after retrieval: ", avg_deltas_layer) 
                     if len(self.acts) > 0:
+                        print("self.acts inside model: ", self.avg_deltas)
                         if layer_num == depth: 
                             acts_layer = self.acts["linear" + str(layer_num)]
                         else:
                             acts_layer = self.acts["conv" + str(layer_num)]
-                blocks.append(generate_block(params, avg_deltas_layer, acts_layer))
+                        print("acts_layer inside model after retrieval: ", acts_layer) 
+                blocks.append(generate_block(params, avg_deltas_layer, acts_layer, cl_hyper))
                 layer_num += 1
             self.blocks = nn.Sequential(*blocks)
         else:

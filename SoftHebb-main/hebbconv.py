@@ -15,7 +15,6 @@ from activation import Triangle
 global xyz
 import numpy as np
 R = [True]
-CF_SOL = True
 def myprint(t):
     if R[0]: 
         print("WTA IN delta_weight: ", t)
@@ -433,9 +432,9 @@ class HebbHardConv2d(nn.Module):
         # returns a mask which identifies 
         device = DEVICE
         mask = (current_kernels_avg > self.avg_deltas_layer).type(torch.uint8).to(device)
-        if self.temp == 0:
-            print(mask[0], current_kernels_avg.cpu()[0], self.avg_deltas_layer.cpu()[0])
-            self.temp = 1
+        if self.temp == 1:
+            print("CHECK_THRESHOLD: ", mask[0], current_kernels_avg.cpu()[0], self.avg_deltas_layer.cpu()[0])
+            self.temp = 2
         return mask
     
     def get_lower_lr_mask(self, threshold_mask):
@@ -445,11 +444,11 @@ class HebbHardConv2d(nn.Module):
         topk_mask = torch.zeros(len(threshold_mask)).to(device)
         topk_mask[self.top_acts_layer] = 1
         final_mask = topk_mask + threshold_mask
-        if self.temp == 1:
+        if self.temp == 2:
             print("topk_mask ", topk_mask.cpu())
             print("threshold_mask ", threshold_mask.cpu())
             print("final_mask", final_mask.cpu())
-            self.temp = 2
+            self.temp = 3
         final_mask = (final_mask == 2 ).type(torch.uint8)
         return final_mask
     def get_higher_lr_mask(self):
@@ -482,9 +481,9 @@ class HebbHardConv2d(nn.Module):
                 print("self.avg_deltas_layer: ", type(self.avg_deltas_layer))
                 print("self.top_acts_layer: ", type(self.top_acts_layer))
                 self.temp = 1
-            if CF_SOL and self.avg_deltas_layer is not None and self.top_acts_layer is not None:
-                lower_lr = 0.7 # means that we reduce it of 90%
-                higher_lr = 0.3 # means that we increase it of 50%
+            if self.cl_hyper["cf_sol"] and self.avg_deltas_layer is not None and self.top_acts_layer is not None:
+                lower_lr = self.cl_hyper["low_lr"] # means that we reduce it of x%
+                higher_lr = self.cl_hyper["high_lr"] # means that we increase it of x%
                 # first we find the average weight change per kernel
                 current_kernels_avg = self.average_deltas()
                 # find a tensor which flags the kernels that break the threshold
@@ -517,7 +516,8 @@ class HebbHardConv2d(nn.Module):
 ################################################################################################
             else:
                 self.weight[:self.nb_train].add_(self.lr*self.delta_w[:self.nb_train])
-            if self.temp == -1:
+                #self.weight[:self.nb_train].add_(self.lr*self.delta_w[:self.nb_train])
+            if self.temp == 4:
                 
                 self.temp = 5
             # self.weight = self.weight * self.mask
@@ -858,6 +858,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             nb_train: int = None,
             avg_deltas_layer: torch.tensor = None,
             top_acts_layer: list = None,
+            cl_hyper: dict = {}
     ) -> None:
         """
         Krotov implementation from the SoftConv2d class
@@ -877,6 +878,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
 
         self.avg_deltas_layer = avg_deltas_layer
         self.top_acts_layer = top_acts_layer
+        self.cl_hyper = cl_hyper
         # self.stat = torch.zeros(5, out_channels)
 
     def extra_repr(self):
@@ -1129,7 +1131,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         ) + '\n' + self.stat_wta() + '\n'
 
 
-def select_Conv2d_layer(params, avg_deltas_layer=None, acts_layer=None) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
+def select_Conv2d_layer(params, avg_deltas_layer=None, acts_layer=None, cl_hyper={}) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
     """
     Select the appropriate from a set of params
     ----------
@@ -1232,6 +1234,8 @@ def select_Conv2d_layer(params, avg_deltas_layer=None, acts_layer=None) -> Union
             nb_train=params['nb_train'],
             avg_deltas_layer = avg_deltas_layer,
             top_acts_layer = acts_layer, 
+            cl_hyper = cl_hyper
+
 
         )
     return layer

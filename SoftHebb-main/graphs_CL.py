@@ -1,3 +1,4 @@
+from matplotlib.offsetbox import AnchoredText
 import matplotlib.pyplot as plt
 import numpy as np
 import os 
@@ -31,7 +32,8 @@ def hinton(matrix, max_weight=None, ax=None):
 
 
 def format_graphs(path): 
-
+    if not os.path.exists(path):
+        return 
     f = open(path, "r")
     datasets = DATASETS
     objects = json.load(f)
@@ -73,17 +75,21 @@ def format_graphs(path):
                         objS = obj[run]
                         if isinstance(objS, str):
                             continue
-
-                        new_obj["test_loss"] = objS["test_loss"]
-                        new_obj["test_acc"] = objS["test_acc"]
-                        new_obj["dataset"] = objS["dataset_sup"]["name"]
-                        
-                        if objS["dataset_sup"].get("selected_classes") is not None:
-                            new_obj["selected_classes"] = objS["dataset_sup"]["selected_classes"]
-                            new_obj["n_classes"] = objS["dataset_sup"]["n_classes"]
-                        if obj.get("model_name") is not None:
-                            new_obj["model_name"] = obj["model_name"]
-                        new_obj["T"] = key
+                        print(run)
+                        if run != "cl_hyper":
+                            new_obj["test_loss"] = objS["test_loss"]
+                            new_obj["test_acc"] = objS["test_acc"]
+                            new_obj["dataset"] = objS["dataset_sup"]["name"]
+                            
+                            if objS["dataset_sup"].get("selected_classes") is not None:
+                                new_obj["selected_classes"] = objS["dataset_sup"]["selected_classes"]
+                                new_obj["n_classes"] = objS["dataset_sup"]["n_classes"]
+                            if obj.get("model_name") is not None:
+                                new_obj["model_name"] = obj["model_name"]
+                            new_obj["T"] = key
+                        else: 
+                            new_obj["T"] = key
+                            new_obj["cl_hyper"] = objS
                         runs[run] = new_obj# each run in runs will be of the form "R1": {fields}
                     graphs[dataset].append(runs)
     return graphs
@@ -104,30 +110,44 @@ def create_graph(graphs, path):
         for d in datasets: 
             objects = graphs[d] # it is a list of dictionaries
             for g in objects: 
-                x = list(g.keys())
+                runs = list(g.keys())
                 y = []
-                runs = x
-                for run in runs: 
-                    y.append(g[run]["test_acc"])
-                    T = g[run]["T"]
-                plt.figure(figsize=(5, 6))
+                x = runs[:-1]
                 
-                plt.suptitle("Continual Learning with " + str(g[run]["n_classes"]) + " classes per task " + "("+ T +")")
-                plt.bar(x, y)
-                img_name = g[run]["dataset"] + "_" + str(g[run]["n_classes"]) + "C" + ".png"
+                for run in runs: 
+                    if run != "cl_hyper":
+                        y.append(g[run]["test_acc"])
+                        T = g[run]["T"]
+                fig, ax = plt.subplots(figsize=(6, 6))  # Main plot
+                run = runs[-2]
+
+                fig.suptitle("Continual Learning with " + str(g[run]["n_classes"]) + " classes per task " + "("+ T +")")
+
+                # Pretty-print JSON
+                cl_info = json.dumps(g["cl_hyper"], indent=4)
+
+                # Create an extra subplot for JSON text outside the main plot
+                json_ax = fig.add_axes([1, 0.2, 0.2, 0.6])  # [left, bottom, width, height]
+                json_ax.axis("off")  # Hide axis
+                json_ax.text(0, 1, cl_info, fontsize=8, verticalalignment='top', family='monospace')
+
+                # Plot the bar chart
+                ax.bar(x, y)
+
+                # Title and Labels
+                img_name = g[run]["dataset"] + "_" + str(g[run]["n_classes"]) + "C" + "_" +T +".png"
                 if g[run].get("model_name"):
-                    img_name = g[run]["model_name"] + ".png"
-                    plt.title(g[run]["dataset"] + " on model " + g[run]["model_name"])
+                    img_name = g[run]["model_name"] +"_" +T +".png"
+                    ax.set_title(g[run]["dataset"] + " on model " + g[run]["model_name"])
                 else: 
-                    
-                    plt.title(g[run]["dataset"])
+                    ax.set_title(g[run]["dataset"])
 
-                plt.yticks(np.arange(0,105,5))
+                ax.set_yticks(np.arange(0, 105, 5))
 
-                #plt.show()
-                plt.savefig(path + "/" + img_name)
+                # Save and Close
+                plt.savefig(path + "/" + img_name, bbox_inches='tight')
                 plt.close()
-
+                
 
     elif classes_CL == False:
         datasets = list(graphs.keys())
@@ -139,26 +159,37 @@ def create_graph(graphs, path):
                 runs = x
                 d_labels = []
                 for run in runs: 
-                    
-                    y.append(g[run]["test_acc"])
-                    T = g[run]["T"]
+                    if run != "model_name" and run != "cl_hyper":
+                        y.append(g[run]["test_acc"])
+                        T = g[run]["T"]
 
-                    if g[run]["dataset"] not in d_labels:
-                        d_labels.append(g[run]["dataset"])
-                
-
+                        if g[run]["dataset"] not in d_labels:
+                            d_labels.append(g[run]["dataset"])
                 plt.figure(figsize=(5, 6))
                 d_title = str(d_labels[0]) + "_" + str(d_labels[1])
-                plt.suptitle("Continual Learning with " + d_title + "("+ T +")")
-                plt.bar(x, y)
-                img_name = d_title + ".png"
+                plt.suptitle("Continual Learning with " + d_title + " (" + T + ")")
+
+                # Bar plot
+                plt.bar(x[:-1], y)
+
+                # Generate image name
+                img_name = d_title + "_"+ T + ".png"
                 if g[run].get("model_name"):
-                    img_name =  g[run]["model_name"] + ".png"
+                    img_name = g[run]["model_name"] + "_"+ T +".png"
                     plt.title("Model " + g[run]["model_name"])
 
-                plt.yticks(np.arange(0,105,5))
-                #plt.show()
-                plt.savefig(path + "/" + img_name)
+                plt.yticks(np.arange(0, 105, 5))
+
+                # Pretty-print JSON
+                cl_info = json.dumps(g["cl_hyper"], indent=4)
+
+                # Add external JSON box
+                json_ax = plt.gcf().add_axes([0.9, 0.2, 0.2, 0.6])  # Moved further right (left = 0.9)
+                json_ax.axis("off")  # Hide axis
+                json_ax.text(0, 1, cl_info, fontsize=8, verticalalignment='top', family='monospace')
+
+                # Save and close
+                plt.savefig(path + "/" + img_name, bbox_inches='tight')
                 plt.close()
 
 

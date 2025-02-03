@@ -596,7 +596,7 @@ Let's do soemthing very tidy and clear:
     I wrote the email asking my doubts but no answer wass given I think it is time to abort the op of implementing the continual learing solution on the head as welland directly try to implement the different heads. 
 
 
-    [SECOND APPROACH]
+    [SECOND APPROACH --- FULLY IMPLEMENTED]
 
     The other approach involves utilizing another head for each new task encountered. We first need to understand where the head is created and mounted on the model: 
     - the model is created by calling load_layers: if the model is resumed or if we create a new one the flow is the same, we call MultiLayer()
@@ -626,3 +626,174 @@ Let's do soemthing very tidy and clear:
             - We store the head regardless, if it is an old one bein gretrained on the same dataset we resave it, if it is a new one we save it again. 
             - So everytime we pick a head for the list, we need to remove it, and then we save it at the end of training, to avoid having duplicates.
         - if the performance is below threshold on all the state dicts then have a model from scratch by not loading anything inside the model itself. 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+We need to try to make the model such that the layers are all linked with each other and the information is forwarded. I am very confused about the fact that using or not 
+using the continual learning solution doesn't seem o bring any real advantage. Weird because we technically change the input of the head layer, so also its output should change. 
+I want to try something very extreme. If I set the learning rate to all zeros in the feature extractor... what is going to change? 
+It doesn't work, it gives me an error because it looks for the wrong layer... the layers are found based on their change, but we just nulled it... 
+so they are the same.
+
+[!!! PROBLEM]
+
+Ok found a problem. We only keep track of layer at a time, the one that is training. This is wrong because we could have multiple layers training 
+at the same time if we use the other modes like simultaneous. At this point we need to modify the train_hebb and train_sup_hebb, 
+such that they keep track of all the layers, not just one which is the one that is changing. Because in other modes they could all change 
+in the same epoch. So the pred_dict needs to keep track of everything. 
+
+[!!! PROBLEM]
+
+Additionally we need to find a way to calculate the current layer which is not the one that checks if one layer has changed or not. We need something 
+that tells us all the layers changing. Tha could be achieved though the blocks variable inside train_unsup by passing it to train_hebb and train_sup_hebb.
+
+Different trainingg specs: 
+
+-train_layer_order: successive {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 10, 'print_freq': 10}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 64, 'print_freq': 10}}
+-train_layer_order: consecutive {'t0': {'blocks': [0, 1, 2], 'mode': 'unsupervised', 'batch_size': 10, 'nb_epoch': 1, 'print_freq': 10, 'lr': 0.005}, 't1': {'blocks': [3], 'mode': 'supervised', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10, 'lr': 0.001}}
+-train_layer_order: simultaneous {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}
+
+[!!! SOLVED]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+The first thing we need to modify is the fact that both train_sup and train_sup_hebb use an approach which only works
+with the successive training mode. Why? Because we keep track of just one layer, meaning that w assume that at each 
+training step only one layer is changing, which is only true in the case of successive mode, in consecutive all the hebbian 
+layers are in training mode, and in simultaneous all the layers, both hebbian and supervised are training. 
+So the first thing is to modify the get_layer function: it is used to find the current layer changing, in the case of the 2 other modes we can use the blocks variable
+which contains the layers changing because in training mode. The layer_num variable populated trhough the call get_layer is used in 2 
+instances: 
+- when adding the layer delta and activations to the tensors in order to have a field in the dictionary:
+    activations_sum.append(activations["conv" + str(layer_num)].cpu())
+    delta_weights = get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights)
+- then inside delta weights: 
+    curr_dict = {k: v for k, v in curr_dict.items() if str(layer_num) + ".layer.weight" in k and k in prev_dict }
+
+- and when calculating the prev_dict: 
+    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and str(depth) not in k} 
+
+If I am not mistaken the layer_num variable is only used to select the layers we are tracking, meaning that if we don't use it we keep in memory also things we don't care about.
+The thing is that we care about them depending on the mode, so if we want to make things simple we can just not optimize this part and tracking everything all the time. 
+The first stop we encounter is at line 332 with activations_sum.append(activations["conv" + str(layer_num)].cpu()), the issue lies in the fact that the 
+structure activations_sum is a list, thought to contain only the activations of 1 layer, the solution is to transform it into a dictionary where the key is the layer
+and the value is the list of partial sums. We need to pay attention to the fact that if in successive mode, the only layer activating is the the one in blocks, so to update the lists
+and to then calculate the mean we need to be sure the name of the layer is in blocks list. 
+Let's also solve it for train_sup_hebb whihc is used in hybrid mode: 
+Now let's go through what the code does: 
+- we obtain the avg_deltas and the acts from the model
+- we caluclate the maximum depth of the model
+- obtain the prev_dict bby isolating all the entries which are weghts and which are in the blocks list
+- do the same for the activations_sum
+- activations_sum dict we append to the right list the activations of the corresponding block, and
+we do this for all the blocks in blocks, including the linear ones.
+- then if the iteration reaches the interval set to gather the delta_weights we gather them 
+- and then we calculate the prev_dict again
+- then for all the layers I:
+    - summ along dimension 1
+    - resum along dimension 1
+    - obtain a sorted semantic dictionary of the activations
+    - select the top_k to be considered
+- Then I calculate the average deltas 
+
+
+[!!!]
+We need to calculate the averages of all the tests. Now, we have to create an array of possible combinations, the thing is that for 10 binary tuples
+there is a 100 tests, maybe we can do 50. For 10 classes assigned in 4 there are 10k possible combination, so here we need to do a subset. I would 100 for both cases,
+we cannot send 100s of jobs though, we might need to find a way to exploit:
+    - nodes 
+    - cpus
+    - gpus  
+
+
+[RESULTS]
+
+Using the following configuration: 
+{
+    "training_mode": "simultaneous",
+    "cf_sol": true,
+    "head_sol": true,
+    "top_k": 0.5,
+    "high_lr": 0.0,
+    "low_lr": 1.0,
+    "t_criteria": "mean",
+    "delta_w_interval": 100,
+    "heads_basis_t": 0.6,
+    "selected_classes": [[decided randomly]]
+}
+
+There is no improvement if we activate the kernel solution or not, while if we use the head swap solution the performance go way up. 
+Increasing the size of the model seems to yield better performance. 
+If we retrain the network on the same set of tasks a second time the performance goes way more up. 
+if we do 4 tasks the solution still works and the same behaviour icd backs found as just 2 tasks.
+
+if we use  "high_lr": 2000.0, "low_lr": 1.0 lower performance on eval_1
+if we use: 
+
+"cl_hyper": {
+        "training_mode": "consecutive",
+        "cf_sol": true,
+        "head_sol": true,
+        "top_k": 0.7,
+        "high_lr": 0.2,
+        "low_lr": 0.8,
+        "t_criteria": "mean",
+        "delta_w_interval": 100.0,
+        "heads_basis_t": 0.8700000000000001,
+        "selected_classes": [
+            [
+                2,
+                8
+            ],
+            [
+                1,
+                5
+            ]
+        ]
+    }
+
+performance is higher then when cf_sol is off.
+
+Let's see what happens if we reduce: "delta_w_interval": if we reduce it to 20 the performance goes up to about 89.5%
+ "cl_hyper": {
+        "training_mode": "consecutive",
+        "cf_sol": true,
+        "head_sol": true,
+        "top_k": 0.7,
+        "high_lr": 0.2,
+        "low_lr": 0.8,
+        "t_criteria": "mean",
+        "delta_w_interval": 20.0,
+        "heads_basis_t": 0.8624999999999999,
+        "selected_classes": [
+            [
+                2,
+                8
+            ],
+            [
+                1,
+                5
+            ]
+        ]
+    }
+
+Increasing topks above 0.7 doesn't seem to have any positive effect on the performance.
+Reducing topks seems to lower performance 81%:
+"cl_hyper": {
+        "training_mode": "consecutive",
+        "cf_sol": true,
+        "head_sol": true,
+        "top_k": 0.1,
+        "high_lr": 2000.0,
+        "low_lr": 1.0,
+        "t_criteria": "mean",
+        "delta_w_interval": 100.0,
+        "heads_basis_t": 0.805,
+        "selected_classes": [
+            [
+                2,
+                8
+            ],
+            [
+                1,
+                5
+            ]
+        ]
+    }

@@ -4,7 +4,11 @@ cineca-ai/3.0.1  cineca-ai/4.1.0  cineca-ai/4.3.0
 
 Key:
 (symbolic-version)  
+The device used will be: 
+True
+cuda:0
 BLOCKS:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3}}, 'b3': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 3, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.25, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10}, 'pool': None, 'activation': None}}
+{'training_mode': 'simultaneous', 'cf_sol': True, 'head_sol': True, 'top_k': 0.5, 'high_lr': 0.0, 'low_lr': 1.0, 't_criteria': 'mean', 'delta_w_interval': 100, 'heads_basis_t': 0.6}
 CL:  True
 {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True}
 CL:  False
@@ -19,17 +23,15 @@ range = 0.8505172717997146
 block 2, size : 1536 4 4
 range = 0.4252586358998573
 range = 0.11048543456039805
+train_layer_order: simultaneous {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}
 The device used will be: 
 True
 cuda:0
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.11048543456039805, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10, 'in_channels': 24576, 'old_channels': 1536, 'lr_scheduler': {'decay': 'cste', 'lr': 0.1}}
-
- Model CIFAR10_STL10_CL loaded successfuly with best perf
-
-
+avg_deltas:  {}
+acts_layer:  None
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
 
  ----- Architecture Block BatchNorm2dSK3962(5, 5)1.0reflect, number 0 -----
 - BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
@@ -53,6 +55,127 @@ CONFIG: {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 
 - Flatten(start_dim=1, end_dim=-1)
 - Dropout(p=0.5, inplace=False)
 - Linear(in_features=24576, out_features=10, bias=True)
+model.heads:  []
+[Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)]
+LAYER NAME:  Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+LAYER CHILDREN:  [BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=0.7)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=1.4)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+  (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (activation): Triangle(power=1.0)
+), BasicBlock(
+  (operations): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+  )
+  (layer): Linear(in_features=24576, out_features=10, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)]
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=0.7)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=1.4)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  AvgPool2d(kernel_size=2, stride=2, padding=0)
+subsubl NAME:  Triangle(power=1.0)
+subsubl NAME:  Sequential(
+  (0): Flatten(start_dim=1, end_dim=-1)
+)
+subsubl NAME:  Linear(in_features=24576, out_features=10, bias=True)
+subsubl NAME:  Dropout(p=0.5, inplace=False)
+CONFIG MODE:  hybrid
+
+ ********** Hybrid learning of blocks [0, 1, 2, 3] **********
 SEED:  0
 BEFORE RESIZING
 Files already downloaded and verified
@@ -60,8 +183,132 @@ AFTER RESIZING
 Files already downloaded and verified
 INDICES:  50000
 IMAGE SIZE: torch.Size([64, 3, 32, 32])
-Accuracy of the network on the 1st dataset: 80.320 %
-Test loss on the 1st dataset: 0.015
+WTA IN delta_weight:  tensor([[[-8.4433e-07, -1.0699e-06, -7.8158e-07,  ..., -1.4046e-08,
+          -1.7333e-08, -2.3996e-08],
+         [-9.4501e-07, -7.3234e-07, -5.7468e-07,  ..., -1.0462e-08,
+          -1.1049e-08, -1.1841e-08],
+         [-1.3493e-06, -1.1568e-06, -7.3305e-07,  ..., -1.6054e-08,
+          -1.3611e-08, -1.8950e-08],
+         ...,
+         [-2.8586e-43, -6.4740e-43, -2.2701e-43,  ..., -9.2518e-37,
+          -3.7697e-36, -1.6984e-36],
+         [-5.6052e-45, -9.8091e-45, -2.0739e-43,  ..., -9.7239e-37,
+          -3.0253e-36, -2.0530e-37],
+         [-2.1019e-44, -1.9618e-44, -3.0829e-44,  ..., -1.0492e-35,
+          -5.2096e-36, -6.8968e-38]],
+
+        [[-1.4916e-13, -1.4853e-13, -2.2685e-13,  ..., -1.0832e-15,
+          -1.5300e-15, -1.2011e-15],
+         [-8.1184e-14, -7.5586e-14, -1.4076e-13,  ..., -4.6419e-16,
+          -5.1172e-16, -4.1861e-16],
+         [-2.6006e-13, -2.1646e-13, -4.8776e-13,  ..., -2.5134e-15,
+          -2.1371e-15, -2.5476e-15],
+         ...,
+         [-6.1394e-36, -1.2891e-35, -1.1537e-35,  ..., -1.9929e-29,
+          -4.1627e-29, -8.0115e-30],
+         [-1.3689e-36, -2.0044e-36, -1.8423e-35,  ..., -1.7238e-29,
+          -1.2056e-28, -2.3182e-29],
+         [-4.6322e-36, -5.2943e-36, -4.3188e-36,  ..., -3.1413e-29,
+          -2.7167e-28, -1.4301e-29]],
+
+        [[-1.1498e-13, -2.1127e-13, -1.5790e-13,  ..., -1.0801e-15,
+          -9.4545e-16, -1.0063e-15],
+         [-1.0329e-13, -1.1268e-13, -1.1230e-13,  ..., -5.8284e-16,
+          -4.6311e-16, -4.2334e-16],
+         [-2.8625e-13, -2.4224e-13, -2.7482e-13,  ..., -2.1125e-15,
+          -1.4077e-15, -1.7878e-15],
+         ...,
+         [-1.8619e-37, -3.0175e-37, -2.0435e-37,  ..., -8.9558e-32,
+          -1.1584e-30, -3.2968e-31],
+         [-2.6672e-38, -5.5004e-38, -7.4597e-37,  ..., -1.0429e-31,
+          -4.4674e-31, -2.3134e-31],
+         [-2.1758e-37, -1.9923e-37, -2.0003e-37,  ..., -1.9413e-30,
+          -1.4090e-30, -1.7658e-31]],
+
+        ...,
+
+        [[-2.5379e-24, -2.1267e-24, -2.0334e-24,  ..., -7.2363e-30,
+          -9.5623e-30, -9.7589e-30],
+         [-1.3783e-24, -1.1657e-24, -1.0019e-24,  ..., -3.4522e-30,
+          -3.4145e-30, -4.1471e-30],
+         [-3.1531e-24, -3.2115e-24, -2.2028e-24,  ..., -1.5968e-29,
+          -1.4467e-29, -1.9360e-29],
+         ...,
+         [-7.5900e-13, -6.6573e-13, -4.8181e-13,  ..., -1.1966e-11,
+          -6.9790e-11, -1.6165e-11],
+         [-6.0501e-14, -4.2510e-14, -1.1024e-12,  ..., -3.5969e-12,
+          -6.4378e-12, -9.1558e-13],
+         [-6.6219e-13, -7.1902e-13, -1.0062e-12,  ..., -3.1062e-11,
+          -3.7664e-11, -1.1270e-12]],
+
+        [[-6.3591e-15, -1.6353e-14, -1.1000e-14,  ..., -2.5293e-15,
+          -1.6330e-15, -1.7946e-15],
+         [-2.6490e-15, -5.1279e-15, -5.0603e-15,  ..., -7.0880e-16,
+          -4.9545e-16, -5.7112e-16],
+         [-6.7760e-15, -1.2846e-14, -1.4018e-14,  ..., -2.1686e-15,
+          -1.6014e-15, -2.2365e-15],
+         ...,
+         [-0.0000e+00, -0.0000e+00, -0.0000e+00,  ..., -1.7192e-39,
+          -3.4562e-39, -2.7120e-39],
+         [-0.0000e+00, -0.0000e+00, -0.0000e+00,  ..., -1.3216e-39,
+          -3.5256e-39, -1.1571e-39],
+         [-0.0000e+00, -0.0000e+00, -0.0000e+00,  ..., -8.5329e-39,
+          -1.0923e-38, -2.1056e-39]],
+
+        [[-4.5972e-16, -4.4878e-16, -3.3192e-16,  ..., -3.4143e-19,
+          -3.7060e-19, -3.9808e-19],
+         [-6.3347e-16, -4.9536e-16, -3.9222e-16,  ..., -3.2418e-19,
+          -2.4864e-19, -3.6171e-19],
+         [-6.4130e-16, -5.0303e-16, -4.0582e-16,  ..., -7.2525e-19,
+          -5.4260e-19, -7.3737e-19],
+         ...,
+         [-8.0999e-30, -1.4896e-29, -1.5148e-29,  ..., -9.8350e-26,
+          -3.5221e-25, -6.0723e-26],
+         [-5.2578e-31, -4.9719e-31, -3.9641e-30,  ..., -9.7395e-26,
+          -2.7904e-25, -2.1070e-26],
+         [-8.8110e-31, -6.9288e-31, -1.2088e-30,  ..., -2.9443e-25,
+          -4.1908e-25, -1.2901e-26]]], device='cuda:0')
+Epoch: [1/50]	lr: 1.00e-03	time: 00:00:14	Loss_train 0.50948	Acc_train 49.53	/	Loss_test 0.02210	Acc_test 59.18
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [10/50]	lr: 1.00e-03	time: 00:01:34	Loss_train 0.35261	Acc_train 66.82	/	Loss_test 0.02004	Acc_test 70.95
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [20/50]	lr: 2.50e-04	time: 00:03:04	Loss_train 0.21256	Acc_train 70.65	/	Loss_test 0.00800	Acc_test 73.15
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [30/50]	lr: 1.25e-04	time: 00:04:34	Loss_train 0.11525	Acc_train 67.26	/	Loss_test 0.00352	Acc_test 70.21
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [40/50]	lr: 3.13e-05	time: 00:06:03	Loss_train 0.06472	Acc_train 54.70	/	Loss_test 0.00148	Acc_test 64.49
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [50/50]	lr: 7.81e-06	time: 00:07:33	Loss_train 0.03761	Acc_train 48.77	/	Loss_test 0.00132	Acc_test 60.20
+new_head:  {'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+RESULT:  {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}
+IN R1:  {'R1': {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}}
 CL:  True
 {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True}
 CL:  True
@@ -74,13 +321,39 @@ range = 0.8505172717997146
 block 2, size : 1536 12 12
 range = 0.4252586358998573
 range = 0.036828478186799345
+train_layer_order: simultaneous {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}
 The device used will be: 
 True
 cuda:0
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.11048543456039805, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10, 'in_channels': 24576, 'old_channels': 1536, 'lr_scheduler': {'decay': 'cste', 'lr': 0.1}}
+PARAMSSSS IN LOAD:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b3': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 3, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.11048543456039805, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10, 'in_channels': 24576, 'old_channels': 1536, 'lr_scheduler': {'decay': 'cste', 'lr': 0.1}}, 'pool': None, 'activation': None}}
+avg_deltas:  {}
+acts_layer:  None
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+The device used will be: 
+True
+cuda:0
+The device used will be: 
+True
+cuda:0
+SEED:  0
+BEFORE RESIZING
+Files already downloaded and verified
+AFTER RESIZING
+Files already downloaded and verified
+INDICES:  5000
+IMAGE SIZE: torch.Size([32, 3, 32, 32])
+test_acc:  tensor(0.3049) 0.6
+chosen_head:  {'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}
 
  Model CIFAR10_STL10_CL loaded successfuly with best perf
 
@@ -108,8 +381,135 @@ CONFIG: {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 
 - Flatten(start_dim=1, end_dim=-1)
 - Dropout(p=0.5, inplace=False)
 - Linear(in_features=24576, out_features=10, bias=True)
+model.heads:  [{'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}]
+[Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)]
+LAYER NAME:  Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+LAYER CHILDREN:  [BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=0.7)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=1.4)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+  (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (activation): Triangle(power=1.0)
+), BasicBlock(
+  (operations): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+  )
+  (layer): Linear(in_features=24576, out_features=10, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)]
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=0.7)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=1.4)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  AvgPool2d(kernel_size=2, stride=2, padding=0)
+subsubl NAME:  Triangle(power=1.0)
+subsubl NAME:  Sequential(
+  (0): Flatten(start_dim=1, end_dim=-1)
+)
+subsubl NAME:  Linear(in_features=24576, out_features=10, bias=True)
+subsubl NAME:  Dropout(p=0.5, inplace=False)
+CONFIG MODE:  hybrid
 
- ********** Hebbian Unsupervised learning of blocks [0] **********
+ ********** Hybrid learning of blocks [0, 1, 2, 3] **********
 SEED:  0
 BEFORE RESIZING
 Files already downloaded and verified
@@ -117,108 +517,47 @@ AFTER RESIZING
 Files already downloaded and verified
 INDICES:  5000
 IMAGE SIZE: torch.Size([32, 3, 32, 32])
-SAVING FOLDER FOR UNSUP:  CIFAR10_STL10_CL
-INSIDE EVALUATE UNSUP
-INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 1.27e-01	time: 00:00:18	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:1.037e-02/SW:4.907e-01/MR:3.961e+00/SR:1.550e+00/MeD:1.299e+00/MaD:2.961e+00/MW:0.592/MAW:0.408
-|       0 |       1 |       2 |      3 |       4 |       5 |         6 |         7 |       8 |       9 |      10 |      11 |      12 |      13 |     14 |      15 |      16 |      17 |      18 |      19 |      20 |     21 |       22 |       23 |      24 |      25 |      26 |      27 |      28 |      29 |
-|---------+---------+---------+--------+---------+---------+-----------+-----------+---------+---------+---------+---------+---------+---------+--------+---------+---------+---------+---------+---------+---------+--------+----------+----------+---------+---------+---------+---------+---------+---------|
-|   0.152 |   0.159 |   0.174 |   0.11 |   0.163 |   0.115 |   0.00249 |   0.00241 |   0.173 |   0.167 |   0.156 |   0.102 |   0.158 |   0.149 |   0.1  |   0.167 |   0.117 |   0.166 |   0.155 |   0.173 |   0.146 |   0.16 |   0.0826 |   0.0191 |   0.146 |   0.157 |   0.156 |   0.165 |   0.176 |   0.124 |
-|   4.6   |   4.93  |   5.71  |   2.9  |   5.17  |   3.06  |   1       |   1       |   5.65  |   5.36  |   4.79  |   2.64  |   4.9   |   4.45  |   2.57 |   5.38  |   3.15  |   5.28  |   4.77  |   5.69  |   4.34  |   5.02 |   2.07   |   1.06   |   4.34  |   4.84  |   4.79  |   5.23  |   5.86  |   3.41  |
-|   0.51  |   0.53  |   0.55  |   0.3  |   0.37  |   0.59  |   1.58    |   1.33    |   0.54  |   0.35  |   0.4   |   0.55  |   0.51  |   0.47  |   0.35 |   0.54  |   0.58  |   0.56  |   0.35  |   0.47  |   0.48  |   0.51 |   0.42   |   0.25   |   0.33  |   0.35  |   0.55  |   0.51  |   0.5   |   0.35  |
-| nan     | nan     | nan     | nan    | nan     | nan     | nan       | nan       | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan      | nan      | nan     | nan     | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan    | nan     | nan     | nan       | nan       | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan      | nan      | nan     | nan     | nan     | nan     | nan     | nan     |
-| nan     | nan     | nan     | nan    | nan     | nan     | nan       | nan       | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan     | nan     | nan     | nan     | nan     | nan     | nan    | nan      | nan      | nan     | nan     | nan     | nan     | nan     | nan     |
-
+Epoch: [1/50]	lr: 1.00e-03	time: 00:00:19	Loss_train 0.11128	Acc_train 34.52	/	Loss_test 0.06166	Acc_test 50.00
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
 /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-
- ********** Hebbian Unsupervised learning of blocks [1] **********
-SEED:  0
-BEFORE RESIZING
-Files already downloaded and verified
-AFTER RESIZING
-Files already downloaded and verified
-INDICES:  5000
-IMAGE SIZE: torch.Size([32, 3, 32, 32])
-SAVING FOLDER FOR UNSUP:  CIFAR10_STL10_CL
-INSIDE EVALUATE UNSUP
-INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 1.27e-01	time: 00:00:36	Acc_train 0.00	Acc_test 0.00	convergence: 2.40e+01	R1: 0	Info MB:0.000e+00/SB:0.000e+00/MW:5.202e-03/SW:1.534e-01/MR:4.231e+00/SR:1.568e+00/MeD:1.270e+00/MaD:3.864e+00/MW:0.592/MAW:0.408
-|         0 |         1 |        2 |         3 |        4 |         5 |         6 |         7 |        8 |        9 |        10 |        11 |       12 |        13 |       14 |       15 |        16 |       17 |        18 |       19 |        20 |        21 |        22 |       23 |        24 |       25 |       26 |       27 |        28 |        29 |
-|-----------+-----------+----------+-----------+----------+-----------+-----------+-----------+----------+----------+-----------+-----------+----------+-----------+----------+----------+-----------+----------+-----------+----------+-----------+-----------+-----------+----------+-----------+----------+----------+----------+-----------+-----------|
-|   0.00829 |   0.00992 |   0.0129 |   0.00994 |   0.0107 |   0.00959 |   0.00922 |   0.00925 |   0.0117 |   0.0106 |   0.00713 |   0.00642 |   0.0114 |   0.00011 |   0.0111 |   0.0114 |   0.00743 |   0.0097 |   0.00559 |   0.0113 |   0.00993 |   0.00723 |   0.00939 |   0.0107 |   0.00833 |   0.0113 |   0.0102 |   0.0115 |   0.00399 |   0.00502 |
-|   3.75    |   4.94    |   7.71   |   4.95    |   5.6    |   4.68    |   4.4     |   4.42    |   6.51   |   5.53   |   3.03    |   2.65    |   6.24   |   1       |   5.93   |   6.19   |   3.21    |   4.77   |   2.25    |   6.13   |   4.94    |   3.09    |   4.53    |   5.62   |   3.78    |   6.09   |   5.19   |   6.31   |   1.64    |   2.01    |
-|   0.09    |   0.16    |   0.18   |   0.14    |   0.21   |   0.13    |   0.12    |   0.12    |   0.19   |   0.2    |   0.14    |   0.07    |   0.18   |  11.96    |   0.15   |   0.18   |   0.05    |   0.11   |   0.19    |   0.12   |   0.12    |   0.11    |   0.16    |   0.13   |   0.22    |   0.17   |   0.09   |   0.21   |   0.07    |   0.13    |
-| nan       | nan       | nan      | nan       | nan      | nan       | nan       | nan       | nan      | nan      | nan       | nan       | nan      | nan       | nan      | nan      | nan       | nan      | nan       | nan      | nan       | nan       | nan       | nan      | nan       | nan      | nan      | nan      | nan       | nan       |
-| nan       | nan       | nan      | nan       | nan      | nan       | nan       | nan       | nan      | nan      | nan       | nan       | nan      | nan       | nan      | nan      | nan       | nan      | nan       | nan      | nan       | nan       | nan       | nan      | nan       | nan      | nan      | nan      | nan       | nan       |
-| nan       | nan       | nan      | nan       | nan      | nan       | nan       | nan       | nan      | nan      | nan       | nan       | nan      | nan       | nan      | nan      | nan       | nan      | nan       | nan      | nan       | nan       | nan       | nan      | nan       | nan      | nan      | nan      | nan       | nan       |
-
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [10/50]	lr: 1.00e-03	time: 00:00:30	Loss_train 0.05597	Acc_train 56.36	/	Loss_test 0.04803	Acc_test 58.24
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
 /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-
- ********** Hebbian Unsupervised learning of blocks [2] **********
-SEED:  0
-BEFORE RESIZING
-Files already downloaded and verified
-AFTER RESIZING
-Files already downloaded and verified
-INDICES:  5000
-IMAGE SIZE: torch.Size([32, 3, 32, 32])
-SAVING FOLDER FOR UNSUP:  CIFAR10_STL10_CL
-INSIDE EVALUATE UNSUP
-INSIDE EVALUATE UNSUP RETURNED 0,0
-Epoch: [1/1]	lr: 3.96e-02	time: 00:00:54	Acc_train 0.00	Acc_test 0.00	convergence: 1.58e+01	R1: 1	Info MB:0.000e+00/SB:0.000e+00/MW:1.080e-02/SW:2.880e-01/MR:1.680e+01/SR:2.143e+00/MeD:1.674e+00/MaD:1.580e+01/MW:0.438/MAW:0.562
-|        0 |        1 |        2 |        3 |        4 |        5 |        6 |        7 |        8 |        9 |       10 |       11 |       12 |       13 |       14 |       15 |       16 |       17 |       18 |       19 |      20 |       21 |       22 |       23 |       24 |       25 |       26 |       27 |       28 |       29 |
-|----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+---------+----------+----------+----------+----------+----------+----------+----------+----------+----------|
-|   0.0409 |   0.0407 |   0.0375 |   0.0357 |   0.0407 |   0.0435 |   0.0419 |   0.0374 |   0.0422 |   0.0412 |   0.0416 |   0.0365 |   0.0394 |   0.0437 |   0.0415 |   0.0415 |   0.0361 |   0.0406 |   0.0404 |   0.0415 |   0.043 |   0.0365 |   0.0375 |   0.0417 |   0.0351 |   0.0421 |   0.0417 |   0.0355 |   0.0436 |   0.0414 |
-|  17.7    |  17.59   |  15.07   |  13.75   |  17.58   |  19.93   |  18.53   |  14.99   |  18.78   |  17.95   |  18.33   |  14.35   |  16.5    |  20.09   |  18.21   |  18.21   |  14.05   |  17.5    |  17.31   |  18.19   |  19.47  |  14.32   |  15.04   |  18.39   |  13.35   |  18.74   |  18.42   |  13.59   |  20.05   |  18.16   |
-|   0.07   |   0.04   |   0.05   |   0.05   |   0.06   |   0.06   |   0.06   |   0.07   |   0.07   |   0.08   |   0.06   |   0.03   |   0.04   |   0.06   |   0.09   |   0.04   |   0.06   |   0.03   |   0.07   |   0.05   |   0.08  |   0.04   |   0.09   |   0.05   |   0.03   |   0.07   |   0.06   |   0.1    |   0.06   |   0.07   |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
-| nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan     | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      | nan      |
-
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [20/50]	lr: 2.50e-04	time: 00:00:42	Loss_train 0.02609	Acc_train 73.13	/	Loss_test 0.04173	Acc_test 59.99
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
 /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-
- ********** Supervised learning of blocks [3] **********
-SAVING FOLDER FOR SUP:  CIFAR10_STL10_CL
-SEED:  0
-BEFORE RESIZING
-Files already downloaded and verified
-AFTER RESIZING
-Files already downloaded and verified
-INDICES:  5000
-IMAGE SIZE: torch.Size([32, 3, 32, 32])
-Epoch: [1/50]	lr: 1.00e-03	time: 00:01:12	Loss_train 2.97220	Acc_train 45.70	/	Loss_test 1.89396	Acc_test 54.70
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [30/50]	lr: 1.25e-04	time: 00:00:54	Loss_train 0.01890	Acc_train 79.64	/	Loss_test 0.03768	Acc_test 62.80
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
 /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-Epoch: [10/50]	lr: 1.00e-03	time: 00:01:15	Loss_train 0.96680	Acc_train 71.53	/	Loss_test 1.51762	Acc_test 64.89
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [40/50]	lr: 3.13e-05	time: 00:01:06	Loss_train 0.01758	Acc_train 81.39	/	Loss_test 0.03952	Acc_test 62.61
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
 /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-Epoch: [20/50]	lr: 2.50e-04	time: 00:01:18	Loss_train 0.28417	Acc_train 86.89	/	Loss_test 1.37281	Acc_test 67.28
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [50/50]	lr: 7.81e-06	time: 00:01:18	Loss_train 0.01911	Acc_train 80.14	/	Loss_test 0.03912	Acc_test 61.30
+new_head:  {'blocks.3.layer.bias': tensor([-0.1490, -0.1387, -0.0999,  0.0257,  0.1714,  0.0214,  0.1240,  0.0782,
+        -0.0153, -0.0399], device='cuda:0'), 'blocks.3.layer.weight': tensor([[-0.0576, -0.0332, -0.0332,  ..., -0.0575, -0.0867, -0.0294],
+        [ 0.0415, -0.0266,  0.0259,  ...,  0.1013,  0.0741,  0.0821],
+        [ 0.0229,  0.0659,  0.0791,  ..., -0.0664, -0.0022, -0.0351],
+        ...,
+        [-0.0455, -0.0643, -0.0857,  ...,  0.0166, -0.0237, -0.1338],
+        [ 0.0210,  0.0104,  0.0159,  ...,  0.0185, -0.0308,  0.0072],
+        [-0.0391,  0.0152, -0.0024,  ..., -0.0469,  0.0902,  0.0523]],
+       device='cuda:0')}
 STORING PATH IS NONEEEEEE
 SAVING THE MODEL
 /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-Epoch: [30/50]	lr: 1.25e-04	time: 00:01:21	Loss_train 0.16228	Acc_train 90.75	/	Loss_test 1.30839	Acc_test 68.00
-STORING PATH IS NONEEEEEE
-SAVING THE MODEL
-/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-Epoch: [40/50]	lr: 3.13e-05	time: 00:01:25	Loss_train 0.11970	Acc_train 92.63	/	Loss_test 1.28298	Acc_test 68.25
-STORING PATH IS NONEEEEEE
-SAVING THE MODEL
-/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-Epoch: [50/50]	lr: 7.81e-06	time: 00:01:28	Loss_train 0.10828	Acc_train 92.94	/	Loss_test 1.27861	Acc_test 68.39
-STORING PATH IS NONEEEEEE
-SAVING THE MODEL
-/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
-RESULT:  {'train_loss': 0.10827953368425369, 'train_acc': 92.94400215148926, 'test_loss': 1.27861487865448, 'test_acc': 68.38749694824219, 'convergence': 15.804487228393555, 'R1': 1, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}
-IN R1:  {'eval_1': {'test_loss': 0.015446069650352001, 'test_acc': 80.31999969482422, 'convergence': 23.989980697631836, 'R1': 0, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}}, 'R1': {'train_loss': 0.10827953368425369, 'train_acc': 92.94400215148926, 'test_loss': 1.27861487865448, 'test_acc': 68.38749694824219, 'convergence': 15.804487228393555, 'R1': 1, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t0': {'blocks': [0], 'mode': 'unsupervised', 'lr': 0.08, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't2': {'blocks': [1], 'mode': 'unsupervised', 'lr': 0.005, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't4': {'blocks': [2], 'mode': 'unsupervised', 'lr': 0.01, 'nb_epoch': 1, 'batch_size': 32, 'print_freq': 1}, 't6': {'blocks': [3], 'mode': 'supervised', 'lr': 0.001, 'nb_epoch': 50, 'batch_size': 32, 'print_freq': 10}}}}
+SAVED HEADS THRESHOLD:  0.6064999961853027
+RESULT:  {'train_loss': 0.01911367103457451, 'train_acc': 80.14000058174133, 'test_loss': 0.03912286087870598, 'test_acc': 61.29999923706055, 'convergence': 0.06054417043924332, 'R1': 50, 'dataset_config': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}}
+IN R2:  {'R1': {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}, 'R2': {'train_loss': 0.01911367103457451, 'train_acc': 80.14000058174133, 'test_loss': 0.03912286087870598, 'test_acc': 61.29999923706055, 'convergence': 0.06054417043924332, 'R1': 50, 'dataset_config': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}}}
 SEED:  0
 block 0, size : 96 16 16
 range = 2.886751345948129
@@ -227,13 +566,40 @@ range = 0.8505172717997146
 block 2, size : 1536 4 4
 range = 0.4252586358998573
 range = 0.11048543456039805
+train_layer_order: simultaneous {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}
 The device used will be: 
 True
 cuda:0
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 1, 'ratio': 0.0002, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
-CONFIG: {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.11048543456039805, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10, 'in_channels': 24576, 'old_channels': 1536, 'lr_scheduler': {'decay': 'cste', 'lr': 0.1}}
+PARAMSSSS IN LOAD:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b3': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 3, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.11048543456039805, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10, 'in_channels': 24576, 'old_channels': 1536, 'lr_scheduler': {'decay': 'cste', 'lr': 0.1}}, 'pool': None, 'activation': None}}
+avg_deltas:  {}
+acts_layer:  None
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+The device used will be: 
+True
+cuda:0
+The device used will be: 
+True
+cuda:0
+SEED:  0
+BEFORE RESIZING
+Files already downloaded and verified
+AFTER RESIZING
+Files already downloaded and verified
+INDICES:  50000
+IMAGE SIZE: torch.Size([64, 3, 32, 32])
+test_acc:  tensor(0.4575) 0.6064999961853027
+test_acc:  tensor(0.2885) 0.6064999961853027
+chosen_head:  {'blocks.3.layer.bias': tensor([-0.1490, -0.1387, -0.0999,  0.0257,  0.1714,  0.0214,  0.1240,  0.0782,
+        -0.0153, -0.0399], device='cuda:0'), 'blocks.3.layer.weight': tensor([[-0.0576, -0.0332, -0.0332,  ..., -0.0575, -0.0867, -0.0294],
+        [ 0.0415, -0.0266,  0.0259,  ...,  0.1013,  0.0741,  0.0821],
+        [ 0.0229,  0.0659,  0.0791,  ..., -0.0664, -0.0022, -0.0351],
+        ...,
+        [-0.0455, -0.0643, -0.0857,  ...,  0.0166, -0.0237, -0.1338],
+        [ 0.0210,  0.0104,  0.0159,  ...,  0.0185, -0.0308,  0.0072],
+        [-0.0391,  0.0152, -0.0024,  ..., -0.0469,  0.0902,  0.0523]],
+       device='cuda:0')}
 
  Model CIFAR10_STL10_CL loaded successfuly with best perf
 
@@ -261,6 +627,141 @@ CONFIG: {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 
 - Flatten(start_dim=1, end_dim=-1)
 - Dropout(p=0.5, inplace=False)
 - Linear(in_features=24576, out_features=10, bias=True)
+model.heads:  [{'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}, {'blocks.3.layer.bias': tensor([-0.1490, -0.1387, -0.0999,  0.0257,  0.1714,  0.0214,  0.1240,  0.0782,
+        -0.0153, -0.0399], device='cuda:0'), 'blocks.3.layer.weight': tensor([[-0.0576, -0.0332, -0.0332,  ..., -0.0575, -0.0867, -0.0294],
+        [ 0.0415, -0.0266,  0.0259,  ...,  0.1013,  0.0741,  0.0821],
+        [ 0.0229,  0.0659,  0.0791,  ..., -0.0664, -0.0022, -0.0351],
+        ...,
+        [-0.0455, -0.0643, -0.0857,  ...,  0.0166, -0.0237, -0.1338],
+        [ 0.0210,  0.0104,  0.0159,  ...,  0.0185, -0.0308,  0.0072],
+        [-0.0391,  0.0152, -0.0024,  ..., -0.0469,  0.0902,  0.0523]],
+       device='cuda:0')}]
+[Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)]
+LAYER NAME:  Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+LAYER CHILDREN:  [BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=0.7)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=1.4)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+  (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (activation): Triangle(power=1.0)
+), BasicBlock(
+  (operations): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+  )
+  (layer): Linear(in_features=24576, out_features=10, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)]
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=0.7)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=1.4)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  AvgPool2d(kernel_size=2, stride=2, padding=0)
+subsubl NAME:  Triangle(power=1.0)
+subsubl NAME:  Sequential(
+  (0): Flatten(start_dim=1, end_dim=-1)
+)
+subsubl NAME:  Linear(in_features=24576, out_features=10, bias=True)
+subsubl NAME:  Dropout(p=0.5, inplace=False)
+CONFIG MODE:  hybrid
 SEED:  0
 BEFORE RESIZING
 Files already downloaded and verified
@@ -268,6 +769,776 @@ AFTER RESIZING
 Files already downloaded and verified
 INDICES:  50000
 IMAGE SIZE: torch.Size([64, 3, 32, 32])
-Accuracy of the network on the 1st dataset: 39.640 %
-Test loss on the 1st dataset: 0.171
+Accuracy of the network on the 1st dataset: 28.850 %
+Test loss on the 1st dataset: 0.003
+results:  {'R1': {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}, 'R2': {'train_loss': 0.01911367103457451, 'train_acc': 80.14000058174133, 'test_loss': 0.03912286087870598, 'test_acc': 61.29999923706055, 'convergence': 0.06054417043924332, 'R1': 50, 'dataset_config': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}}, 'eval_1': {'test_loss': 0.003038152353838086, 'test_acc': 28.850000381469727, 'convergence': 23.989980697631836, 'R1': 0, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}}, 'cl_hyper': {'training_mode': 'simultaneous', 'cf_sol': True, 'head_sol': True, 'top_k': 0.5, 'high_lr': 0.0, 'low_lr': 1.0, 't_criteria': 'mean', 'delta_w_interval': 100, 'heads_basis_t': 0.6064999961853027}, 'model_name': 'CIFAR10_STL10_CL'}
+
+The device used will be: 
+True
+cuda:0
+BLOCKS:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'positive', 'weight_init_range': 2, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3}}, 'b3': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 3, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.25, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10}, 'pool': None, 'activation': None}}
+{'training_mode': 'simultaneous', 'cf_sol': False, 'head_sol': True, 'top_k': 0.5, 'high_lr': 0.0, 'low_lr': 1.0, 't_criteria': 'mean', 'delta_w_interval': 100, 'heads_basis_t': 0.6}
+CL:  True
+{'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True}
+CL:  False
+{'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}
+CL:  False
+{'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}
+SEED:  0
+block 0, size : 96 16 16
+range = 2.886751345948129
+block 1, size : 384 8 8
+range = 0.8505172717997146
+block 2, size : 1536 4 4
+range = 0.4252586358998573
+range = 0.11048543456039805
+train_layer_order: simultaneous {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}
+The device used will be: 
+True
+cuda:0
+avg_deltas:  {}
+acts_layer:  None
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+
+ ----- Architecture Block BatchNorm2dSK3962(5, 5)1.0reflect, number 0 -----
+- BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=0.7)
+- MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+
+ ----- Architecture Block BatchNorm2dSK963842(3, 3)0.6499999761581421reflect, number 1 -----
+- BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=1.4)
+- MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+
+ ----- Architecture Block BatchNorm2dSK38415362(3, 3)0.25reflect, number 2 -----
+- BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=1.0)
+- AvgPool2d(kernel_size=2, stride=2, padding=0)
+
+ ----- Architecture Block FlattenDropout(p=0.5, inplace=False)Linear(in_, number 3 -----
+- Flatten(start_dim=1, end_dim=-1)
+- Dropout(p=0.5, inplace=False)
+- Linear(in_features=24576, out_features=10, bias=True)
+model.heads:  []
+[Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)]
+LAYER NAME:  Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+LAYER CHILDREN:  [BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=0.7)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=1.4)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+  (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (activation): Triangle(power=1.0)
+), BasicBlock(
+  (operations): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+  )
+  (layer): Linear(in_features=24576, out_features=10, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)]
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=0.7)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=1.4)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  AvgPool2d(kernel_size=2, stride=2, padding=0)
+subsubl NAME:  Triangle(power=1.0)
+subsubl NAME:  Sequential(
+  (0): Flatten(start_dim=1, end_dim=-1)
+)
+subsubl NAME:  Linear(in_features=24576, out_features=10, bias=True)
+subsubl NAME:  Dropout(p=0.5, inplace=False)
+CONFIG MODE:  hybrid
+
+ ********** Hybrid learning of blocks [0, 1, 2, 3] **********
+SEED:  0
+BEFORE RESIZING
+Files already downloaded and verified
+AFTER RESIZING
+Files already downloaded and verified
+INDICES:  50000
+IMAGE SIZE: torch.Size([64, 3, 32, 32])
+WTA IN delta_weight:  tensor([[[-8.4433e-07, -1.0699e-06, -7.8158e-07,  ..., -1.4046e-08,
+          -1.7333e-08, -2.3996e-08],
+         [-9.4501e-07, -7.3234e-07, -5.7468e-07,  ..., -1.0462e-08,
+          -1.1049e-08, -1.1841e-08],
+         [-1.3493e-06, -1.1568e-06, -7.3305e-07,  ..., -1.6054e-08,
+          -1.3611e-08, -1.8950e-08],
+         ...,
+         [-2.8586e-43, -6.4740e-43, -2.2701e-43,  ..., -9.2518e-37,
+          -3.7697e-36, -1.6984e-36],
+         [-5.6052e-45, -9.8091e-45, -2.0739e-43,  ..., -9.7239e-37,
+          -3.0253e-36, -2.0530e-37],
+         [-2.1019e-44, -1.9618e-44, -3.0829e-44,  ..., -1.0492e-35,
+          -5.2096e-36, -6.8968e-38]],
+
+        [[-1.4916e-13, -1.4853e-13, -2.2685e-13,  ..., -1.0832e-15,
+          -1.5300e-15, -1.2011e-15],
+         [-8.1184e-14, -7.5586e-14, -1.4076e-13,  ..., -4.6419e-16,
+          -5.1172e-16, -4.1861e-16],
+         [-2.6006e-13, -2.1646e-13, -4.8776e-13,  ..., -2.5134e-15,
+          -2.1371e-15, -2.5476e-15],
+         ...,
+         [-6.1394e-36, -1.2891e-35, -1.1537e-35,  ..., -1.9929e-29,
+          -4.1627e-29, -8.0115e-30],
+         [-1.3689e-36, -2.0044e-36, -1.8423e-35,  ..., -1.7238e-29,
+          -1.2056e-28, -2.3182e-29],
+         [-4.6322e-36, -5.2943e-36, -4.3188e-36,  ..., -3.1413e-29,
+          -2.7167e-28, -1.4301e-29]],
+
+        [[-1.1498e-13, -2.1127e-13, -1.5790e-13,  ..., -1.0801e-15,
+          -9.4545e-16, -1.0063e-15],
+         [-1.0329e-13, -1.1268e-13, -1.1230e-13,  ..., -5.8284e-16,
+          -4.6311e-16, -4.2334e-16],
+         [-2.8625e-13, -2.4224e-13, -2.7482e-13,  ..., -2.1125e-15,
+          -1.4077e-15, -1.7878e-15],
+         ...,
+         [-1.8619e-37, -3.0175e-37, -2.0435e-37,  ..., -8.9558e-32,
+          -1.1584e-30, -3.2968e-31],
+         [-2.6672e-38, -5.5004e-38, -7.4597e-37,  ..., -1.0429e-31,
+          -4.4674e-31, -2.3134e-31],
+         [-2.1758e-37, -1.9923e-37, -2.0003e-37,  ..., -1.9413e-30,
+          -1.4090e-30, -1.7658e-31]],
+
+        ...,
+
+        [[-2.5379e-24, -2.1267e-24, -2.0334e-24,  ..., -7.2363e-30,
+          -9.5623e-30, -9.7589e-30],
+         [-1.3783e-24, -1.1657e-24, -1.0019e-24,  ..., -3.4522e-30,
+          -3.4145e-30, -4.1471e-30],
+         [-3.1531e-24, -3.2115e-24, -2.2028e-24,  ..., -1.5968e-29,
+          -1.4467e-29, -1.9360e-29],
+         ...,
+         [-7.5900e-13, -6.6573e-13, -4.8181e-13,  ..., -1.1966e-11,
+          -6.9790e-11, -1.6165e-11],
+         [-6.0501e-14, -4.2510e-14, -1.1024e-12,  ..., -3.5969e-12,
+          -6.4378e-12, -9.1558e-13],
+         [-6.6219e-13, -7.1902e-13, -1.0062e-12,  ..., -3.1062e-11,
+          -3.7664e-11, -1.1270e-12]],
+
+        [[-6.3591e-15, -1.6353e-14, -1.1000e-14,  ..., -2.5293e-15,
+          -1.6330e-15, -1.7946e-15],
+         [-2.6490e-15, -5.1279e-15, -5.0603e-15,  ..., -7.0880e-16,
+          -4.9545e-16, -5.7112e-16],
+         [-6.7760e-15, -1.2846e-14, -1.4018e-14,  ..., -2.1686e-15,
+          -1.6014e-15, -2.2365e-15],
+         ...,
+         [-0.0000e+00, -0.0000e+00, -0.0000e+00,  ..., -1.7192e-39,
+          -3.4562e-39, -2.7120e-39],
+         [-0.0000e+00, -0.0000e+00, -0.0000e+00,  ..., -1.3216e-39,
+          -3.5256e-39, -1.1571e-39],
+         [-0.0000e+00, -0.0000e+00, -0.0000e+00,  ..., -8.5329e-39,
+          -1.0923e-38, -2.1056e-39]],
+
+        [[-4.5972e-16, -4.4878e-16, -3.3192e-16,  ..., -3.4143e-19,
+          -3.7060e-19, -3.9808e-19],
+         [-6.3347e-16, -4.9536e-16, -3.9222e-16,  ..., -3.2418e-19,
+          -2.4864e-19, -3.6171e-19],
+         [-6.4130e-16, -5.0303e-16, -4.0582e-16,  ..., -7.2525e-19,
+          -5.4260e-19, -7.3737e-19],
+         ...,
+         [-8.0999e-30, -1.4896e-29, -1.5148e-29,  ..., -9.8350e-26,
+          -3.5221e-25, -6.0723e-26],
+         [-5.2578e-31, -4.9719e-31, -3.9641e-30,  ..., -9.7395e-26,
+          -2.7904e-25, -2.1070e-26],
+         [-8.8110e-31, -6.9288e-31, -1.2088e-30,  ..., -2.9443e-25,
+          -4.1908e-25, -1.2901e-26]]], device='cuda:0')
+Epoch: [1/50]	lr: 1.00e-03	time: 00:00:14	Loss_train 0.50948	Acc_train 49.53	/	Loss_test 0.02210	Acc_test 59.18
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [10/50]	lr: 1.00e-03	time: 00:01:34	Loss_train 0.35261	Acc_train 66.82	/	Loss_test 0.02004	Acc_test 70.95
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [20/50]	lr: 2.50e-04	time: 00:03:02	Loss_train 0.21256	Acc_train 70.65	/	Loss_test 0.00800	Acc_test 73.15
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [30/50]	lr: 1.25e-04	time: 00:04:31	Loss_train 0.11525	Acc_train 67.26	/	Loss_test 0.00352	Acc_test 70.21
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [40/50]	lr: 3.13e-05	time: 00:05:59	Loss_train 0.06472	Acc_train 54.70	/	Loss_test 0.00148	Acc_test 64.49
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [50/50]	lr: 7.81e-06	time: 00:07:28	Loss_train 0.03761	Acc_train 48.77	/	Loss_test 0.00132	Acc_test 60.20
+new_head:  {'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+RESULT:  {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}
+IN R1:  {'R1': {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}}
+CL:  True
+{'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True}
+CL:  True
+{'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True}
+SEED:  0
+block 0, size : 96 48 48
+range = 2.886751345948129
+block 1, size : 384 24 24
+range = 0.8505172717997146
+block 2, size : 1536 12 12
+range = 0.4252586358998573
+range = 0.036828478186799345
+train_layer_order: simultaneous {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}
+The device used will be: 
+True
+cuda:0
+PARAMSSSS IN LOAD:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b3': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 3, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.11048543456039805, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10, 'in_channels': 24576, 'old_channels': 1536, 'lr_scheduler': {'decay': 'cste', 'lr': 0.1}}, 'pool': None, 'activation': None}}
+avg_deltas:  {}
+acts_layer:  None
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+The device used will be: 
+True
+cuda:0
+The device used will be: 
+True
+cuda:0
+SEED:  0
+BEFORE RESIZING
+Files already downloaded and verified
+AFTER RESIZING
+Files already downloaded and verified
+INDICES:  5000
+IMAGE SIZE: torch.Size([32, 3, 32, 32])
+test_acc:  tensor(0.3049) 0.6
+chosen_head:  {'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}
+
+ Model CIFAR10_STL10_CL loaded successfuly with best perf
+
+
+
+ ----- Architecture Block BatchNorm2dSK3962(5, 5)1.0reflect, number 0 -----
+- BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=0.7)
+- MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+
+ ----- Architecture Block BatchNorm2dSK963842(3, 3)0.6499999761581421reflect, number 1 -----
+- BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=1.4)
+- MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+
+ ----- Architecture Block BatchNorm2dSK38415362(3, 3)0.25reflect, number 2 -----
+- BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=1.0)
+- AvgPool2d(kernel_size=2, stride=2, padding=0)
+
+ ----- Architecture Block FlattenDropout(p=0.5, inplace=False)Linear(in_, number 3 -----
+- Flatten(start_dim=1, end_dim=-1)
+- Dropout(p=0.5, inplace=False)
+- Linear(in_features=24576, out_features=10, bias=True)
+model.heads:  [{'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}]
+[Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)]
+LAYER NAME:  Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+LAYER CHILDREN:  [BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=0.7)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=1.4)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+  (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (activation): Triangle(power=1.0)
+), BasicBlock(
+  (operations): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+  )
+  (layer): Linear(in_features=24576, out_features=10, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)]
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=0.7)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=1.4)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  AvgPool2d(kernel_size=2, stride=2, padding=0)
+subsubl NAME:  Triangle(power=1.0)
+subsubl NAME:  Sequential(
+  (0): Flatten(start_dim=1, end_dim=-1)
+)
+subsubl NAME:  Linear(in_features=24576, out_features=10, bias=True)
+subsubl NAME:  Dropout(p=0.5, inplace=False)
+CONFIG MODE:  hybrid
+
+ ********** Hybrid learning of blocks [0, 1, 2, 3] **********
+SEED:  0
+BEFORE RESIZING
+Files already downloaded and verified
+AFTER RESIZING
+Files already downloaded and verified
+INDICES:  5000
+IMAGE SIZE: torch.Size([32, 3, 32, 32])
+Epoch: [1/50]	lr: 1.00e-03	time: 00:00:19	Loss_train 0.11128	Acc_train 34.52	/	Loss_test 0.06166	Acc_test 50.00
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [10/50]	lr: 1.00e-03	time: 00:00:30	Loss_train 0.05597	Acc_train 56.36	/	Loss_test 0.04803	Acc_test 58.24
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [20/50]	lr: 2.50e-04	time: 00:00:42	Loss_train 0.02609	Acc_train 73.13	/	Loss_test 0.04173	Acc_test 59.99
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [30/50]	lr: 1.25e-04	time: 00:00:54	Loss_train 0.01890	Acc_train 79.64	/	Loss_test 0.03768	Acc_test 62.80
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [40/50]	lr: 3.13e-05	time: 00:01:06	Loss_train 0.01758	Acc_train 81.39	/	Loss_test 0.03952	Acc_test 62.61
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6
+Epoch: [50/50]	lr: 7.81e-06	time: 00:01:17	Loss_train 0.01911	Acc_train 80.14	/	Loss_test 0.03912	Acc_test 61.30
+new_head:  {'blocks.3.layer.bias': tensor([-0.1490, -0.1387, -0.0999,  0.0257,  0.1714,  0.0214,  0.1240,  0.0782,
+        -0.0153, -0.0399], device='cuda:0'), 'blocks.3.layer.weight': tensor([[-0.0576, -0.0332, -0.0332,  ..., -0.0575, -0.0867, -0.0294],
+        [ 0.0415, -0.0266,  0.0259,  ...,  0.1013,  0.0741,  0.0821],
+        [ 0.0229,  0.0659,  0.0791,  ..., -0.0664, -0.0022, -0.0351],
+        ...,
+        [-0.0455, -0.0643, -0.0857,  ...,  0.0166, -0.0237, -0.1338],
+        [ 0.0210,  0.0104,  0.0159,  ...,  0.0185, -0.0308,  0.0072],
+        [-0.0391,  0.0152, -0.0024,  ..., -0.0469,  0.0902,  0.0523]],
+       device='cuda:0')}
+STORING PATH IS NONEEEEEE
+SAVING THE MODEL
+/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/CIFAR10_STL10_CL/models
+SAVED HEADS THRESHOLD:  0.6064999961853027
+RESULT:  {'train_loss': 0.01911367103457451, 'train_acc': 80.14000058174133, 'test_loss': 0.03912286087870598, 'test_acc': 61.29999923706055, 'convergence': 0.06054417043924332, 'R1': 50, 'dataset_config': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}}
+IN R2:  {'R1': {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}, 'R2': {'train_loss': 0.01911367103457451, 'train_acc': 80.14000058174133, 'test_loss': 0.03912286087870598, 'test_acc': 61.29999923706055, 'convergence': 0.06054417043924332, 'R1': 50, 'dataset_config': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}}}
+SEED:  0
+block 0, size : 96 16 16
+range = 2.886751345948129
+block 1, size : 384 8 8
+range = 0.8505172717997146
+block 2, size : 1536 4 4
+range = 0.4252586358998573
+range = 0.11048543456039805
+train_layer_order: simultaneous {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}
+The device used will be: 
+True
+cuda:0
+PARAMSSSS IN LOAD:  {'b0': {'arch': 'CNN', 'preset': 'softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 0, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 0.7}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b1': {'arch': 'CNN', 'preset': 'softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 1, 'batch_norm': False, 'pool': {'type': 'max', 'kernel_size': 4, 'stride': 2, 'padding': 1}, 'activation': {'function': 'triangle', 'param': 1.4}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b2': {'arch': 'CNN', 'preset': 'softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0', 'operation': 'batchnorm2d', 'num': 2, 'batch_norm': False, 'pool': {'type': 'avg', 'kernel_size': 2, 'stride': 2, 'padding': 0}, 'activation': {'function': 'triangle', 'param': 1.0}, 'resume': None, 'layer': {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}}, 'b3': {'arch': 'MLP', 'preset': 'BP-c10', 'operation': 'flatten', 'num': 3, 'att_dropout': None, 'dropout': 0.5, 'layer': {'arch': 'MLP', 'lr': 0.05, 'adaptive': True, 'lr_sup': 0.001, 'speed': 0.4, 'lr_div': 100, 'lebesgue_p': 2, 't_invert': 10, 'beta': 0.01, 'power': 4.5, 'ranking_param': 3, 'delta': 0.1, 'hebbian': False, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'lr_bias': 600, 'softness': 'soft', 'soft_activation_fn': 'exp', 'plasticity': 'SoftHebb', 'metric_mode': 'unsupervised', 'weight_init': 'positive', 'weight_init_range': 0.11048543456039805, 'weight_init_offset': 0, 'weight_decay': 0, 'radius': 10, 'power_lr': 0.2, 'out_channels': 10, 'in_channels': 24576, 'old_channels': 1536, 'lr_scheduler': {'decay': 'cste', 'lr': 0.1}}, 'pool': None, 'activation': None}}
+avg_deltas:  {}
+acts_layer:  None
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.08, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 1.0, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 2, 'weight_init': 'normal', 'weight_init_range': 2.886751345948129, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 96, 'kernel_size': 5, 'in_channels': 3, 'lr_scheduler': {'lr': 0.08, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.005, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.65, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.8505172717997146, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 384, 'kernel_size': 3, 'in_channels': 96, 'lr_scheduler': {'lr': 0.005, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+CNN LAYER CONFIG:  {'arch': 'CNN', 'nb_train': None, 'lr': 0.01, 'adaptive': True, 'lr_sup': 0.001, 'speed': 7, 'lr_div': 96, 'lebesgue_p': 2, 'padding_mode': 'reflect', 'pre_triangle': False, 'ranking_param': 3, 'delta': 2, 't_invert': 0.25, 'groups': 1, 'stride': 1, 'dilation': 1, 'beta': 1, 'power': 4.5, 'padding': 1, 'weight_init': 'normal', 'weight_init_range': 0.4252586358998573, 'weight_init_offset': 0, 'mask_thsd': 0, 'radius': 25, 'power_lr': 0.5, 'weight_decay': 0, 'soft_activation_fn': 'exp', 'hebbian': True, 'resume': None, 'add_bias': False, 'normalize_inp': False, 'lr_decay': 'linear', 'seed': 0, 'softness': 'softkrotov', 'out_channels': 1536, 'kernel_size': 3, 'in_channels': 384, 'lr_scheduler': {'lr': 0.01, 'adaptive': True, 'nb_epochs': 50, 'ratio': 0.00128, 'speed': 7, 'div': 96, 'decay': 'linear', 'power_lr': 0.5}}
+The device used will be: 
+True
+cuda:0
+The device used will be: 
+True
+cuda:0
+SEED:  0
+BEFORE RESIZING
+Files already downloaded and verified
+AFTER RESIZING
+Files already downloaded and verified
+INDICES:  50000
+IMAGE SIZE: torch.Size([64, 3, 32, 32])
+test_acc:  tensor(0.4575) 0.6064999961853027
+test_acc:  tensor(0.2885) 0.6064999961853027
+chosen_head:  {'blocks.3.layer.bias': tensor([-0.1490, -0.1387, -0.0999,  0.0257,  0.1714,  0.0214,  0.1240,  0.0782,
+        -0.0153, -0.0399], device='cuda:0'), 'blocks.3.layer.weight': tensor([[-0.0576, -0.0332, -0.0332,  ..., -0.0575, -0.0867, -0.0294],
+        [ 0.0415, -0.0266,  0.0259,  ...,  0.1013,  0.0741,  0.0821],
+        [ 0.0229,  0.0659,  0.0791,  ..., -0.0664, -0.0022, -0.0351],
+        ...,
+        [-0.0455, -0.0643, -0.0857,  ...,  0.0166, -0.0237, -0.1338],
+        [ 0.0210,  0.0104,  0.0159,  ...,  0.0185, -0.0308,  0.0072],
+        [-0.0391,  0.0152, -0.0024,  ..., -0.0469,  0.0902,  0.0523]],
+       device='cuda:0')}
+
+ Model CIFAR10_STL10_CL loaded successfuly with best perf
+
+
+
+ ----- Architecture Block BatchNorm2dSK3962(5, 5)1.0reflect, number 0 -----
+- BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=0.7)
+- MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+
+ ----- Architecture Block BatchNorm2dSK963842(3, 3)0.6499999761581421reflect, number 1 -----
+- BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=1.4)
+- MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+
+ ----- Architecture Block BatchNorm2dSK38415362(3, 3)0.25reflect, number 2 -----
+- BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+- HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+- Triangle(power=1.0)
+- AvgPool2d(kernel_size=2, stride=2, padding=0)
+
+ ----- Architecture Block FlattenDropout(p=0.5, inplace=False)Linear(in_, number 3 -----
+- Flatten(start_dim=1, end_dim=-1)
+- Dropout(p=0.5, inplace=False)
+- Linear(in_features=24576, out_features=10, bias=True)
+model.heads:  [{'blocks.3.layer.bias': tensor([-0.1107, -0.1205, -0.0549,  0.0141,  0.1398,  0.0062,  0.1061,  0.0383,
+        -0.0146, -0.0132], device='cuda:0'), 'blocks.3.layer.weight': tensor([[ 0.0017, -0.0363, -0.0262,  ..., -0.0271, -0.0219,  0.0071],
+        [-0.0132, -0.0120, -0.0045,  ...,  0.0385,  0.0265,  0.1003],
+        [-0.0354,  0.0558,  0.0687,  ..., -0.0482, -0.0360, -0.0291],
+        ...,
+        [ 0.0066,  0.0012, -0.0828,  ..., -0.0443, -0.0378, -0.0545],
+        [ 0.0698,  0.0252,  0.0665,  ...,  0.0412, -0.0048,  0.0175],
+        [-0.0240,  0.0010, -0.0107,  ..., -0.0223,  0.0923, -0.0475]],
+       device='cuda:0')}, {'blocks.3.layer.bias': tensor([-0.1490, -0.1387, -0.0999,  0.0257,  0.1714,  0.0214,  0.1240,  0.0782,
+        -0.0153, -0.0399], device='cuda:0'), 'blocks.3.layer.weight': tensor([[-0.0576, -0.0332, -0.0332,  ..., -0.0575, -0.0867, -0.0294],
+        [ 0.0415, -0.0266,  0.0259,  ...,  0.1013,  0.0741,  0.0821],
+        [ 0.0229,  0.0659,  0.0791,  ..., -0.0664, -0.0022, -0.0351],
+        ...,
+        [-0.0455, -0.0643, -0.0857,  ...,  0.0166, -0.0237, -0.1338],
+        [ 0.0210,  0.0104,  0.0159,  ...,  0.0185, -0.0308,  0.0072],
+        [-0.0391,  0.0152, -0.0024,  ..., -0.0469,  0.0902,  0.0523]],
+       device='cuda:0')}]
+[Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)]
+LAYER NAME:  Sequential(
+  (0): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=0.7)
+  )
+  (1): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+    (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (activation): Triangle(power=1.4)
+  )
+  (2): BasicBlock(
+    (operations): Sequential(
+      (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+    )
+    (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (activation): Triangle(power=1.0)
+  )
+  (3): BasicBlock(
+    (operations): Sequential(
+      (0): Flatten(start_dim=1, end_dim=-1)
+    )
+    (layer): Linear(in_features=24576, out_features=10, bias=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+LAYER CHILDREN:  [BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=0.7)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+  (pool): MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (activation): Triangle(power=1.4)
+), BasicBlock(
+  (operations): Sequential(
+    (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  )
+  (layer): HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+  (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (activation): Triangle(power=1.0)
+), BasicBlock(
+  (operations): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+  )
+  (layer): Linear(in_features=24576, out_features=10, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)]
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(3, 96, lebesgue_p=2, pruning=0, kernel_size=(5, 5), bias=False, padding_mode=reflect, t_invert=1.0, bias=False, lr_bias=0.1, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=0.7)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(96, 384, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.6499999761581421, bias=False, lr_bias=0.1538, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  MaxPool2d(kernel_size=4, stride=2, padding=1, dilation=1, ceil_mode=False)
+subsubl NAME:  Triangle(power=1.4)
+subsubl NAME:  Sequential(
+  (0): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)
+subsubl NAME:  HebbSoftKrotovConv2d(384, 1536, lebesgue_p=2, pruning=0, kernel_size=(3, 3), bias=False, padding_mode=reflect, t_invert=0.25, bias=False, lr_bias=0.4, ranking_param=3, delta=2, activation=exp)
+subsubl NAME:  AvgPool2d(kernel_size=2, stride=2, padding=0)
+subsubl NAME:  Triangle(power=1.0)
+subsubl NAME:  Sequential(
+  (0): Flatten(start_dim=1, end_dim=-1)
+)
+subsubl NAME:  Linear(in_features=24576, out_features=10, bias=True)
+subsubl NAME:  Dropout(p=0.5, inplace=False)
+CONFIG MODE:  hybrid
+SEED:  0
+BEFORE RESIZING
+Files already downloaded and verified
+AFTER RESIZING
+Files already downloaded and verified
+INDICES:  50000
+IMAGE SIZE: torch.Size([64, 3, 32, 32])
+Accuracy of the network on the 1st dataset: 28.850 %
+Test loss on the 1st dataset: 0.003
+results:  {'R1': {'train_loss': 0.03761345148086548, 'train_acc': 48.77080023288727, 'test_loss': 0.0013162791728973389, 'test_acc': 60.20000076293945, 'convergence': 0.12286480516195297, 'R1': 50, 'dataset_config': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 64, 'nb_epoch': 50, 'print_freq': 10}}}, 'R2': {'train_loss': 0.01911367103457451, 'train_acc': 80.14000058174133, 'test_loss': 0.03912286087870598, 'test_acc': 61.29999923706055, 'convergence': 0.06054417043924332, 'R1': 50, 'dataset_config': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_sup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'dataset_unsup': {'name': 'STL10', 'noise_std': 0, 'channels': 3, 'width': 96, 'height': 96, 'validation_split': 0.2, 'training_sample': 5000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 32, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 1, 'validation': False, 'continual_learning': True, 'old_dataset_size': 32}, 'train_config': {'t1': {'blocks': [0, 1, 2, 3], 'lr': 0.001, 'mode': 'hybrid', 'batch_size': 32, 'nb_epoch': 50, 'print_freq': 10}}}, 'eval_1': {'test_loss': 0.003038152353838086, 'test_acc': 28.850000381469727, 'convergence': 23.989980697631836, 'R1': 0, 'dataset_sup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 64, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 50, 'print_freq': 10, 'validation': False, 'continual_learning': False}, 'dataset_unsup': {'name': 'CIFAR10', 'noise_std': 0, 'channels': 3, 'width': 32, 'height': 32, 'validation_split': 0.2, 'training_sample': 50000, 'testing_sample': 10000, 'out_channels': 10, 'num_workers': 0, 'seed': 0, 'shuffle': True, 'batch_size': 10, 'augmentation': False, 'zca_whitened': False, 'training_class': 'all', 'split': 'train', 'nb_epoch': 1, 'print_freq': 10, 'validation': False, 'continual_learning': False}}, 'cl_hyper': {'training_mode': 'simultaneous', 'cf_sol': False, 'head_sol': True, 'top_k': 0.5, 'high_lr': 0.0, 'low_lr': 1.0, 't_criteria': 'mean', 'delta_w_interval': 100, 'heads_basis_t': 0.6064999961853027}, 'model_name': 'CIFAR10_STL10_CL'}
 

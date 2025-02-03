@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 432, in <module>
+    procedure(params, name_model, blocks,dataset_sup_1, dataset_unsup_1, False, results)
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 275, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 227, in main
+    result = run_hybrid(
+             ^^^^^^^^^^^
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/train.py", line 312, in run_hybrid
+    save_layers(model, folder_name, epoch, blocks, storing_path=model_dir)
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/model.py", line 152, in save_layers
+    torch.save({
+  File "/leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/serialization.py", line 651, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/serialization.py", line 525, in _open_zipfile_writer
+    return container(name_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/serialization.py", line 496, in __init__
+    super().__init__(torch._C.PyTorchFileWriter(self.name))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Parent directory /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/IMG_STL10_CL/models does not exist.
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnImNet --resume all --model-name IMG_STL10_CL --dataset-unsup-1 ImageNette_1 --dataset-sup-1 ImageNette_200aug --dataset-unsup-2 STL10_1 --dataset-sup-2 STL10_50 --continual_learning True --skip-1 True --evaluate True` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 457, in <module>
+    procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 275, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 131, in main
+    model = load_layers(blocks, name_model, resume, dataset_sup_config=dataset_sup_config, batch_size=list(train_config.values())[-1]["batch_size"], cl_hyper=cl_hyper)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/model.py", line 32, in load_layers
+    checkpoint = torch.load(model_path)  # , map_location=device)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/serialization.py", line 1072, in load
+    with _open_zipfile_reader(opened_file) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/home/userexternal/rcasciot/.local/lib/python3.11/site-packages/torch/serialization.py", line 480, in __init__
+    super().__init__(torch._C.PyTorchFileReader(name_or_buffer))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: PytorchStreamReader failed reading zip archive: failed finding central directory
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnImNet --resume all --model-name IMG_STL10_CL --dataset-unsup-1 ImageNette_1 --dataset-sup-1 ImageNette_200aug --dataset-unsup-2 STL10_1 --dataset-sup-2 STL10_50 --continual_learning True --skip-1 True --evaluate True` failed. (See above for error)

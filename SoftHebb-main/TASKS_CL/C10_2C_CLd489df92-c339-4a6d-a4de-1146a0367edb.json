@@ -1,0 +1,307 @@
+{
+    "R1": {
+        "train_loss": 0.009593418799340725,
+        "train_acc": 97.19600081443787,
+        "test_loss": 0.0006261285743676126,
+        "test_acc": 97.3499984741211,
+        "convergence": 10.090381622314453,
+        "R1": 2,
+        "dataset_config": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 64,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 50,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                1,
+                2
+            ]
+        },
+        "dataset_sup": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 64,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 50,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                1,
+                2
+            ]
+        },
+        "dataset_unsup": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 10,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 1,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                1,
+                2
+            ]
+        },
+        "train_config": {
+            "t1": {
+                "blocks": [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                "lr": 0.001,
+                "mode": "hybrid",
+                "batch_size": 64,
+                "nb_epoch": 50,
+                "print_freq": 10
+            }
+        }
+    },
+    "R2": {
+        "train_loss": 0.009304394014179707,
+        "train_acc": 97.42199778556824,
+        "test_loss": 0.0007602085825055838,
+        "test_acc": 97.5,
+        "convergence": 6.8605756759643555,
+        "R1": 5,
+        "dataset_config": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 64,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 50,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                6,
+                9
+            ]
+        },
+        "dataset_sup": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 64,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 50,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                6,
+                9
+            ]
+        },
+        "dataset_unsup": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 10,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 1,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                6,
+                9
+            ]
+        },
+        "train_config": {
+            "t1": {
+                "blocks": [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                "lr": 0.001,
+                "mode": "hybrid",
+                "batch_size": 64,
+                "nb_epoch": 50,
+                "print_freq": 10
+            }
+        }
+    },
+    "eval_1": {
+        "test_loss": 0.08304363489151001,
+        "test_acc": 16.149999618530273,
+        "convergence": 23.989980697631836,
+        "R1": 0,
+        "dataset_sup": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 64,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 50,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                1,
+                2
+            ]
+        },
+        "dataset_unsup": {
+            "name": "CIFAR10",
+            "noise_std": 0,
+            "channels": 3,
+            "width": 32,
+            "height": 32,
+            "validation_split": 0.2,
+            "training_sample": 50000,
+            "testing_sample": 10000,
+            "out_channels": 2,
+            "num_workers": 0,
+            "seed": 0,
+            "shuffle": true,
+            "batch_size": 10,
+            "augmentation": false,
+            "zca_whitened": false,
+            "training_class": "all",
+            "split": "train",
+            "nb_epoch": 1,
+            "print_freq": 10,
+            "validation": false,
+            "continual_learning": true,
+            "old_dataset_size": 32,
+            "n_classes": 2,
+            "selected_classes": [
+                1,
+                2
+            ]
+        }
+    },
+    "cl_hyper": {
+        "training_mode": "simultaneous",
+        "cf_sol": true,
+        "head_sol": false,
+        "top_k": 0.5,
+        "high_lr": 0.0,
+        "low_lr": 1.0,
+        "t_criteria": "mean",
+        "delta_w_interval": 100.0,
+        "heads_basis_t": 0.7875,
+        "selected_classes": [
+            [
+                1,
+                2
+            ],
+            [
+                6,
+                9
+            ]
+        ]
+    }
+}

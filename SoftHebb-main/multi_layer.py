@@ -5,7 +5,7 @@ from model import load_layers
 from train import run_sup, run_unsup, check_dimension, training_config, run_hybrid, evaluate_sup, evaluate_unsup
 from log_m import Log, save_logs
 from dataset import make_data_loaders
-from engine_cl import getActivation
+from engine_cl_cl import getActivation
 import torch
 import torch.optim as optim
 import torch.nn as nn

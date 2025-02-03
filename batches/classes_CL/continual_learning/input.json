@@ -1,0 +1,12 @@
+{
+    "training_mode": "simultaneous",
+    "cf_sol": true,
+    "head_sol": true,
+    "top_k": 0.5,
+    "high_lr": 0.0,
+    "low_lr": 1.0,
+    "t_criteria": "mean",
+    "delta_w_interval": 100,
+    "heads_basis_t": 0.6,
+    "selected_classes": [[2,2], [5,1]]
+}

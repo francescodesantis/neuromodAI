@@ -230,6 +230,7 @@ def training_config(blocks, dataset_sup_config, dataset_unsup_config, mode, bloc
         train_layer_order = {'t1': train_layer_order}
     else:
         raise ValueError
+    print("train_layer_order:",  mode, train_layer_order, )
     return train_layer_order
 
 
@@ -244,12 +245,12 @@ def run_hybrid(
         device,
         log,
         blocks,
-        learning_mode: str = 'BP',
+        learning_mode: str = 'HB',
         save_batch: bool = True,
         save: bool = True,
         report=None,
         plot_fc=None,
-        model_dir=None,
+        model_dir=None, 
 ):
     """
     Hybrid training of one model, happens during simultaneous training mode
@@ -289,12 +290,37 @@ def run_hybrid(
 
             else:
                 log.verbose()
+            conv, R1 = model.convergence()
+            _, train_loss, train_acc, test_loss, test_acc = log.data[-1]
+            if type(train_loss) ==  torch.Tensor:
+                metrics = {"train_loss":train_loss.item(), "train_acc":train_acc.item(), "test_loss":test_loss.item(), "test_acc": test_acc.item(), "convergence":conv.item(), "R1":R1}
+            else: 
+                metrics = {"train_loss":train_loss, "train_acc":train_acc, "test_loss":test_loss, "test_acc": test_acc, "convergence":conv, "R1":R1}
+            
+            if epoch == final_epoch:
+                state_dict = model.state_dict()
+                keys = list(state_dict.keys())
+                new_head = {keys[-1]: state_dict[keys[-1]], keys[-2]: state_dict[keys[-2]]}
+                print("new_head: ", new_head)
+                if len(model.heads) > 0:
+                    val =  model.heads_thresh*len(model.heads)
+                    val += test_acc/100
+                    model.heads_thresh = val/(len(model.heads)+1)
+                model.heads.append(new_head)
+
             if save:
                 save_layers(model, folder_name, epoch, blocks, storing_path=model_dir)
 
             if plot_fc is not None:
                 for block in blocks:
                     plot_fc(model, block)
+        
+        
+    
+            
+    metrics["dataset_config"] = dataset_config
+    return metrics
+
 
 
 def run_unsup(
@@ -311,7 +337,7 @@ def run_unsup(
         report=None,
         plot_fc=None,
         reset=False,
-        model_dir=None
+        model_dir=None, 
 ):
     """
     Unsupervised training of hebbians blocks of one model
@@ -367,7 +393,7 @@ def run_sup(
         save: bool = True,
         report=None,
         plot_fc=None,
-        model_dir=None
+        model_dir=None, 
 ):
     """
     Supervised training of BP blocks of one model
@@ -421,11 +447,15 @@ def run_sup(
             else:
                 log.verbose()
 
-            if epoch == final_epoch: 
+            if epoch == final_epoch:
                 state_dict = model.state_dict()
                 keys = list(state_dict.keys())
                 new_head = {keys[-1]: state_dict[keys[-1]], keys[-2]: state_dict[keys[-2]]}
                 print("new_head: ", new_head)
+                if len(model.heads) > 0:
+                    val =  model.heads_thresh*len(model.heads)
+                    val += test_acc/100
+                    model.heads_thresh = val/(len(model.heads)+1)
                 model.heads.append(new_head)
 
             if save:
@@ -435,6 +465,8 @@ def run_sup(
             if plot_fc is not None:
                 for block in blocks:
                     plot_fc(model, block)
+
+         
     
 
     metrics["dataset_sup"] = dataset_config

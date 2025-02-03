@@ -362,6 +362,167 @@
         "dropout": 0.5
       }
     },
+    "6SoftHebbCnnCIFAR": {
+      "b0": {
+        "arch": "CNN",
+        "preset": "softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 0,
+        "batch_norm": false,
+        "pool": "max_4_2_1",
+        "activation": "triangle_0.7",
+        "resume": null
+      },
+      "b1": {
+        "arch": "CNN",
+        "preset": "softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 1,
+        "batch_norm": false,
+        "pool": "max_4_2_1",
+        "activation": "triangle_1.4",
+        "resume": null
+      },
+      "b2": {
+        "arch": "CNN",
+        "preset": "softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 2,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b3": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 3,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b4": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 4,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b5": {
+        "arch": "MLP",
+        "preset": "BP-c10",
+        "operation": "flatten",
+        "num": 5,
+        "att_dropout": null,
+        "dropout": 0.5
+      }
+    },
+    "12SoftHebbCnnCIFAR": {
+      "b0": {
+        "arch": "CNN",
+        "preset": "softkrotov-c96-k5-p2-s1-d1-b0-t1-lr0.08-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 0,
+        "batch_norm": false,
+        "pool": "max_4_2_1",
+        "activation": "triangle_0.7",
+        "resume": null
+      },
+      "b1": {
+        "arch": "CNN",
+        "preset": "softkrotov-c384-k3-p1-s1-d1-b0-t0.65-lr0.005-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 1,
+        "batch_norm": false,
+        "pool": "max_4_2_1",
+        "activation": "triangle_1.4",
+        "resume": null
+      },
+      "b2": {
+        "arch": "CNN",
+        "preset": "softkrotov-c1536-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 2,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b3": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 3,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b4": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 4,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b5": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 5,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b6": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 6,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b7": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 7,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      "b8": {
+        "arch": "CNN",
+        "preset": "softkrotov-c2560-k3-p1-s1-d1-b0-t0.25-lr0.01-lp0.5-e0",
+        "operation": "batchnorm2d",
+        "num": 8,
+        "batch_norm": false,
+        "pool": "avg_2_2_0",
+        "activation": "triangle_1",
+        "resume": null
+      },
+      
+      "b9": {
+        "arch": "MLP",
+        "preset": "BP-c10",
+        "operation": "flatten",
+        "num": 9,
+        "att_dropout": null,
+        "dropout": 0.5
+      }
+    },
     "4SoftHebbCnnCIFAR_HebbClassifier": {
       "b0": {
         "arch": "CNN",

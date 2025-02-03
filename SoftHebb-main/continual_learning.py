@@ -17,6 +17,10 @@
 # 
 
 import argparse
+import ast
+import os
+import uuid
+
 import os.path as op
 import json
 from utils import load_presets, get_device, load_config_dataset, seed_init_fn, str2bool
@@ -27,7 +31,6 @@ import warnings
 import copy
 
 from utils import CustomStepLR, double_factorial
-from model import save_layers, HebbianOptimizer, AggregateOptim
 from engine_cl import train_sup, train_unsup, evaluate_unsup, evaluate_sup, getActivation
 from dataset import make_data_loaders
 import torch
@@ -112,19 +115,38 @@ parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=Non
                     type=str, help='Dataset possibilities ' +
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: None)')
+
+parser.add_argument('--head-sol', choices=[True, False], default='False',   ###################
+                    type=str2bool, help='whether continual learning solution is on or off on linear layers' +
+                                   ' | '.join(['on', 'off']) +
+                                   ' (default: off)')
+
+parser.add_argument('--cf-sol', default="",   ###################
+                    type=str2bool)
+parser.add_argument('--top-k', default="",   ###################
+                    type=float)
+parser.add_argument('--high-lr', default="",   ###################
+                    type=float)
+parser.add_argument('--low-lr', default="",   ###################
+                    type=float)
+parser.add_argument('--delta-w-interval', default="",   ###################
+                    type=float)
+parser.add_argument('--t-criteria', default="",   ###################
+                    type=str)
+parser.add_argument('--heads-basis-t', default="",   ###################
+                    type=float)
+parser.add_argument('--selected-classes', default=[],   ###################
+                    type=str)
 # we need first to pass both the datasets, the evaluation parameter is not needed, or it could be if we decide to validate just one model on one dataset. 
 # after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
 # during the second training of the model. And so the evaluate must be set to true in the last iteration and continual learning again to false.
 
-results = {}
+results = {"count": 0}
 
 
-
-def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results):
+def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_config, train_config, gpu_id, evaluate, results, cl_hyper):
     device = get_device(gpu_id)
-    model = load_layers(blocks, name_model, resume, dataset_sup_config=dataset_sup_config, batch_size=list(train_config.values())[-1]["batch_size"])
-        
-    #model = copy.deepcopy(model_og)
+    model = load_layers(blocks, name_model, resume, dataset_sup_config=dataset_sup_config, batch_size=list(train_config.values())[-1]["batch_size"], cl_hyper=cl_hyper)
 
     model = model.to(device)
 
@@ -177,6 +199,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                     results["eval_1"] = metrics.copy()
                 else:
                     results["eval_2"] = metrics.copy()
+                results["cl_hyper"] = cl_hyper
         else:
             if config['mode'] == 'unsupervised':
                 run_unsup(
@@ -189,7 +212,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                     device,
                     log.unsup[id],
                     blocks=config['blocks'],
-                    save=save
+                    save=save, 
                 )
                 
             elif config['mode'] == 'supervised':
@@ -204,22 +227,17 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                     device,
                     log.sup[id],
                     blocks=config['blocks'],
-                    save=save
+                    save=save,
                 )
                 result["dataset_sup"] = dataset_sup_config.copy()
                 result["dataset_unsup"] = dataset_unsup_config.copy()
                 result["train_config"] = train_config.copy()
                 print("RESULT: ", result)
-                if results.get("R1") is None: 
-                    results["R1"] = result.copy()
-                    print("IN R1: ", results)
-
-                else:
-                    results["R2"] = result.copy()
-                    print("IN R2: ", results)
-                #print()
+                results["R" + str(results["count"])] = result.copy()
+                print(f"IN R" + str(results["count"]) + ": ", results)
+                results["count"] += 1
             else:
-                run_hybrid(
+                result = run_hybrid(
                     config['nb_epoch'],
                     config['print_freq'],
                     config['batch_size'],
@@ -230,8 +248,15 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                     device,
                     log.sup[id],
                     blocks=config['blocks'],
-                    save=save
+                    save=save, 
                 )
+                result["dataset_sup"] = dataset_sup_config.copy()
+                result["dataset_unsup"] = dataset_unsup_config.copy()
+                result["train_config"] = train_config.copy()
+                print("RESULT: ", result)
+                results["R" + str(results["count"])] = result.copy()
+                print(f"IN R" + str(results["count"]) + ": ", results)
+                results["count"] += 1
 
     # save_logs(log, name_model)
     # print("Name Model: ", name_model)
@@ -243,7 +268,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
 
 def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
-
+    print("type(params.cl_hyper): ", type(params.cl_hyper["selected_classes"]))
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
         dataset_unsup_config['seed'] = params.seed
@@ -255,11 +280,12 @@ def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_conf
 
     train_config = training_config(blocks, dataset_sup_config, dataset_unsup_config, params.training_mode,
                                    params.training_blocks)
-
+     
     main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
-         params.gpu_id, evaluate, results)
+          params.gpu_id, evaluate, results, cl_hyper=params.cl_hyper)
 
 def save_results(results, file):
+    print("results: ", results)
     with open(file, 'a+') as f:
         try:
             f.seek(0)
@@ -284,6 +310,17 @@ def save_results(results, file):
 
         json.dump(old, f, indent=4)
 
+def save_results_new(results, path, name):
+    print("results: ", results)
+
+    if not os.path.exists(path):
+        print("MKDIR")
+        os.mkdir(path)
+    file = path + "/"+ name + ".json"
+    print(file)
+    with open(file, 'w') as f:
+        json.dump(results, f, indent=4)
+
 def random_n_classes(all_classes, n_classes):
     np.random.shuffle(all_classes)
     # select n classes indices to extract the classes
@@ -292,21 +329,62 @@ def random_n_classes(all_classes, n_classes):
     all_classes = np.delete(all_classes, classes)
     return all_classes, selected_classes
 
+def task_training(params, name_model, blocks, selected_classes, dataset_sup, dataset_unsup, continual_learning, resume):
+    #all_classes, selected_classes = random_n_classes(all_classes, n_classes)
+                
+    # selected_classes = selected_classes.tolist()
+    # selected_classes = [2,8]
+    
+    print(selected_classes)
+    dataset_sup["selected_classes"] = selected_classes
+    dataset_unsup["selected_classes"] = selected_classes
+
+    params.continual_learning = continual_learning
+    params.resume = resume
+    evaluate = False
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+
 if __name__ == '__main__':
 
 
 
     params = parser.parse_args()
     name_model = params.preset if params.model_name is None else params.model_name
+    name_model = name_model + str(uuid.uuid4())
+    #name_model = "C100_2C_CL1a42f6f0-3c61-4bea-a5f9-90f153a05112"
     blocks = load_presets(params.preset)
     n_classes = params.classes
     resume = params.resume
+    # f = open('/leonardo_work/try24_antoniet/rcasciot/neuromodAI/batches/classes_CL/continual_learning/input.json', "r")
+    # cl_hyper = json.load(f)
+    # f.close()
+    # print(params.cl_hyper)
+    # cl_hyper = json.load(params.cl_hyper)
+    # print(cl_hyper)
+    print(params.selected_classes)
 
+    cl_hyper = {
+                'training_mode': params.training_mode,
+                'cf_sol': params.cf_sol,
+                'head_sol': params.head_sol,
+                'top_k': params.top_k,
+                'high_lr': params.high_lr,
+                'low_lr':params.low_lr,
+                't_criteria': params.t_criteria,
+                'delta_w_interval': params.delta_w_interval,
+                'heads_basis_t': params.heads_basis_t,
+                'selected_classes': eval(params.selected_classes)
 
+            }
+    print(cl_hyper)
+    params.training_mode = cl_hyper["training_mode"]
+    params.cl_hyper = cl_hyper
+    
     if n_classes != None and (params.dataset_sup_2 != None or params.dataset_sup_1 != None):
         print("\n\n ########### WARNING ############\n\n")
         print(" Invalid combination of parameters, provide either: [--classes, --dataset-sup, --dataset-unsup] or [--dataset-sup-1, --dataset-unsup-1, --dataset-sup-2, --dataset-unsup-2]\nThe continual learning is implemented per tasks where each task is made up of different classes \n of the same dataset, so only one dataset will be considered.")
         print("\n\n ################################\n\n")
+
 
 
     if n_classes != None: 
@@ -330,7 +408,13 @@ if __name__ == '__main__':
         
         dataset_sup_2  = dataset_sup_1.copy()
         dataset_unsup_2 = dataset_unsup_1.copy()
-        
+
+        dataset_sup_3  = dataset_sup_1.copy()
+        dataset_unsup_3 = dataset_unsup_1.copy()
+
+        dataset_sup_4  = dataset_sup_1.copy()
+        dataset_unsup_4 = dataset_unsup_1.copy()
+
 
         if out_channels >=  2*n_classes:
 
@@ -338,23 +422,17 @@ if __name__ == '__main__':
             skip = params.skip_1
             print("task 1")
             if not skip: 
-                all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-                
-                selected_classes = selected_classes.tolist()
-                selected_classes = [2,8]
-                dataset_sup_1["selected_classes"] = selected_classes
-                dataset_unsup_1["selected_classes"] = selected_classes
-
-                params.continual_learning = False
-                params.resume = None
-                evaluate = False
-                procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
+                selected_classes = cl_hyper["selected_classes"][0]
+                task_training(params, name_model, blocks, selected_classes, dataset_sup_1, dataset_unsup_1, continual_learning=False, resume=False)
 
             else: 
                 all_classes, selected_classes = random_n_classes(all_classes, n_classes)
                 
-                selected_classes = selected_classes.tolist()
-                selected_classes = [2,8]
+                # selected_classes = selected_classes.tolist()
+                # selected_classes = [2,8]
+
+                selected_classes = cl_hyper["selected_classes"][0]
+                print(selected_classes)
 
                 dataset_sup_1["selected_classes"] = selected_classes
                 dataset_unsup_1["selected_classes"] = selected_classes
@@ -365,25 +443,26 @@ if __name__ == '__main__':
             # TASK 2
             print("task 2")
 
-            all_classes, selected_classes = random_n_classes(all_classes, n_classes)
-            selected_classes = selected_classes.tolist()
-            selected_classes = [1, 5]      
-            dataset_sup_2["selected_classes"] = selected_classes
-            dataset_unsup_2["selected_classes"] = selected_classes
-            
+            selected_classes = cl_hyper["selected_classes"][1]
+            task_training(params, name_model, blocks, selected_classes, dataset_sup_2, dataset_unsup_2, continual_learning=True, resume=resume)
 
-            params.continual_learning = True
-            params.resume = resume
-            evaluate = False
-            procedure(params, name_model, blocks, dataset_sup_2, dataset_unsup_2, evaluate, results)
+            # TASK 3
+
+            selected_classes = [4, 7]
+            task_training(params, name_model, blocks, selected_classes, dataset_sup_3, dataset_unsup_3, continual_learning=True, resume=resume)
+
+            # TASK 4
+            selected_classes = [1, 9]
+            task_training(params, name_model, blocks, selected_classes, dataset_sup_4, dataset_unsup_4, continual_learning=True, resume=resume)
 
             # EVALUATION PHASE
             params.continual_learning = False
             evaluate = True
             procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
 
-            file = "TASKS_CL.json"
-            save_results(results, file)
+            #file = "TASKS_CL.json"            
+            #save_results(results, file)
+            save_results_new(results, "TASKS_CL_test", name_model)
         else: 
             print("Error: Not enough available classes to be organized in tasks of n_classes")
 
@@ -394,13 +473,14 @@ if __name__ == '__main__':
 
 
         resume = params.resume
-        skip = params.skip_1
+        skip =  params.skip_1
+        skip = False
         dataset_sup_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
 
 
         if not skip: 
             params.continual_learning = False
-            #params.resume = None
+            params.resume = None
             dataset_sup_1 = load_config_dataset(params.dataset_sup_1, params.validation, params.continual_learning)
             dataset_unsup_1 = load_config_dataset(params.dataset_unsup_1, params.validation, params.continual_learning)
             procedure(params, name_model, blocks,dataset_sup_1, dataset_unsup_1, False, results)
@@ -412,9 +492,6 @@ if __name__ == '__main__':
             procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
 
         # DATASET 2
-
-        
-        
 
         params.continual_learning = True
         params.resume = resume
@@ -434,5 +511,6 @@ if __name__ == '__main__':
         procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
         
         results["model_name"] = name_model
-        file = "MULTD_CL.json"
-        save_results(results, file)
+        # file = "MULTD_CL.json"
+        # save_results(results, file)
+        save_results_new(results, "MULTD_CL", name_model)

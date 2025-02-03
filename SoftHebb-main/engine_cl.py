@@ -5,14 +5,13 @@ import time
 from PIL import ImageFile
 import matplotlib.pyplot as plt
 from mpltools import special
-from graphs_CL import hinton
 from copy import deepcopy
 import pickle
 import numpy as np
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-K = 20
 activations = {}
+curr_layer = 0
 
 
 def train_BP(model, criterion, optimizer, loader, device, measures):
@@ -195,7 +194,7 @@ def get_layer(model, depth, prev_dict):
     return prev_dict, layer_num
 
 
-def get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights ):
+def get_delta_weights(model, device, blocks, depth, prev_dict, delta_weights ):
     #####
     # function which calculates the delta between the current state of the model and the previous state of the model. After doing so 
     # it stores the results in the delta_weights dictionary, which contains the delta weights of all the layers.
@@ -204,7 +203,9 @@ def get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights 
     curr_dict = deepcopy(model.state_dict())
     #print("CURR DICT state: ", list(curr_dict.keys()))
 
-    curr_dict = {k: v for k, v in curr_dict.items() if str(layer_num) + ".layer.weight" in k and k in prev_dict }
+    curr_dict = {k: v for k, v in curr_dict.items() if ".layer.weight" in k and int(k[7]) in blocks }
+    print("curr_dict.keys(): ", curr_dict.keys() )
+
     # I should put all the tensors from the dict to a tensor which comprises all the layers
     # to improve performance by loading everything on GPU
     for kc, tc in curr_dict.items():
@@ -235,7 +236,7 @@ def get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights 
 conv_act = []
 images = []
 
-def train_hebb(model, loader, device, measures=None, criterion=None):
+def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
     """
     Train only the hebbian blocks
     """
@@ -253,7 +254,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     
     avg_deltas = model.avg_deltas
     delta_weights = {}
-    activations_sum = []
+    
     acts = model.acts
 
     #Check if the file exists
@@ -276,7 +277,7 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     
     layer_num = -1
     iteration = 0
-    interval = 100
+    interval = model.cl_hyper["delta_w_interval"]
     depth = 0
     for layer in model.children():
         for subl in layer.children():
@@ -284,7 +285,10 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
     depth -= 1
         
     prev_dict = deepcopy(model.state_dict())
-    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and str(depth) not in k} 
+    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and int(k[7]) in blocks}
+    activations_sum = {k: [] for k in prev_dict.keys() if int(k[7]) in blocks}
+    print("prev_dict.keys(): ", prev_dict.keys() )
+    print("activations_sum.keys(): ", prev_dict.keys() )
     print("DEPTH: ", depth)
     if "conv1" in activations: 
         print("ACTIVATIONS SHAPE: ", activations["conv1"][0])
@@ -322,56 +326,65 @@ def train_hebb(model, loader, device, measures=None, criterion=None):
            
             model.update()
             
-            if layer_num == -1:
-                prev_dict, layer_num = get_layer(model, depth, prev_dict)
-            
+            #if layer_num == -1:
+            #    prev_dict, layer_num = get_layer(model, depth, prev_dict)
+
+
             # I store the activations of every batch
-            activations_sum.append(activations["conv" + str(layer_num)].cpu())
+            for k in list(prev_dict.keys()):
+                if int(k[7]) in blocks:
+                    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+                    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+                    if len(activations_sum[k]) == 0: 
+                        activations_sum[k].append(activations["conv" + k[7]].cpu())
+                    else: 
+                        activations_sum[k][0] += activations["conv" + k[7]].cpu()
+
 
 
             #remember that we are workng with batches, so you need to multiply interval by the batch size
             if iteration % interval == 0: 
 
-                delta_weights = get_delta_weights(model, device, layer_num, depth, prev_dict, delta_weights)
+                delta_weights = get_delta_weights(model, device, blocks, depth, prev_dict, delta_weights)
                 
                 prev_dict = deepcopy(model.state_dict())
                 #['blocks.0.operations.0.running_mean', 'blocks.0.operations.0.running_var', 'blocks.0.operations.0.num_batches_tracked', 'blocks.0.layer.weight', 'blocks.1.operations.0.running_mean', 'blocks.1.operations.0.running_var', 'blocks.1.operations.0.num_batches_tracked', 'blocks.1.layer.weight', 'blocks.2.operations.0.running_mean', 'blocks.2.operations.0.running_var', 'blocks.2.operations.0.num_batches_tracked', 'blocks.2.layer.weight', 'blocks.3.layer.weight', 'blocks.3.layer.bias']
-                prev_dict = {k: v for k, v in prev_dict.items() if str(layer_num) + ".layer.weight" in k and str(depth) not in k}     
+                prev_dict = {k: v for k, v in prev_dict.items() if ".layer.weight" in k and int(k[7]) in blocks}     
            
                 
             
             iteration += 1
 
-    #print("BYTES OF delta_weights:", delta_weights.nelement()*4)
-    # now I sum all the activations of all the batches to obtain 1 final vector which has the dimensions of the layer
     
-    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
-    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
-    final_sum = activations_sum[0]
-    for i in range(1, len(activations_sum)):
-       final_sum += activations_sum[i]
+    
+   
     
     # here we sum all the values of each activation map to obtain 1 value of activation per kernel instead of a map.
-    print("shape of final_sum: ", final_sum.shape )
+    print("shape of activation_sum: ", activations_sum[list(activations_sum.keys())[0]][0].shape )
 
-    final_sum = torch.sum(final_sum, dim=1)
-    final_sum = torch.sum(final_sum, dim=1)
+    for k in list(activations_sum.keys()):
+                if int(k[7]) in blocks:
+                    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+                    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+                    activations_sum[k] = torch.sum(activations_sum[k][0], dim=1)
+                    activations_sum[k] = torch.sum(activations_sum[k], dim=1)
+                    # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
+                    # sum as value. Then we sort them, to consider only the first top k.
+                    activations_sum[k] = {k:v for k, v in enumerate(activations_sum[k])}
+    
+                    activations_sum[k] = sorted(activations_sum[k].items(), key = lambda item : item[1], reverse=True)
+                    activations_sum[k] = list(dict(activations_sum[k]))
 
-    # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
-    # sum as value. Then we sort them, to consider only the first top k.
-    final_sum = {k:v for k, v in enumerate(final_sum)}
     
-    final_sum = sorted(final_sum.items(), key = lambda item : item[1], reverse=True)
-    final_sum = list(dict(final_sum))
     
-    K = round(len(final_sum)*0.3) # K takes 20% of the kernels
-    print("FINAL SUM LENNNN " , len(final_sum))
-    acts["conv" + str(layer_num)] = final_sum[:K+1]
-    print("FINAL_SUM: ", final_sum[:10])
-    print("acts len: ", len(list(acts.keys())))
-    print("acts keys: ", list(acts.keys()))
-    print("acts: ", acts)
-    print("final_sum len: ", len(final_sum))
+                    K = round(len(activations_sum[k])*model.cl_hyper["top_k"]) # K takes 20% of the kernels
+                    print("activations_sum[k]" , len(activations_sum[k]))
+                    acts["conv" + k[7]] = activations_sum[k][:K+1]
+                    print("activations_sum[k]: ", activations_sum[k][:10])
+                    print("acts len: ", len(list(acts.keys())))
+                    print("acts keys: ", list(acts.keys()))
+                    print("acts: ", acts)
+                    print("activations_sum[k] len: ", len(activations_sum[k]))
 
 
     print("delta_weights INFO: ")
@@ -485,7 +498,7 @@ def average_deltas(delta_weights, avg_deltas,  device):
 
           
 
-def train_sup_hebb(model, loader, device, measures=None, criterion=None):
+def train_sup_hebb(model, loader, device, measures=None, criterion=None, blocks=[]):
     """
     Train only the hebbian blocks
 
@@ -505,7 +518,7 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     
     layer_num = -1
     iteration = 0
-    interval = 100
+    interval = model.cl_hyper["delta_w_interval"]
     depth = 0
     for layer in model.children():
         for subl in layer.children():
@@ -513,7 +526,11 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     depth -= 1
         
     prev_dict = deepcopy(model.state_dict())
-    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and str(depth) not in k} 
+    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and int(k[7]) in blocks}
+    activations_sum = {k: [] for k in prev_dict.keys() if int(k[7]) in blocks}
+    print("prev_dict.keys(): ", prev_dict.keys() )
+    print("activations_sum.keys(): ", prev_dict.keys() )
+
     print("DEPTH: ", depth)
     if "conv1" in activations: 
         print("ACTIVATIONS SHAPE: ", activations["conv1"][0])
@@ -547,11 +564,27 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
                 measures.step(target.shape[0], loss.clone().detach().cpu(), acc.cpu(), conv, r1, model.get_lr())
 
             model.update()
-            if layer_num == -1:
-                prev_dict, layer_num = get_layer(model, depth, prev_dict)
+            # if layer_num == -1:
+            #     prev_dict, layer_num = get_layer(model, depth, prev_dict)
             
             # I store the activations of every batch
-            activations_sum.append(activations["conv" + str(layer_num)].cpu())
+            l= 0
+            for k in list(prev_dict.keys()):
+                if int(k[7]) in blocks:
+                    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+                    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+                    if l == depth: 
+                        if len(activations_sum[k]) == 0: 
+                            activations_sum[k].append(activations["linear" + k[7]].cpu())
+                        else:
+                            activations_sum[k][0] += activations["linear" + k[7]].cpu()
+                    else: 
+                        if len(activations_sum[k]) == 0: 
+                            activations_sum[k].append(activations["conv" + k[7]].cpu())
+                        else: 
+                            activations_sum[k][0] += activations["conv" + k[7]].cpu()
+                    l += 1
+
 
 
             #remember that we are workng with batches, so you need to multiply interval by the batch size
@@ -561,40 +594,41 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
                 
                 prev_dict = deepcopy(model.state_dict())
                 #['blocks.0.operations.0.running_mean', 'blocks.0.operations.0.running_var', 'blocks.0.operations.0.num_batches_tracked', 'blocks.0.layer.weight', 'blocks.1.operations.0.running_mean', 'blocks.1.operations.0.running_var', 'blocks.1.operations.0.num_batches_tracked', 'blocks.1.layer.weight', 'blocks.2.operations.0.running_mean', 'blocks.2.operations.0.running_var', 'blocks.2.operations.0.num_batches_tracked', 'blocks.2.layer.weight', 'blocks.3.layer.weight', 'blocks.3.layer.bias']
-                prev_dict = {k: v for k, v in prev_dict.items() if str(layer_num) + ".layer.weight" in k and str(depth) not in k}     
-           
+                prev_dict = {k: v for k, v in prev_dict.items() if ".layer.weight" in k and int(k[7]) in blocks}
                 
             
             iteration += 1
 
-    # now I sum all the activations of all the batches to obtain 1 final vector which has the dimensions of the layer
-    
-    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
-    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
-    final_sum = activations_sum[0]
-    for i in range(1, len(activations_sum)):
-       final_sum += activations_sum[i]
-    
     # here we sum all the values of each activation map to obtain 1 value of activation per kernel instead of a map.
-    final_sum = torch.sum(final_sum, dim=1)
-    final_sum = torch.sum(final_sum, dim=1)
+    print("shape of activation_sum: ", activations_sum[list(activations_sum.keys())[0]][0].shape )
 
-    # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
-    # sum as value. Then we sort them, to consider only the first top k.
-    final_sum = {k:v for k, v in enumerate(final_sum)}
-    
-    final_sum = sorted(final_sum.items(), key = lambda item : item[1], reverse=True)
-    final_sum = list(dict(final_sum))
-    
-    K = round(len(final_sum)*0.3) # K takes 20% of the kernels
-    print("FINAL SUM LENNNN " , len(final_sum))
-    acts["conv" + str(layer_num)] = final_sum[:K+1]
-    print("FINAL_SUM: ", final_sum[:10])
-    print("acts len: ", len(list(acts.keys())))
-    print("acts keys: ", list(acts.keys()))
-    print("acts: ", acts)
-    print("final_sum len: ", len(final_sum))
 
+    for k in list(activations_sum.keys()):
+                if int(k[7]) in blocks:
+                    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+                    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+                    activations_sum[k] = torch.sum(activations_sum[k][0], dim=1)
+                    activations_sum[k] = torch.sum(activations_sum[k], dim=1)
+                    # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
+                    # sum as value. Then we sort them, to consider only the first top k.
+                    activations_sum[k] = {k:v for k, v in enumerate(activations_sum[k])}
+    
+                    activations_sum[k] = sorted(activations_sum[k].items(), key = lambda item : item[1], reverse=True)
+                    activations_sum[k] = list(dict(activations_sum[k]))
+
+    
+    
+                    K = round(len(activations_sum[k])*model.cl_hyper["top_k"]) # K takes 20% of the kernels
+                    print("activations_sum[k]" , len(activations_sum[k]))
+                    acts["conv" + k[7]] = activations_sum[k][:K+1]
+                    print("activations_sum[k]: ", activations_sum[k][:10])
+                    print("acts len: ", len(list(acts.keys())))
+                    print("acts keys: ", list(acts.keys()))
+                    print("acts: ", acts)
+                    print("activations_sum[k] len: ", len(activations_sum[k]))
+
+
+    
     print("delta_weights INFO: ")
     print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
     print("NUM OF TRACKED WEIGHTS CHANGES PER LAYER: ", len(delta_weights[list(delta_weights.keys())[0]]) )
@@ -602,15 +636,17 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None):
     print("avg_deltas INFO: ", type(avg_deltas))
     print("avg_deltas keys: ", list(avg_deltas.keys()))
 
+    
     model.avg_deltas = avg_deltas
     model.acts = acts
 
     print("avg_deltas size: ", len(list(avg_deltas.keys())))
-    print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
+    #print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
 
     print("################################################")
 
 
+    
     
 
     info = model.radius()
@@ -624,7 +660,7 @@ def train_unsup(model, loader, device,
     Unsupervised learning only works with hebbian learning
     """
     model.train(blocks=blocks)  # set unsup blocks to train mode
-    _, lr, info, convergence, R1 = train_hebb(model, loader, device)
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
     return lr, info, convergence, R1
 
 """
@@ -643,13 +679,14 @@ def train_sup(model, criterion, optimizer, loader, device, measures, learning_mo
         model.train(blocks=blocks)
         #print(model.is_hebbian())
         if model.get_block(blocks[0]).is_hebbian():
-            measures, lr, info, convergence, R1 = train_sup_hebb(model, loader, device, measures, criterion)
+            measures, lr, info, convergence, R1 = train_sup_hebb(model, loader, device, measures, criterion, blocks=blocks)
         else:
             measures, lr = train_BP(model, criterion, optimizer, loader, device, measures)
     else:
         model.train(blocks=blocks)
+        print("learning_mode: ", learning_mode)
         if learning_mode == 'HB':
-            measures, lr, info, convergence, R1 = train_sup_hebb(model, loader, device, measures, criterion)
+            measures, lr, info, convergence, R1 = train_sup_hebb(model, loader, device, measures, criterion, blocks=blocks)
         else:
             measures, lr = train_BP(model, criterion, optimizer, loader, device, measures)
     return measures, lr
