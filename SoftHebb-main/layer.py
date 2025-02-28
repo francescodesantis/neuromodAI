@@ -226,7 +226,7 @@ class BasicBlock(nn.Module):
             self.resume = 'Block %s not found' % self.get_name()
 
 
-def generate_block(params, avg_deltas_layer={}, acts_layer={}, cl_hyper={}) -> BasicBlock:
+def generate_block(params, avg_deltas_layer={}, topk_layer={}, cl_hyper={}) -> BasicBlock:
     """
 
     Parameters
@@ -281,12 +281,12 @@ def generate_block(params, avg_deltas_layer={}, acts_layer={}, cl_hyper={}) -> B
         if 'batch_norm' in params and params['batch_norm']:
             batch_norm = nn.BatchNorm1d(config['out_channels'], affine=False)
         layer.avg_deltas_layer = avg_deltas_layer
-        layer.acts_layer = acts_layer
+        layer.topk_layer = topk_layer
 
     elif config['arch'] == 'CNN':
         print("CNN LAYER CONFIG: ", config)
         if config['hebbian']:
-            layer = select_Conv2d_layer(config, avg_deltas_layer, acts_layer, cl_hyper)
+            layer = select_Conv2d_layer(config, avg_deltas_layer, topk_layer, cl_hyper)
         else:
             layer = nn.Conv2d(
                 config['in_channels'],

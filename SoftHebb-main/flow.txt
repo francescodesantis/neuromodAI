@@ -727,6 +727,10 @@ if we do 4 tasks the solution still works and the same behaviour icd backs found
 if we use  "high_lr": 2000.0, "low_lr": 1.0 lower performance on eval_1
 if we use: 
 
+4 TASKS
+
+On CIFAR 100: 
+
 "cl_hyper": {
         "training_mode": "consecutive",
         "cf_sol": true,
@@ -749,7 +753,7 @@ if we use:
         ]
     }
 
-performance is higher then when cf_sol is off.
+performance is higher than when cf_sol is off.
 
 Let's see what happens if we reduce: "delta_w_interval": if we reduce it to 20 the performance goes up to about 89.5%
  "cl_hyper": {
@@ -775,7 +779,7 @@ Let's see what happens if we reduce: "delta_w_interval": if we reduce it to 20 t
     }
 
 Increasing topks above 0.7 doesn't seem to have any positive effect on the performance.
-Reducing topks seems to lower performance 81%:
+Reducing topks seems to lower performance to 81%:
 "cl_hyper": {
         "training_mode": "consecutive",
         "cf_sol": true,
@@ -797,3 +801,176 @@ Reducing topks seems to lower performance 81%:
             ]
         ]
     }
+
+On CIFAR10 it doesn't seem there is any improvement between no cf_sol and cf_sol
+On STL-10 it has a very small improvement. 
+On IMG it has about 2% improvement. 
+
+All the above tests where ran with battery of 4 different tasks and evaluated on the 1st.
+On STL10 with just 2 tasks and evaluated on the 1st no improveent at all. 
+
+6 TASKS
+
+On CIFAR100 I tried with 6 tasks and evaluation on the first. The performance improvment with cf_sol on or off is of 1%. Maybe I can increase the number of 
+topk kernels and see.
+ "cl_hyper": {
+        "training_mode": "consecutive",
+        "cf_sol": true,
+        "head_sol": true,
+        "top_k": 0.9,
+        "high_lr": 0.2,
+        "low_lr": 0.8,
+        "t_criteria": "mean",
+        "delta_w_interval": 20.0,
+        "heads_basis_t": 0.8883333333333333,
+        "selected_classes": [
+            [
+                2,
+                8
+            ],
+            [
+                1,
+                5
+            ]
+        ]
+    }
+Increasing topks to 0.9 seems to help keep good performance on the first task (about +5%)
+For C10: 
+"cl_hyper": {
+        "training_mode": "consecutive",
+        "cf_sol": true,
+        "head_sol": true,
+        "top_k": 0.9,
+        "high_lr": 0.2,
+        "low_lr": 0.8,
+        "t_criteria": "mean",
+        "delta_w_interval": 20.0,
+        "heads_basis_t": 0.8708333333333332,
+        "selected_classes": [
+            [
+                2,
+                8
+            ],
+            [
+                1,
+                5
+            ]
+        ]
+    }
+there is an increase of about 4% with cf sol on.
+
+
+ADD TASKS PARAMETER IN CL_HYPER
+
+box plot per deviazione standard
+leva linee che collegano i punti 
+includi numeri esperimenti 
+aggiungi eval after runs 
+absolute val per delta_w
+prova altri parametri di threshold oltre a mean
+seleziona testa in base a quale ha la prob più alta più spesso tra tutte. 
+modify epochs number for unsupervised learning, maybe more than 1. 
+modify everything so that you don't reload the same dataset all the times but you use a validation set.
+Try bigger Networks for different datasets.
+
+[!!! DONE - - HEAD SOLUTION UPDATE]
+We need to modify when we select the head. I would write a function which takes out the logic of the load function so we don't need to modify the load function 
+too much. 
+We need to: 
+    - load the head on the model
+    - store the activation values of the heads
+    - pick the head with the highest activation value the highest number of times: 
+    model.heads è una lista di dizionari e ogni dizionario è una testa.
+        - we create a dictionary which has has key the index of the head in the model.heads list and as value the number of times that that head
+        had the highest output probability among all the heads. So we record the probabilities, and based on the values of the highest among the outputs 
+        of the same head, we create a score. How...? 
+        - when selecting the head we calculate the score with the raw logits, not probabilities. 
+        A higher logit corresponds to a higherr probability, but check with this solution or passing the ouputs through a softmax to obtain 
+        proabilities and try again to see if something changes.
+
+
+
+
+Continual learning
+    - include fig.1 kudithipudi
+Catastrophic forgetting
+datasets
+softhebb
+Hebbian Learning rule y_k summarize and keep text in notes
+experiments (metodo + baseline)
+Baseline: include also the accuracy of the bar plots.
+Objective integration: 
+    - Nitric Oxyde
+    - Neuro-modulation
+solutions or methods: 
+ - summarize slides with keywords and keep text in notes 
+ - visualization of head layer in the soft
+ - Where to apply it? add image of top k red and green
+ - How to apply? add formulas of how the learning rate is modified. 
+results
+
+
+
+Look at entropy, information gain
+The more changing neurons on the last layer are probably the most important. Look at those and travel back by putting in the top k the kernels obtained travelling
+back. 
+
+[ !!! DONE ]
+We need to implement the model so that: 
+- during training we are able to select the head to mount on the model:
+    - we assume that everytime we train we are seeing another task
+    - so we need to create a default approach where we simply create a new head and add it to the list
+    - at this point we need to understand how to do the evaluation phase for inference: 
+        - I would mount a different head everytime and record the one with the highest accuracy.
+        - I need to understand the difference between multi-head and using a single head different.
+
+#############################
+
+
+[GRAPHS]
+1 total graph + single graphs with more stats in them
+
+[statistical test]
+Kruskal-Wallis per più popolazioni
+Post-Hoc per capire chi tra le 4 pop è differente da chi 
+(tieni comunque 2 coppie separate)
+
+Wilcoxson
+test non parametrici per pochi punti.
+
+head solution fixed
+box plot implemented
+
+-leva linee che collegano i punti 
+-absolute val per delta_w
+-prova altri parametri di threshold oltre a mean
+-modify epochs number for unsupervised learning, maybe more than 1. 
+-Try bigger Networks for different datasets.
+
+
+To implement the statics tests we need to obtain the vectors of complete accuracies and of std_deviations. then we feed them into the function and 
+print the p-value.
+To obtain the full vectors: 
+- 
+
+- Fix std graphs 
+- varia top k e learning con e senza top k lock 
+- prova diversi numeri di task 
+- entropia (paper from fra) 
+- network più grandi 
+- varia epochs per hebbian learning (def is 1)
+
+- WARNING: misunderstnding on the mean and KSE approach. Mean is used to see which kernels break the threshold during training,
+while KSE is used to organize the top k kernels compared to the activations solution. 
+
+- we used bio inspired solutions, hebbian learning we choose, why choose it, hebb vs SoftHebb
+- for kernel solution: generalized neuromodulation approach to solve Catastrophic forgetting ( KUDIPUTHI )
+- head solutions: the brain uses different parts of itself to solve diff tasks, we use diff heads to solve diff tasks. 
+- look for backprop results in literature fo continual learning 
+- create paragraph which clearly categorizes bio and back prop methods
+- bio inspired advantages wrt back prop solutions in terms of net size, training times and general computability advantages (no feedback)
+
+- incremental testing: start with 2 tasks per experiment, 3, 4, 5, 10
+- diff datasets = same dataset size (cut down C10)
+- try to increment the dataset sample per task by starting with a cut down C10 with 500, 1000, 2000 samples per class.
+- 2 tasks, 2 classes per task with C10: so we have to see if the kernel solutions helps in the case of more samples per class or just for many tasks(5 vs 2)

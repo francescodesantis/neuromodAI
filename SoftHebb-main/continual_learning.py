@@ -19,6 +19,7 @@
 import argparse
 import ast
 import os
+import sys
 import uuid
 
 import os.path as op
@@ -31,7 +32,7 @@ import warnings
 import copy
 
 from utils import CustomStepLR, double_factorial
-from engine_cl import train_sup, train_unsup, evaluate_unsup, evaluate_sup, getActivation
+from engine_cl import evaluate_sup, train_sup, train_unsup, evaluate_unsup, getActivation, evaluate_sup_multihead
 from dataset import make_data_loaders
 import torch
 import torch.optim as optim
@@ -41,7 +42,6 @@ from nb_utils import load_data
 
 
 warnings.filterwarnings("ignore")
-
 parser = argparse.ArgumentParser(description='Multi layer Hebbian Training Continual Learning  implementation')
 
 parser.add_argument('--continual_learning', choices=[True, False], default=False,
@@ -52,6 +52,10 @@ parser.add_argument('--preset', choices=load_presets(), default=None,
                     type=str, help='Preset of hyper-parameters ' +
                                    ' | '.join(load_presets()) +
                                    ' (default: None)')
+parser.add_argument('--folder-id', default=None,
+                    type=str )
+parser.add_argument('--parent-f-id', default=None,
+                    type=str )
 
 parser.add_argument('--dataset-unsup-1', choices=load_config_dataset(), default=None,
                     type=str, help='Dataset possibilities ' +
@@ -73,7 +77,7 @@ parser.add_argument('--dataset-sup-2', choices=load_config_dataset(), default=No
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: None)')
 
-parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='successive',   ###################
+parser.add_argument('--training-mode', choices=['successive', 'consecutive', 'simultaneous'], default='consecuttive',   ###################
                     type=str, help='Training possibilities ' +
                                    ' | '.join(['successive', 'consecutive', 'simultaneous']) +
                                    ' (default: successive)')
@@ -102,9 +106,11 @@ parser.add_argument('--validation', default=False, type=str2bool, metavar='N',
 
 parser.add_argument('--evaluate', default=False, type=str2bool, metavar='N',
                     help='')
+parser.add_argument('--topk-lock', default=False, type=str2bool, metavar='N',
+                    help='')
 parser.add_argument('--skip-1', default=False, type=str2bool, metavar='N',
                     help='Set to True if you want to skip the training on the first dataset and directly retrieve a model to train it again on the second dataset (you don \'t have to specify a preset if set True) ')
-parser.add_argument('--classes', default=None, type=int,
+parser.add_argument('--classes-per-task', default=-1, type=int,
                     help='The continual learning is organized in tasks made up of different classes of the same dataset. Number of classes belonging to each task.')
 parser.add_argument('--dataset-unsup', choices=load_config_dataset(),  default=None,
                     type=str, help='Dataset possibilities ' +
@@ -116,26 +122,30 @@ parser.add_argument('--dataset-sup', choices=load_config_dataset(),  default=Non
                                    ' | '.join(load_config_dataset()) +
                                    ' (default: None)')
 
-parser.add_argument('--head-sol', choices=[True, False], default='False',   ###################
+parser.add_argument('--head-sol', choices=[True, False], default='True',   ###################
                     type=str2bool, help='whether continual learning solution is on or off on linear layers' +
                                    ' | '.join(['on', 'off']) +
                                    ' (default: off)')
 
-parser.add_argument('--cf-sol', default="",   ###################
+parser.add_argument('--cf-sol', default="True",   ###################
                     type=str2bool)
-parser.add_argument('--top-k', default="",   ###################
+parser.add_argument('--top-k', default=0.8,   ###################
                     type=float)
-parser.add_argument('--high-lr', default="",   ###################
+parser.add_argument('--high-lr', default=0.2,   ###################
                     type=float)
-parser.add_argument('--low-lr', default="",   ###################
+parser.add_argument('--low-lr', default=0.8,   ###################
                     type=float)
-parser.add_argument('--delta-w-interval', default="",   ###################
+parser.add_argument('--delta-w-interval', default=100,   ###################
                     type=float)
-parser.add_argument('--t-criteria', default="",   ###################
+parser.add_argument('--t-criteria', default="mean",   ###################
                     type=str)
-parser.add_argument('--heads-basis-t', default="",   ###################
+parser.add_argument('--heads-basis-t', default=0.6,   ###################
                     type=float)
-parser.add_argument('--selected-classes', default=[],   ###################
+parser.add_argument('--selected-classes', default="[[0,3],[5,7]]",   ###################
+                    type=str)
+parser.add_argument('--n-tasks', default=2,   ###################
+                    type=int)
+parser.add_argument('--evaluated-tasks', default="[0,1]",   ###################
                     type=str)
 # we need first to pass both the datasets, the evaluation parameter is not needed, or it could be if we decide to validate just one model on one dataset. 
 # after we passed both the datasets, train the model on the 1st dataset ( the resume all flag must be artificially set to false) and retrieved the model saved. The continual learning flag will cut the dataset, but it must be applied only 
@@ -183,7 +193,12 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
             if config['mode'] == 'supervised' or config['mode'] == 'hybrid': ## WATCH OUT EVAL LOGGING WORKS ONLY WITH 1 SUPERVISED LAYER
                 train_loader, test_loader = make_data_loaders(dataset_sup_config, config['batch_size'], device)
                 criterion = nn.CrossEntropyLoss()
-                test_loss, test_acc = evaluate_sup(model, criterion, test_loader, device)
+                if cl_hyper["head_sol"]:
+                    res = evaluate_sup_multihead(model, criterion, test_loader, device)
+                    test_loss = res[0]
+                    test_acc = res[1]
+                else: 
+                    test_loss, test_acc= evaluate_sup(model, criterion, test_loader, device)
                 print(f'Accuracy of the network on the 1st dataset: {test_acc:.3f} %')
                 print(f'Test loss on the 1st dataset: {test_loss:.3f}')
 
@@ -195,11 +210,10 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 metrics["dataset_sup"] = dataset_sup_config.copy()
                 metrics["dataset_unsup"] = dataset_unsup_config.copy()
 
-                if results.get("eval_1") is None: 
-                    results["eval_1"] = metrics.copy()
-                else:
-                    results["eval_2"] = metrics.copy()
+                                
                 results["cl_hyper"] = cl_hyper
+                results[f"eval_{results['count']%results['cl_hyper']['n_tasks']}"] = metrics.copy()
+                results["count"] += 1
         else:
             if config['mode'] == 'unsupervised':
                 run_unsup(
@@ -257,7 +271,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
                 results["R" + str(results["count"])] = result.copy()
                 print(f"IN R" + str(results["count"]) + ": ", results)
                 results["count"] += 1
-
+    results["model_config"] = blocks
     # save_logs(log, name_model)
     # print("Name Model: ", name_model)
     
@@ -268,7 +282,7 @@ def main(blocks, name_model, resume, save, dataset_sup_config, dataset_unsup_con
 
 
 def procedure(params, name_model, blocks, dataset_sup_config, dataset_unsup_config, evaluate, results):
-    print("type(params.cl_hyper): ", type(params.cl_hyper["selected_classes"]))
+    #print("type(params.cl_hyper): ", type(params.cl_hyper["selected_classes"]))
     if params.seed is not None:
         dataset_sup_config['seed'] = params.seed
         dataset_unsup_config['seed'] = params.seed
@@ -347,76 +361,74 @@ def task_training(params, name_model, blocks, selected_classes, dataset_sup, dat
 if __name__ == '__main__':
 
 
-
+    
     params = parser.parse_args()
+    folder_id = params.folder_id
     name_model = params.preset if params.model_name is None else params.model_name
     name_model = name_model + str(uuid.uuid4())
-    #name_model = "C100_2C_CL1a42f6f0-3c61-4bea-a5f9-90f153a05112"
+    #name_model = "C100_2C_CLb50abfcf-7c09-4b6f-a581-dc7b529dd310"
     blocks = load_presets(params.preset)
-    n_classes = params.classes
+    classes_per_task = params.classes_per_task
     resume = params.resume
-    # f = open('/leonardo_work/try24_antoniet/rcasciot/neuromodAI/batches/classes_CL/continual_learning/input.json', "r")
-    # cl_hyper = json.load(f)
-    # f.close()
-    # print(params.cl_hyper)
-    # cl_hyper = json.load(params.cl_hyper)
-    # print(cl_hyper)
+   
     print(params.selected_classes)
 
-    cl_hyper = {
-                'training_mode': params.training_mode,
-                'cf_sol': params.cf_sol,
-                'head_sol': params.head_sol,
-                'top_k': params.top_k,
-                'high_lr': params.high_lr,
-                'low_lr':params.low_lr,
-                't_criteria': params.t_criteria,
-                'delta_w_interval': params.delta_w_interval,
-                'heads_basis_t': params.heads_basis_t,
-                'selected_classes': eval(params.selected_classes)
-
-            }
-    print(cl_hyper)
-    params.training_mode = cl_hyper["training_mode"]
-    params.cl_hyper = cl_hyper
     
-    if n_classes != None and (params.dataset_sup_2 != None or params.dataset_sup_1 != None):
+    
+    if classes_per_task != None and (params.dataset_sup_2 != None or params.dataset_sup_1 != None):
         print("\n\n ########### WARNING ############\n\n")
         print(" Invalid combination of parameters, provide either: [--classes, --dataset-sup, --dataset-unsup] or [--dataset-sup-1, --dataset-unsup-1, --dataset-sup-2, --dataset-unsup-2]\nThe continual learning is implemented per tasks where each task is made up of different classes \n of the same dataset, so only one dataset will be considered.")
         print("\n\n ################################\n\n")
 
 
 
-    if n_classes != None: 
-        
-        
-        dataset_sup_1  = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
-        dataset_unsup_1 = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
-        
-        
-        out_channels = dataset_sup_1["out_channels"]
-        dataset_sup_1["old_dataset_size"] = dataset_sup_1["width"]
-        dataset_unsup_1["old_dataset_size"] = dataset_unsup_1["width"]
+    if classes_per_task != -1: 
 
-        dataset_sup_1["n_classes"] = n_classes
-        dataset_unsup_1["n_classes"] = n_classes
+        cl_hyper = {
+                'training_mode': params.training_mode,
+                'cf_sol': params.cf_sol,
+                'head_sol': params.head_sol,
+                'top_k': params.top_k,
+                "topk_lock": params.topk_lock,
+                'high_lr': params.high_lr,
+                'low_lr':params.low_lr,
+                't_criteria': params.t_criteria,
+                'delta_w_interval': params.delta_w_interval,
+                'heads_basis_t': params.heads_basis_t,
+                "classes_per_task": params.classes_per_task,
+                "n_tasks": params.n_tasks, 
+                'selected_classes': eval(params.selected_classes),
+                "evaluated_tasks": eval(params.evaluated_tasks), 
+                
+                
 
-        dataset_sup_1["out_channels"] = n_classes
-        dataset_unsup_1["out_channels"] = n_classes
+            }
+        print(cl_hyper)
+        params.training_mode = cl_hyper["training_mode"]
+        params.cl_hyper = cl_hyper
+        
+        
+        dataset_sup_ground  = load_config_dataset(params.dataset_sup, params.validation, params.continual_learning)
+        dataset_unsup_ground = load_config_dataset(params.dataset_unsup, params.validation, params.continual_learning)
+        
+        
+        out_channels = dataset_sup_ground["out_channels"]
+        dataset_sup_ground["old_dataset_size"] = dataset_sup_ground["width"]
+        dataset_unsup_ground["old_dataset_size"] = dataset_unsup_ground["width"]
+
+        dataset_sup_ground["n_classes"] = classes_per_task
+        dataset_unsup_ground["n_classes"] = classes_per_task
+
+        dataset_sup_ground["out_channels"] = classes_per_task
+        dataset_unsup_ground["out_channels"] = classes_per_task
 
         all_classes = np.arange(0, out_channels)
         
-        dataset_sup_2  = dataset_sup_1.copy()
-        dataset_unsup_2 = dataset_unsup_1.copy()
+       
+        dataset_sup_1 = dataset_sup_ground.copy()
+        dataset_unsup_1 = dataset_unsup_ground.copy()
 
-        dataset_sup_3  = dataset_sup_1.copy()
-        dataset_unsup_3 = dataset_unsup_1.copy()
-
-        dataset_sup_4  = dataset_sup_1.copy()
-        dataset_unsup_4 = dataset_unsup_1.copy()
-
-
-        if out_channels >=  2*n_classes:
+        if out_channels >=  2*classes_per_task:
 
             # TASK 1
             skip = params.skip_1
@@ -426,7 +438,7 @@ if __name__ == '__main__':
                 task_training(params, name_model, blocks, selected_classes, dataset_sup_1, dataset_unsup_1, continual_learning=False, resume=False)
 
             else: 
-                all_classes, selected_classes = random_n_classes(all_classes, n_classes)
+                all_classes, selected_classes = random_n_classes(all_classes, classes_per_task)
                 
                 # selected_classes = selected_classes.tolist()
                 # selected_classes = [2,8]
@@ -440,35 +452,58 @@ if __name__ == '__main__':
                 evaluate = True
                 procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
             
-            # TASK 2
-            print("task 2")
+            for task_num in range(1, cl_hyper["n_tasks"]):
+                print("################################## TASK " + str(task_num)+ " ############################################")
 
-            selected_classes = cl_hyper["selected_classes"][1]
-            task_training(params, name_model, blocks, selected_classes, dataset_sup_2, dataset_unsup_2, continual_learning=True, resume=resume)
+                selected_classes = cl_hyper["selected_classes"][task_num]
+                dataset_sup_x = dataset_sup_ground.copy()
+                dataset_unsup_x = dataset_unsup_ground.copy()
 
-            # TASK 3
+                task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
 
-            selected_classes = [4, 7]
-            task_training(params, name_model, blocks, selected_classes, dataset_sup_3, dataset_unsup_3, continual_learning=True, resume=resume)
-
-            # TASK 4
-            selected_classes = [1, 9]
-            task_training(params, name_model, blocks, selected_classes, dataset_sup_4, dataset_unsup_4, continual_learning=True, resume=resume)
-
+           
             # EVALUATION PHASE
             params.continual_learning = False
             evaluate = True
-            procedure(params, name_model, blocks, dataset_sup_1, dataset_unsup_1, evaluate, results)
+            if max(cl_hyper["evaluated_tasks"]) >= cl_hyper['n_tasks']:
+                cl_hyper["evaluated_tasks"] = list(range(cl_hyper['n_tasks']))
+            for task_num in cl_hyper["evaluated_tasks"]:
+                print("################################## TASK " + str(task_num)+ " ############################################")
 
-            #file = "TASKS_CL.json"            
-            #save_results(results, file)
-            save_results_new(results, "TASKS_CL_test", name_model)
+                selected_classes = cl_hyper["selected_classes"][task_num]
+                dataset_sup_x = dataset_sup_ground.copy()
+                dataset_unsup_x = dataset_unsup_ground.copy()
+                dataset_sup_x["selected_classes"] = selected_classes
+                dataset_unsup_x["selected_classes"] = selected_classes
+
+                procedure(params, name_model, blocks, dataset_sup_x, dataset_unsup_x, evaluate, results)
+
+        
+            save_results_new(results, f"{params.parent_f_id}/TASKS_CL_{params.dataset_sup.split('_')[0] +  folder_id}", name_model)
         else: 
-            print("Error: Not enough available classes to be organized in tasks of n_classes")
+            print("Error: Not enough available classes to be organized in tasks of classes_per_task")
 
 
 
     else:
+        cl_hyper = {
+                'training_mode': params.training_mode,
+                'cf_sol': params.cf_sol,
+                'head_sol': params.head_sol,
+                'top_k': params.top_k,
+                "topk_lock": params.topk_lock,
+                'high_lr': params.high_lr,
+                'low_lr':params.low_lr,
+                't_criteria': params.t_criteria,
+                'delta_w_interval': params.delta_w_interval,
+                'heads_basis_t': params.heads_basis_t,
+                "n_tasks": params.n_tasks, 
+                
+
+            }
+        print(cl_hyper)
+        params.training_mode = cl_hyper["training_mode"]
+        params.cl_hyper = cl_hyper
         # DATASET 1
 
 
@@ -513,4 +548,4 @@ if __name__ == '__main__':
         results["model_name"] = name_model
         # file = "MULTD_CL.json"
         # save_results(results, file)
-        save_results_new(results, "MULTD_CL", name_model)
+        save_results_new(results, f"{params.parent_f_id}/MULTD_CL_{params.dataset_sup_1.split('_')[0] + '_' + params.dataset_sup_2.split('_')[0]  + '_' + folder_id}", name_model)

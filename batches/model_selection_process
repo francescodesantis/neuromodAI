@@ -1,0 +1,17 @@
+// Model Selection Process
+digraph {
+	rankdir=TB size="8,5"
+	A [label="Receive a new task" shape=box]
+	B [label="Select a validation set" shape=box]
+	C [label="For every model:
+Record total sum of highest logit outputs
+(associate to head)" shape=box]
+	D [label="All models processed?" shape=diamond]
+	E [label="Select head with highest
+logit total sum" shape=box]
+	A -> B
+	B -> C
+	C -> D
+	D -> C [label=No style=dashed]
+	D -> E [label=Yes]
+}

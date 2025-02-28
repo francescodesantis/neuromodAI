@@ -1,0 +1,25 @@
+// Neuromodulation Process
+digraph {
+	rankdir=TB size="8,5"
+	A [label="Model Memorizes:
+Avg. W Change
+Top-k Ranking" shape=box]
+	B [label="Training Sample" shape=box]
+	A -> B [label="Start Training"]
+	C [label="Update Tensors
+& Check Conditions" shape=box]
+	B -> C
+	D [label="Top-k?
+& Exceeds Avg?" shape=diamond]
+	C -> D
+	E [label="Neuromodulate:
+Reduce LR (Top-k)
+Increase LR (Others)" shape=box]
+	D -> E [label=Yes]
+	G [label="No Neuromodulation" shape=box]
+	D -> G [label=No]
+	F [label="Apply Neuromodulation
+Proceed Training" shape=box]
+	E -> F
+	G -> F
+}

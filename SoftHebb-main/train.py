@@ -28,17 +28,19 @@ def check_dimension(blocks, dataset_config):
                                                            dataset_config['out_channels'], \
                                                            dataset_config['width'], \
                                                            dataset_config['height']
-
     for id in range(len(blocks)):
         block = blocks['b%s' % id]
         assert block['num'] == id, 'Block b%s has not the correct number %s ' % (id, block['num'])
         config = block['layer']
+        
         if id == len(blocks) - 1 and not config['hebbian']:
             config['out_channels'] = out_channels_final
             # assert out_channels_final == config['out_channels'], \
             #   'Output channels %s is different than number of classes %s'%(config['out_channels'], out_channels_final)
 
         if 'operation' in block and 'flatten' in block['operation']:
+            print("NOWWWW")
+            print(in_width, in_height)
             config['in_channels'] = int(in_channels * in_width * in_height)
             config['old_channels'] = in_channels
         else:
@@ -58,11 +60,12 @@ def check_dimension(blocks, dataset_config):
                     (in_height - 1 * (block['pool']['kernel_size'] - 1) + 2 * block['pool']['padding'] - 1) /
                     block['pool']['stride'] + 1)
             print('block %s, size : %s %s %s' % (id, config['out_channels'], in_width, in_height))
+        print(config['out_channels'])
         in_channels = config['out_channels']  # prepare for next loop
 
         lp = blocks['b%s' % id]['layer']['lebesgue_p']
         initial_r = blocks['b%s' % id]['layer']['radius'] ** (lp)
-
+        print(blocks)
         if blocks['b%s' % id]['arch'] == 'CNN':
             kenel_size = blocks['b%s' % id]['layer']['kernel_size']
             input_channel = blocks['b%s' % id]['layer']['in_channels']
@@ -77,6 +80,7 @@ def check_dimension(blocks, dataset_config):
             blocks['b%s' % id]['layer']['weight_init_range'] = np.power((initial_r / (n_neurons * t)), 1 / lp)
         else:
             blocks['b%s' % id]['layer']['weight_init'] = 'positive'
+            print(f"blocks['b%s' % {id}]", blocks['b%s' % id]['layer']['in_channels'], n_neurons)
             blocks['b%s' % id]['layer']['weight_init_range'] = np.power(((lp + 1) * initial_r / (n_neurons)), 1 / lp)
 
         print('range = %s' % blocks['b%s' % id]['layer']['weight_init_range'])

@@ -10,6 +10,7 @@ except:
     from hebb.utils import init_weight, activation, unsup_lr_scheduler
 import einops
 from tabulate import tabulate
+#from continual_learning import topk_lock
 
 from activation import Triangle
 global xyz
@@ -418,6 +419,10 @@ class HebbHardConv2d(nn.Module):
 
         if self.bias is not None:
             self.delta_b = self.delta_bias(wta_groups)
+
+    import torch
+
+
     
     def average_deltas(self):
         # returns the average normalized weight change
@@ -442,7 +447,11 @@ class HebbHardConv2d(nn.Module):
         # decrease the lr
         device = DEVICE
         topk_mask = torch.zeros(len(threshold_mask)).to(device)
-        topk_mask[self.top_acts_layer] = 1
+        topk_mask[self.topk_layer] = 1
+        if self.temp == 2 and self.cl_hyper["topk_lock"]:
+            print("topk_mask_LOCK", topk_mask.cpu())
+        if self.cl_hyper["topk_lock"]: 
+            return topk_mask
         final_mask = topk_mask + threshold_mask
         if self.temp == 2:
             print("topk_mask ", topk_mask.cpu())
@@ -457,7 +466,7 @@ class HebbHardConv2d(nn.Module):
         # to do we take a one hot encoding of the cells representing with one the top k kernels
         device = DEVICE
         topk_mask = torch.zeros(self.out_channels).to(device)
-        topk_mask[self.top_acts_layer] = 1
+        topk_mask[self.topk_layer] = 1
 
         # since we need to consider only the cells not among the top k kernels we calculate the inverse
         not_topk_mask = (topk_mask == 0).type(torch.uint8)
@@ -479,9 +488,9 @@ class HebbHardConv2d(nn.Module):
 ################################################################################
             if self.temp == 0:
                 print("self.avg_deltas_layer: ", type(self.avg_deltas_layer))
-                print("self.top_acts_layer: ", type(self.top_acts_layer))
+                print("self.topk_layer: ", type(self.topk_layer))
                 self.temp = 1
-            if self.cl_hyper["cf_sol"] and self.avg_deltas_layer is not None and self.top_acts_layer is not None:
+            if self.cl_hyper["cf_sol"] and self.avg_deltas_layer is not None and self.topk_layer is not None:
                 lower_lr = self.cl_hyper["low_lr"] # means that we reduce it of x%
                 higher_lr = self.cl_hyper["high_lr"] # means that we increase it of x%
                 # first we find the average weight change per kernel
@@ -857,7 +866,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             t_invert: float = 12,
             nb_train: int = None,
             avg_deltas_layer: torch.tensor = None,
-            top_acts_layer: list = None,
+            topk_layer: list = None,
             cl_hyper: dict = {}
     ) -> None:
         """
@@ -877,7 +886,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         self.mode = 0
 
         self.avg_deltas_layer = avg_deltas_layer
-        self.top_acts_layer = top_acts_layer
+        self.topk_layer = topk_layer
         self.cl_hyper = cl_hyper
         # self.stat = torch.zeros(5, out_channels)
 
@@ -1131,7 +1140,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         ) + '\n' + self.stat_wta() + '\n'
 
 
-def select_Conv2d_layer(params, avg_deltas_layer=None, acts_layer=None, cl_hyper={}) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
+def select_Conv2d_layer(params, avg_deltas_layer=None, topk_layer=None, cl_hyper={}) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
     """
     Select the appropriate from a set of params
     ----------
@@ -1233,7 +1242,7 @@ def select_Conv2d_layer(params, avg_deltas_layer=None, acts_layer=None, cl_hyper
             t_invert=params['t_invert'],
             nb_train=params['nb_train'],
             avg_deltas_layer = avg_deltas_layer,
-            top_acts_layer = acts_layer, 
+            topk_layer = topk_layer, 
             cl_hyper = cl_hyper
 
 

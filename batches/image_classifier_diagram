@@ -1,0 +1,18 @@
+// Image Classifier Models
+digraph {
+	A [label="Input Image"]
+	B [label="Feature Extractor (Body)"]
+	C [label="Classifier Head 1"]
+	D [label="Classifier Head 2"]
+	E [label="Classifier Head 3"]
+	F [label="Output Label 1"]
+	G [label="Output Label 2"]
+	H [label="Output Label 3"]
+	A -> B
+	B -> C
+	B -> D
+	B -> E
+	C -> F
+	D -> G
+	E -> H
+}

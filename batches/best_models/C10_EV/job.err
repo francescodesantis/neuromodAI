@@ -1,0 +1,18 @@
+cp: cannot stat 'Training/results/hebb/result/network/CIFAR10_Best': No such file or directory
+mkdir: cannot create directory ‘Training/results/hebb/result/network/C10_EV/models’: No such file or directory
+cp: cannot stat 'Training/results/hebb/result/network/C10_EV/checkpoint.pth.tar': No such file or directory
+Traceback (most recent call last):
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/multi_layer.py", line 181, in <module>
+    main(blocks, name_model, params.resume, params.save, params.evaluate, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/multi_layer.py", line 72, in main
+    model = load_layers(blocks, name_model, resume)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/model.py", line 85, in load_layers
+    model = MultiLayer(params, cl_hyper=cl_hyper)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/model.py", line 199, in __init__
+    self.heads_thresh = cl_hyper["heads_basis_t"]
+                        ~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'heads_basis_t'
+
+ERROR conda.cli.main_run:execute(49): `conda run python multi_layer.py --preset 4SoftHebbCnnCIFAR --model-name C10_EV --dataset-unsup CIFAR10_1 --dataset-sup CIFAR10_1 --evaluate False` failed. (See above for error)

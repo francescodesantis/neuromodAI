@@ -8,6 +8,8 @@ from mpltools import special
 from copy import deepcopy
 import pickle
 import numpy as np
+from utils import get_device
+
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 activations = {}
@@ -145,9 +147,32 @@ def train_BP(model, criterion, optimizer, loader, device, measures):
     # print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
 
     # print("################################################")
+    t_criteria = model.cl_hyper["t_criteria"]
+    topk_kernels = model.topk_kernels
+    num_blocks = len(topk_kernels) + 1
+    print("num_blocks: ", num_blocks)
+    # if t_criteria == "KSE":
+    #     weights = deepcopy(model.state_dict())
+    #     weights = {int(k[7]): v for k, v in weights.items() if ".layer.weight" in k} 
+    #     kse_indicators = compute_kse_indicator(weights)
+    #     print("KSE IN")
+    #     print(list(topk_kernels.keys()))
+    #     for layer in kse_indicators.keys():
+    #         print("FOR IN")
+    #         print(layer)
+    #         if layer== (num_blocks-1):
+    #             print("IF IN")
+    #             kernels = {k:v for k, v in enumerate(kse_indicators[layer])}
+    #             kernels = sorted(kernels.items(), key = lambda item : item[1], reverse=True)
+    #             kernels = list(dict(kernels))
+    #             K = round(len(kernels)*model.cl_hyper["top_k"]) # K takes 20% of the kernels
+    #             topk_kernels["conv" + str(layer)] = kernels[:K+1]
+    #             print("len(topk_kernels): ",len(kernels))
+    # model.topk_kernels = topk_kernels
+    # print("AOOOO")
+    # for k,v in topk_kernels.items():
 
-
-
+    #     print(k, len(v))
 
         
     return measures, optimizer.param_groups[0]['lr']
@@ -203,7 +228,7 @@ def get_delta_weights(model, device, blocks, depth, prev_dict, delta_weights ):
     curr_dict = deepcopy(model.state_dict())
     #print("CURR DICT state: ", list(curr_dict.keys()))
 
-    curr_dict = {k: v for k, v in curr_dict.items() if ".layer.weight" in k and int(k[7]) in blocks }
+    curr_dict = {k: v for k, v in curr_dict.items() if ".layer.weight" in k and int(k.split(".")[1]) in blocks }
     print("curr_dict.keys(): ", curr_dict.keys() )
 
     # I should put all the tensors from the dict to a tensor which comprises all the layers
@@ -236,6 +261,82 @@ def get_delta_weights(model, device, blocks, depth, prev_dict, delta_weights ):
 conv_act = []
 images = []
 
+def compute_kse_indicator(weights_tot, alpha=1.0, k=5, normalize=False, eps=1e-8):
+    """
+    Compute the Kernel Sparsity and Entropy (KSE) indicator for a convolutional layer.
+    
+    Args:
+        weights (torch.Tensor): Convolutional kernel weights of shape (N, C, Kh, Kw),
+                                where N is the number of filters (output channels),
+                                C is the number of input channels, and Kh, Kw are the kernel height and width.
+        alpha (float): Balance parameter to control the influence of entropy (default: 1.0).
+        k (int): Number of nearest neighbors to use when computing kernel entropy (default: 5).
+        normalize (bool): If True, apply min-max normalization to rescale the indicator to [0, 1].
+        eps (float): A small value to avoid division by zero.
+    
+    Returns:
+        torch.Tensor: A 1D tensor of length C containing the KSE indicator for each input channel.
+    """
+    kse_indicators_tot = {}
+    for i in range(len(weights_tot)):
+
+        weights =  weights_tot[i]
+        
+        # Get dimensions: N = number of kernels per input channel, C = number of input channels.
+        N, C, Kh, Kw = weights.shape
+        # Prepare tensor to store the indicator for each input channel.
+        kse_indicators = torch.zeros(C, device=weights.device)
+        
+        # Loop over each input channel
+        for c in range(C):
+            # Get all 2D kernels corresponding to input channel c and flatten each kernel
+            kernels = weights[:, c, :, :].view(N, -1)  # Shape: (N, Kh*Kw)
+            
+            # Compute kernel sparsity as the sum of L1 norms of the kernels.
+            # Note: You could also compute each kernel's L1 norm and then sum them.
+            s_c = torch.sum(torch.abs(kernels))
+            
+            # Compute pairwise Euclidean distances between kernels.
+            # This results in an (N, N) distance matrix.
+            dist_matrix = torch.cdist(kernels, kernels, p=2)
+            
+            # For each kernel, ignore self-distance by setting the diagonal to infinity.
+            inf_diag = torch.full((N,), float('inf'), device=weights.device)
+            dist_matrix.fill_diagonal_(float('inf'))
+            
+            # For each kernel (each row in the distance matrix), get the distances of its k nearest neighbors.
+            knn_distances, _ = torch.topk(dist_matrix, k=k, largest=False)
+            
+            # Compute a density metric for each kernel as the sum of its k nearest neighbor distances.
+            density = torch.sum(knn_distances, dim=1)  # Shape: (N,)
+            
+            # Total density for the input channel c
+            d_c = torch.sum(density)
+            
+            # Compute kernel entropy for this channel.
+            if d_c.item() == 0:
+                entropy = torch.tensor(0.0, device=weights.device)
+            else:
+                p_i = density / (d_c + eps)
+                # Avoid log2(0) by adding a small epsilon.
+                entropy = -torch.sum(p_i * torch.log2(p_i + eps))
+            
+            # Combine sparsity and entropy into the KSE indicator:
+            # v_c = sqrt( s_c / (1 + alpha * entropy) )
+
+            #v_c = torch.sqrt(s_c / (1 + alpha * entropy + eps))
+            #kse_indicators[c] = v_c
+            kse_indicators[c] = entropy
+        
+        # Optionally, normalize the indicators to [0, 1]
+        if normalize:
+            min_val = torch.min(kse_indicators)
+            max_val = torch.max(kse_indicators)
+            kse_indicators = (kse_indicators - min_val) / (max_val - min_val + eps)
+        if len(kse_indicators) > 3: 
+            kse_indicators_tot[i-1] = kse_indicators
+    return kse_indicators_tot
+
 def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
     """
     Train only the hebbian blocks
@@ -255,7 +356,7 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
     avg_deltas = model.avg_deltas
     delta_weights = {}
     
-    acts = model.acts
+    topk_kernels = model.topk_kernels
 
     #Check if the file exists
     # if os.path.exists(file_path_d):
@@ -269,12 +370,12 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
     # #Check if the file exists
     # if os.path.exists(file_path_act):
     #     with open('activations.p', 'rb') as pfile:
-    #         acts = pickle.load(pfile)
+    #         topk_kernels = pickle.load(pfile)
     # else:
     #     with open('activations.p', 'wb') as pfile:
-    #         pickle.dump(acts, pfile, protocol=pickle.HIGHEST_PROTOCOL)
+    #         pickle.dump(topk_kernels, pfile, protocol=pickle.HIGHEST_PROTOCOL)
 
-    
+    t_criteria = model.cl_hyper["t_criteria"]
     layer_num = -1
     iteration = 0
     interval = model.cl_hyper["delta_w_interval"]
@@ -285,8 +386,8 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
     depth -= 1
         
     prev_dict = deepcopy(model.state_dict())
-    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and int(k[7]) in blocks}
-    activations_sum = {k: [] for k in prev_dict.keys() if int(k[7]) in blocks}
+    prev_dict = {k: v for k, v in prev_dict.items() if "layer.weight" in k and int(k.split(".")[1]) in blocks}
+    activations_sum = {k: [] for k in prev_dict.keys() if int(k.split(".")[1]) in blocks}
     print("prev_dict.keys(): ", prev_dict.keys() )
     print("activations_sum.keys(): ", prev_dict.keys() )
     print("DEPTH: ", depth)
@@ -295,18 +396,11 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
     with torch.no_grad(): #Context-manager that disables gradient calculation.
         for inputs, target in loader:
             
-            # print(inputs.min(), inputs.max(), inputs.mean(), inputs.std())
+           
             ## 1. forward propagation
            
             inputs = inputs.float().to(device)  # , non_blocking=True) send the data to the device (GPU)
             output = model(inputs) 
-            # if i < 30: 
-            #     conv_act.append(activations["conv0"])
-            #     images.append(inputs)
-            # for param_tensor in model.state_dict():
-            #     if "weight" in param_tensor:
-            #         #print(param_tensor, "\t", model.state_dict()[param_tensor].size(), model.state_dict()[param_tensor])
-            #         prev_weights = param_tensor
             
             if loss_acc:  
                 target = target.to(device, non_blocking=True)
@@ -325,20 +419,19 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
         
            
             model.update()
-            
-            #if layer_num == -1:
-            #    prev_dict, layer_num = get_layer(model, depth, prev_dict)
-
-
+           
             # I store the activations of every batch
-            for k in list(prev_dict.keys()):
-                if int(k[7]) in blocks:
-                    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
-                    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
-                    if len(activations_sum[k]) == 0: 
-                        activations_sum[k].append(activations["conv" + k[7]].cpu())
-                    else: 
-                        activations_sum[k][0] += activations["conv" + k[7]].cpu()
+            if t_criteria == "activations":
+                for k in list(prev_dict.keys()):
+                    if int(k.split(".")[1]) in blocks:
+                        #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+                        # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+
+                        if len(activations_sum[k]) == 0: 
+                            activations_sum[k].append(torch.abs(activations["conv" + k.split(".")[1]].cpu()))
+                        else: 
+                            activations_sum[k][0] += torch.abs(activations["conv" + k.split(".")[1]].cpu())
+
 
 
 
@@ -349,7 +442,7 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
                 
                 prev_dict = deepcopy(model.state_dict())
                 #['blocks.0.operations.0.running_mean', 'blocks.0.operations.0.running_var', 'blocks.0.operations.0.num_batches_tracked', 'blocks.0.layer.weight', 'blocks.1.operations.0.running_mean', 'blocks.1.operations.0.running_var', 'blocks.1.operations.0.num_batches_tracked', 'blocks.1.layer.weight', 'blocks.2.operations.0.running_mean', 'blocks.2.operations.0.running_var', 'blocks.2.operations.0.num_batches_tracked', 'blocks.2.layer.weight', 'blocks.3.layer.weight', 'blocks.3.layer.bias']
-                prev_dict = {k: v for k, v in prev_dict.items() if ".layer.weight" in k and int(k[7]) in blocks}     
+                prev_dict = {k: v for k, v in prev_dict.items() if ".layer.weight" in k and int(k.split(".")[1]) in blocks}     
            
                 
             
@@ -360,32 +453,50 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
    
     
     # here we sum all the values of each activation map to obtain 1 value of activation per kernel instead of a map.
-    print("shape of activation_sum: ", activations_sum[list(activations_sum.keys())[0]][0].shape )
+    #print("shape of activation_sum: ", activations_sum[list(activations_sum.keys())[0]][0].shape )
 
-    for k in list(activations_sum.keys()):
-                if int(k[7]) in blocks:
-                    #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
-                    # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
-                    activations_sum[k] = torch.sum(activations_sum[k][0], dim=1)
-                    activations_sum[k] = torch.sum(activations_sum[k], dim=1)
-                    # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
-                    # sum as value. Then we sort them, to consider only the first top k.
-                    activations_sum[k] = {k:v for k, v in enumerate(activations_sum[k])}
-    
-                    activations_sum[k] = sorted(activations_sum[k].items(), key = lambda item : item[1], reverse=True)
-                    activations_sum[k] = list(dict(activations_sum[k]))
+    if t_criteria == "activations":
+        for k in list(activations_sum.keys()):
+                    if int(k.split(".")[1]) in blocks:
+                        #here we have to dive deeper on the sign of the weights... should we consider abs value once we summed all the cells in the kernel
+                        # or at the beginning before doing the sum? Or maybe not consider abs values at all... ?
+                        activations_sum[k] = torch.sum(activations_sum[k][0], dim=1)
+                        activations_sum[k] = torch.sum(activations_sum[k], dim=1)
+                        # now we create a semantic dictionary associated with each activation, using the index of the kernel as key and the activation
+                        # sum as value. Then we sort them, to consider only the first top k.
+                        activations_sum[k] = {k:v for k, v in enumerate(activations_sum[k])}
+        
+                        activations_sum[k] = sorted(activations_sum[k].items(), key = lambda item : item[1], reverse=True)
+                        activations_sum[k] = list(dict(activations_sum[k]))
 
-    
-    
-                    K = round(len(activations_sum[k])*model.cl_hyper["top_k"]) # K takes 20% of the kernels
-                    print("activations_sum[k]" , len(activations_sum[k]))
-                    acts["conv" + k[7]] = activations_sum[k][:K+1]
-                    print("activations_sum[k]: ", activations_sum[k][:10])
-                    print("acts len: ", len(list(acts.keys())))
-                    print("acts keys: ", list(acts.keys()))
-                    print("acts: ", acts)
-                    print("activations_sum[k] len: ", len(activations_sum[k]))
-
+        
+        
+                        K = round(len(activations_sum[k])*model.cl_hyper["top_k"]) # K takes 20% of the kernels
+                        print("activations_sum[k]" , len(activations_sum[k]))
+                        topk_kernels["conv" + k.split(".")[1]] = activations_sum[k][:K+1]
+                        print("activations_sum[k]: ", activations_sum[k][:10])
+                        print("topk_kernels len: ", len(list(topk_kernels.keys())))
+                        print("topk_kernels keys: ", list(topk_kernels.keys()))
+                        print("topk_kernels: ", topk_kernels)
+                        print("activations_sum[k] len: ", len(activations_sum[k]))
+    elif t_criteria == "KSE":
+        weights = deepcopy(model.state_dict())
+        weights = {int(k.split(".")[1]): v for k, v in weights.items() if ".layer.weight" in k and int(k.split(".")[1]) in blocks} 
+        kse_indicators = compute_kse_indicator(weights)
+        print("kse_indicators: ", kse_indicators)
+        for layer in kse_indicators.keys():
+            if layer in blocks:
+                kernels = {k:v for k, v in enumerate(kse_indicators[layer])}
+                kernels = sorted(kernels.items(), key = lambda item : item[1], reverse=False)
+                kernels = list(dict(kernels))
+                K = round(len(kernels)*model.cl_hyper["top_k"]) # K takes 20% of the kernels
+                topk_kernels["conv" + str(layer)] = kernels[:K+1]
+                print("len(topk_kernels): ",len(kernels))
+    print(list(topk_kernels.keys()))
+    # last = int((list(topk_kernels.keys())[-1])[-1]) + 1
+    # topk_kernels["conv" + str(last)] = topk_kernels["conv" + str(last-1)] 
+    # topk_kernels.pop(list(topk_kernels.keys())[0])
+    model.topk_kernels = topk_kernels
 
     print("delta_weights INFO: ")
     print("NUM OF TRACKED COV LAYERS: ", len(list(delta_weights.keys())))
@@ -396,10 +507,7 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
 
     
     model.avg_deltas = avg_deltas
-    model.acts = acts
-
-    print("avg_deltas size: ", len(list(avg_deltas.keys())))
-    print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
+    
 
     print("################################################")
 
@@ -407,7 +515,8 @@ def train_hebb(model, loader, device, blocks=[], measures=None, criterion=None):
     
     info = model.radius()
     convergence, R1 = model.convergence()
-    
+    with torch.no_grad():
+        torch.cuda.empty_cache()
 
     return measures, model.get_lr(), info, convergence, R1
 
@@ -488,10 +597,13 @@ def average_deltas(delta_weights, avg_deltas,  device):
     # Now we sum all the cells 
     for  k, v in summed_deltas.items():
         channel_collapsed = torch.sum(v[1], 1)
+        
+        
         final_sum = torch.sum(channel_collapsed, (1,2))
         avg_tensor = final_sum / v[0]
         avg_deltas[k] = avg_tensor / max(avg_tensor) #normalize
         #print(avg_deltas[k][:1])
+    
     
     return avg_deltas
 
@@ -513,7 +625,7 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None, blocks=
     avg_deltas = model.avg_deltas
     delta_weights = {}
     activations_sum = []
-    acts = model.acts
+    topk_kernels = model.topk_kernels
 
     
     layer_num = -1
@@ -620,11 +732,11 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None, blocks=
     
                     K = round(len(activations_sum[k])*model.cl_hyper["top_k"]) # K takes 20% of the kernels
                     print("activations_sum[k]" , len(activations_sum[k]))
-                    acts["conv" + k[7]] = activations_sum[k][:K+1]
+                    topk_kernels["conv" + k[7]] = activations_sum[k][:K+1]
                     print("activations_sum[k]: ", activations_sum[k][:10])
-                    print("acts len: ", len(list(acts.keys())))
-                    print("acts keys: ", list(acts.keys()))
-                    print("acts: ", acts)
+                    print("topk_kernels len: ", len(list(topk_kernels.keys())))
+                    print("topk_kernels keys: ", list(topk_kernels.keys()))
+                    print("topk_kernels: ", topk_kernels)
                     print("activations_sum[k] len: ", len(activations_sum[k]))
 
 
@@ -638,7 +750,7 @@ def train_sup_hebb(model, loader, device, measures=None, criterion=None, blocks=
 
     
     model.avg_deltas = avg_deltas
-    model.acts = acts
+    model.topk_kernels = topk_kernels
 
     print("avg_deltas size: ", len(list(avg_deltas.keys())))
     #print(f"num of averages for {layer_num} layer: ", avg_deltas[list(avg_deltas.keys())[0]].shape )
@@ -765,6 +877,28 @@ def infer_dataset(model, loader, device):
     neuron_labels = get_neuron_labels(model, winner_ids, targets, preactivations, wta)
     return preactivations, winner_ids, neuron_labels, targets
 
+def head_choser(model, criterion, loader, device):
+    """
+    Evaluate the model on a small batch to pick the best head to mount
+    """
+    model.eval()
+    loss_sum = 0
+    acc_sum = 0
+    n_inputs = 0
+
+    with torch.no_grad():
+        for inputs, target in loader:
+            ## 1. forward propagation
+            inputs = inputs.float().to(device, non_blocking=True)
+            target = target.to(device, non_blocking=True)
+            output = model(inputs)
+
+
+    tot_sum, indexes = torch.max(torch.abs(output.detach().clone() ),dim=1)
+    tot_sum = torch.sum(torch.abs(tot_sum), dim=0)
+
+
+    return tot_sum
 
 def evaluate_sup(model, criterion, loader, device):
     """
@@ -792,7 +926,48 @@ def evaluate_sup(model, criterion, loader, device):
             acc_sum += acc
             n_inputs += target.shape[0]
 
+
     return loss_sum.cpu() / n_inputs, 100 * acc_sum.cpu() / n_inputs
+
+
+def evaluate_sup_multihead(model, criterion, loader, device):
+    """
+    Evaluate the multihead model, returning the best loss and acc
+    """
+    heads_performance = {}
+    head_num = 0
+
+    for head in model.heads:
+        model.to(get_device())
+        state_dict = model.state_dict()
+        chosen_head = head
+        keys = list(chosen_head.keys())
+        state_dict[keys[0]] = chosen_head[keys[0]]
+        state_dict[keys[1]] = chosen_head[keys[1]]
+        model.load_state_dict(state_dict)
+        model.eval()
+
+        tot_sum = head_choser(model, criterion, loader, device)
+        heads_performance[head_num] = tot_sum
+
+        print("tot_sum: ", tot_sum, head_num)
+        head_num += 1
+    max_val = 0
+    max_key = 0
+    for k, i in heads_performance.items():
+        if i > max_val:
+            max_val = i
+            max_key = k
+            
+    print("max_key :", max_key)
+    chosen_head = model.heads[max_key]
+    keys = list(chosen_head.keys())
+    state_dict[keys[0]] = chosen_head[keys[0]]
+    state_dict[keys[1]] = chosen_head[keys[1]]
+    model.load_state_dict(state_dict)
+
+    
+    return evaluate_sup(model, criterion, loader, device)
 
 
 def accuracy(output, target, topk=(1,)):

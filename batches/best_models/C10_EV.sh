@@ -10,6 +10,9 @@
 #SBATCH --error=C10_EV/job.err            # standard error file
 #SBATCH --output=C10_EV/job.out         # standard output file
 #--resume all         
+#SBATCH --mail-type=END
+#SBATCH --mail-user=riccardo.casciotti@mail.polimi.it
+
 module load profile/deeplrn
 module av cineca-ai
 module load anaconda3
