@@ -4,7 +4,7 @@ import uuid
 import shutil
 
 TEST = True
-
+USER = 'IscrC_CATASTRO'
 classes_per_task = 2
 n_experiments = 80
 n_tasks = 9

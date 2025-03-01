@@ -8,10 +8,10 @@ import time
 import random
 import uuid
 import numpy as np
-from t_hyper import classes_per_task, n_experiments, n_tasks, dataset, evaluated_tasks, folder_id, data_num, dataset2, cl_hyper, TEST, parent_f_id
+from t_hyper import classes_per_task, n_experiments, n_tasks, dataset, evaluated_tasks, folder_id, data_num, dataset2, cl_hyper, TEST, parent_f_id, USER
 def folder_check(path):
-    print(os.path.exists("/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/" + path))
-    print("/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/" + path)
+    print(os.path.exists(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/" + path))
+    print(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/" + path)
     return os.path.isdir("../SoftHebb-main/" + path)
 def execute_bash_command(evaluated_tasks: list, n_tasks: int, command: str, classes=[]):
     modes = ["successive", "consecutive", "simultaneous"]
@@ -88,17 +88,17 @@ def execute_bash_command(evaluated_tasks: list, n_tasks: int, command: str, clas
 
 
 
-#command = "rm -rf -d /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network && mkdir /leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network"
+#command = f"rm -rf -d /leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network && mkdir /leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network"
 #result = subprocess.run(command, shell=True, capture_output=False, text=True)
 if not folder_check(f"{parent_f_id}"):
-    os.mkdir(f"/leonardo_work/try24_antoniet/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}")
+    os.mkdir(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}")
             
 # print(result.stdout)
 # if result.stderr:
 #     print("Error:", result.stderr)
 
 if data_num == 1: 
-    command = f"cd /leonardo_work/try24_antoniet/rcasciot/neuromodAI/batches/classes_CL/continual_learning && sbatch {dataset}.sh "
+    command = f"cd /leonardo_work/{USER}/rcasciot/neuromodAI/batches/classes_CL/continual_learning && sbatch {dataset}.sh "
     all_classes = list(range(10))
     if dataset == "C100":
         all_classes = list(range(100))
@@ -133,7 +133,7 @@ if data_num == 1:
     else:
         execute_bash_command(evaluated_tasks, n_tasks, command, final)
 else: 
-    command = f"cd /leonardo_work/try24_antoniet/rcasciot/neuromodAI/batches/full_datasets_CL && sbatch {dataset}_{dataset2}.sh "
+    command = f"cd /leonardo_work/{USER}/rcasciot/neuromodAI/batches/full_datasets_CL && sbatch {dataset}_{dataset2}.sh "
     if dataset == "C100": 
         dataset1 = "CIFAR100"
     elif dataset == "C10": 
