@@ -3,24 +3,24 @@ import os
 import uuid
 import shutil
 
-TEST = False
+TEST = True
 
 classes_per_task = 2
 n_experiments = 80
-n_tasks = 6
+n_tasks = 9
 evaluated_tasks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ]
 
 if TEST: 
     n_experiments = 1
-    #n_tasks = 1
+    n_tasks = 5
     
 
 data_num = 1 # set to 2 to use in multi dataset CL mode, otherwise to 1 for tasks from the same dataset.
 dataset="C100"
 dataset2 = "C10"
-folder_id = f"_d2_{n_tasks}tasks"
+folder_id = f"_d1_{n_tasks}tasks"
 if data_num == 1:
-    parent_f_id = f"experiments/EXP_{dataset}_{classes_per_task}C"
+    parent_f_id = f"experiments/EXP_{dataset}_{classes_per_task}C_test"
 else:
     parent_f_id = f"experiments/EXP_{dataset}_{dataset2}"
 

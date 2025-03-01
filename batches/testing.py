@@ -16,7 +16,7 @@ def folder_check(path):
 def execute_bash_command(evaluated_tasks: list, n_tasks: int, command: str, classes=[]):
     modes = ["successive", "consecutive", "simultaneous"]
     lrs = [(0.0, 1.0), (2000, 1.0), (0.2, 0.8)]
-    sols = [(False, False), (True, True), (False, True),  (True, False)]
+    sols = [(True, True), (False, False), (False, True),  (True, False)]
     topks = [0.1, 0.2, 0.5, 0.7, 0.85, 0.9, 1.0]
     delta_w_intervals = [20, 100, 300]
     lr = lrs[2]

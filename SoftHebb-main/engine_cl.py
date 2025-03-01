@@ -885,7 +885,7 @@ def head_choser(model, criterion, loader, device):
     loss_sum = 0
     acc_sum = 0
     n_inputs = 0
-
+    tot_sum = 0
     with torch.no_grad():
         for inputs, target in loader:
             ## 1. forward propagation
@@ -894,8 +894,10 @@ def head_choser(model, criterion, loader, device):
             output = model(inputs)
 
 
-    tot_sum, indexes = torch.max(torch.abs(output.detach().clone() ),dim=1)
-    tot_sum = torch.sum(torch.abs(tot_sum), dim=0)
+            tot_sum_tmp, indexes = torch.max(torch.abs(output.detach().clone() ),dim=1)
+            print("output.detach().clone(): ", output.data.detach().clone())
+            print("output.data.max(1)[1]: ", output.data.max(1)[1])
+            tot_sum += torch.sum(torch.abs(tot_sum_tmp), dim=0)
 
 
     return tot_sum

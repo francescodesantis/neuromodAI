@@ -468,7 +468,7 @@ if __name__ == '__main__':
             if max(cl_hyper["evaluated_tasks"]) >= cl_hyper['n_tasks']:
                 cl_hyper["evaluated_tasks"] = list(range(cl_hyper['n_tasks']))
             for task_num in cl_hyper["evaluated_tasks"]:
-                print("################################## TASK " + str(task_num)+ " ############################################")
+                print("################################## EVALUATION OF TASK " + str(task_num)+ " ############################################")
 
                 selected_classes = cl_hyper["selected_classes"][task_num]
                 dataset_sup_x = dataset_sup_ground.copy()
