@@ -899,7 +899,7 @@ def head_choser(model, criterion, loader, device):
             print("output.data.max(1)[1]: ", output.data.max(1)[1])
             tot_sum += torch.sum(torch.abs(tot_sum_tmp), dim=0)
 
-
+    #tot_sum_tmp, indexes = torch.max(torch.abs(output.detach().clone() ),dim=1)
     return tot_sum
 
 def evaluate_sup(model, criterion, loader, device):
