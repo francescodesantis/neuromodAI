@@ -160,7 +160,6 @@ This script computes and logs statistics on experimental results, such as averag
 cd batches
 python stats.py
 ```
-Replace `path/to/experiment` with the folder where your experiment results (usually JSON files) are stored.
 
 ### `latex_tables.py`
 This script generates LaTeX-formatted tables suitable for inclusion in academic papers. It reads performance metrics and outputs tables summarizing the results.
