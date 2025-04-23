@@ -128,6 +128,12 @@ These are the main parameters used in `t_hyper.py`:
 | `delta_w_interval`  | Interval (in batches) for tracking kernel updates. |
 
 Modify these parameters directly in `t_hyper.py` to tailor your experimental design.
+To run the experiments after setting the right hyperparameters in `t_hyper.py`:
+```bash
+cd batches
+python testing.py
+```
+This is going to create independent batch jobs to run the experiments.
 
 ## 📊 Results
 
