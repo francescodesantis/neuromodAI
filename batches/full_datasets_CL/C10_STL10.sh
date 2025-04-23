@@ -12,7 +12,7 @@ module load profile/deeplrn
 module av cineca-ai
 module load anaconda3
 
-cd $WORK/rcasciot/neuromodAI/SoftHebb-main
+cd /leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main
 rm -rf -d Training/results/hebb/result/network/CIFAR10_STL10_CL
 cp -r Training/results/hebb/result/network/CIFAR10_Best Training/results/hebb/result/network/CIFAR10_STL10_CL
 rm -rf -d Training/results/hebb/result/network/CIFAR10_STL10_CL/models

@@ -12,6 +12,6 @@ module load profile/deeplrn
 module av cineca-ai
 module load anaconda3
 
-cd $WORK/rcasciot/neuromodAI/SoftHebb-main
+cd /leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main
 conda run -n softhebb python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name 'C100_CL' --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode $1 --cf-sol $2 --head-sol $3 --top-k $4 --high-lr $5 --low-lr $6 --t-criteria $7 --delta-w-interval $8 --heads-basis-t $9 --selected-classes "${10}" --n-tasks "${11}" --evaluated-task "${12}" --classes-per-task "${13}" --topk-lock "${14}" --folder-id "${15}" --parent-f-id "${16}"
 

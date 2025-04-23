@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+Task  & V-model & KP-model & M-model & KPM-model & $Acc_{KPM}-Acc_{M}$ \\
+\midrule
+R0 & 92.67 & 92.64 & 92.67 & 92.67 & $-$ \\
+R1 & 92.23 & 92.03 & 92.23 & 92.04 & $-$ \\
+R2 & 92.50 & 91.70 & 92.50 & 91.72 & $-$ \\
+R3 & 93.50 & 92.08 & 93.50 & 92.12 & $-$ \\
+R4 & 93.41 & 91.73 & 93.41 & 91.77 & $-$ \\
+R5 & 92.76 & 92.11 & 92.76 & 91.79 & $-$ \\
+R6 & 94.08 & 92.54 & 94.08 & 92.49 & $-$ \\
+R7 & 93.84 & 92.44 & 93.84 & 92.42 & $-$ \\
+
+ \hline 
+Eval on T0 & 51.32 & 50.99 & 53.64 & \textbf{61.94} & 8.30 \\
+Eval on T1 & 51.42 & 51.19 & 54.99 & \textbf{63.51} & 8.52 \\
+Eval on T2 & 48.87 & 49.21 & 57.24 & \textbf{61.61} & 4.37 \\
+Eval on T3 & 52.49 & 52.89 & \textbf{68.42} & 64.46 & -3.97 \\
+Eval on T4 & 51.06 & 50.77 & \textbf{70.53} & 68.33 & -2.19 \\
+Eval on T5 & 50.84 & 50.42 & \textbf{69.40} & 63.96 & -5.44 \\
+Eval on T6 & 55.68 & 54.95 & \textbf{73.74} & 62.84 & -10.90 \\
+Eval on T7 & \textbf{93.84} & 92.44 & 82.78 & 69.12 & -13.66 \\
+\bottomrule
+\end{tabular}
+\caption{Accuracy results on incremental learning of 8 tasks with 2 classes per task belonging to CIFAR100 on 80 experiments.}
+\end{table}

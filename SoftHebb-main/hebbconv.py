@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+import torch
+import random
 from typing import Generator, Union
 import torch.nn.functional as F
 from torch.nn.modules.utils import _pair
@@ -420,7 +422,6 @@ class HebbHardConv2d(nn.Module):
         if self.bias is not None:
             self.delta_b = self.delta_bias(wta_groups)
 
-    import torch
 
 
     
@@ -436,6 +437,9 @@ class HebbHardConv2d(nn.Module):
     def check_threshold(self, current_kernels_avg):
         # returns a mask which identifies 
         device = DEVICE
+        ##########
+
+        ##########
         mask = (current_kernels_avg > self.avg_deltas_layer).type(torch.uint8).to(device)
         if self.temp == 1:
             print("CHECK_THRESHOLD: ", mask[0], current_kernels_avg.cpu()[0], self.avg_deltas_layer.cpu()[0])
@@ -448,6 +452,7 @@ class HebbHardConv2d(nn.Module):
         device = DEVICE
         topk_mask = torch.zeros(len(threshold_mask)).to(device)
         topk_mask[self.topk_layer] = 1
+        
         if self.temp == 2 and self.cl_hyper["topk_lock"]:
             print("topk_mask_LOCK", topk_mask.cpu())
         if self.cl_hyper["topk_lock"]: 
@@ -459,21 +464,41 @@ class HebbHardConv2d(nn.Module):
             print("final_mask", final_mask.cpu())
             self.temp = 3
         final_mask = (final_mask == 2 ).type(torch.uint8)
+        #############################################################################################à
+        
+
+        ##############################################################################################
         return final_mask
-    def get_higher_lr_mask(self):
+    def get_higher_lr_mask(self, lower_lr_mask):
         # this function returns a one hot tensor where the cell to 0 are the on s where we don't need to increase the lr and the cells with 1 are the ones where we have to
         # increase the lr
         # to do we take a one hot encoding of the cells representing with one the top k kernels
         device = DEVICE
         topk_mask = torch.zeros(self.out_channels).to(device)
         topk_mask[self.topk_layer] = 1
-
         # since we need to consider only the cells not among the top k kernels we calculate the inverse
         not_topk_mask = (topk_mask == 0).type(torch.uint8)
+
         if self.temp == 2:
             print("topk_mask ", topk_mask.cpu())
             print("not_topk_mask ", not_topk_mask.cpu())
             self.temp = 3
+        ######################################################################
+        # return_mask = torch.zeros(len(lower_lr_mask)).to(device)
+        # topk_rule_break_num = int(torch.sum((lower_lr_mask==-1).type(torch.uint8), dim=0))
+
+        # start = round(self.cl_hyper["top_k"]*len(not_topk_mask)*len(self.heads))%len(not_topk_mask)
+        # end = round(self.cl_hyper["top_k"]*len(not_topk_mask) + self.cl_hyper["top_k"]*len(not_topk_mask)*len(self.heads))%len(not_topk_mask)
+        # if end < start: 
+        #     indices = not_topk_mask.nonzero()[0:topk_rule_break_num]
+        # else:
+        #     indices = not_topk_mask.nonzero()[start:end]
+        # #print(indices.flatten().tolist(), start, end)
+        # neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+        # #print(indices, topk_rule_break_num, neuro_indexes)
+        # return_mask[neuro_indexes] = 1
+        # not_topk_mask=return_mask.type(torch.uint8)
+        ######################################################################
         return not_topk_mask
 
     def update(self) -> None:
@@ -505,7 +530,7 @@ class HebbHardConv2d(nn.Module):
 
                 # create a mask which contains 1s in the cells where the learning rate has to be increased and zeros otherwise.
                 # basically it has 1s where the cells are not among the top k kernels. 
-                higher_lr_mask = self.get_higher_lr_mask()
+                higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
                 # 10% increase
                 higher_lr_mask = higher_lr*higher_lr_mask
 
@@ -867,7 +892,8 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
             nb_train: int = None,
             avg_deltas_layer: torch.tensor = None,
             topk_layer: list = None,
-            cl_hyper: dict = {}
+            cl_hyper: dict = {},
+            heads: list = []
     ) -> None:
         """
         Krotov implementation from the SoftConv2d class
@@ -888,6 +914,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         self.avg_deltas_layer = avg_deltas_layer
         self.topk_layer = topk_layer
         self.cl_hyper = cl_hyper
+        self.heads = heads
         # self.stat = torch.zeros(5, out_channels)
 
     def extra_repr(self):
@@ -1140,7 +1167,7 @@ class HebbSoftKrotovConv2d(HebbSoftConv2d):
         ) + '\n' + self.stat_wta() + '\n'
 
 
-def select_Conv2d_layer(params, avg_deltas_layer=None, topk_layer=None, cl_hyper={}) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
+def select_Conv2d_layer(params, avg_deltas_layer=None, topk_layer=None, cl_hyper={}, heads = None) -> Union[HebbHardConv2d, HebbHardKrotovConv2d, HebbSoftConv2d, HebbSoftKrotovConv2d]:
     """
     Select the appropriate from a set of params
     ----------
@@ -1243,7 +1270,8 @@ def select_Conv2d_layer(params, avg_deltas_layer=None, topk_layer=None, cl_hyper
             nb_train=params['nb_train'],
             avg_deltas_layer = avg_deltas_layer,
             topk_layer = topk_layer, 
-            cl_hyper = cl_hyper
+            cl_hyper = cl_hyper,
+            heads = heads
 
 
         )

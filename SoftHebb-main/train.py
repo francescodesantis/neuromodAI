@@ -370,6 +370,7 @@ def run_unsup(
             # else:
             log.verbose()
 
+        
             if save:
                 save_layers(model, folder_name, epoch, blocks, storing_path=model_dir)
 

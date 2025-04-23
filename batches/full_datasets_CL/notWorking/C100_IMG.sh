@@ -6,7 +6,7 @@
 #SBATCH --time=24:00:00               # time limits: 1/2 hour
 #SBATCH --error=C100_IMG/job.err            # standard error file
 #SBATCH --output=C100_IMG/job.out           # standard output file
-#SBATCH --account=try24_antoniet     # account name
+#SBATCH --account=IscrC_CATASTRO     # account name
 module load profile/deeplrn
 module av cineca-ai
 module load anaconda3

@@ -71,22 +71,35 @@ def bootstrap_difference_ci(accuracies_continual, accuracies_baseline, num_boots
     upper = np.percentile(differences, (confidence + (1 - confidence) / 2) * 100)
     return lower, upper
 
-def cohen_d(accuracies_continual, accuracies_baseline):
+def cohen_d_paired(accuracies_continual, accuracies_baseline):
     """
-    Compute Cohen's d for paired samples.
+    Compute Cohen's d for paired samples (Cohen's dz).
     
     Parameters:
-      accuracies_continual (array-like): Accuracies with continual learning active.
-      accuracies_baseline (array-like): Accuracies without continual learning.
-      
+    x (array-like): Accuracy scores of model 1 on the same dataset.
+    y (array-like): Accuracy scores of model 2 on the same dataset.
+    
     Returns:
-      d (float): Cohen's d effect size.
+    float: Cohen's dz (effect size for paired samples).
     """
-    accuracies_continual = np.array(accuracies_continual)
-    accuracies_baseline = np.array(accuracies_baseline)
-    differences = accuracies_continual - accuracies_baseline
-    d = np.mean(differences) / np.std(differences, ddof=1)
-    return d
+    x = np.array(accuracies_continual)
+    y = np.array(accuracies_baseline)
+    
+    # Compute the differences
+    d = x - y
+    
+    # Mean of the differences
+    mean_d = np.mean(d)
+    
+    # Standard deviation of the differences
+    std_d = np.std(d, ddof=1)  # ddof=1 for sample standard deviation
+    
+    # Cohen's dz
+    if std_d == 0:
+        return 0  # Avoid division by zero; means are identical
+    d_z = mean_d / std_d
+    
+    return d_z
 
 
     
@@ -119,7 +132,7 @@ def create_boxplot_graph_runs(stats):
 
 def create_boxplot_graph_eval(stats):
    
-    fig, axes = plt.subplots(1, n_tasks, figsize=(30, 10))
+    fig, axes = plt.subplots(1, n_tasks, figsize=(70, 10))
     axes = axes.flatten()
     keys = stats[0]["eval_raw_stats"].keys()
     index = 0
@@ -206,8 +219,8 @@ def average_behavior(dataset, n_experiments, classes_per_task, n_tasks, path):
                                 performances[k]["test_loss"].append(json_obj[k]["test_loss"])
     performances_ret = performances.copy()
     tot_test_acc_ret = tot_test_acc.copy()
-    print("performances: ", performances_ret)
-    print("tot_test_acc: ", tot_test_acc)
+    # print("performances: ", performances_ret)
+    # print("tot_test_acc: ", tot_test_acc)
 
     # Compute means and standard deviations
     for k in tot_test_acc.keys():
@@ -244,7 +257,7 @@ def average_behavior(dataset, n_experiments, classes_per_task, n_tasks, path):
         "run_raw_stats": performances_ret
     }
 
-sols = [(True, True), (False, True), (False, False), (True, False)]
+sols = [(False, False), (True, False), (False, True),(True, True)]
 stats = []
 counter = 0
 important_stats = []
@@ -292,13 +305,13 @@ paired_test = []
 bootstrap_CI = []
 bootstrap_difference_CI = []
 cohen = []
-for key in stats[0]["eval_raw_stats"].keys(): 
-    print(len(stats[0]["eval_raw_stats"][key]), len(stats[1]["eval_raw_stats"][key]))
-    wilcoxon_test.append(wilcoxon_signed_rank_test(stats[0]["eval_raw_stats"][key], stats[1]["eval_raw_stats"][key]))
-    paired_test.append(paired_t_test(stats[0]["eval_raw_stats"][key], stats[1]["eval_raw_stats"][key]))
-    bootstrap_CI.append(bootstrap_confidence_interval(stats[0]["eval_raw_stats"][key]))
-    bootstrap_difference_CI.append(bootstrap_difference_ci(stats[0]["eval_raw_stats"][key], stats[1]["eval_raw_stats"][key]))
-    cohen.append(cohen_d(stats[0]["eval_raw_stats"][key], stats[1]["eval_raw_stats"][key]))
+for key in stats[3]["eval_raw_stats"].keys(): 
+    print(len(stats[0]["eval_raw_stats"][key]), len(stats[3]["eval_raw_stats"][key]))
+    wilcoxon_test.append(wilcoxon_signed_rank_test(stats[3]["eval_raw_stats"][key], stats[2]["eval_raw_stats"][key]))
+    paired_test.append(paired_t_test(stats[3]["eval_raw_stats"][key], stats[2]["eval_raw_stats"][key]))
+    bootstrap_CI.append(bootstrap_confidence_interval(stats[3]["eval_raw_stats"][key]))
+    bootstrap_difference_CI.append(bootstrap_difference_ci(stats[3]["eval_raw_stats"][key], stats[2]["eval_raw_stats"][key]))
+    cohen.append(cohen_d_paired(stats[3]["eval_raw_stats"][key], stats[2]["eval_raw_stats"][key]))
 
 print("\n\n ######################################################################################\n\n")
 print("wilcoxon_test: ", wilcoxon_test)
@@ -316,11 +329,12 @@ print("Cohen's d effect size: ", cohen)
 print("\n\n ######################################################################################\n\n")
 
 # Create the plot
-plt.figure(figsize=(20, 20))
+plt.figure(figsize=(30, 20))
+plt.rcParams.update({'font.size': 25})
 
 annotations = {}
-
-print("STATS: ", stats)
+accuracies = {}
+# print("STATS: ", stats)
 
 for r in stats:
     performances = r['performances']
@@ -335,26 +349,39 @@ for r in stats:
     test_accs += [avg_test_acc[r] for r in avg_test_acc.keys()]
     std_accs += [std_test_acc[r] for r in std_test_acc.keys()]
     r_keys += list(avg_test_acc.keys())
+    print("LINE :", r_keys)
+    new_rkeys = []
+    for lab in r_keys: 
+        if "eval" in lab: 
+            new_rkeys.append(f"Eval on T{lab.split('_')[1]}")
+        else:
+            new_rkeys.append(lab)
+    r_keys = new_rkeys
+    #label = plt.text(0.50, 0.02, f"kernel solution={r['cl_hyper']['cf_sol']}, head solution={r['cl_hyper']['head_sol']}", horizontalalignment='left', wrap=True ,)
+    label = f"k={r['cl_hyper']['cf_sol']}, h={r['cl_hyper']['head_sol']}"
 
-    label = f"cf_sol={r['cl_hyper']['cf_sol']}, head_sol={r['cl_hyper']['head_sol']}"
     xs = list(range(len(r_keys)))
-
     line, = plt.plot(xs, test_accs, marker='o', label=label)
+    accuracies[label] = []
+    for i in range(len(xs)):
+        accuracies[label].append((r_keys[i], test_accs[i] ))
+    
     color = line.get_color()
-
+    stat_annotations = {}
     for x, (acc, std) in enumerate(zip(test_accs, std_accs)):
         annotations.setdefault(x, []).append((acc, std, color))
-
+        stat_annotations.setdefault(x, []).append((acc, std, color, label))
+print("ANNOTATIONS: ", annotations)
 plt.xticks(xs, r_keys)
 for x, ann_list in annotations.items():
     sorted_ann = sorted(ann_list, key=lambda tup: tup[0])
     n = len(sorted_ann)
     center = sum(a for a, s, c in sorted_ann) / n
-    spacing = 2.5
+    spacing = 1
     start_offset = -spacing * (n - 1) / 2
     for i, (orig_acc, std, color) in enumerate(sorted_ann):
         new_y = center + start_offset + i * spacing
-        plt.text(x + 0.1, new_y, f'{orig_acc:.1f},{std:.1f}', color=color, ha='left', va='center', fontsize=9)
+        plt.text(x + 0.1, new_y, f'{orig_acc:.1f}', color=color, ha='left', va='center', fontsize=18)
 
 plt.xlabel('R#')
 plt.ylabel('Test Accuracy')
@@ -363,17 +390,24 @@ plt.title(f"{dataset} with {classes_per_task} classes per task, {n_tasks} tasks 
 p_values = ""
 for i in range(len(wilcoxon_test)):
     p_values += f"- evaluation on task {i}: {wilcoxon_test[i][1]}\n"
-text = plt.text(0.50, 0.02, f'P-values between evaluations having both solutions on and just the head solution on:\n {p_values}', horizontalalignment='left', wrap=True ) 
+#text = plt.text(0.50, 0.02, f'P-values between evaluations having both solutions on and just the head solution on:\n {p_values}', horizontalalignment='left', wrap=True ) 
+statistics = "{'wilcoxon_test': " + str(wilcoxon_test) +",\n" +"'Bootstrap':" + str(bootstrap_difference_CI)
+statistics += ",\n'Performances': " + json.dumps(accuracies, indent=4) + "}"
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
 if data_num == 1: 
     plt.savefig(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}/TASKS_CL_{dataset+ folder_id}/TASKS_CL_{dataset+ folder_id}", bbox_inches='tight')
+    with open(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}/TASKS_CL_{dataset+ folder_id}/TASKS_CL_{dataset+ folder_id}_statistics.txt", "w") as f: 
+        f.write(statistics)
+
 else:
     plt.savefig(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}/MULTD_CL_{dataset + '_' + dataset2  + '_' + folder_id}/MULTD_CL_{dataset + '_' + dataset2  + '_' + folder_id}", bbox_inches='tight')
+    with open(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}/MULTD_CL_{dataset + '_' + dataset2  + '_' + folder_id}/MULTD_CL_{dataset + '_' + dataset2  + '_' + folder_id}_statistics.txt", "w") as f: 
+        f.write(statistics)
+
 
 plt.close()
-
 
 create_boxplot_graph_eval(stats)
 create_boxplot_graph_runs(stats)

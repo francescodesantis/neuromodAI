@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=boost_usr_prod
-#SBATCH --account=try24_antoniet     # account name
+#SBATCH --account=IscrC_CATASTRO     # account name
 #SBATCH --gres=gpu:1
 #SBATCH --nodes=1                    # 1 node
 #SBATCH --ntasks-per-node=1         # 32 tasks per node

@@ -1,0 +1,512 @@
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[77, 48], [74, 66], [14, 36], [38, 20], [64, 41], [2, 10]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[6, 55], [61, 28], [46, 94], [98, 62], [27, 73], [96, 74]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[97, 58], [31, 2], [43, 51], [24, 42], [41, 1], [49, 10]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[41, 39], [18, 53], [56, 2], [64, 48], [37, 74], [96, 90]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[98, 87], [91, 74], [19, 97], [44, 21], [13, 11], [36, 60]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[97, 50], [57, 26], [90, 15], [48, 96], [42, 73], [58, 12]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[0, 33], [14, 45], [73, 83], [74, 29], [56, 42], [11, 91]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[29, 25], [8, 27], [34, 24], [39, 10], [57, 68], [35, 32]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[24, 98], [14, 55], [50, 54], [6, 43], [5, 35], [96, 27]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[63, 58], [36, 51], [6, 32], [77, 29], [62, 41], [94, 38]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[33, 11], [15, 13], [47, 68], [22, 98], [26, 40], [2, 37]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[36, 32], [25, 42], [34, 21], [49, 23], [93, 73], [16, 79]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[68, 48], [39, 14], [25, 51], [94, 10], [42, 49], [60, 30]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[83, 76], [10, 87], [47, 14], [93, 59], [86, 45], [56, 88]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[4, 84], [23, 72], [7, 71], [32, 39], [65, 6], [30, 55]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)
+Traceback (most recent call last):
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 462, in <module>
+    task_training(params, name_model, blocks, selected_classes, dataset_sup_x, dataset_unsup_x, continual_learning=True, resume=resume)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 359, in task_training
+    procedure(params, name_model, blocks, dataset_sup, dataset_unsup, evaluate, results)
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 298, in procedure
+    main(blocks, name_model, params.resume, params.save, dataset_sup_config, dataset_unsup_config, train_config,
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/continual_learning.py", line 219, in main
+    run_unsup(
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/train.py", line 359, in run_unsup
+    lr, info, convergence, R1 = train_unsup(model, train_loader, device, blocks)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 777, in train_unsup
+    _, lr, info, convergence, R1 = train_hebb(model, loader, device, blocks=blocks)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/engine_cl.py", line 423, in train_hebb
+    model.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/model.py", line 359, in update
+    self.get_block(block).update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/layer.py", line 144, in update
+    self.layer.update()
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 533, in update
+    higher_lr_mask = self.get_higher_lr_mask(lower_lr_mask)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/hebbconv.py", line 497, in get_higher_lr_mask
+    neuro_indexes = random.sample(indices.flatten().tolist(), topk_rule_break_num)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/anaconda3-2023.09-0-zcre7pfofz45c3btxpdk5zvcicdq5evx/lib/python3.11/random.py", line 456, in sample
+    raise ValueError("Sample larger than population or is negative")
+ValueError: Sample larger than population or is negative
+
+ERROR conda.cli.main_run:execute(49): `conda run python continual_learning.py --preset 6SoftHebbCnnCIFAR --resume all --model-name C100_CL --dataset-unsup CIFAR100_1 --dataset-sup CIFAR100_50 --continual_learning True --evaluate True --training-mode consecutive --cf-sol True --head-sol False --top-k 0.15 --high-lr 0.15 --low-lr 1 --t-criteria activations --delta-w-interval 30 --heads-basis-t 0.9 --selected-classes [[14, 38], [62, 84], [3, 82], [61, 46], [74, 27], [28, 71]] --n-tasks 6 --evaluated-task [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] --classes-per-task 2 --topk-lock False --folder-id _TEST_6tasks --parent-f-id experiments/EXP_C100_2C` failed. (See above for error)

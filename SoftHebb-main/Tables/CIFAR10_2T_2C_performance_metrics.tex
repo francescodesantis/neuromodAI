@@ -1,0 +1,16 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+Task  & V-model & KP-model & M-model & KPM-model & $Acc_{KPM}-Acc_{M}$ \\
+\midrule
+R0 & 92.85 & 92.85 & 92.85 & 92.85 & $-$ \\
+R1 & 93.53 & 93.37 & 93.53 & 93.37 & $-$ \\
+
+ \hline 
+Eval on T0 & 47.23 & 47.04 & \textbf{69.96} & 69.57 & -0.39 \\
+Eval on T1 & \textbf{93.53} & 93.37 & 81.41 & 81.12 & -0.29 \\
+\bottomrule
+\end{tabular}
+\caption{Accuracy results on incremental learning of 2 tasks with 2 classes per task belonging to CIFAR10 on 250 experiments.}
+\end{table}

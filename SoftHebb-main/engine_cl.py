@@ -15,6 +15,8 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 activations = {}
 curr_layer = 0
 
+POP_HEAD = False
+
 
 def train_BP(model, criterion, optimizer, loader, device, measures):
     """
@@ -895,9 +897,29 @@ def head_choser(model, criterion, loader, device):
 
 
             tot_sum_tmp, indexes = torch.max(torch.abs(output.detach().clone() ),dim=1)
-            print("output.detach().clone(): ", output.data.detach().clone())
-            print("output.data.max(1)[1]: ", output.data.max(1)[1])
+            # print("output.detach().clone(): ", output.data.detach().clone())
+            # print("output.data.max(1)[1]: ", output.data.max(1)[1])
             tot_sum += torch.sum(torch.abs(tot_sum_tmp), dim=0)
+
+            # max_val, indexes = torch.max(output.detach().clone(),dim=1)
+            # tot_sum_tmp = torch.abs(output.detach().clone())
+            # for el in tot_sum_tmp:
+            #     if not el == max_val:
+            #         max_val -= el
+            # # print("output.detach().clone(): ", output.data.detach().clone())
+            # # print("output.data.max(1)[1]: ", output.data.max(1)[1])
+            # tot_sum += max_val
+
+            # max_val, indexes = torch.max(output.detach().clone(),dim=1)
+            # tot_sum_tmp = output.detach().clone()
+            # for el in tot_sum_tmp:
+            #     if not el == max_val:
+            #         max_val -= el
+            # # print("output.detach().clone(): ", output.data.detach().clone())
+            # # print("output.data.max(1)[1]: ", output.data.max(1)[1])
+            # tot_sum += max_val
+
+
 
     #tot_sum_tmp, indexes = torch.max(torch.abs(output.detach().clone() ),dim=1)
     return tot_sum
@@ -962,11 +984,17 @@ def evaluate_sup_multihead(model, criterion, loader, device):
             max_key = k
             
     print("max_key :", max_key)
+
     chosen_head = model.heads[max_key]
+    if POP_HEAD: 
+        chosen_head = model.heads[0]
+        model.heads = model.heads[1:]
+
     keys = list(chosen_head.keys())
     state_dict[keys[0]] = chosen_head[keys[0]]
     state_dict[keys[1]] = chosen_head[keys[1]]
     model.load_state_dict(state_dict)
+   
 
     
     return evaluate_sup(model, criterion, loader, device)

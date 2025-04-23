@@ -16,7 +16,7 @@ def folder_check(path):
 def execute_bash_command(evaluated_tasks: list, n_tasks: int, command: str, classes=[]):
     modes = ["successive", "consecutive", "simultaneous"]
     lrs = [(0.0, 1.0), (2000, 1.0), (0.2, 0.8)]
-    sols = [(True, True), (False, False), (False, True),  (True, False)]
+    sols = [(True, True), (False, True), (False, False),  (True, False)]
     topks = [0.1, 0.2, 0.5, 0.7, 0.85, 0.9, 1.0]
     delta_w_intervals = [20, 100, 300]
     lr = lrs[2]
@@ -88,14 +88,16 @@ def execute_bash_command(evaluated_tasks: list, n_tasks: int, command: str, clas
 
 
 
-#command = f"rm -rf -d /leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network && mkdir /leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network"
-#result = subprocess.run(command, shell=True, capture_output=False, text=True)
-if not folder_check(f"{parent_f_id}"):
-    os.mkdir(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}")
-            
+# command = f"rm -rf -d /leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network && mkdir /leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network"
+# result = subprocess.run(command, shell=True, capture_output=False, text=True)
+    
 # print(result.stdout)
 # if result.stderr:
 #     print("Error:", result.stderr)
+
+if not folder_check(f"{parent_f_id}"):
+    os.mkdir(f"/leonardo_work/{USER}/rcasciot/neuromodAI/SoftHebb-main/{parent_f_id}")
+            
 
 if data_num == 1: 
     command = f"cd /leonardo_work/{USER}/rcasciot/neuromodAI/batches/classes_CL/continual_learning && sbatch {dataset}.sh "
@@ -103,8 +105,15 @@ if data_num == 1:
     if dataset == "C100":
         all_classes = list(range(100))
     classes = []
-    for i in range(n_experiments):
-        classes.append(random.sample(all_classes, classes_per_task*n_tasks))    
+    if n_tasks*classes_per_task > len(all_classes):
+        for i in range(n_experiments):
+            task_classes = []
+            for j in range(n_tasks):
+                task_classes.append(random.sample(all_classes, classes_per_task))
+            classes.append(task_classes)
+    else:
+        for i in range(n_experiments):
+            classes.append(random.sample(all_classes, classes_per_task*n_tasks))    
 
     if len(classes) > n_experiments:
         selected_classes = classes[:n_experiments]
@@ -114,10 +123,11 @@ if data_num == 1:
 
     
     final = []
+    #print("selected_classes: ", selected_classes)
     for el in selected_classes: 
         new = np.asarray(el)
         final.append(new.reshape(n_tasks,classes_per_task).tolist())
-    print(final)
+    print("final: ", final)
     if dataset == "C100": 
         dataset1 = "CIFAR100"
     elif dataset == "C10": 

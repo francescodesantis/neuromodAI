@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=boost_usr_prod
-#SBATCH --account=try24_antoniet     # account name
+#SBATCH --account=IscrC_CATASTRO     # account name
 #SBATCH --partition=boost_usr_prod
 #SBATCH --nodes=1                    # 1 node
 #SBATCH --gres=gpu:1

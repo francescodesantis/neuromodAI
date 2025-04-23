@@ -270,7 +270,7 @@ class MultiLayer(nn.Module):
                             elif self.cl_hyper["t_criteria"] == "activations":
                                 topk_layer = self.topk_kernels["conv" + str(layer_num)]
                         print("topk_layer inside model after retrieval: ", topk_layer) 
-                blocks.append(generate_block(params, avg_deltas_layer, topk_layer, cl_hyper))
+                blocks.append(generate_block(params, avg_deltas_layer, topk_layer, cl_hyper, heads))
                 layer_num += 1
             self.blocks = nn.Sequential(*blocks)
         else:

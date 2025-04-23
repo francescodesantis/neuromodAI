@@ -19,6 +19,7 @@
 import argparse
 import ast
 import os
+import subprocess
 import sys
 import uuid
 
@@ -39,7 +40,6 @@ import torch.optim as optim
 import torch.nn as nn
 import numpy as np
 from nb_utils import load_data
-
 
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser(description='Multi layer Hebbian Training Continual Learning  implementation')
@@ -478,7 +478,7 @@ if __name__ == '__main__':
 
                 procedure(params, name_model, blocks, dataset_sup_x, dataset_unsup_x, evaluate, results)
 
-        
+            results["model_name"] = name_model
             save_results_new(results, f"{params.parent_f_id}/TASKS_CL_{params.dataset_sup.split('_')[0] +  folder_id}", name_model)
         else: 
             print("Error: Not enough available classes to be organized in tasks of classes_per_task")
@@ -549,3 +549,9 @@ if __name__ == '__main__':
         # file = "MULTD_CL.json"
         # save_results(results, file)
         save_results_new(results, f"{params.parent_f_id}/MULTD_CL_{params.dataset_sup_1.split('_')[0] + '_' + params.dataset_sup_2.split('_')[0]  + '_' + folder_id}", name_model)
+command = f"rm -rf -d /leonardo_work/IscrC_CATASTRO/rcasciot/neuromodAI/SoftHebb-main/Training/results/hebb/result/network/{name_model}"
+result = subprocess.run(command, shell=True, capture_output=False, text=True)
+    
+print(result.stdout)
+if result.stderr:
+    print("Error:", result.stderr)

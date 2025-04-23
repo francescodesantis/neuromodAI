@@ -974,3 +974,10 @@ while KSE is used to organize the top k kernels compared to the activations solu
 - diff datasets = same dataset size (cut down C10)
 - try to increment the dataset sample per task by starting with a cut down C10 with 500, 1000, 2000 samples per class.
 - 2 tasks, 2 classes per task with C10: so we have to see if the kernel solutions helps in the case of more samples per class or just for many tasks(5 vs 2)
+
+
+
+- aggiungi caratteristiche rete
+- aggiungi num experimenti
+- aggiungi accuracy come measure
+- aggiungi grafico che confronta numero layer con tabelle usando solo le prime due colonne della tabella
