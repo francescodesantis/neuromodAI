@@ -107,6 +107,9 @@ pip install -r softhebb_env/pip_reqs.txt
 ## 📊 Model Testing & Configuration (via `t_hyper.py`)
 
 The script `t_hyper.py` in the `batches/` folder is used to configure and manage continual learning experiments, particularly for hyperparameter tuning or automated experiment runs across different datasets and task configurations.
+### 📅 Batch Job Execution
+
+All training experiments are designed to be executed via **batch job scripts**, provided in the `batches/` folder. These scripts are particularly suited for running on clusters with job scheduling systems (e.g., SLURM).
 
 ### 🛠️ Configuration Parameters
 
@@ -163,7 +166,6 @@ cd batches
 python latex_tables.py
 ```
 You can then include the generated `.tex` file in your LaTeX documents for clean table presentation.
-
 
 
 
