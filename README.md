@@ -131,7 +131,6 @@ These are the main parameters used in `t_hyper.py`:
 | `high_lr` / `low_lr`| Learning rate modifiers for plastic vs important kernels. |
 | `t_criteria`        | Importance criterion: 'activations' or 'KSE'. |
 | `delta_w_interval`  | Interval (in batches) for tracking kernel updates. |
-| `heads_basis_t`     | Threshold for inference-time head selection. |
 
 Modify these parameters directly in `t_hyper.py` to tailor your experimental design.
 
