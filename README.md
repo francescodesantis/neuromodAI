@@ -69,10 +69,8 @@ A dopamine-inspired approach for selective weight update:
 3. Arjun Magotra, Juntae Kim. _Neuromodulated Dopamine Plastic Networks..._
 4. Liyuan Wang et al. _A Comprehensive Survey of Continual Learning_.
 
-# 🧠 neuromodAI
 
-A brain-inspired deep learning framework for continual learning, based on Hebbian principles and neuromodulation strategies. This repository implements kernel plasticity modulation and multi-head task-specific architectures to mitigate catastrophic forgetting in unsupervised settings using the SoftHebb model.
-
+# 📦 Setup Instructions
 ## 📁 Project Structure
 
 ```
@@ -90,8 +88,6 @@ neuromodAI-main/
 │   ├── conda_reqs.txt
 │   └── pip_reqs.txt
 ```
-
-# 📦 Setup Instructions
 
 ### 1. Clone the Repository
 
