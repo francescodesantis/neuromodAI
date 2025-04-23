@@ -108,13 +108,6 @@ conda activate softhebb_env
 pip install -r softhebb_env/pip_reqs.txt
 ```
 
-Or optionally use the full environment file:
-
-```bash
-conda env create -f SoftHebb-main/environment_pytorch==1.7.1.yml
-conda activate softhebb_env
-```
-
 
 ## 📊 Model Testing & Configuration (via `t_hyper.py`)
 
