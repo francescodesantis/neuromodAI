@@ -69,5 +69,111 @@ A dopamine-inspired approach for selective weight update:
 3. Arjun Magotra, Juntae Kim. _Neuromodulated Dopamine Plastic Networks..._
 4. Liyuan Wang et al. _A Comprehensive Survey of Continual Learning_.
 
+# 🧠 neuromodAI
+
+A brain-inspired deep learning framework for continual learning, based on Hebbian principles and neuromodulation strategies. This repository implements kernel plasticity modulation and multi-head task-specific architectures to mitigate catastrophic forgetting in unsupervised settings using the SoftHebb model.
+
+## 📁 Project Structure
+
+```
+neuromodAI-main/
+├── SoftHebb-main/           # Core Hebbian model and engine code
+│   ├── environment_pytorch==1.7.1.yml
+│   ├── train.py             # Main training pipeline
+│   └── model.py             # SoftHebb model definition
+├── batches/                 # Experiment automation scripts and testing
+│   ├── testing.py           # Evaluation scripts for experiments
+│   ├── t_hyper.py           # Hyperparameter tuning or task-specific setup
+│   ├── stats.py             # Statistical analysis of experimental results
+│   └── latex_tables.py      # LaTeX table generation for paper-ready output
+├── softhebb_env/            # Conda environment files
+│   ├── conda_reqs.txt
+│   └── pip_reqs.txt
+```
+
+# 📦 Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/neuromodAI.git
+cd neuromodAI/neuromodAI-main
+```
+
+### 2. Create and Activate the Conda Environment
+
+```bash
+conda create --name softhebb_env python=3.8
+conda activate softhebb_env
+pip install -r softhebb_env/pip_reqs.txt
+```
+
+Or optionally use the full environment file:
+
+```bash
+conda env create -f SoftHebb-main/environment_pytorch==1.7.1.yml
+conda activate softhebb_env
+```
+
+
+## 📊 Model Testing & Configuration (via `t_hyper.py`)
+
+The script `t_hyper.py` in the `batches/` folder is used to configure and manage continual learning experiments, particularly for hyperparameter tuning or automated experiment runs across different datasets and task configurations.
+
+### 🛠️ Configuration Parameters
+
+These are the main parameters used in `t_hyper.py`:
+
+| Parameter            | Description |
+|---------------------|-------------|
+| `classes_per_task`  | Number of classes associated with each task (e.g., 2, 4, 6). |
+| `n_experiments`     | Number of repeated runs per configuration. Default: 80. |
+| `n_tasks`           | Total number of tasks to be learned incrementally. |
+| `evaluated_tasks`   | List of task indices to evaluate performance on. |
+| `data_num`          | Use `1` for single dataset, `2` for multi-dataset continual learning. |
+| `dataset` / `dataset2` | Dataset identifiers (e.g., "C100", "C10", "STL10"). |
+| `training_mode`     | Strategy for learning tasks (e.g., 'consecutive'). |
+| `top_k`             | Fraction of top kernels to protect from overwriting. |
+| `topk_lock`         | Boolean to freeze top-k kernel weights. |
+| `high_lr` / `low_lr`| Learning rate modifiers for plastic vs important kernels. |
+| `t_criteria`        | Importance criterion: 'activations' or 'KSE'. |
+| `delta_w_interval`  | Interval (in batches) for tracking kernel updates. |
+| `heads_basis_t`     | Threshold for inference-time head selection. |
+
+Modify these parameters directly in `t_hyper.py` to tailor your experimental design.
+
+## 📊 Results
+
+- Validated on CIFAR-10 and CIFAR-100 datasets.
+- Models tested for performance across varying tasks, layers, and class-per-task settings.
+- Outputs and plots saved in `SoftHebb-main/Tables/` and `SoftHebb-main/ppgraphs/`.
+
+## 📊 Post-Experiment Analysis
+
+After experiments are completed, you can analyze and summarize the results using the following utilities:
+
+### `stats.py`
+This script computes and logs statistics on experimental results, such as average accuracy, p-values, and confidence intervals. It is particularly useful for comparing models across tasks.
+
+**Usage:**
+```bash
+cd batches
+python stats.py
+```
+Replace `path/to/experiment` with the folder where your experiment results (usually JSON files) are stored.
+
+### `latex_tables.py`
+This script generates LaTeX-formatted tables suitable for inclusion in academic papers. It reads performance metrics and outputs tables summarizing the results.
+
+**Usage:**
+```bash
+cd batches
+python latex_tables.py
+```
+You can then include the generated `.tex` file in your LaTeX documents for clean table presentation.
+
+
+
+
 
 ---
