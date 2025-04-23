@@ -76,7 +76,6 @@ A dopamine-inspired approach for selective weight update:
 ```
 neuromodAI-main/
 ├── SoftHebb-main/           # Core Hebbian model and engine code
-│   ├── environment_pytorch==1.7.1.yml
 │   ├── train.py             # Main training pipeline
 │   └── model.py             # SoftHebb model definition
 ├── batches/                 # Experiment automation scripts and testing
